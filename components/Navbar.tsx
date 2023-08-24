@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import {  EnterIcon, MagnifyingGlassIcon} from "@radix-ui/react-icons"; // Import Radix UI icons
 import { cn } from "@/lib/utils";
-import {InputField} from "@/app/components/InputField"
+import {InputField} from "@/components/ui/InputField"
 import {
     TfiAnnouncement,
   } from "react-icons/tfi";
@@ -16,7 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/app/components/Navbar";
+} from "@/components/ui/Navbar";
 
 export function Navbar() {
   return (
