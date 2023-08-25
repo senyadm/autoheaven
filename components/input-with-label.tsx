@@ -7,7 +7,7 @@ interface InputWithLabelProps{
 }
 export function InputWithLabel({label, placeholder}: InputWithLabelProps) {
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="grid w-full max-w-sm items-center gap-1.5 text-left mb-6">
       <Label htmlFor="email">{label}</Label>
       <Input type="email" id="email" placeholder={placeholder} />
     </div>
