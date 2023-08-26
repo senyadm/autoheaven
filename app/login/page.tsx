@@ -114,7 +114,7 @@ Accept terms and condition                </FormLabel>
 
 const Login = () => {
     return (
-      <div>
+      <div className='min-h-screen flex flex-col'>
         <NavigationMenu className="flex items-center py-4 bg-white border-b text-sm">
       <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
 
@@ -126,7 +126,7 @@ const Login = () => {
         </div>
       </div>
     </NavigationMenu>
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center  h-full my-auto">
         <div className='flex flex-col justify-center p-8 rounded-lg border'>
  <div className="mx-auto">
     <Image src={logo} height={36} width={64} alt="" />
