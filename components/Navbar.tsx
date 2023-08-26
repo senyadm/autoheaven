@@ -22,6 +22,7 @@ import {
  Button
 } from "@/components/ui/button";
 
+
 export function Navbar() {
   return (
     <NavigationMenu className="flex items-center py-4 bg-white border-b">

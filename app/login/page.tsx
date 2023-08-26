@@ -1,7 +1,4 @@
 "use client"
-
-import { InputField } from '@/components/ui/input-field'
-import { InputWithLabel } from '@/components/input-with-label'
 import React from 'react'
 import Image from 'next/image'
 import logo from '../../public/autoheven_logo.svg'
@@ -21,6 +18,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { Checkbox } from '@/components/ui/checkbox'
+import { NavigationMenu, NavigationMenuLink } from '@/components/ui/Navbar'
+import Link from 'next/link'
+import { ArrowLeftIcon, EnterIcon } from '@radix-ui/react-icons'
+import { MoveLeft } from 'lucide-react'
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -113,17 +114,29 @@ Accept terms and condition                </FormLabel>
 
 const Login = () => {
     return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-200">
-      <div className="bg-white rounded-lg shadow ">
-        <div className='flex flex-col justify-center p-8'>
+      <div>
+        <NavigationMenu className="flex items-center py-4 bg-white border-b text-sm">
+      <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
+
+        <div className="flex items-center space-x-4 border rounded-lg py-2.5 px-4">
+        
+            <Link className="h-full flex items-center" href="/" passHref>
+             <MoveLeft className='mr-2' size={16} />Back
+            </Link>
+        </div>
+      </div>
+    </NavigationMenu>
+    <div className="flex justify-center items-center min-h-screen">
+        <div className='flex flex-col justify-center p-8 rounded-lg border'>
  <div className="mx-auto">
     <Image src={logo} height={36} width={64} alt="" />
   </div>    
           <ProfileForm/>
-        </div>
       
       </div>
     </div>
+      </div>
+    
   );
 }
 
