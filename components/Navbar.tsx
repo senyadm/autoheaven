@@ -2,13 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import {  EnterIcon, MagnifyingGlassIcon, DragHandleHorizontalIcon} from "@radix-ui/react-icons"; // Import Radix UI icons
+import { EnterIcon, MagnifyingGlassIcon, DragHandleHorizontalIcon, } from "@radix-ui/react-icons"; // Import Radix UI icons
 import { cn } from "@/lib/utils";
-import {InputField} from "@/components/ui/input-field"
-import {Logo} from "@/icons/logo";
+import { InputField } from "@/components/ui/input-field"
+import { Logo } from "@/icons/logo";
 import {
-    TfiAnnouncement,
-  } from "react-icons/tfi";
+  TfiAnnouncement,
+} from "react-icons/tfi";
+import {
+  HiOutlineTranslate,
+} from "react-icons/hi";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -19,7 +23,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/Navbar";
 import {
- Button
+  Button
 } from "@/components/ui/button";
 
 
@@ -43,6 +47,12 @@ export function Navbar() {
         <div className="flex items-center space-x-4">
           <Button
             variant="outline"
+            className="color-primary hover:bg-green-600 h-full"
+          >
+            <HiOutlineTranslate style={{ marginLeft: "4px" }} />
+          </Button>
+          <Button
+            variant="outline"
             className="bg-green-400 hover:bg-green-600 h-full"
           >
             Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
@@ -60,4 +70,3 @@ export function Navbar() {
     </NavigationMenu>
   );
 }
- 
