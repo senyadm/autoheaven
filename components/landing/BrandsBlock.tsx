@@ -1,6 +1,7 @@
 import React from 'react'
 import BrandsElement from './BrandsElement';
 import { brandInfo } from '@/interfaces/brandInfo';
+import GradientHeading from './GradientHeading';
 
 const brandsData: brandInfo[] = [
   {
@@ -43,8 +44,7 @@ const brandsData: brandInfo[] = [
 const BrandsBlock = () => {
   return (
     <section className='flex flex-col items-center'>
-      <h2 className='scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0'>Popular Brands</h2>
-      
+      <GradientHeading title='Popular Brands'/>     
       <div className='grid grid-cols-5 gap-y-4 gap-x-5'>
         {brandsData.map(brandsDataEl => (
           <BrandsElement key={brandsDataEl.brandName} brandInfo={brandsDataEl} />
