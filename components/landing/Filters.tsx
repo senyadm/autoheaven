@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
-import { Select } from "@/components/ui/select"
+import { Select, SelectItem, SelectTrigger, SelectContent } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import {
     Tabs,
@@ -30,102 +30,125 @@ function FilterComponent() {
             <Card>
                 <CardHeader>
                     <CardContent>
-                        <Tabs defaultValue="cars" >
+                        <Tabs defaultValue="cars">
                             <TabsList className="grid w-full grid-cols-4">
                                 <TabsTrigger value="cars">Passenger Car</TabsTrigger>
                                 <TabsTrigger value="moto">Motorcycles</TabsTrigger>
                                 <TabsTrigger value="trucks">Trucks</TabsTrigger>
                                 <TabsTrigger value="busses">Busses</TabsTrigger>
                             </TabsList>
-                            <TabsContent value="cars" >
-                                <Card className="border-0 ">
+
+                            {/* Passenger Car Content */}
+                            <TabsContent value="cars">
+                                <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Category</CardTitle>
-                                        <CardDescription>
-                                            Make changes to your account here. Click save when you're done.
-                                        </CardDescription>
+                                        <CardTitle>Passenger Car Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="name">Name</Label>
-                                            <Input id="name" defaultValue="Pedro Duarte" />
+                                        {/* ... (rest of the input components) */}
+
+                                        {/* New Selectors */}
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter1">Filter 1</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter2">Filter 2</Label>
+                                                <Select>
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter3">Filter 3</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
                                         </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="username">Username</Label>
-                                            <Input id="username" defaultValue="@peduarte" />
+
+                                        {/* New Sliders */}
+                                        <div className="grid grid-cols-3 gap-4 mt-4">
+                                            <div>
+                                                <Label htmlFor="slider1">Slider 1</Label>
+                                                <Slider id="slider1" min={0} max={100} step={1} />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor="slider2">Slider 2</Label>
+                                                <Slider id="slider2" min={0} max={200} step={2} />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor="slider3">Slider 3</Label>
+                                                <Slider id="slider3" min={0} max={300} step={3} />
+                                            </div>
                                         </div>
+
                                     </CardContent>
                                     <CardFooter>
                                         <Button>Save changes</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
+                            {/* Motorcycles Content */}
                             <TabsContent value="moto">
-                                <Card className="border-0 ">
+                                <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Motorcycles</CardTitle>
-                                        <CardDescription>
-                                            Change your password here. After saving, you'll be logged out.
-                                        </CardDescription>
+                                        <CardTitle>Motorcycle Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="current">Current password</Label>
-                                            <Input id="current" type="password" />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="new">New password</Label>
-                                            <Input id="new" type="password" />
-                                        </div>
+                                        {/* Replace with the required controls for the motorcycle tab */}
                                     </CardContent>
                                     <CardFooter>
-                                        <Button>Save password</Button>
+                                        <Button>Save changes</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
+
+                            {/* Trucks Content */}
                             <TabsContent value="trucks">
-                                <Card className="border-0 ">
+                                <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Trucks</CardTitle>
-                                        <CardDescription>
-                                            Change your password here. After saving, you'll be logged out.
-                                        </CardDescription>
+                                        <CardTitle>Truck Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="current">Current password</Label>
-                                            <Input id="current" type="password" />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="new">New password</Label>
-                                            <Input id="new" type="password" />
-                                        </div>
+                                        {/* Replace with the required controls for the trucks tab */}
                                     </CardContent>
                                     <CardFooter>
-                                        <Button>Save password</Button>
+                                        <Button>Save changes</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
+
+                            {/* Busses Content */}
                             <TabsContent value="busses">
-                                <Card className="border-0 ">
+                                <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Busses</CardTitle>
-                                        <CardDescription>
-                                            Change your password here. After saving, you'll be logged out.
-                                        </CardDescription>
+                                        <CardTitle>Bus Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="current">Current password</Label>
-                                            <Input id="current" type="password" />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="new">New password</Label>
-                                            <Input id="new" type="password" />
-                                        </div>
+                                        {/* Replace with the required controls for the busses tab */}
                                     </CardContent>
                                     <CardFooter>
-                                        <Button>Save password</Button>
+                                        <Button>Save changes</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
@@ -138,5 +161,3 @@ function FilterComponent() {
 }
 
 export default FilterComponent;
-
-
