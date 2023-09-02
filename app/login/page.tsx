@@ -33,8 +33,8 @@ const formSchema = z.object({
   acceptedTAC: z.boolean(),
 })
 
-export function ProfileForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
+export const ProfileForm: React.FC = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -42,7 +42,7 @@ export function ProfileForm() {
       acceptedTAC: false,
     },
   })
- 
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -53,8 +53,8 @@ export function ProfileForm() {
   return (
     <Form {...form}>
       <h1 className="scroll-m-20 text-base font-semibold tracking-tight text-center my-6">
-      Sign-up
-    </h1>
+        Sign-up
+      </h1>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 flex flex-col text-sm">
         <FormField
           control={form.control}
@@ -62,15 +62,15 @@ export function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username <span className="text-red-500">*</span></FormLabel>
-        <FormControl>
+              <FormControl>
                 <Input placeholder="ava.wright@gmail.com" {...field} />
               </FormControl>
-              
+
               <FormMessage />
             </FormItem>
           )}
         />
-         <FormField
+        <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
@@ -79,12 +79,12 @@ export function ProfileForm() {
               <FormControl>
                 <Input placeholder="ava.wright@gmail.com" {...field} />
               </FormControl>
-             
+
               <FormMessage />
             </FormItem>
           )}
         />
-         <FormField
+        <FormField
           control={form.control}
           name="acceptedTAC"
           render={({ field }) => (
@@ -97,7 +97,7 @@ export function ProfileForm() {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
-Accept terms and condition                </FormLabel>
+                  Accept terms and condition                </FormLabel>
                 <FormDescription>
                   You agree to our Terms of Service and Privacy Policy.
                 </FormDescription>
@@ -113,30 +113,30 @@ Accept terms and condition                </FormLabel>
 
 
 const Login = () => {
-    return (
-      <div className='min-h-screen flex flex-col'>
-        <NavigationMenu className="flex items-center py-4 bg-white border-b text-sm">
-      <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
+  return (
+    <div className='min-h-screen flex flex-col'>
+      <NavigationMenu className="flex items-center py-4 bg-white border-b text-sm">
+        <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
 
-        <div className="flex items-center space-x-4 border rounded-lg py-2.5 px-4">
-        
+          <div className="flex items-center space-x-4 border rounded-lg py-2.5 px-4">
+
             <Link className="h-full flex items-center" href="/" passHref>
-             <MoveLeft className='mr-2' size={16} />Back
+              <MoveLeft className='mr-2' size={16} />Back
             </Link>
+          </div>
+        </div>
+      </NavigationMenu>
+      <div className="flex justify-center items-center  h-full my-auto">
+        <div className='flex flex-col justify-center p-8 rounded-lg border'>
+          <div className="mx-auto">
+            <Image src={logo} height={36} width={64} alt="" />
+          </div>
+          <ProfileForm />
+
         </div>
       </div>
-    </NavigationMenu>
-    <div className="flex justify-center items-center  h-full my-auto">
-        <div className='flex flex-col justify-center p-8 rounded-lg border'>
- <div className="mx-auto">
-    <Image src={logo} height={36} width={64} alt="" />
-  </div>    
-          <ProfileForm/>
-      
-      </div>
     </div>
-      </div>
-    
+
   );
 }
 
