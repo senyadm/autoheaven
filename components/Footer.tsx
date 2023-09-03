@@ -12,7 +12,7 @@ import SvgIcon from './SvgIcon'
 
 const Footer = () => {
   return (
-    <footer className='flex justify-around py-10'>
+    <footer className='flex justify-around py-10 bg-secondary'>
         <div>
             <SvgIcon filepath='autoheven_logo.svg' width={188} height={87} alt='' className="mb-9"></SvgIcon>
             <SocialMediaIcons />

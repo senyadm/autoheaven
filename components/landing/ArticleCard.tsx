@@ -14,16 +14,16 @@ interface ArticleCardProps{
 }
 
 const ArticleCard = ({tipsInfo}: ArticleCardProps) => {
-  const {tipType, title, description} = tipsInfo;
+  const {tipType, title, description, icon} = tipsInfo;
    return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] w-full">
       <CardHeader>
         <CardDescription className="text-xs text-primary">{tipType}</CardDescription>
         <CardTitle className="text-xl">{title}</CardTitle>
         <CardDescription className="text-xs text-primary">{description} </CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-between">
-        <Siren />
+        {icon}
         <Button  variant="outline">Read more<ChevronRight /></Button>
       </CardFooter>
     </Card>

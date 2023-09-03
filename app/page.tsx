@@ -7,10 +7,10 @@ import TipsBlock from '@/components/landing/TipsBlock'
 
 
 export default function Home() {
-  return <div>
+  return <main>
     <Navbar/>
     <TipsBlock/>
     <BrandsBlock/>
     <Footer/>
-  </div>
+  </main>
 }
