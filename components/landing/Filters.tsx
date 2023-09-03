@@ -1,4 +1,5 @@
 "use client";
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '@/app/GlobalRedux/slice';
 import { RootState } from '@/app/GlobalRedux/store';
@@ -9,12 +10,17 @@ import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectItem, SelectTrigger, SelectContent } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import RangeSlider from "./RangeSlider"
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+
+
+
+
 function FilterComponent() {
     const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
     const status = useSelector((state: RootState) => state.carMakes.status);
@@ -24,7 +30,15 @@ function FilterComponent() {
     const handleFetch = () => {
         dispatch(fetchData());
     }
+    const [filters, setFilters] = useState({
+        price: [1000, 100000],
+        milage: [0, 500000],
+        year: [1975, 2023]
+    });
 
+    const handleSliderChange = (id: string, values: [number, number]) => {
+        setFilters(prev => ({ ...prev, [id]: values }));
+    };
     return (
         <div className="min-w-[1140px] w-full">
             <Card>
@@ -50,7 +64,7 @@ function FilterComponent() {
                                         {/* New Selectors */}
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter1">Filter 1</Label>
+                                                <Label htmlFor="filter1">Brand or model</Label>
                                                 <Select >
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -62,7 +76,7 @@ function FilterComponent() {
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter2">Filter 2</Label>
+                                                <Label htmlFor="filter2">Body</Label>
                                                 <Select>
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -74,7 +88,7 @@ function FilterComponent() {
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter3">Filter 3</Label>
+                                                <Label htmlFor="filter3">Fuel type</Label>
                                                 <Select >
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -88,23 +102,14 @@ function FilterComponent() {
 
                                         {/* New Sliders */}
                                         <div className="grid grid-cols-3 gap-4 mt-4">
-                                            <div>
-                                                <Label htmlFor="slider1">Slider 1</Label>
-                                                <Slider id="slider1" min={0} max={100} step={1} />
-                                            </div>
-                                            <div>
-                                                <Label htmlFor="slider2">Slider 2</Label>
-                                                <Slider id="slider2" min={0} max={200} step={2} />
-                                            </div>
-                                            <div>
-                                                <Label htmlFor="slider3">Slider 3</Label>
-                                                <Slider id="slider3" min={0} max={300} step={3} />
-                                            </div>
+                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
                                         </div>
 
                                     </CardContent>
-                                    <CardFooter>
-                                        <Button>Save changes</Button>
+                                    <CardFooter className="grid place-items-end">
+                                        <Button>100000 offers</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
