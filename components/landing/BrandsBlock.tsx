@@ -43,7 +43,7 @@ const brandsData: brandInfo[] = [
 
 const BrandsBlock = () => {
   return (
-    <section className='flex flex-col items-center border mx-17.5 my-9 py-10 px-6 rounded-lg'>
+    <section className='flex flex-col items-center border mx-17.5 my-9 py-10 px-6 rounded-lg bg-background'>
       <GradientHeading title='Popular Brands' className='mb-9'/>     
       <div className='grid grid-cols-5 gap-y-4 gap-x-5 w-full'>
         {brandsData.map(brandsDataEl => (

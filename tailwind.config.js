@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -51,8 +51,8 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-       spacing: {
-        '17.5': '4.375rem',
+      spacing: {
+        17.5: "4.375rem",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -73,7 +73,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "topography-light": "url('/textures/topography light.svg')",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
-}
+};
