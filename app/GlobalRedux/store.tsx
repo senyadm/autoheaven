@@ -2,10 +2,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import carMakesReducer from './Features/counter/carMakesSlice';
+import transportCategoryReducer from './Features/counter/transportCategorySlice';
 
 export const store = configureStore({
     reducer: {
-        carMakes: carMakesReducer
+        carMakes: carMakesReducer,
+        transportCategory: transportCategoryReducer
     }
 })
 

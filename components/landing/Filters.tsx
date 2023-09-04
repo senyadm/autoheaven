@@ -28,6 +28,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/counter/transportCategorySlice';
 const TRUCK_SUBCATEGORIES = [
     { name: 'Truck', component: Truck },
     { name: 'Commercial Vehicle', component: CommercialVehicle },
@@ -44,10 +45,8 @@ function FilterComponent() {
     const status = useSelector((state: RootState) => state.carMakes.status);
     const [selectedIcon, setSelectedIcon] = useState(-1);
     const [hoveredIcon, setHoveredIcon] = useState(-1);
-    const dispatch: AppDispatch = useDispatch();
-
+    const dispatch = useDispatch();
     const handleFetch = () => {
-        dispatch(fetchData());
     }
     const [filters, setFilters] = useState({
         price: [1000, 100000],
@@ -58,17 +57,21 @@ function FilterComponent() {
     const handleSliderChange = (id: string, values: [number, number]) => {
         setFilters(prev => ({ ...prev, [id]: values }));
     };
+
+  const handleTabClick = (value: number) => {
+    dispatch(setActiveTransportCategory(value));
+  };
     return (
-        <div className="max-w-[1140px] w-full mb-36px">
+        <div className="max-w-[1140px] w-full mb-36px z-10 mt-[19.8125rem]">
             <Card>
                 <CardHeader>
                     <CardContent>
                         <Tabs defaultValue="cars">
                             <TabsList className="grid w-full grid-cols-4">
-                                <TabsTrigger value="cars"><SvgIcon filepath='icons/Car.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Passenger Car</span></TabsTrigger>
-                                <TabsTrigger value="moto"><SvgIcon filepath='icons/Bike.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Motorcycles</span> </TabsTrigger>
-                                <TabsTrigger value="trucks"><SvgIcon filepath='icons/Truck.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Trucks</span> </TabsTrigger>
-                                <TabsTrigger value="busses"><SvgIcon filepath='icons/CityBus.svg' alt='' width={16} height={16}/> <span style={{ marginLeft: "5px" }}>Busses</span></TabsTrigger>
+                                <TabsTrigger onClick={() => handleTabClick(0)} value="cars"><SvgIcon filepath='icons/Car.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Passenger Car</span></TabsTrigger>
+                                <TabsTrigger onClick={() => handleTabClick(1)} value="moto"><SvgIcon filepath='icons/Bike.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Motorcycles</span> </TabsTrigger>
+                                <TabsTrigger onClick={() => handleTabClick(2)} value="trucks"><SvgIcon filepath='icons/Truck.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Trucks</span> </TabsTrigger>
+                                <TabsTrigger onClick={() => handleTabClick(3)} value="busses"><SvgIcon filepath='icons/CityBus.svg' alt='' width={16} height={16}/> <span style={{ marginLeft: "5px" }}>Busses</span></TabsTrigger>
                             </TabsList>
 
                             {/* Passenger Car Content */}
