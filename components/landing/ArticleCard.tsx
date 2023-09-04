@@ -16,7 +16,7 @@ interface ArticleCardProps{
 const ArticleCard = ({tipsInfo}: ArticleCardProps) => {
   const {tipType, title, description, icon} = tipsInfo;
    return (
-    <Card className="w-[350px] w-full">
+    <Card className="w-[350px] w-full shadow ]">
       <CardHeader>
         <CardDescription className="text-xs text-primary">{tipType}</CardDescription>
         <CardTitle className="text-xl">{title}</CardTitle>
@@ -24,7 +24,7 @@ const ArticleCard = ({tipsInfo}: ArticleCardProps) => {
       </CardHeader>
       <CardFooter className="flex justify-between">
         {icon}
-        <Button  variant="outline">Read more<ChevronRight /></Button>
+        <Button  >Read more<ChevronRight /></Button>
       </CardFooter>
     </Card>
   )
