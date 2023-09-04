@@ -43,7 +43,7 @@ function RangeSlider({
             />
 
             <div>
-                {displayText && <div className="mt-2 text-center">{displayText}</div>}
+                {displayText && <div style={{ fontSize: "14px" }} className="mt-2 text-center">{displayText}</div>}
             </div>
 
         </div>
