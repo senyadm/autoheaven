@@ -69,6 +69,9 @@ module.exports = {
           to: { height: 0 },
         },
       },
+      spacing: {
+        '36px': '36px',
+      },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

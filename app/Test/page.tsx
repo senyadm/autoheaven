@@ -22,7 +22,7 @@ function DataFetchingComponent() {
                 <div>
                     <p>Data:</p>
                     <ul>
-                        {carMakes.map((make, index) => (
+                        {carMakes.map((make: any, index: any) => (
                             <li key={index}>{make}</li>
                         ))}
                     </ul>

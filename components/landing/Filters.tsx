@@ -10,6 +10,17 @@ import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectItem, SelectTrigger, SelectContent } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Truck } from '@/icons/truck';
+import { CommercialVehicle } from '@/icons/commercial-vehicle';
+import { TruckTransport } from '@/icons/truck-transport';
+import { Trailer } from '@/icons/trailer';
+import { SemiTrailer } from '@/icons/semi-trailer';
+import { TankTransport } from '@/icons/tank-transport';
+import SvgIcon from "../SvgIcon"
+import { Busses } from '@/icons/busses';
+import { Trucks } from '@/icons/trucks';
+import { Cars } from '@/icons/car';
+import { Moto } from '@/icons/moto';
 import RangeSlider from "./RangeSlider"
 import {
     Tabs,
@@ -17,14 +28,22 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-
+const TRUCK_SUBCATEGORIES = [
+    { name: 'Truck', component: Truck },
+    { name: 'Commercial Vehicle', component: CommercialVehicle },
+    { name: 'Truck Transport', component: TruckTransport },
+    { name: 'Trailer', component: Trailer },
+    { name: 'Semitrailer', component: SemiTrailer },
+    { name: 'Tank Transport', component: TankTransport },
+];
 
 
 
 function FilterComponent() {
     const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
     const status = useSelector((state: RootState) => state.carMakes.status);
-
+    const [selectedIcon, setSelectedIcon] = useState(-1);
+    const [hoveredIcon, setHoveredIcon] = useState(-1);
     const dispatch: AppDispatch = useDispatch();
 
     const handleFetch = () => {
@@ -40,23 +59,23 @@ function FilterComponent() {
         setFilters(prev => ({ ...prev, [id]: values }));
     };
     return (
-        <div className="min-w-[1140px] w-full">
+        <div className="max-w-[1140px] w-full mb-36px">
             <Card>
                 <CardHeader>
                     <CardContent>
                         <Tabs defaultValue="cars">
                             <TabsList className="grid w-full grid-cols-4">
-                                <TabsTrigger value="cars">Passenger Car</TabsTrigger>
-                                <TabsTrigger value="moto">Motorcycles</TabsTrigger>
-                                <TabsTrigger value="trucks">Trucks</TabsTrigger>
-                                <TabsTrigger value="busses">Busses</TabsTrigger>
+                                <TabsTrigger value="cars"><SvgIcon filepath='icons/Car.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Passenger Car</span></TabsTrigger>
+                                <TabsTrigger value="moto"><SvgIcon filepath='icons/Bike.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Motorcycles</span> </TabsTrigger>
+                                <TabsTrigger value="trucks"><SvgIcon filepath='icons/Truck.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Trucks</span> </TabsTrigger>
+                                <TabsTrigger value="busses"><SvgIcon filepath='icons/CityBus.svg' alt='' width={16} height={16}/> <span style={{ marginLeft: "5px" }}>Busses</span></TabsTrigger>
                             </TabsList>
 
                             {/* Passenger Car Content */}
                             <TabsContent value="cars">
                                 <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Passenger Car Filters</CardTitle>
+                                        <CardTitle style={{ fontSize: "14px" }}>Passenger Car Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
                                         {/* ... (rest of the input components) */}
@@ -117,13 +136,60 @@ function FilterComponent() {
                             <TabsContent value="moto">
                                 <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Motorcycle Filters</CardTitle>
+                                        <CardTitle style={{ fontSize: "14px" }}>Motorcycle Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        {/* Replace with the required controls for the motorcycle tab */}
+                                        {/* ... (rest of the input components) */}
+
+                                        {/* New Selectors */}
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter1">Brand or model</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter2">Body</Label>
+                                                <Select>
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter3">Fuel type</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+
+                                        {/* New Sliders */}
+                                        <div className="grid grid-cols-3 gap-4 mt-4">
+                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
+
                                     </CardContent>
-                                    <CardFooter>
-                                        <Button>Save changes</Button>
+                                    <CardFooter className="grid place-items-end">
+                                        <Button>100000 offers</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
@@ -132,13 +198,74 @@ function FilterComponent() {
                             <TabsContent value="trucks">
                                 <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Truck Filters</CardTitle>
+                                        <CardTitle className="text-sm">Truck Filters</CardTitle>
+
+                                        <div className="flex items-center">
+                                            {TRUCK_SUBCATEGORIES.map((subcategory, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setSelectedIcon(index)}
+                                                    onMouseEnter={() => setHoveredIcon(index)}
+                                                    onMouseLeave={() => setHoveredIcon(-1)}
+                                                    className={`subcategory-icon w-32 h-11 flex items-center border border-solid rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 ${selectedIcon === index ? 'your-selected-class' : ''}`}
+                                                    style={hoveredIcon === index ? { background: 'linear-gradient(-90deg, #808080 0%, #808080 20%, #FFFFFF 100%)' } : {}}
+                                                >
+                                                    <subcategory.component className="w-8 h-8 mr-4" />
+                                                    <span className="ml-1.5">{subcategory.name}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        {/* Replace with the required controls for the trucks tab */}
+
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter1" style={{ fontSize: "14px" }}>Brand or model</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter2" style={{ fontSize: "14px" }}>Body</Label>
+                                                <Select>
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter3" style={{ fontSize: "14px" }}>Fuel type</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+
+                                        {/* New Sliders */}
+                                        <div className="grid grid-cols-3 gap-4 mt-4">
+                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
+
                                     </CardContent>
-                                    <CardFooter>
-                                        <Button>Save changes</Button>
+                                    <CardFooter className="grid place-items-end">
+                                        <Button>100000 offers</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>
@@ -147,13 +274,60 @@ function FilterComponent() {
                             <TabsContent value="busses">
                                 <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle>Bus Filters</CardTitle>
+                                        <CardTitle style={{ fontSize: "14px" }}>Bus Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        {/* Replace with the required controls for the busses tab */}
+                                        {/* ... (rest of the input components) */}
+
+                                        {/* New Selectors */}
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter1">Brand or model</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter2">Body</Label>
+                                                <Select>
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+                                                        {/* Add your SelectItems here */}
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <div className="space-y-1">
+                                                <Label htmlFor="filter3">Fuel type</Label>
+                                                <Select >
+                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectContent>
+
+                                                        <SelectItem value="option1">Option 1</SelectItem>
+                                                        <SelectItem value="option2">Option 2</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="grid grid-cols-3 gap-4 mt-4">
+                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
+
                                     </CardContent>
-                                    <CardFooter>
-                                        <Button>Save changes</Button>
+                                    <CardFooter className="grid place-items-end">
+                                        <Button>100000 offers</Button>
                                     </CardFooter>
                                 </Card>
                             </TabsContent>

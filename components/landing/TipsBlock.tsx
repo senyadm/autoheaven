@@ -55,9 +55,7 @@ const TipsBlock = () => {
         
         
     </section>
-    
-
-  )
-}
+  );
+};
 
 export default TipsBlock
