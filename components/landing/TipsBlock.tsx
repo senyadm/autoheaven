@@ -47,14 +47,12 @@ const tipsData: tipsInfo[] = [
 
 const TipsBlock = () => {
   return (
-    <section className='flex flex-col items-center px-17.5 py-10 mt-9 bg-background'>
-        <GradientHeading title='Learn our platform' className='mb-9'/>
-        <div className='grid grid-cols-3 gap-y-9 gap-x-5 w-full'>
-            {tipsData.map(tipsElement => <ArticleCard tipsInfo = {tipsElement} key={tipsElement.title}></ArticleCard>)}
-        </div>
-        
-        
-    </section>
+    <section className='flex flex-col items-center px-17.5 py-10 mt-9 bg-background mx-20'>
+    <GradientHeading title='Learn our platform' className='mb-9'/>
+    <div className='grid grid-cols-3 gap-y-9 gap-x-5 w-full px-4'>
+        {tipsData.map(tipsElement => <ArticleCard tipsInfo = {tipsElement} key={tipsElement.title}></ArticleCard>)}
+    </div>
+</section>
   );
 };
 

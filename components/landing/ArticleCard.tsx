@@ -16,7 +16,7 @@ interface ArticleCardProps{
 const ArticleCard = ({tipsInfo}: ArticleCardProps) => {
   const {tipType, title, description, icon} = tipsInfo;
    return (
-    <Card className="w-[350px] w-full shadow ]">
+    <Card className="w-[350px] w-full shadow transform transition-transform duration-300 hover:scale-105">
       <CardHeader>
         <CardDescription className="text-xs text-primary">{tipType}</CardDescription>
         <CardTitle className="text-xl">{title}</CardTitle>

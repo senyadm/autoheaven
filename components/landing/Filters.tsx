@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '@/app/GlobalRedux/slice';
 import { RootState } from '@/app/GlobalRedux/store';
@@ -21,14 +21,15 @@ import { Busses } from '@/icons/busses';
 import { Trucks } from '@/icons/trucks';
 import { Cars } from '@/icons/car';
 import { Moto } from '@/icons/moto';
+import { ChevronRight, Siren } from "lucide-react"
 import RangeSlider from "./RangeSlider"
+
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/counter/transportCategorySlice';
 const TRUCK_SUBCATEGORIES = [
     { name: 'Truck', component: Truck },
     { name: 'Commercial Vehicle', component: CommercialVehicle },
@@ -43,41 +44,9 @@ type CarComponentProps = {
 };
 
 
-function FilterComponent() {
-    const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
-    const status = useSelector((state: RootState) => state.carMakes.status);
-    const [selectedIcon, setSelectedIcon] = useState(-1);
-    const [hoveredIcon, setHoveredIcon] = useState(-1);
-    const dispatch: AppDispatch = useDispatch();
-
-    const handleFetch = () => {
-        dispatch(fetchData());
-    }
-    const [filters, setFilters] = useState({
-        price: [1000, 100000],
-        milage: [0, 500000],
-        year: [1975, 2023]
-    });
-
-    const handleSliderChange = (id: string, values: [number, number]) => {
-        setFilters(prev => ({ ...prev, [id]: values }));
-    };
-    return (
-        <div className="max-w-[1140px] w-full mb-36px">
-            <Card>
-                <CardHeader>
-                    <CardContent>
-                        <Tabs defaultValue="cars">
-                            <TabsList className="grid w-full grid-cols-4">
-                                <TabsTrigger value="cars"><SvgIcon filepath='icons/Car.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Passenger Car</span></TabsTrigger>
-                                <TabsTrigger value="moto"><SvgIcon filepath='icons/Bike.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Motorcycles</span> </TabsTrigger>
-                                <TabsTrigger value="trucks"><SvgIcon filepath='icons/Truck.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Trucks</span> </TabsTrigger>
-                                <TabsTrigger value="busses"><SvgIcon filepath='icons/CityBus.svg' alt='' width={16} height={16}/> <span style={{ marginLeft: "5px" }}>Busses</span></TabsTrigger>
-                            </TabsList>
-
-                            {/* Passenger Car Content */}
-                            <TabsContent value="cars">
-                                <Card className="border-0">
+export function CarComponent({ handleSliderChange }: CarComponentProps) { 
+return (
+    <Card className="border-0">
                                     <CardHeader>
                                         <CardTitle style={{ fontSize: "14px" }}>Passenger Car Filters</CardTitle>
                                     </CardHeader>
@@ -124,7 +93,7 @@ function FilterComponent() {
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
-                                        <Button>100000 offers</Button>
+                                        <Button>100000 offers<ChevronRight /></Button>
                                     </CardFooter>
                                 </Card>
 )
@@ -189,7 +158,7 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
 
                             </CardContent>
                             <CardFooter className="grid place-items-end">
-                                <Button>100000 offers</Button>
+                                <Button>100000 offers<ChevronRight /></Button>
                             </CardFooter>
                         </Card>
                           )
@@ -220,8 +189,10 @@ export function TrucksComponent({    handleSliderChange,
                                                     onClick={() => setSelectedIcon(index)}
                                                     onMouseEnter={() => setHoveredIcon(index)}
                                                     onMouseLeave={() => setHoveredIcon(-1)}
-                                                    className={`subcategory-icon w-32 h-11 flex items-center border border-solid rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 ${selectedIcon === index ? 'your-selected-class' : ''}`}
-                                                    style={hoveredIcon === index ? { background: 'linear-gradient(-90deg, #808080 0%, #808080 20%, #FFFFFF 100%)' } : {}}
+                                                    className={`subcategory-icon w-32 h-11 flex items-center rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 
+        ${selectedIcon === index ? 'border-2 border-gray-600' : 'border border-gray-300'} 
+        ${hoveredIcon === index ? 'bg-gray-300' : 'bg-white'}
+    `}
                                                 >
                                                     <subcategory.component className="w-8 h-8 mr-4" />
                                                     <span className="ml-1.5">{subcategory.name}</span>
@@ -233,7 +204,7 @@ export function TrucksComponent({    handleSliderChange,
 
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter1" style={{ fontSize: "14px" }}>Brand or model</Label>
+                                                <Label htmlFor="filter1" style={{ fontSize: "16px" }}>Brand or model</Label>
                                                 <Select >
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -245,7 +216,7 @@ export function TrucksComponent({    handleSliderChange,
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter2" style={{ fontSize: "14px" }}>Body</Label>
+                                                <Label htmlFor="filter2" style={{ fontSize: "16px" }}>Body</Label>
                                                 <Select>
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -257,7 +228,7 @@ export function TrucksComponent({    handleSliderChange,
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter3" style={{ fontSize: "14px" }}>Fuel type</Label>
+                                                <Label htmlFor="filter3" style={{ fontSize: "16px" }}>Fuel type</Label>
                                                 <Select >
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
@@ -278,7 +249,7 @@ export function TrucksComponent({    handleSliderChange,
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
-                                        <Button>100000 offers</Button>
+                                        <Button>100000 offers<ChevronRight /></Button>
                                     </CardFooter>
                                 </Card>
     )
@@ -288,7 +259,7 @@ type BusComponentProps = {
     handleSliderChange: (type: string, values: [number, number]) => void;
 };
 
-export function BusComponent({handleSliderChange} :MotoComponentProps ) { 
+export function BusComponent({handleSliderChange} :BusComponentProps ) { 
 return (
     <Card className="border-0">
                                     <CardHeader>
@@ -345,14 +316,14 @@ return (
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
-                                        <Button>100000 offers</Button>
+                                        <Button>100000 offers<ChevronRight /></Button>
                                     </CardFooter>
                                 </Card>
 )
 }
 
 
-function FilterComponent() {
+function FilterComponent({ className }: any) {
     const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
     const status = useSelector((state: RootState) => state.carMakes.status);
     const [selectedIcon, setSelectedIcon] = useState(-1);
@@ -363,12 +334,14 @@ function FilterComponent() {
         milage: [0, 500000],
         year: [1975, 2023]
     });
-
+    useEffect(() => {
+        console.log(selectedIcon)
+    }, [selectedIcon])
     const handleSliderChange = (id: string, values: [number, number]) => {
         setFilters(prev => ({ ...prev, [id]: values }));
     };
     return (
-        <div className="max-w-[1140px] w-full mb-36px">
+        <div className={`max-w-[1140px] w-full mb-36px ${className}`}>
             <Card>
                 <CardHeader>
                     <CardContent>
