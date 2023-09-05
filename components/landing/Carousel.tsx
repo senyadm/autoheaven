@@ -17,7 +17,16 @@ const Carousel = () => {
 }}>
         <TypographyH1>Cruise in Comfort</TypographyH1>
         <TypographyH4 className='mt-2.5'>Discover Cars Tailored to Your Lifestyle</TypographyH4>
-        <div className='mb-[4.2rem] mt-[1.25rem]'> . . .</div>
+        <div className='mb-[4.2rem] mt-[1.25rem] flex'>
+          
+            {
+                // get an array of 4 elements to draw the dots
+                Array.from({ length: 4 }, (_, i) => i).map( index => 
+                     <div className={`h-2 rounded-full mr-2 ${activeTransportCategory === index ? "w-6 bg-gray-50" : "w-2 bg-gray-300"}`} key={index}>
+            </div> 
+                    )
+            }
+        </div>
     </div>
   )
 }
