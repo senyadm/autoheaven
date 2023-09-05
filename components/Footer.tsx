@@ -36,8 +36,7 @@ const Footer = () => {
   </SelectTrigger>
   <SelectContent>
     <SelectItem value="English">English</SelectItem>
-    <SelectItem value="Lang 1">Lang 1</SelectItem>
-    <SelectItem value="Lang 2">Lang 2</SelectItem>
+    <SelectItem value="Lang 1">Czech</SelectItem>
   </SelectContent>
 </Select>
     </footer>

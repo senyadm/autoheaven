@@ -8,10 +8,13 @@ const carouselBgs = ["waqas-sultan.png", "scooter.png", "truck 1.png", "markus-w
 const Carousel = () => {
     const activeTransportCategory = useSelector((state: RootState) => state.transportCategory.activeCategory);
   return (
-    <div className="w-full h-[22.1875rem] bg-center bg-cover absolute text-primary-foreground flex flex-col items-center justify-end" style={{
-        boxShadow: "inset 0 -10em 15em black",
-        backgroundImage: `url('/img/${carouselBgs[activeTransportCategory]}`
-    }}>
+   <div className="w-full h-[22.1875rem] bg-center bg-cover absolute text-primary-foreground flex flex-col items-center justify-end" style={{
+    boxShadow: "inset 0 -10em 15em black",
+    backgroundImage: `url('/img/${carouselBgs[activeTransportCategory]}')`, // Add the missing closing parenthesis
+    WebkitTransition: "background-image 1000ms linear", // Capitalize WebkitTransition
+    msTransition: "background-image 1000ms linear", // Capitalize MSTransition
+    transition: "background-image 1000ms linear"
+}}>
         <TypographyH1>Cruise in Comfort</TypographyH1>
         <TypographyH4 className='mt-2.5'>Discover Cars Tailored to Your Lifestyle</TypographyH4>
         <div className='mb-[4.2rem] mt-[1.25rem]'> . . .</div>

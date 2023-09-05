@@ -29,7 +29,7 @@ import {
 
 export function Navbar() {
   return (
-    <NavigationMenu className="flex items-center py-4 bg-white border-b">
+    <NavigationMenu className="flex items-center py-4 bg-white border-b sticky  top-0 z-20">
       <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
         {/* Left side: Logo and Search */}
         <div className="flex items-center space-x-4">
