@@ -60,10 +60,9 @@ export function Navbar() {
           <Button>
             <DragHandleHorizontalIcon />
           </Button>
-          <Link href="/login" passHref>
-            <NavigationMenuLink className="h-full flex items-center">
+          <Link href="/login" className="h-full flex items-center" passHref>
               <EnterIcon className="mr-1" /> Login
-            </NavigationMenuLink>
+            
           </Link>
         </div>
       </div>

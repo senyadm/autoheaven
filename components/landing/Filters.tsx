@@ -30,6 +30,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/counter/transportCategorySlice';
 const TRUCK_SUBCATEGORIES = [
     { name: 'Truck', component: Truck },
     { name: 'Commercial Vehicle', component: CommercialVehicle },
@@ -322,7 +323,28 @@ return (
 )
 }
 
-
+const tabsTriggersInfo = [
+  {
+    value: "cars",
+    icon: "icons/Car.svg",
+    label: "Passenger Car",
+  },
+  {
+    value: "moto",
+    icon: "icons/Bike.svg",
+    label: "Motorcycles",
+  },
+  {
+    value: "trucks",
+    icon: "icons/Truck.svg",
+    label: "Trucks",
+  },
+  {
+    value: "busses",
+    icon: "icons/CityBus.svg",
+    label: "Busses",
+  },
+];
 function FilterComponent({ className }: any) {
     const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
     const status = useSelector((state: RootState) => state.carMakes.status);
@@ -347,10 +369,12 @@ function FilterComponent({ className }: any) {
                     <CardContent>
                         <Tabs defaultValue="cars">
                             <TabsList className="grid w-full grid-cols-4">
-                                <TabsTrigger value="cars"><SvgIcon filepath='icons/Car.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Passenger Car</span></TabsTrigger>
-                                <TabsTrigger value="moto"><SvgIcon filepath='icons/Bike.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Motorcycles</span> </TabsTrigger>
-                                <TabsTrigger value="trucks"><SvgIcon filepath='icons/Truck.svg' alt='' width={16} height={16}/><span style={{ marginLeft: "5px" }}>Trucks</span> </TabsTrigger>
-                                <TabsTrigger value="busses"><SvgIcon filepath='icons/CityBus.svg' alt='' width={16} height={16}/> <span style={{ marginLeft: "5px" }}>Busses</span></TabsTrigger>
+                                {tabsTriggersInfo.map((tab, index) => (
+  <TabsTrigger key={tab.value} value={tab.value} onClick={()=>dispatch(setActiveTransportCategory(index))}>
+    <SvgIcon filepath={tab.icon} alt="" width={16} height={16} />
+    <span style={{ marginLeft: "5px" }}>{tab.label}</span>
+  </TabsTrigger>
+))}
                             </TabsList>
                             <TabsContent value="cars">
                                 <CarComponent handleSliderChange={handleSliderChange}/>

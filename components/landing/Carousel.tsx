@@ -3,19 +3,32 @@ import React from 'react'
 import { TypographyH1, TypographyH4 } from '../ui/typography'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/GlobalRedux/store'
+import Image from 'next/image'
 
 const carouselBgs = ["waqas-sultan.png", "scooter.png", "truck 1.png", "markus-winkler.png"];
 const Carousel = ({ className }: any) => {
     const activeTransportCategory = useSelector((state: RootState) => state.transportCategory.activeCategory);
   return (
-   <div className={`w-full h-[22.1875rem] bg-center bg-cover absolute text-primary-foreground flex flex-col items-center justify-end ${className}`} style={{
-    boxShadow: "inset 0 -10em 15em black",
-    backgroundImage: `url('/img/${carouselBgs[activeTransportCategory]}')`, // Add the missing closing parenthesis
-    WebkitTransition: "background-image 1000ms linear", // Capitalize WebkitTransition
-    msTransition: "background-image 1000ms linear", // Capitalize MSTransition
-    transition: "background-image 1000ms linear"
-}}>
-        <TypographyH1>Cruise in Comfort</TypographyH1>
+   <div className={`w-full h-[22.1875rem] bg-center bg-cover absolute text-primary-foreground  ${className}`}>
+    <div className='absolute top-0 h-full w-full'>
+      {carouselBgs.map((carouselBg, index) =>  <Image
+          src={`/img/${carouselBg}`}
+          alt="Picture of the author"
+          layout='fill'
+          objectFit='cover'
+          objectPosition='center'
+          key={carouselBg}
+           className={`transition-opacity duration-700 ${
+      activeTransportCategory !== index ? 'opacity-0' : 'opacity-100'
+    }`}
+        />
+        )}
+         <div className="absolute inset-0" style={{
+       boxShadow: "inset 0 -10em 15em black",
+    }}></div>
+    </div>
+        <div className='z-10 flex flex-col items-center justify-end h-full relative'>
+           <TypographyH1>Cruise in Comfort</TypographyH1>
         <TypographyH4 className='mt-2.5'>Discover Cars Tailored to Your Lifestyle</TypographyH4>
         <div className='mb-[4.2rem] mt-[1.25rem] flex'>
           
@@ -27,6 +40,8 @@ const Carousel = ({ className }: any) => {
                     )
             }
         </div>
+        </div>
+       
     </div>
   )
 }

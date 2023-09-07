@@ -7,7 +7,7 @@ const brandsData: brandInfo[] = [
   {
     brandName: 'Audi',
     resultsCount: 7689,
-    models: ['Audi A1', 'Audi A1', 'Audi A1', 'Audi A1', 'Audi A1']
+    models: ['Audi A1', 'Audi A2', 'Audi A3', 'Audi A4', 'Audi A5']
   },
   {
     brandName: 'BMW',
