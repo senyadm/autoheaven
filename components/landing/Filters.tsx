@@ -17,10 +17,6 @@ import { Trailer } from '@/icons/trailer';
 import { SemiTrailer } from '@/icons/semi-trailer';
 import { TankTransport } from '@/icons/tank-transport';
 import SvgIcon from "../SvgIcon"
-import { Busses } from '@/icons/busses';
-import { Trucks } from '@/icons/trucks';
-import { Cars } from '@/icons/car';
-import { Moto } from '@/icons/moto';
 import { ChevronRight, Siren } from "lucide-react"
 import RangeSlider from "./RangeSlider"
 
@@ -31,18 +27,95 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/counter/transportCategorySlice';
+
 const TRUCK_SUBCATEGORIES = [
-    { name: 'Truck', component: Truck },
-    { name: 'Commercial Vehicle', component: CommercialVehicle },
-    { name: 'Truck Transport', component: TruckTransport },
-    { name: 'Trailer', component: Trailer },
-    { name: 'Semitrailer', component: SemiTrailer },
-    { name: 'Tank Transport', component: TankTransport },
-];
+    {
+      value: "Truck",
+      icon: "icons/Truck.svg",
+      label: "Truck",
+    },
+    {
+      value: "commercial",
+      icon: "icons/CommercialVehicle.svg",
+      label: "Commercial Vehicle",
+    },
+    {
+      value: "truckTractor",
+      icon: "icons/TruckTractor.svg",
+      label: "Truck Tractor",
+    },
+    {
+      value: "trailer",
+      icon: "icons/Trailer.svg",
+      label: "Trailer",
+    },
+    {
+        value: "semitrailer",
+        icon: "icons/SemiTrailler.svg",
+        label: "Semitrailer",
+    },
+    {
+        value: "tankTransport",
+        icon: "icons/TankTransport.svg",
+        label: "Tank Transport",
+    }
+  ];
 
 type CarComponentProps = {
     handleSliderChange: (type: string, values: [number, number]) => void;
 };
+
+
+const BUS_SUBCATEGORIES = [
+    {
+      value: "touristBus",
+      icon: "icons/TouristBus.svg",
+      label: "Tourist Bus",
+    },
+    {
+      value: "cityBus",
+      icon: "icons/CityBus.svg",
+      label: "City Bus",
+    },
+    {
+      value: "doubleDeckerBus",
+      icon: "icons/DoubleDeckerBus.svg",
+      label: "Double-Decker Bus",
+    },
+    {
+      value: "electricBus",
+      icon: "icons/ElectricBus1.svg",
+      label: "Electric Bus",
+    },
+    {
+        value: "minivan",
+        icon: "icons/Minivan.svg",
+        label: "Minivan",
+    }
+  ];
+
+  const PassengerCars = [
+    {
+      value: "Car",
+      icon: "icons/Car.svg",
+      label: "Tourist Bus",
+    },
+    {
+      value: "Minivan",
+      icon: "icons/CityBus.svg",
+      label: "CityBus",
+    },
+    {
+      value: "doubleDeckerBus",
+      icon: "icons/DoubleDeckerBus.svg",
+      label: "Double-Decker Bus",
+    },
+    {
+      value: "electricBus",
+      icon: "icons/ElectrictBus1.svg",
+      label: "Electrict Bus",
+    },
+  ];
 
 
 export function CarComponent({ handleSliderChange }: CarComponentProps) { 
@@ -173,7 +246,7 @@ type TrucksComponentProps = {
     hoveredIcon: number;
 };
 
-export function TrucksComponent({    handleSliderChange,
+export function TrucksComponent({handleSliderChange,
     setSelectedIcon,
     setHoveredIcon,
     selectedIcon,
@@ -195,8 +268,8 @@ export function TrucksComponent({    handleSliderChange,
         ${hoveredIcon === index ? 'bg-gray-300' : 'bg-white'}
     `}
                                                 >
-                                                    <subcategory.component className="w-8 h-8 mr-4" />
-                                                    <span className="ml-1.5">{subcategory.name}</span>
+                                                   <SvgIcon filepath={subcategory.icon} alt={subcategory.value}/>
+                                                    <span className="ml-1.5">{subcategory.label}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -256,15 +329,34 @@ export function TrucksComponent({    handleSliderChange,
     )
 }
 
-type BusComponentProps = {
-    handleSliderChange: (type: string, values: [number, number]) => void;
-};
 
-export function BusComponent({handleSliderChange} :BusComponentProps ) { 
+
+export function BusComponent({handleSliderChange,
+    setSelectedIcon,
+    setHoveredIcon,
+    selectedIcon,
+    hoveredIcon} :TrucksComponentProps) { 
 return (
     <Card className="border-0">
                                     <CardHeader>
                                         <CardTitle style={{ fontSize: "14px" }}>Bus Filters</CardTitle>
+                                        <div className="flex items-center">
+                                            {BUS_SUBCATEGORIES.map((subcategory, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setSelectedIcon(index)}
+                                                    onMouseEnter={() => setHoveredIcon(index)}
+                                                    onMouseLeave={() => setHoveredIcon(-1)}
+                                                    className={`subcategory-icon w-32 h-11 flex items-center rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 
+        ${selectedIcon === index ? 'border-2 border-gray-600' : 'border border-gray-300'} 
+        ${hoveredIcon === index ? 'bg-gray-300' : 'bg-white'}
+    `}
+                                                >
+                                                        <SvgIcon alt={subcategory.value} filepath={subcategory.icon}/>
+                                                    <span className="ml-1.5">{subcategory.label}</span>
+                                                </button>
+                                            ))}
+                                        </div>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
                     
@@ -390,7 +482,11 @@ function FilterComponent({ className }: any) {
 
                           
                             <TabsContent value="busses">
-                                <BusComponent handleSliderChange={handleSliderChange}/>
+                                <BusComponent handleSliderChange={handleSliderChange}
+        setSelectedIcon={setSelectedIcon}
+        setHoveredIcon={setHoveredIcon}
+        selectedIcon={selectedIcon}
+        hoveredIcon={hoveredIcon}/>
                             </TabsContent>
                         </Tabs>
                     </CardContent>

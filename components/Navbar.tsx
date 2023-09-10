@@ -12,28 +12,28 @@ import {
 import {
   HiOutlineTranslate,
 } from "react-icons/hi";
+import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover"; 
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
+
 } from "@/components/ui/Navbar";
 import {
   Button
 } from "@/components/ui/button";
+import SvgIcon from "./SvgIcon";
+
+
 
 
 export function Navbar() {
   return (
-    <NavigationMenu className="flex items-center py-4 bg-white border-b sticky  top-0 z-20">
-      <div className="w-full mx-auto max-w-screen-xl px-4 flex items-center justify-between">
-        {/* Left side: Logo and Search */}
+    <NavigationMenu className="flex items-center py-3 bg-indigo-50 border-b sticky top-0 z-20 h-[64px]">
+      <div className="container mx-auto px-4 flex items-center justify-between" style={{ maxWidth: "1140px" }}>
+        
+        {/* Left side: Logo and Search Bar */}
         <div className="flex items-center space-x-4">
-          <Logo className="w-18 h-10" />
+          <SvgIcon width={78} height={36} alt='' filepath="logotype_draft.svg" className="w-18 h-10" />
           <div className="flex items-center border rounded-md px-2 h-10 w-full">
             <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
             <InputField
@@ -43,26 +43,32 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Right side: Button and Sign-In */}
+        {/* Right side: Translate, Advertise, and Login */}
         <div className="flex items-center space-x-4">
+        <Popover>
+  <PopoverTrigger>
+    <Button variant="outline" className="color-primary h-full">
+      <HiOutlineTranslate style={{ marginLeft: "4px" }} />
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent style={{ width: '40px', height: '40px', padding: '0' }}>
+    <Button variant="outline" className="h-full w-full p-0 border-none">
+      <SvgIcon width={40} height={40} alt="Translate Icon" filepath="icons/UK_Flag.svg" />
+    </Button>
+  </PopoverContent>
+</Popover>
+
+
+
+          
           <Button
-            variant="outline"
-            className="color-primary hover:bg-green-600 h-full"
-          >
-            <HiOutlineTranslate style={{ marginLeft: "4px" }} />
-          </Button>
-          <Button
-            variant="outline"
-            className="bg-green-400 hover:bg-green-600 h-full"
+            variant="default"
+            className="h-full"
           >
             Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
           </Button>
-          <Button>
-            <DragHandleHorizontalIcon />
-          </Button>
           <Link href="/login" className="h-full flex items-center" passHref>
-              <EnterIcon className="mr-1" /> Login
-            
+            <EnterIcon className="mr-1" /> Login
           </Link>
         </div>
       </div>
