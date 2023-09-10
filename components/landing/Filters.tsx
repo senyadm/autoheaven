@@ -267,16 +267,14 @@ return (
                                         <CardTitle style={{ fontSize: "14px" }}>Bus Filters</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-                                        {/* ... (rest of the input components) */}
-
-                                        {/* New Selectors */}
+                    
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
                                                 <Label htmlFor="filter1">Brand or model</Label>
                                                 <Select >
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
-                                                        {/* Add your SelectItems here */}
+                                          
                                                         <SelectItem value="option1">Option 1</SelectItem>
                                                         <SelectItem value="option2">Option 2</SelectItem>
                                                     </SelectContent>
@@ -288,7 +286,7 @@ return (
                                                 <Select>
                                                     <SelectTrigger>Select an option</SelectTrigger>
                                                     <SelectContent>
-                                                        {/* Add your SelectItems here */}
+                                                  
                                                         <SelectItem value="option1">Option 1</SelectItem>
                                                         <SelectItem value="option2">Option 2</SelectItem>
                                                     </SelectContent>
@@ -309,7 +307,7 @@ return (
                                         </div>
 
 
-                                        <div className="grid grid-cols-3 gap-4 mt-4">
+                                        <div className="grid grid-cols-3 gap-6 mt-4"> 
                                             <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
                                             <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
                                             <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />

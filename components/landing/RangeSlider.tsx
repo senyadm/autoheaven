@@ -30,7 +30,8 @@ function RangeSlider({
     }
     return (
         <div>
-            <Label htmlFor={id}>{label}</Label>
+            <Label className="p-4" htmlFor={id}>{label}</Label>
+            <div style = {{height: "10px"}}></div>
             <Slider
                 id={id}
                 min={min}
