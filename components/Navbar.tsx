@@ -29,7 +29,6 @@ import { ChevronLeft } from "lucide-react";
 
 
 export function Navbar() {
-
   const [lang, setLang] = React.useState(false); // false: CZ, true: UK
   const [openPopover, setOpenPopover] = React.useState(false);
 
@@ -46,33 +45,31 @@ export function Navbar() {
 
   const pathname = usePathname();
   const isLoginPage = pathname === '/login';
-  console.log(isLoginPage)
+
   return (
     <NavigationMenu className="flex items-center py-3 bg-indigo-50 border-b sticky top-0 z-20 h-[64px]">
       <div className="container mx-auto px-4 flex items-center justify-between" style={{ maxWidth: "1140px" }}>
         
-        {/* Left side: Logo and Search Bar */}
+        {/* Left side */}
         {
-          isLoginPage &&
-        
-                <Link href="/" className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg" passHref>
+          isLoginPage ? (
+            <Link href="/" className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg" passHref>
               <ChevronLeft width={16} height={12}/>Back Home
-          </Link>
+            </Link>
+          ) : (
+            <div className="flex items-center space-x-4">
+              <SvgIcon width={78} height={36} alt='' filepath="logotype_draft.svg" className="w-18 h-10" />
+              <div className="flex items-center border rounded-md px-2 h-10 w-full">
+                <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
+                <InputField className="bg-transparent border-none outline-none text-black ml-2 flex-grow" placeholder="Search" />
+              </div>
+            </div>
+          )
         }
-        {!isLoginPage && <div className="flex items-center space-x-4">
-          <SvgIcon width={78} height={36} alt='' filepath="logotype_draft.svg" className="w-18 h-10" />
-          <div className="flex items-center border rounded-md px-2 h-10 w-full">
-            <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
-            <InputField
-              className="bg-transparent border-none outline-none text-black ml-2 flex-grow"
-              placeholder="Search"
-            />
-          </div>
-        </div>}
 
-        {/* Right side: Translate, Advertise, and Login */}
+        {/* Right side */}
         <div className="flex items-center space-x-4">
-        <Popover open={openPopover}>
+          <Popover open={openPopover}>
             <PopoverTrigger>
               <Button variant="outline" className="color-primary h-full" onClick={handlePopoverToggle}>
                 <HiOutlineTranslate style={{ marginLeft: "4px" }} />
@@ -90,19 +87,18 @@ export function Navbar() {
             </PopoverContent>
           </Popover>
 
-
-
-          
-          <Button
-            variant="default"
-            className="h-full"
-          >
-            Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
-          </Button>
-          <Link href="/login" className="h-full flex items-center" passHref>
-            <EnterIcon className="mr-1" /> Login
-          </Link>
+          {!isLoginPage && (
+            <>
+              <Button variant="default" className="h-full">
+                Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
+              </Button>
+              <Link href="/login" className="h-full flex items-center" passHref>
+                <EnterIcon className="mr-1" /> Login
+              </Link>
+            </>
+          )}
         </div>
+
       </div>
     </NavigationMenu>
   );

@@ -41,7 +41,6 @@ function RangeSlider({
         dynamicLowerText = `${range[0]}`;
         dynamicUpperText = `${range[1]}`;
     }
-
     return (
         <div>
             <div className="flex items-center space-x-2">
