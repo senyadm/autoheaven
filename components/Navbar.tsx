@@ -27,6 +27,21 @@ import SvgIcon from "./SvgIcon";
 
 
 export function Navbar() {
+
+  const [lang, setLang] = React.useState(false); // false: CZ, true: UK
+  const [openPopover, setOpenPopover] = React.useState(false);
+
+  const handleLanguageToggle = () => {
+    setOpenPopover(false);
+    setTimeout(() => {
+      setLang(!lang);  
+    }, 300);  
+  }
+
+  const handlePopoverToggle = () => {
+    setOpenPopover(!openPopover);
+  }
+
   return (
     <NavigationMenu className="flex items-center py-3 bg-indigo-50 border-b sticky top-0 z-20 h-[64px]">
       <div className="container mx-auto px-4 flex items-center justify-between" style={{ maxWidth: "1140px" }}>
@@ -45,26 +60,24 @@ export function Navbar() {
 
         {/* Right side: Translate, Advertise, and Login */}
         <div className="flex items-center space-x-4">
-        <Popover>
-  <PopoverTrigger>
-    <Button variant="outline" className="color-primary h-full">
-      <HiOutlineTranslate style={{ marginLeft: "4px" }} />
-    </Button>
-  </PopoverTrigger>
-  <PopoverContent style={{ width: '40px', height: '40px', padding: '0' }}>
-    <Button variant="outline" className="h-full w-full p-0 border-none">
-      <SvgIcon width={40} height={40} alt="Translate Icon" filepath="icons/UK_Flag.svg" />
-    </Button>
-  </PopoverContent>
-</Popover>
-
-
-
-          
-          <Button
-            variant="default"
-            className="h-full"
-          >
+          <Popover open={openPopover}>
+            <PopoverTrigger>
+              <Button variant="outline" className="color-primary h-full" onClick={handlePopoverToggle}>
+                <HiOutlineTranslate style={{ marginLeft: "4px" }} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent style={{ width: '40px', height: '20px', padding: '0' }}>
+              <Button variant="outline" className="h-full w-full p-0" onClick={handleLanguageToggle}> 
+                <SvgIcon 
+                  width={60} 
+                  height={30} 
+                  alt="Translate Icon" 
+                  filepath={lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                />
+              </Button>
+            </PopoverContent>
+          </Popover>
+          <Button variant="default" className="h-full">
             Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
           </Button>
           <Link href="/login" className="h-full flex items-center" passHref>

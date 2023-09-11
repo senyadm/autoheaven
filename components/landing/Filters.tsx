@@ -121,15 +121,21 @@ const BUS_SUBCATEGORIES = [
 export function CarComponent({ handleSliderChange }: CarComponentProps) { 
 return (
     <Card className="border-0">
-                                    <CardHeader>
-                                        <CardTitle style={{ fontSize: "14px" }}>Passenger Car Filters</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="space-y-2">
+                                   
+                                    <CardContent className="space-y-2 mt-8">
+                                    <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
+                                    <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter1">Brand or model</Label>
+                                            <div className="flex items-center space-x-2"> 
+            <Label htmlFor="filter1">Brand and model</Label> 
+            <SvgIcon filepath='icons/tick.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select brand...</SelectTrigger>
                                                     <SelectContent>
                                                         <SelectItem value="option1">Option 1</SelectItem>
                                                         <SelectItem value="option2">Option 2</SelectItem>
@@ -138,9 +144,12 @@ return (
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter2">Body</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter2" >Vehicle body</Label>
+            <SvgIcon filepath='icons/car.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select>
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select body...</SelectTrigger>
                                                     <SelectContent>
                                                         <SelectItem value="option1">Option 1</SelectItem>
                                                         <SelectItem value="option2">Option 2</SelectItem>
@@ -149,9 +158,12 @@ return (
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter3">Fuel type</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter3">Fuel type</Label>
+            <SvgIcon filepath='icons/fuel.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select fuel...</SelectTrigger>
                                                     <SelectContent>
                                                         <SelectItem value="option1">Option 1</SelectItem>
                                                         <SelectItem value="option2">Option 2</SelectItem>
@@ -159,11 +171,7 @@ return (
                                                 </Select>
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-3 gap-4 mt-4">
-                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
-                                        </div>
+            
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
@@ -178,20 +186,25 @@ type MotoComponentProps = {
 export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) { 
                           return (
                             <Card className="border-0">
-                            <CardHeader>
-                                <CardTitle style={{ fontSize: "14px" }}>Motorcycle Filters</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-2">
+                
+                            <CardContent className="space-y-2 mt-8" >
                                 {/* ... (rest of the input components) */}
-
+      <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
+      <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                </div>
                                 {/* New Selectors */}
                                 <div className="grid grid-cols-3 gap-4">
                                     <div className="space-y-1">
-                                        <Label htmlFor="filter1">Brand or model</Label>
+                                    <div className="flex items-center space-x-2"> {/* Flex container */}
+            <Label htmlFor="filter1">Brand and model</Label> 
+            <SvgIcon filepath='icons/tick.svg' alt='' width={16} height={16}/>
+        </div>
                                         <Select >
-                                            <SelectTrigger>Select an option</SelectTrigger>
+                                            <SelectTrigger>Select brands...</SelectTrigger>
                                             <SelectContent>
-                                                {/* Add your SelectItems here */}
+                    
                                                 <SelectItem value="option1">Option 1</SelectItem>
                                                 <SelectItem value="option2">Option 2</SelectItem>
                                             </SelectContent>
@@ -199,9 +212,12 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
                                     </div>
 
                                     <div className="space-y-1">
-                                        <Label htmlFor="filter2">Body</Label>
+                                    <div className="flex items-center space-x-2">
+            <Label htmlFor="filter2" >Vehicle body</Label>
+            <SvgIcon filepath='icons/car.svg' alt='' width={16} height={16}/>
+        </div>
                                         <Select>
-                                            <SelectTrigger>Select an option</SelectTrigger>
+                                            <SelectTrigger>Select body...</SelectTrigger>
                                             <SelectContent>
                                                 {/* Add your SelectItems here */}
                                                 <SelectItem value="option1">Option 1</SelectItem>
@@ -211,9 +227,12 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
                                     </div>
 
                                     <div className="space-y-1">
-                                        <Label htmlFor="filter3">Fuel type</Label>
+                                    <div className="flex items-center space-x-2">
+            <Label htmlFor="filter3">Fuel type</Label>
+            <SvgIcon filepath='icons/fuel.svg' alt='' width={16} height={16}/>
+        </div>
                                         <Select >
-                                            <SelectTrigger>Select an option</SelectTrigger>
+                                            <SelectTrigger>Select fuel...</SelectTrigger>
                                             <SelectContent>
                                                 {/* Add your SelectItems here */}
                                                 <SelectItem value="option1">Option 1</SelectItem>
@@ -224,11 +243,7 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
                                 </div>
 
                                 {/* New Sliders */}
-                                <div className="grid grid-cols-3 gap-4 mt-4">
-                                    <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                    <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                    <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
-                                </div>
+                          
 
                             </CardContent>
                             <CardFooter className="grid place-items-end">
@@ -254,9 +269,9 @@ export function TrucksComponent({handleSliderChange,
     return (
         <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle className="text-sm">Truck Filters</CardTitle>
+                                        <CardTitle className="text-sm mb-5">Truck Filters</CardTitle>
 
-                                        <div className="flex items-center">
+                                        <div className="flex items-center justify-center align-items-center">
                                             {TRUCK_SUBCATEGORIES.map((subcategory, index) => (
                                                 <button
                                                     key={index}
@@ -275,12 +290,19 @@ export function TrucksComponent({handleSliderChange,
                                         </div>
                                     </CardHeader>
                                     <CardContent className="space-y-2">
-
+                                    <div className="grid grid-cols-3 gap-4 mt-4 mb-4">
+                                    <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter1" style={{ fontSize: "16px" }}>Brand or model</Label>
+                                            <div className="flex items-center space-x-2"> {/* Flex container */}
+            <Label htmlFor="filter1">Brand and model</Label> 
+            <SvgIcon filepath='icons/tick.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select brand...</SelectTrigger>
                                                     <SelectContent>
                                                         {/* Add your SelectItems here */}
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -290,9 +312,12 @@ export function TrucksComponent({handleSliderChange,
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter2" style={{ fontSize: "16px" }}>Body</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter2" >Vehicle body</Label>
+            <SvgIcon filepath='icons/car.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select>
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select body...</SelectTrigger>
                                                     <SelectContent>
                                                         {/* Add your SelectItems here */}
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -302,9 +327,12 @@ export function TrucksComponent({handleSliderChange,
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter3" style={{ fontSize: "16px" }}>Fuel type</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter3">Fuel type</Label>
+            <SvgIcon filepath='icons/fuel.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select fuel...</SelectTrigger>
                                                     <SelectContent>
                                                         {/* Add your SelectItems here */}
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -315,11 +343,7 @@ export function TrucksComponent({handleSliderChange,
                                         </div>
 
                                         {/* New Sliders */}
-                                        <div className="grid grid-cols-3 gap-4 mt-4">
-                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
-                                        </div>
+                                 
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
@@ -339,8 +363,8 @@ export function BusComponent({handleSliderChange,
 return (
     <Card className="border-0">
                                     <CardHeader>
-                                        <CardTitle style={{ fontSize: "14px" }}>Bus Filters</CardTitle>
-                                        <div className="flex items-center">
+                                        <CardTitle className='mb-5' style={{ fontSize: "14px"}}>Bus Filters</CardTitle>
+                                        <div className="ml-10 mr-10 flex items-center justify-between align-items-center">
                                             {BUS_SUBCATEGORIES.map((subcategory, index) => (
                                                 <button
                                                     key={index}
@@ -360,11 +384,19 @@ return (
                                     </CardHeader>
                                     <CardContent className="space-y-2">
                     
+                                    <div className="grid grid-cols-3 gap-6 mt-4 mb-6"> 
+                                            <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                        </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter1">Brand or model</Label>
+                                            <div className="flex items-center space-x-2"> {/* Flex container */}
+            <Label htmlFor="filter1">Brand and model</Label> 
+            <SvgIcon filepath='icons/tick.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select brand...</SelectTrigger>
                                                     <SelectContent>
                                           
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -374,9 +406,12 @@ return (
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter2">Body</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter2" >Vehicle body</Label>
+            <SvgIcon filepath='icons/car.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select>
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select body...</SelectTrigger>
                                                     <SelectContent>
                                                   
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -386,9 +421,12 @@ return (
                                             </div>
 
                                             <div className="space-y-1">
-                                                <Label htmlFor="filter3">Fuel type</Label>
+                                            <div className="flex items-center space-x-2">
+            <Label htmlFor="filter3">Fuel type</Label>
+            <SvgIcon filepath='icons/fuel.svg' alt='' width={16} height={16}/>
+        </div>
                                                 <Select >
-                                                    <SelectTrigger>Select an option</SelectTrigger>
+                                                    <SelectTrigger>Select fuel...</SelectTrigger>
                                                     <SelectContent>
 
                                                         <SelectItem value="option1">Option 1</SelectItem>
@@ -399,11 +437,6 @@ return (
                                         </div>
 
 
-                                        <div className="grid grid-cols-3 gap-6 mt-4"> 
-                                            <RangeSlider id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
-                                        </div>
 
                                     </CardContent>
                                     <CardFooter className="grid place-items-end">
