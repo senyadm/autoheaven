@@ -50,6 +50,7 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        
       },
       spacing: {
         17.5: "4.375rem",
@@ -70,7 +71,7 @@ module.exports = {
         },
       },
       spacing: {
-        '36px': '36px',
+        "36px": "36px",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
