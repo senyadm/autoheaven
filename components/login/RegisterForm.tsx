@@ -130,15 +130,16 @@ const [passwordStrength, setPasswordStrength] = useState<boolean[]>([false, fals
             </FormItem>
           )}
         />
-        <div className='space-x-2 text-primary'>
+        <div className='space-x-2'>
             {
       ["More than 8 characters", "Letters", "Symbols"].map((text, index) => (
         <Badge
           key={index}
           variant={passwordStrength[index] ? "default" : "outline"}
-          className={`bg-${passwordStrength[index] ? "green-500" : "background"} text-primary border rounded-lg`}
+          className={`${passwordStrength[index] ? "bg-green-500 text-primary-foreground" : "bg-background"} text-primary border rounded-lg`}
         >
           {text}
+          <div className='bg-green-500 bg-background text-primary-foreground'></div>
         </Badge>
       ))
     }
