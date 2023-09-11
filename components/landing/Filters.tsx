@@ -124,9 +124,9 @@ return (
                                    
                                     <CardContent className="space-y-2 mt-8">
                                     <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
-                                    <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                    <RangeSlider    fixedLowerText="1000 $" fixedUpperText="100000 $"  filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider  fixedLowerText="0 km" fixedUpperText="500000 km"   filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider fixedLowerText="1975" fixedUpperText="2023"  filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
                                         </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
@@ -190,9 +190,9 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
                             <CardContent className="space-y-2 mt-8" >
                                 {/* ... (rest of the input components) */}
       <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
-      <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+      <RangeSlider    fixedLowerText="1000 $" fixedUpperText="100000 $"  filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider  fixedLowerText="0 km" fixedUpperText="500000 km"   filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider fixedLowerText="1975" fixedUpperText="2023"  filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
                                 </div>
                                 {/* New Selectors */}
                                 <div className="grid grid-cols-3 gap-4">
@@ -202,7 +202,7 @@ export function MotorcycleComponent({handleSliderChange} :MotoComponentProps ) {
             <SvgIcon filepath='icons/tick.svg' alt='' width={16} height={16}/>
         </div>
                                         <Select >
-                                            <SelectTrigger>Select brands...</SelectTrigger>
+                                            <SelectTrigger>Select brand...</SelectTrigger>
                                             <SelectContent>
                     
                                                 <SelectItem value="option1">Option 1</SelectItem>
@@ -291,9 +291,9 @@ export function TrucksComponent({handleSliderChange,
                                     </CardHeader>
                                     <CardContent className="space-y-2">
                                     <div className="grid grid-cols-3 gap-4 mt-4 mb-4">
-                                    <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                    <RangeSlider    fixedLowerText="1000 $" fixedUpperText="100000 $"  filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider  fixedLowerText="0 km" fixedUpperText="500000 km"   filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider fixedLowerText="1975" fixedUpperText="2023"  filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
                                         </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
@@ -385,9 +385,9 @@ return (
                                     <CardContent className="space-y-2">
                     
                                     <div className="grid grid-cols-3 gap-6 mt-4 mb-6"> 
-                                            <RangeSlider filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
-                                            <RangeSlider filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
-                                            <RangeSlider filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
+                                    <RangeSlider    fixedLowerText="1000 $" fixedUpperText="100000 $"  filename='banknote.svg' id="price" min={1000} max={100000} step={1000} label="Price range" onValueChange={(values) => handleSliderChange("price", values)} />
+                                            <RangeSlider  fixedLowerText="0 km" fixedUpperText="500000 km"   filename='milage.svg' id="milage" min={0} max={500000} step={10000} label="Milage" onValueChange={(values) => handleSliderChange("milage", values)} />
+                                            <RangeSlider fixedLowerText="1975" fixedUpperText="2023"  filename='calendar.svg' id="year" min={1975} max={2023} step={1} label="Year" onValueChange={(values) => handleSliderChange("year", values)} />
                                         </div>
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-1">
