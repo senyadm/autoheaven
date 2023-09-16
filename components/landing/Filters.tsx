@@ -1,9 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from '@/app/GlobalRedux/slice';
-import { RootState } from '@/app/GlobalRedux/store';
-import { AppDispatch } from '@/app/GlobalRedux/store';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -19,6 +16,11 @@ import { TankTransport } from '@/icons/tank-transport';
 import SvgIcon from "../SvgIcon"
 import { ChevronRight, Siren } from "lucide-react"
 import RangeSlider from "./RangeSlider"
+import { fetchData } from '@/app/GlobalRedux/slice';
+import { RootState } from '@/app/GlobalRedux/store';
+import { AppDispatch } from '@/app/GlobalRedux/store';
+import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/transportCategorySlice';
+
 
 import {
     Tabs,
@@ -26,7 +28,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/counter/transportCategorySlice';
+
 
 const TRUCK_SUBCATEGORIES = [
     {
