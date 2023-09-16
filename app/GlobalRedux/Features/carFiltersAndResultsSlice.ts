@@ -13,6 +13,15 @@ type CarResult = {
     // ... other properties
 };
 
+type CarState = {
+    allCars: CarResult[];
+    filteredCars: CarResult[];
+    status: RequestStatus;
+    carBrands: string[]; 
+  };
+  
+ 
+
 type FilterState = {
     price: [number, number];
     mileage: number;
@@ -24,76 +33,53 @@ type FilterState = {
     status: RequestStatus;
 };
 
-const initialState: FilterState = {
-    price: [0, 0],
-    mileage: 0,
-    year: 0,
-    brandAndModel: "",
-    vehicleBody: "",
-    fuelType: "",
-    results: [],
+const initialState: CarState = {
+    allCars: [],
+    filteredCars: [],
+    carBrands: [], 
     status: RequestStatus.Idle,
-};
+  };
 
-export const fetchCarResults = createAsyncThunk(
-    'carFiltersAndResults/fetchCarResults',
-    async (filters: FilterState, { rejectWithValue }) => {
+  export const fetchAllCars = createAsyncThunk(
+    'carFiltersAndResults/fetchAllCars',
+    async (_, { rejectWithValue }) => {
       try {
-        const response = await client.get('/api/cars', {
-          params: {
-            price: filters.price.join(","),
-            mileage: filters.mileage,
-            year: filters.year,
-            brandAndModel: filters.brandAndModel,
-            vehicleBody: filters.vehicleBody,
-            fuelType: filters.fuelType,
-          }
-        });
+        const response = await client.get('/car_makes');
         return response.data;
       } catch (err: any) {
         return rejectWithValue(err.response.data);
       }
     }
-);
+  );
 
-export const carFiltersAndResultsSlice = createSlice({
+
+  export const carFiltersAndResultsSlice = createSlice({
     name: 'carFiltersAndResults',
     initialState,
     reducers: {
-        setPrice: (state, action: PayloadAction<[number, number]>) => {
-            state.price = action.payload;
-        },
-        setMileage: (state, action: PayloadAction<number>) => {
-            state.mileage = action.payload;
-        },
-        setYear: (state, action: PayloadAction<number>) => {
-            state.year = action.payload;
-        },
-        setBrandAndModel: (state, action: PayloadAction<string>) => {
-            state.brandAndModel = action.payload;
-        },
-        setVehicleBody: (state, action: PayloadAction<string>) => {
-            state.vehicleBody = action.payload;
-        },
-        setFuelType: (state, action: PayloadAction<string>) => {
-            state.fuelType = action.payload;
-        },
+      setFilters: (state, action: PayloadAction<FilterState>) => {
+        const filters = action.payload;
+  
+        state.filteredCars = state.allCars.filter(car => {
+          // Implement your filtering logic here based on the car properties and filters
+          return true; // Return true if the car matches the filter, false otherwise
+        });
+      },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCarResults.pending, (state) => {
-                state.status = RequestStatus.Loading;
-            })
-            .addCase(fetchCarResults.fulfilled, (state, action: PayloadAction<CarResult[]>) => {
-                state.status = RequestStatus.Idle;
-                state.results = action.payload;
-            })
-            .addCase(fetchCarResults.rejected, (state) => {
-                state.status = RequestStatus.Failed;
-                // Optionally add an error property to store the error message
-            });
-    },
+          .addCase(fetchAllCars.pending, (state) => {
+            state.status = RequestStatus.Loading;
+          })
+          .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<{ car_makes: string[] }>) => {
+            state.status = RequestStatus.Idle;
+            state.carBrands = action.payload.car_makes;
+          })
+          .addCase(fetchAllCars.rejected, (state) => {
+            state.status = RequestStatus.Failed;
+          });
+      },
 });
-
-export const { setPrice, setMileage} = carFiltersAndResultsSlice.actions;
+export const selectCarBrands = (state:any) => state.carFiltersAndResults.allCars.car_makes;
+export const { setFilters } = carFiltersAndResultsSlice.actions;
 export default carFiltersAndResultsSlice.reducer;
