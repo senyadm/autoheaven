@@ -1,54 +1,67 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { useForm } from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as zod from "zod"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from "@/components/ui/button"
-import Image from 'next/image'
-import logo from '../../public/autoheven_logo.svg'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { useForm } from "react-hook-form";
+import * as zod from "zod";
 
 const formSchema = zod.object({
-  email: zod.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
+  email: zod.string(),
   password: zod.string().min(2, {
     message: "Password must be at least 2 characters.",
   }),
-  acceptedTAC: zod.boolean(),
-})
+  // acceptedTAC: zod.boolean(),
+});
 
-const LoginForm: React.FC  = () => {
+const LoginForm: React.FC = () => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
-      acceptedTAC: false,
+      // acceptedTAC: false,
     },
-  })
+  });
 
-  function onSubmit(values: zod.infer<typeof formSchema>) {
+  async function onSubmit(values: zod.infer<typeof formSchema>) {
+    const payload = {
+      username: values.email,
+      password: values.password,
+    };
 
-    console.log(values)
+    const apiEndpont = "https://1679-87-255-216-88.ngrok-free.app/api/token";
+
+    const endpointData = await fetch(apiEndpont, {
+      method: "POST",
+      headers: {
+        "ngrok-skip-browser-warning": "1",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await endpointData.json();
+
+    console.log(data);
   }
 
   return (
     <Form {...form}>
-       
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background"
+      >
         {/* <div className='flex'>
           <FormField
           control={form.control}
@@ -80,16 +93,26 @@ const LoginForm: React.FC  = () => {
         />
         </div> */}
         <div className="mx-auto mb-4 ">
-            <Image src={logo} height={30} width={64} alt="" />
-          </div>
+          <Image
+            src="/autoheven_logo.svg"
+            height={30}
+            width={64}
+            alt=""
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username <span className="text-red-500">*</span></FormLabel>
+              <FormLabel>
+                Username <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input placeholder="user@example.com" {...field} />
+                <Input
+                  placeholder="user@example.com"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -101,9 +124,14 @@ const LoginForm: React.FC  = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password <span className="text-red-500">*</span></FormLabel>
+              <FormLabel>
+                Password <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
-                <Input placeholder="********" {...field} />
+                <Input
+                  placeholder="********"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -131,12 +159,37 @@ const LoginForm: React.FC  = () => {
             </FormItem>
           )}
         /> */}
-        <Button type="submit" className='bg-primary'>Login<ArrowRight width={16} height={16} className='ml-2'/></Button>
-        <Button type="submit" className='bg-secondary text-secondary-foreground'>I'm a dealer<ArrowRight width={16} height={16} className='ml-2'/></Button>
-        <Link href='/' passHref>Forgot your password?</Link>
+        <Button
+          type="submit"
+          className="bg-primary"
+        >
+          Login
+          <ArrowRight
+            width={16}
+            height={16}
+            className="ml-2"
+          />
+        </Button>
+        <Button
+          type="submit"
+          className="bg-secondary text-secondary-foreground"
+        >
+          I'm a dealer
+          <ArrowRight
+            width={16}
+            height={16}
+            className="ml-2"
+          />
+        </Button>
+        <Link
+          href="/"
+          passHref
+        >
+          Forgot your password?
+        </Link>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
