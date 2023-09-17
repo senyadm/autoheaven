@@ -11,9 +11,13 @@ const Slider = React.forwardRef<
     React.ElementRef<typeof SliderPrimitive.Root>,
     SliderProps
 >((props, ref) => {
-    const { min = 0, max = 100, onValueChange } = props;
+    const { min = 0, max = 100, onValueChange, value: propValue } = props;
     const [value, setValue] = React.useState<[number, number]>([min, max]);
-
+    React.useEffect(() => {
+        if (propValue?.length=== 2) {
+            setValue(propValue as [number, number]);
+        }
+    }, [propValue]);
     return (
         <div>
             <SliderPrimitive.Root

@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import SvgIcon from "@/components/SvgIcon";
 
 type RangeSliderProps = {
+    value?: [number, number]
     min: number,
     max: number,
     step: number,
@@ -16,6 +17,7 @@ type RangeSliderProps = {
 };
 
 function RangeSlider({
+    value,
     min,
     max,
     step,
@@ -53,6 +55,7 @@ function RangeSlider({
             <div style={{height: "10px"}}></div>
 
             <Slider
+                value={value}
                 id={id}
                 min={min}
                 max={max}

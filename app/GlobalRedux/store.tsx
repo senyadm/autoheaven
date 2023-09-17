@@ -1,15 +1,15 @@
-'use client';
-
 import { configureStore } from '@reduxjs/toolkit';
-import carMakesReducer from './Features/counter/carMakesSlice';
-import transportCategoryReducer from './Features/counter/transportCategorySlice';
-
+import carMakesReducer from './Features/carMakesSlice';
+import carFiltersAndResultsReducer from './Features/carFiltersAndResultsSlice';
+import transportCategoryReducer from './Features/transportCategorySlice';
 export const store = configureStore({
-    reducer: {
-        carMakes: carMakesReducer,
-        transportCategory: transportCategoryReducer
-    }
-})
+  reducer: {
+    carMakes: carMakesReducer,
+    carFiltersAndResults: carFiltersAndResultsReducer,
+    transportCategory: transportCategoryReducer,
+  },
+});
+
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
