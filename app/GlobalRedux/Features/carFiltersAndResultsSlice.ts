@@ -53,6 +53,27 @@ const initialState: CarState = {
   );
 
 
+type LoginCredentials = {
+  username: string;
+  password: string;
+};
+
+export const loginReducer = createAsyncThunk(
+  "carFiltersAndResults/login",
+  async ({ username, password }: LoginCredentials, { rejectWithValue }) => {
+    try {
+      const response = await client.post("/api/token", {
+        username,
+        password,
+      });
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+
   export const carFiltersAndResultsSlice = createSlice({
     name: 'carFiltersAndResults',
     initialState,

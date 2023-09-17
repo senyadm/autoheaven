@@ -21,7 +21,7 @@ import { fetchData } from '@/app/GlobalRedux/slice';
 import { RootState } from '@/app/GlobalRedux/store';
 import { AppDispatch } from '@/app/GlobalRedux/store';
 import { setActiveTransportCategory } from '@/app/GlobalRedux/Features/transportCategorySlice';
-// import { fetchAllCars, selectCarBrands } from '@/app/GlobalRedux/Features/carFiltersAndResultsSlice';
+import { fetchAllCars, selectCarBrands } from '@/app/GlobalRedux/Features/carFiltersAndResultsSlice';
 import {useAppStore} from '@/app/GlobalRedux/useStore'
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"; 
 import {tempData} from './tempData'
@@ -78,8 +78,8 @@ const fuelTypes: string[] = [
 
 
 export function CarComponent({ handleSliderChange, filter, handleSelectorChange, handleOfferNumbers }: CarComponentProps) { 
-    // const [carBrands, dispatch] = useAppStore((state) => state.carFiltersAndResults.carBrands),
-    // [brands, setBrands] = useState<string[]>([]);
+    const [carBrands, dispatch] = useAppStore((state) => state.carFiltersAndResults.carBrands),
+    [brands, setBrands] = useState<string[]>([]);
     const [carData, setCardata] = useState<Car[]>(allData);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [offers, setOffers] = useState<number>(0);
@@ -92,19 +92,21 @@ export function CarComponent({ handleSliderChange, filter, handleSelectorChange,
         setIsPopoverOpen(false);  // Close the popover
       };
 
-const brands = tempData;
-brands.push("All")
-    // useEffect(() => {
-    //     if (!carBrands) {
-    //         dispatch(fetchAllCars());
-    //     }
-    // }, [dispatch, carBrands]);
+// const brands = tempData;
+// brands.push("All")
+    useEffect(() => {
+       
+        if (!carBrands) {
+            dispatch(fetchAllCars());
+        }
+    }, [dispatch, carBrands]);
   
-    // useEffect(() => {
-    //   if (carBrands) {
-    //     setBrands(carBrands)
-    //   }
-    // }, [carBrands]);
+    useEffect(() => {
+        console.log(carBrands)
+      if (carBrands) {
+        setBrands(carBrands)
+      }
+    }, [carBrands]);
     
     const mileageInRange = (car: Car, range: [number, number]) => car.mileage >= range[0] && car.mileage <= range[1];
     const priceInRange = (car: Car, range: [number, number]) => car.price >= range[0] && car.price <= range[1];
@@ -127,7 +129,6 @@ brands.push("All")
             const resData = carData.filter(car => carMatchesFilters(car, filter));
             handleOfferNumbers(resData.length)
             setOffers(resData.length)
-            console.log(resData);
         }
 
     }, [carData, carMatchesFilters, filter]);

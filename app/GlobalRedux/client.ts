@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'https://59f1-46-34-194-74.ngrok-free.app/',
+  baseURL: "https://cc0c-178-91-253-88.ngrok-free.app/",
   timeout: 5000, // Increased timeout
   headers: {
-    'Content-Type': 'application/json',
-    'ngrok-skip-browser-warning': '1'
+    "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": true,
   },
 });
 

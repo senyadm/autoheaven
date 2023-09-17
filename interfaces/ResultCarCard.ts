@@ -13,4 +13,7 @@ export interface ResultCarCardInterface {
   bodyStyle: BodyStyle;
   gear: Gear;
   accidentFree: boolean;
+  imageURL: string;
+  id:number;
+  isTop?: boolean;
 }

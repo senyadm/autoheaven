@@ -33,3 +33,8 @@ export function TypographyList({listItems}: TypographyListProps) {
     </ul>
   )
 }
+export function TypographyLarge({children, className}: TypographyProps) {
+  return (
+    <div className={`text-lg font-semibold ${className}`}>{children}</div>
+  )
+}

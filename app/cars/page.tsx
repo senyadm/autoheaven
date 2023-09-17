@@ -29,20 +29,21 @@ import LoginForm from '@/components/login/LoginForm'
 import RegisterForm from '@/components/login/RegisterForm'
 import { Navbar } from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CarSearchResults from '@/components/cars/CarSearchResults'
 
 
-const Login = () => {
+const Cars = () => {
   return (
-    <div className='h-screen flex flex-col  bg-topography-light'>
+    <div className='h-screen flex flex-col'>
       <Navbar></Navbar>
    
-<section className="flex justify-center items-center  h-full w-full">
-    Hi
-</section>
+<main className="flex justify-center items-center  h-full w-full">
+    <CarSearchResults />
+</main>
     <Footer></Footer>
     </div>
 
   );
 }
 
-export default Login
+export default Cars

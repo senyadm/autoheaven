@@ -18,8 +18,9 @@ import Image from 'next/image'
 import logo from '../../public/autoheven_logo.svg'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-
-
+import { useAppStore} from '@/app/GlobalRedux/useStore' 
+import { loginReducer } from '@/app/GlobalRedux/Features/carFiltersAndResultsSlice';
+import axios from 'axios'
 const formSchema = zod.object({
   email: zod.string().min(2, {
     message: "Email must be at least 2 characters.",
@@ -39,46 +40,51 @@ const LoginForm: React.FC  = () => {
       acceptedTAC: false,
     },
   })
+ const [login, setLogin] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+const [carBrands, dispatch] = useAppStore((state: any) => state.carFiltersAndResults.carBrands)
+
+
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
-
     console.log(values)
+dispatch(loginReducer({ username: values.email, password: values.password }))
+  .unwrap()
+  .then((response) => {
+    // Handle success
+    console.log("Logged in successfully:", response);
+  })
+  .catch((error) => {
+    // Handle error
+    console.error("Login failed:", error);
+  });
+
+
+// axios.post("https://5d5d-87-255-216-88.ngrok-free.app/token", {
+//   'username': values.email,
+//   'password': values.password,
+// }, {
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'ngrok-skip-browser-warning': '1',
+        
+//   }
+// })
+//   .then(response => {
+//    console.log("logged")
+//   })
+//   .catch(error => {
+//     console.log(error)
+//   });
+ 
   }
 
   return (
     <Form {...form}>
        
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background">
-        {/* <div className='flex'>
-          <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
-              <FormControl>
-                <Input placeholder="ava.wright@gmail.com" {...field} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
-              <FormControl>
-                <Input placeholder="ava.wright@gmail.com" {...field} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div> */}
+       
         <div className="mx-auto mb-4 ">
             <Image src={logo} height={30} width={64} alt="" />
           </div>
@@ -89,7 +95,16 @@ const LoginForm: React.FC  = () => {
             <FormItem>
               <FormLabel>Username <span className="text-red-500">*</span></FormLabel>
               <FormControl>
-                <Input placeholder="user@example.com" {...field} />
+                <Input placeholder="user@example.com"  
+                
+                {...field} 
+                onChange={
+                  (event)=>{
+                    field.onChange(event.target.value);
+                    setLogin(event.target.value);
+                  }
+                  }
+                />
               </FormControl>
 
               <FormMessage />
@@ -103,34 +118,22 @@ const LoginForm: React.FC  = () => {
             <FormItem>
               <FormLabel>Password <span className="text-red-500">*</span></FormLabel>
               <FormControl>
-                <Input placeholder="********" {...field} />
+                <Input placeholder="********" {...field} 
+                
+                onChange={
+                  (event)=>{
+                    field.onChange(event.target.value);
+                    setPassword(event.target.value);
+                  }
+                  }
+                />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="acceptedTAC"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>
-                  Accept terms and condition                </FormLabel>
-                <FormDescription>
-                  You agree to our Terms of Service and Privacy Policy.
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        /> */}
+       
         <Button type="submit" className='bg-primary'>Login<ArrowRight width={16} height={16} className='ml-2'/></Button>
         <Button type="submit" className='bg-secondary text-secondary-foreground'>I'm a dealer<ArrowRight width={16} height={16} className='ml-2'/></Button>
         <Link href='/' passHref>Forgot your password?</Link>
