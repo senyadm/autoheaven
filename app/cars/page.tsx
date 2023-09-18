@@ -37,7 +37,7 @@ const Cars = () => {
     <div className='h-screen flex flex-col'>
       <Navbar></Navbar>
    
-<main className="flex justify-center items-center  h-full w-full">
+<main className="flex justify-center items-center  h-full w-full bg-indigo-50">
     <CarSearchResults />
 </main>
     <Footer></Footer>

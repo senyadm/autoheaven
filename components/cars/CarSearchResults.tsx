@@ -3,7 +3,18 @@ import React from 'react'
 import GradientHeading from '../landing/GradientHeading'
 import { TypographyLarge } from '../ui/typography'
 import ResultCarCard from './ResultCarCard'
-
+ 
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 const volkswagenCar1: ResultCarCardInterface = {
     title: 'Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio',
     price: 21500,
@@ -40,24 +51,37 @@ const volkswagenCar3: ResultCarCardInterface = {
     drivetrain: 'fwd',
     bodyStyle: 'sedan',
     gear: 'automatic',
-    accidentFree: true,
+    accidentFree: false,
     imageURL: "/img/cars/volkswagen3.png",
     id: 3,
    
 }
 const CarSearchResults = () => {
+      const [position, setPosition] = React.useState("bottom")
+
   return (
-    <section>
-        <div className='flex'>
+    <section className='py-12'>
+        <div className='flex justify-between'>
             <GradientHeading title='143 364 offers found' />
-            Standard sort
+           <DropdownMenu >
+      <DropdownMenuTrigger asChild className='bg-background'>
+        <Button variant="outline">Standard Sort</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
         </div>
-        <div>
-            <TypographyLarge>Top offers</TypographyLarge>
+        <div className='space-y-8'>
+            <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
             <ResultCarCard {...volkswagenCar2} />
         </div>
         <div className='space-y-8'>
-            <TypographyLarge>Main offers</TypographyLarge>
+            <TypographyLarge className='mt-8'>Main offers</TypographyLarge>
             <ResultCarCard {...volkswagenCar1}/>
             <ResultCarCard {...volkswagenCar3}/>
         </div>

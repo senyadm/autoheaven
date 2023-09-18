@@ -73,9 +73,17 @@ const ResultCarCard = ({title,
     label: drivetrain,
   },
 ];
-
+  const getAccidentStateIcon = () => {
+    const iconColorClass = accidentFree ? "text-green-500" : "text-red-500";
+    const iconProps = {
+      width: 16,
+      height: 16,
+      className: `mr-1 ${iconColorClass}`
+    }
+    return accidentFree? <><CheckCheck {...iconProps}/> Accident free</> : <><ClipboardList {...iconProps}/> Incident history</>
+  }
   return (
-    <div className='flex w-full bg-card border rounded-lg '>
+    <div className='flex w-full bg-card border rounded-lg overflow-hidden'>
       <Image src={imageURL} alt='' width={256}
   height={130}></Image>
   <div className='flex flex-col'>
@@ -104,18 +112,18 @@ const ResultCarCard = ({title,
         </div>
         <div className='flex justify-between items-end'>
           <div>
-            <div className='flex'>
-            {accidentFree? <><CheckCheck /> Accident free</> : <><ClipboardList /> Incident history</>}
+            <div className='flex items-center'>
+            {getAccidentStateIcon()}
 
             </div>
             <div className='flex'>
-                <SvgIcon filepath='/icons/cars/eye-closed.svg' alt='' width={16} height={16}/> Show contact
+                <SvgIcon filepath='/icons/cars/eye-closed.svg' alt='' width={16} height={16} className='mr-1'/> Show contact
               
               </div>
           </div>
           <div className='flex items-end'>
             <Button className='bg-background text-primary hover:text-primary-foreground p-[0.625rem] mr-2'>
-              <Heart />
+              <Heart width={16} height={16}/>
             </Button>
             <Button className='bg-primary text-secondary px-2 py-3'>
               <SvgIcon filepath='/icons/cars/envelope-closed.svg' width={16} height={16} alt='' className='invert mr-2'/>Contact
