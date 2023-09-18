@@ -101,6 +101,6 @@ export const loginReducer = createAsyncThunk(
           });
       },
 });
-export const selectCarBrands = (state:any) => state.carFiltersAndResults.allCars.car_makes;
+export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carBrands;
 export const { setFilters } = carFiltersAndResultsSlice.actions;
 export default carFiltersAndResultsSlice.reducer;
