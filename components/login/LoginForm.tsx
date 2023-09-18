@@ -1,8 +1,7 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as zod from "zod"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from "@/components/ui/button"
 import Image from 'next/image'
 import logo from '../../public/autoheven_logo.svg'
 import Link from 'next/link'
@@ -21,27 +19,26 @@ import { ArrowRight } from 'lucide-react'
 import { useAppStore} from '@/app/GlobalRedux/useStore' 
 import { loginReducer } from '@/app/GlobalRedux/Features/carFiltersAndResultsSlice';
 import axios from 'axios'
+import { useState } from "react";
 const formSchema = zod.object({
-  email: zod.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
+  email: zod.string(),
   password: zod.string().min(2, {
     message: "Password must be at least 2 characters.",
   }),
-  acceptedTAC: zod.boolean(),
-})
+  // acceptedTAC: zod.boolean(),
+});
 
-const LoginForm: React.FC  = () => {
+const LoginForm: React.FC = () => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
-      acceptedTAC: false,
+      // acceptedTAC: false,
     },
   })
- const [login, setLogin] = React.useState("");
-  const [password, setPassword] = React.useState("");
+ const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
 const [carBrands, dispatch] = useAppStore((state: any) => state.carFiltersAndResults.carBrands)
 
@@ -86,14 +83,21 @@ dispatch(loginReducer({ username: values.email, password: values.password }))
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background">
        
         <div className="mx-auto mb-4 ">
-            <Image src={logo} height={30} width={64} alt="" />
-          </div>
+          <Image
+            src="/autoheven_logo.svg"
+            height={30}
+            width={64}
+            alt=""
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username <span className="text-red-500">*</span></FormLabel>
+              <FormLabel>
+                Username <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="user@example.com"  
                 
@@ -116,7 +120,9 @@ dispatch(loginReducer({ username: values.email, password: values.password }))
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password <span className="text-red-500">*</span></FormLabel>
+              <FormLabel>
+                Password <span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="********" {...field} 
                 
@@ -135,11 +141,11 @@ dispatch(loginReducer({ username: values.email, password: values.password }))
         />
        
         <Button type="submit" className='bg-primary'>Login<ArrowRight width={16} height={16} className='ml-2'/></Button>
-        <Button type="submit" className='bg-secondary text-secondary-foreground'>I'm a dealer<ArrowRight width={16} height={16} className='ml-2'/></Button>
+        <Button type="submit" className='bg-secondary text-secondary-foreground'>I&apos;m a dealer<ArrowRight width={16} height={16} className='ml-2'/></Button>
         <Link href='/' passHref>Forgot your password?</Link>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

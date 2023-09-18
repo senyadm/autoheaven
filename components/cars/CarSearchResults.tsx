@@ -57,7 +57,7 @@ const volkswagenCar3: ResultCarCardInterface = {
    
 }
 const CarSearchResults = () => {
-      const [position, setPosition] = React.useState("bottom")
+      const [position, setPosition] = React.useState("Standard Sort")
 
   return (
     <section className='py-12'>
@@ -65,11 +65,11 @@ const CarSearchResults = () => {
             <GradientHeading title='143 364 offers found' />
            <DropdownMenu >
       <DropdownMenuTrigger asChild className='bg-background'>
-        <Button variant="outline">Standard Sort</Button>
+        <Button variant="outline">{position}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Standard Sort">Standard Sort</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
