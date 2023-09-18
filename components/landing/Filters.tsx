@@ -2,18 +2,10 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
 import { Select, SelectItem, SelectTrigger, SelectContent, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
-import { Truck } from '@/icons/truck';
-import { CommercialVehicle } from '@/icons/commercial-vehicle';
-import { TruckTransport } from '@/icons/truck-transport';
-import { Trailer } from '@/icons/trailer';
-import { SemiTrailer } from '@/icons/semi-trailer';
-import { TankTransport } from '@/icons/tank-transport';
 import SvgIcon from "../SvgIcon"
 import { ChevronRight, Siren } from "lucide-react"
 import RangeSlider from "./RangeSlider"

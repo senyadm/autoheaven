@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import SvgIcon from "@/components/SvgIcon";
-
+import { Input } from "../ui/input";
 type RangeSliderProps = {
     value?: [number, number]
     min: number,
@@ -15,7 +15,9 @@ type RangeSliderProps = {
     fixedUpperText?: string,
     onValueChange?: (values: [number, number]) => void;
 };
-
+type tempRange =  {
+Range: [number, number]
+}
 function RangeSlider({
     value,
     min,
@@ -28,28 +30,40 @@ function RangeSlider({
     fixedUpperText,
     onValueChange
 }: RangeSliderProps) {
-    const [range, setRange] = useState<[number, number]>([min, max]);
+    const [range, setRange] = useState<[number, number]>([min, max]),
+    [errorInput, setErrorInput] = useState<boolean>(false)
     
     let dynamicLowerText = '';
     let dynamicUpperText = '';
     
-    if (id === "price") {
-        dynamicLowerText = `${range[0]} $`;
-        dynamicUpperText = `${range[1]} $`;
-    } else if (id === "milage") {
-        dynamicLowerText = `${range[0]} km`;
-        dynamicUpperText = `${range[1]} km`;
-    } else if (id === "year") {
-        dynamicLowerText = `${range[0]}`;
-        dynamicUpperText = `${range[1]}`;
+    const getSymbol = () => {
+        if (id === "price") {
+            return "$";
+        } else if (id === "milage") {
+            return "km";
+        }
+        return "";
+    };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const temp: [number, number] = [range[0], range[1]];
+        const inputValue = e.target.value;
+        const isNumber = /^\d+$/.test(inputValue);
+        if (isNumber) {
+            temp[index] = Number(inputValue);
+            setRange(temp);
+            onValueChange && onValueChange(temp)
+        }
+        else {
+            setErrorInput(true)
+        }
     }
-    
     return (
         <div>
             <div className="flex items-center space-x-2">
                 <Label htmlFor={id}>{label}</Label>
                 <SvgIcon filepath={`icons/${filename}`} alt='' width={16} height={16} />
-                <span style={{ fontSize: "14px" }}>{dynamicLowerText} - {dynamicUpperText}</span>
+                <Input className="text-sm h-6 w-20 px-2" value={range[0]} onChange={(e) => handleChange(e, 0)}/> -
+                <Input value={range[1]} className="text-sm h-6 w-20 px-2" onChange={(e) => handleChange(e, 1)}/><span>{getSymbol()}</span>
             </div>
 
             <div style={{height: "10px"}}></div>
