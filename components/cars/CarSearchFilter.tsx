@@ -1,7 +1,7 @@
-import React from 'react';
-import RangeSlider from '../landing/RangeSlider';
-import * as Collapsible from '@radix-ui/react-collapsible';
-import { RowSpacingIcon } from '@radix-ui/react-icons';
+import React from "react";
+import RangeSlider from "../landing/RangeSlider";
+import * as Collapsible from "@radix-ui/react-collapsible";
+import { RowSpacingIcon } from "@radix-ui/react-icons";
 
 const CarSearchFilter = () => {
   return (
@@ -10,50 +10,50 @@ const CarSearchFilter = () => {
 
       <div className="mb-6">
         <div className="flex items-center justify-between">
-          <span className="text-gray-800">Price Range</span>
-          <RowSpacingIcon className="text-gray-500"/>
+          <span className="text-gray-800">Price</span>
+          <RowSpacingIcon className="text-gray-500" />
         </div>
-        <RangeSlider 
-          min={0} 
-          max={100000} 
-          step={1000} 
-          id="price" 
-          label="Price Range" 
+        <RangeSlider
+          min={0}
+          max={100000}
+          step={1000}
+          id="price"
+          label="Price"
           filename="price-icon.svg"
         />
       </div>
 
       <div className="mb-6">
         <div className="flex items-center justify-between">
-          <span className="text-gray-800">Mileage Range</span>
-          <RowSpacingIcon className="text-gray-500"/>
+          <span className="text-gray-800">Mileage</span>
+          <RowSpacingIcon className="text-gray-500" />
         </div>
-        <RangeSlider 
-          min={0} 
-          max={300000} 
-          step={1000} 
-          id="milage" 
-          label="Mileage Range" 
+        <RangeSlider
+          min={0}
+          max={300000}
+          step={1000}
+          id="milage"
+          label="Mileage"
           filename="mileage-icon.svg"
         />
       </div>
 
       <div className="mb-6">
         <div className="flex items-center justify-between">
-          <span className="text-gray-800">Year Range</span>
-          <RowSpacingIcon className="text-gray-500"/>
+          <span className="text-gray-800">Year</span>
+          <RowSpacingIcon className="text-gray-500" />
         </div>
-        <RangeSlider 
-          min={1980} 
-          max={new Date().getFullYear()} 
-          step={1} 
-          id="year" 
-          label="Year Range" 
+        <RangeSlider
+          min={1980}
+          max={new Date().getFullYear()}
+          step={1}
+          id="year"
+          label="Year"
           filename="year-icon.svg"
         />
       </div>
     </div>
   );
-}
+};
 
 export default CarSearchFilter;
