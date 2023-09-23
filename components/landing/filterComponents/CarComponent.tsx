@@ -5,32 +5,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
+
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+  } from "@/components/ui/popover";
 import {
   Select,
   SelectItem,
   SelectTrigger,
   SelectContent,
+  SelectValue,
 } from "@/components/ui/select";
 import {
   Card,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
-import SvgIcon from "@/components/SvgIcon";
-import { ChevronRight } from "lucide-react";
-import RangeSlider from "@/components/landing/RangeSlider";
-import { allData } from "@/components/landing/allData";
+} from "../../ui/card";
+import SvgIcon from "../../SvgIcon";
+import { ChevronRight, Siren } from "lucide-react";
+import RangeSlider from "../RangeSlider";
+import { tempData } from "../tempData";
+import { allData } from "../allData";
 import {
     fetchAllCars,
   } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
-import { tempData } from "@/components/landing/tempData";
-
 import {
   Filter,
-  ResultsFilterProps,
+  CarComponentProps,
   Car,
-} from "@/components/landing/types";
+} from "../types";
 
 const bodyTypes: string[] = [
     "All",
@@ -51,15 +57,37 @@ const bodyTypes: string[] = [
   ];
   import { useAppStore } from "@/app/GlobalRedux/useStore";
 
-
+  const brandsWithModels = [
+    {
+      brand: "Toyota",
+      models: ["Camry", "Corolla", "Prius", "RAV4", "4Runner", "Tacoma"]
+    },
+    {
+      brand: "Honda",
+      models: ["Accord", "Civic", "Fit", "CR-V", "Pilot", "Odyssey"]
+    },
+    {
+      brand: "Ford",
+      models: ["Mustang", "Escape", "Explorer", "F-150", "Bronco"]
+    },
+    {
+      brand: "Chevrolet",
+      models: ["Impala", "Malibu", "Equinox", "Tahoe", "Silverado"]
+    },
+    {
+      brand: "BMW",
+      models: ["3 Series", "5 Series", "7 Series", "X3", "X5", "Z4"]
+    }
+    // ... add as many brands and models as needed
+  ];
   
 
-export function CarSearchFilter({
+export function CarComponent({
     handleSliderChange,
     filter,
     handleSelectorChange,
     handleOfferNumbers,
-  }: ResultsFilterProps) {
+  }: CarComponentProps) {
     const [carBrands, dispatch] = useAppStore(
         (state) => state.carFiltersAndResults.carBrands
       );
@@ -73,12 +101,12 @@ export function CarSearchFilter({
     };
   
     const handleModelClick = (model: string) => {
-        handleSelectorChange("brandAndModel", model);
+        handleSelectorChange("cars", "brandAndModel", model);
         // Close dropdown, or take other desired actions here
       };
       
     const handleBrandClick = (brand: string) => {
-      handleSelectorChange("brandAndModel", brand); 
+      handleSelectorChange("cars", "brandAndModel", brand); 
       handlePopoverToggle();
       setActivePopover(brand)
     };
@@ -90,6 +118,13 @@ export function CarSearchFilter({
         dispatch(fetchAllCars());
       }
     }, [dispatch, carBrands]);
+  
+    // useEffect(() => {
+    //   console.log(carBrands);
+    //   if (carBrands) {
+    //     setBrands(carBrands);
+    //   }
+    // }, [carBrands]);
   
     const mileageInRange = (car: Car, range: [number, number]) =>
       car.mileage >= range[0] && car.mileage <= range[1];
@@ -140,7 +175,7 @@ export function CarSearchFilter({
         
         console.log(matchedBrand); // Log the matched brand
         if (matchedBrand) {
-            handleSelectorChange("brandAndModel", matchedBrand);
+            handleSelectorChange("cars", "brandAndModel", matchedBrand);
         }
     
         const timer = setTimeout(() => {
@@ -158,10 +193,8 @@ export function CarSearchFilter({
     return (
       <Card className="border-0">
         <CardContent className="space-y-2 mt-8">
-          <div className="gap-7 mt-4 mb-6">
-            <div className="mt-8">
-            <RangeSlider 
-            
+          <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
+            <RangeSlider
               value={filter.price}
               fixedLowerText="1000 $"
               fixedUpperText="1000000 $"
@@ -172,10 +205,9 @@ export function CarSearchFilter({
               step={1000}
               label="Price"
               onValueChange={(values) =>
-                handleSliderChange("price", values)
+                handleSliderChange("cars", "price", values)
               }
             />
-            </div>
             <RangeSlider
               value={filter.milage}
               fixedLowerText="0 km"
@@ -187,7 +219,7 @@ export function CarSearchFilter({
               step={10000}
               label="Milage"
               onValueChange={(values) =>
-                handleSliderChange("milage", values)
+                handleSliderChange("cars", "milage", values)
               }
             />
             <RangeSlider
@@ -201,14 +233,106 @@ export function CarSearchFilter({
               step={1}
               label="Year"
               onValueChange={(values) =>
-                handleSliderChange("year", values)
+                handleSliderChange("cars", "year", values)
               }
             />
           </div>
           <div className="grid grid-cols-3 gap-4">
+          <div className="space-y-1">
+  <div className="flex items-center space-x-2">
+    <Label htmlFor="filter1">Brand and model</Label>
+    <SvgIcon filepath="icons/tick.svg" alt="" width={16} height={16} />
+  </div>
+  <Select
+    onValueChange={(selectorValue) =>
+      handleSelectorChange("cars", "brandAndModel", selectorValue)
+    }
+    value={filter.brandAndModel}
+  >
+    <SelectTrigger>
+      <button>{filter.brandAndModel || "Select a brand..."}</button>
+    </SelectTrigger>
+    <SelectContent>
+      {brandsWithModels.map((brandData, brandIndex) => (
+        <div key={brandIndex} className="mb-2">
+          <SelectItem onClick={() => handleBrandClick(brandData.brand)} value={brandData.brand}>
+            <strong>{brandData.brand}</strong>
+          </SelectItem>
+          {brandData.models.map((model, modelIndex) => (
+            <div key={modelIndex} className="ml-6 mb-1">
+              <SelectItem onClick={() => handleModelClick(model)} value={model}>
+                {model}
+              </SelectItem>
+            </div>
+          ))}
+        </div>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
+
+
+  
+            <div className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="filter2">Vehicle body</Label>
+                <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+              </div>
+              <Select
+                onValueChange={(selectorValue) =>
+                  handleSelectorChange("cars", "vehicleBody", selectorValue)
+                }
+                value={filter.vehicleBody}
+              >
+                <SelectTrigger currentValue={filter.vehicleBody}>
+                  Select body...
+                </SelectTrigger>
+                <SelectContent>
+                  {bodyTypes.map((item: string, index: number) => (
+                    <SelectItem key={index} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+  
+            <div className="space-y-1">
+              <div className="flex items-center space-x-2">
+                <Label htmlFor="filter3">Fuel type</Label>
+                <SvgIcon
+                  filepath="icons/fuel.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                />
+              </div>
+              <Select
+                onValueChange={(selectorValue) =>
+                  handleSelectorChange("cars", "fuelType", selectorValue)
+                }
+                value={filter.fuelType}
+              >
+                <SelectTrigger currentValue={filter.fuelType}>
+                  Select fuel...
+                </SelectTrigger>
+                <SelectContent>
+                  {fuelTypes.map((item: string, index: number) => (
+                    <SelectItem key={index} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
-
+        <CardFooter className="grid place-items-end">
+          <Button>
+            {offers} offers
+            <ChevronRight />
+          </Button>
+        </CardFooter>
       </Card>
     );
   }

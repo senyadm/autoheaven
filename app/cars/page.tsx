@@ -15,10 +15,13 @@ const Cars = () => {
       <Navbar />
 
       <main className="flex flex-1 items-start bg-indigo-50 py-6">
-        <CarSidebar />
-
-        <div className=" px-8">
-          <CarSearchResults />
+        <div className="flex flex-row px-8 mt-10 space-x-6 w-full">
+          <div className="flex-none">  {/* Container for the sidebar */}
+            <CarSidebar />
+          </div>
+          <div className="flex-grow">  {/* Container for the search results */}
+            <CarSearchResults />
+          </div>
         </div>
       </main>
 

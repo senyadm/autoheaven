@@ -1,4 +1,5 @@
 export interface Filter {
+    type?: string
     price: [number, number];
     milage: [number, number];
     year: [number, number];
@@ -37,6 +38,14 @@ export type CarComponentProps = {
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
     handleOfferNumbers: (offerNumber: number) => void;
     filter: Filter
+};
+
+
+export type ResultsFilterProps = {
+  handleSliderChange: (type: string, values: [number, number]) => void;
+  handleSelectorChange: (type: string, selectorValue: string) => void;
+  handleOfferNumbers: (offerNumber: number) => void;
+  filter: Filter
 };
 
 export type Car = {

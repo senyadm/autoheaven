@@ -60,7 +60,7 @@ const CarSearchResults = () => {
       const [position, setPosition] = React.useState("Standard Sort")
 
   return (
-    <section className='py-12'>
+    <section >
         <div className='flex justify-between'>
             <GradientHeading title='143 364 offers found' />
            <DropdownMenu >
