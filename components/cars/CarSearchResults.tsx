@@ -60,8 +60,8 @@ const CarSearchResults = () => {
       const [position, setPosition] = React.useState("Standard Sort")
 
   return (
-    <section >
-        <div className='flex justify-between'>
+    <section className='mr-8'>
+        <div className='flex overflow overflow-y justify-between'>
             <GradientHeading title='143 364 offers found' />
            <DropdownMenu >
       <DropdownMenuTrigger asChild className='bg-background'>
@@ -76,15 +76,20 @@ const CarSearchResults = () => {
       </DropdownMenuContent>
     </DropdownMenu>
         </div>
-        <div className='space-y-8'>
-            <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
-            <ResultCarCard {...volkswagenCar2} />
-        </div>
-        <div className='space-y-8'>
-            <TypographyLarge className='mt-8'>Main offers</TypographyLarge>
-            <ResultCarCard {...volkswagenCar1}/>
-            <ResultCarCard {...volkswagenCar3}/>
-        </div>
+        <div className="overflow-y-auto max-h-[calc(100vh-4rem)] space-y-8"> {/* Added scrollable wrapper here */}
+          <div className='space-y-8'>
+              <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
+              <ResultCarCard {...volkswagenCar2} />
+          </div>
+          <div className='space-y-8'>
+              <TypographyLarge className='mt-8'>Main offers</TypographyLarge>
+              <ResultCarCard {...volkswagenCar1}/>
+              <ResultCarCard {...volkswagenCar3}/>
+              <ResultCarCard {...volkswagenCar3}/>
+              <ResultCarCard {...volkswagenCar3}/>
+              <ResultCarCard {...volkswagenCar3}/>
+          </div>
+      </div>
     </section>
   )
 }
