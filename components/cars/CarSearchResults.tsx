@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 const volkswagenCar1: ResultCarCardInterface = {
     title: 'Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio',
     price: 21500,
@@ -58,7 +59,12 @@ const volkswagenCar3: ResultCarCardInterface = {
 }
 const CarSearchResults = () => {
       const [position, setPosition] = React.useState("Standard Sort")
-
+  const paginationIconProps = {
+    width: "16",
+    height: "16"
+  }
+  const myChevronRight = <ChevronRight  key={"cr"} {...paginationIconProps}/>;
+  const paginationButtonLabels = [<ChevronsLeft key={"csl"} {...paginationIconProps}/>, <ChevronLeft  key={"cl"} {...paginationIconProps}/>, "...", 22, 23, "...", 99, myChevronRight, <ChevronsRight  key={"csr"} {...paginationIconProps}/>]
   return (
     <section className='mr-8'>
         <div className='flex overflow overflow-y justify-between'>
@@ -76,7 +82,8 @@ const CarSearchResults = () => {
       </DropdownMenuContent>
     </DropdownMenu>
         </div>
-        <div className="overflow-y-auto max-h-[calc(100vh-4rem)] space-y-8"> {/* Added scrollable wrapper here */}
+        <div className='space-y-8'>
+          <div className="overflow-y-auto max-h-[calc(100vh-4rem)] space-y-8"> {/* Added scrollable wrapper here */}
           <div className='space-y-8'>
               <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
               <ResultCarCard {...volkswagenCar2} />
@@ -90,6 +97,14 @@ const CarSearchResults = () => {
               <ResultCarCard {...volkswagenCar3}/>
           </div>
       </div>
+      <div className='flex justify-end'>
+        <Button>See more {myChevronRight}</Button>
+      </div>
+      <div  className='flex w-full justify-center space-x-2'>
+        {paginationButtonLabels.map((label, index )=> <Button className={`${index===3?"bg-primary text-primary-foreground":"bg-background text-secondary-foreground"} `} key={index}>{label}</Button>)}
+      </div>
+        </div>
+        
     </section>
   )
 }
