@@ -172,3 +172,46 @@ export const tabsTriggersInfo = [
     }
   ];
 
+ export type typeProps = {
+    value: string 
+    label: string
+  }
+
+ export const bodyTypes: string[] = [
+    "All",
+    "Sedan",
+    "SUV",
+    "Hatchback",
+    "Pickup",
+    "Example",
+  ];
+  
+  export  const fuelTypes: string[] = [
+    "All",
+    "Petrol",
+    "Gas",
+    "Electric",
+    "Diesel",
+    "Hybrid",
+  ];
+
+
+ export const types: typeProps[] = [
+    {
+      value: "cars",
+      label: "Passenger Car",
+    },
+    {
+      value: "moto",
+      label: "Motorcycles",
+    },
+    {
+      value: "trucks",
+      label: "Trucks",
+    },
+    {
+      value: "busses",
+      label: "Busses",
+    },
+  ]
+

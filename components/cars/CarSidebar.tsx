@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useRef }from 'react';
 import {CarSearchFilter} from './CarSearchFilter'; 
 import { Separator } from '@radix-ui/react-select';
-import { ChevronRight, ChevronDown, ChevronUp} from "lucide-react";
-import { Filter, FilterStates, TabKeys } from '../landing/types';
+import { ChevronRight, PlusCircle} from "lucide-react";
+import { Filter, types, typeProps, bodyTypes,fuelTypes} from '../landing/types';
 import {
   Select,
   SelectItem,
@@ -10,9 +10,8 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 import { Checkbox } from '../ui/checkbox';
-
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@radix-ui/react-accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Label } from '../ui/label';
 const CarSidebar = () => {
 
@@ -26,29 +25,6 @@ const CarSidebar = () => {
     fuelType: "",
   };
 
-  const bodyTypes: string[] = [
-    "All",
-    "Sedan",
-    "SUV",
-    "Hatchback",
-    "Pickup",
-    "Example",
-  ];
-  
-  const fuelTypes: string[] = [
-    "All",
-    "Petrol",
-    "Gas",
-    "Electric",
-    "Diesel",
-    "Hybrid",
-  ];
-
-type typeProps = {
-  value: string 
-  label: string
-}
-
 type modelType = {
   name: string
   checked: boolean
@@ -59,6 +35,7 @@ type brandsWithModelsData = {
   checkedAll: boolean
   models: modelType[]
 }
+
 const brandsWithModels: brandsWithModelsData[] = [
   {
     brand: "Toyota",
@@ -86,28 +63,12 @@ const brandsWithModels: brandsWithModelsData[] = [
 ]; 
 
 
-  const types: typeProps[] = [
-    {
-      value: "cars",
-      label: "Passenger Car",
-    },
-    {
-      value: "moto",
-      label: "Motorcycles",
-    },
-    {
-      value: "trucks",
-      label: "Trucks",
-    },
-    {
-      value: "busses",
-      label: "Busses",
-    },
-  ]
 
   const [offers, setOffers] = useState<number>(0);
-  const [filterBrands, setFilterBrands] = useState<brandsWithModelsData[]>([]);
+  const [filterBrands, setFilterBrands] = useState<brandsWithModelsData[]>(brandsWithModels);
   const [filters, setFilters] = useState<Filter>(filterDefault);
+
+
   const handleOfferNumbers = (offerNumber: number) => {
     setOffers(offerNumber);
   };
@@ -118,11 +79,6 @@ const brandsWithModels: brandsWithModelsData[] = [
     setFilters((prev) => ({...prev, [id]: values}));
   };
 
-const handleCheckboxChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
-    const { id } = event.target;
-    console.log(id)
-    // setFilters((prev) => ({...prev, [id]: checked}));
-}
   const handleSelectorChange = (
     id: string,
     selectorValue: string
@@ -133,10 +89,10 @@ const handleCheckboxChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
       [id]: selectorValue}));
   };
   const handleBrandCheckboxChange = (brand: brandsWithModelsData) => {
+    console.log(brand)
     const updatedBrands = filterBrands.map(b => {
-  
       if (b.brand === brand.brand) {
-        console.log(brand, b)
+      
         return { ...b, checkedAll: !b.checkedAll, models: b.models.map(m => ({ ...m, checked: !b.checkedAll })) };
       }
       return b;
@@ -214,31 +170,32 @@ const handleCheckboxChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
     <h2 className='text-l font-semibold mt-2 mb-2'>Brands and Models</h2>
 </div>
 
-<Accordion type="single" collapsible className="w-full">
-  {brandsWithModels.map((brand, index) => (
+<Accordion type="multiple" className="w-full">
+  {filterBrands.map((brand, index) => (
     <>
       <AccordionItem key={index} value={`item-${index}`}>
       <AccordionTrigger>
         <div className="flex justify-between items-center w-full text-foreground text-l">
             <div className="flex mr-auto items-center space-x-2">
-                <Checkbox
-                    className='mr-2'
-                    checked={brand.checkedAll}
-                    onClick={() => handleBrandCheckboxChange(brand)}
-                />
+            <Checkbox
+            className='mr-2'
+            checked={brand.checkedAll}
+            onCheckedChange={() => handleBrandCheckboxChange(brand)}
+            />
                 <label className='text-l text-foreground'>{brand.brand}</label>
             </div>
-            {brand.checkedAll ? <ChevronDown size={16}/> : <ChevronUp size={16}/>}
         </div>
     </AccordionTrigger>
-        <AccordionContent>
+    <AccordionContent className={`${brand.checkedAll ? 'animate-accordion-down' : 'animate-accordion-up'}`}>
+
           {brand.models.map((model, modelIndex) => (
             <div key={modelIndex} className="flex items-center space-x-2 my-2 pl-4 text-foreground">
-              <Checkbox
-                id={`${brand.brand}-${model.name}`}
-                checked={model.checked}
-                onChange={() => handleModelCheckboxChange(brand, model)}
-              />
+<Checkbox
+  id={`${brand.brand}-${model.name}`}
+  checked={model.checked}
+  onCheckedChange={() => handleModelCheckboxChange(brand, model)}
+/>
+
               <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {model.name}
               </label>
@@ -246,17 +203,23 @@ const handleCheckboxChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
           ))}
         </AccordionContent>
       </AccordionItem>
-      <Separator className="h-px bg-gray-300 mt-4 mb-4"/>
     </>
   ))}
 </Accordion>
 
-<div className="grid place-items-end">
-          <Button>
-            {offers} offers
-            <ChevronRight />
-          </Button>
-        </div>
+<div className="flex flex-row">
+  <Button className='flex-2 bg-secondary text-secondary-foreground mr-4'>
+    <Label className='flex items-center space-x-2 text-sm'>
+      <PlusCircle size={14}/>
+      <span>Add more brands</span> 
+    </Label>
+  </Button>
+  <Button className='flex-1'>
+    {offers} offers
+    <ChevronRight size={14}/>
+  </Button>
+</div>
+
 
 </div>
   );

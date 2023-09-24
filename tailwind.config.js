@@ -73,8 +73,8 @@ module.exports = {
         "36px": "36px",
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.5s ease-out",
+        "accordion-up": "accordion-up 0.5s ease-out",
       },
       backgroundImage: {
         "topography-light": "url('/textures/topography light.svg')",
