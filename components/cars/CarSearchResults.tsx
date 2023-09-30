@@ -86,7 +86,7 @@ const CarSearchResults = () => {
     </DropdownMenu>
         </div>
         <div className='space-y-8'>
-          <div className="overflow-y-auto max-h-[calc(100vh-4rem)] space-y-8"> {/* Added scrollable wrapper here */}
+          <div className="space-y-8"> {/* Added scrollable wrapper here */}
           <div className='space-y-8'>
               <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
               <ResultCarCard {...volkswagenCar2} />
