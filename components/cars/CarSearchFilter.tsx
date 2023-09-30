@@ -2,16 +2,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-
-import { Label } from "@/components/ui/label";
-
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import SvgIcon from "@/components/SvgIcon";
 import { ChevronRight } from "lucide-react";
 import RangeSlider from "@/components/landing/RangeSlider";
 import { allData } from "@/components/landing/allData";
