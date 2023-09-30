@@ -235,8 +235,8 @@ const brandsWithModels: brandsWithModelsData[] = [
 </Accordion>
 
 <div className="flex flex-row">
-  <Button className='flex-2 bg-secondary text-secondary-foreground mr-4'>
-    <Label className='flex items-center space-x-2 text-sm'>
+  <Button className='flex-2 bg-secondary  hover:bg-gray-300 text-secondary-foreground mr-4'>
+    <Label className='flex items-center space-x-2 text-sm cursor-pointer'>
       <PlusCircle size={14}/>
       <span>Add more brands</span> 
     </Label>
