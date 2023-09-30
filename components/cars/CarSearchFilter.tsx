@@ -118,16 +118,6 @@ export function CarSearchFilter({
 
     const [typedChars, setTypedChars] = useState('');
 
-    const handleKeyup = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (e.key.length > 1) return;
-        setTypedChars((prev) => {
-            const newChars = prev + e.key;
-            console.log(newChars); // Log to ensure characters are captured
-            return newChars;
-        });
-    };
-
     useEffect(() => {
         if (!typedChars) return;
     
@@ -145,18 +135,10 @@ export function CarSearchFilter({
         return () => clearTimeout(timer);
     }, [typedChars, brands]);
     
-    const handleDropdownClose = () => {
-        setIsPopoverOpen(false);
-        setTypedChars('');
-    };
-
     return (
-      <Card className="border-0">
-        <CardContent className="space-y-2 mt-8">
-          <div className="gap-7 mt-4 mb-6">
+          <div className=" mt-4 mb-6">
             <div className="mt-8">
             <RangeSlider 
-            
               value={filter.price}
               fixedLowerText="1000 $"
               fixedUpperText="1000000 $"
@@ -171,6 +153,7 @@ export function CarSearchFilter({
               }
             />
             </div>
+            <div className="mt-7">
             <RangeSlider
               value={filter.milage}
               fixedLowerText="0 km"
@@ -185,6 +168,8 @@ export function CarSearchFilter({
                 handleSliderChange("milage", values)
               }
             />
+            </div>
+            <div className="mt-7">
             <RangeSlider
               value={filter.year}
               fixedLowerText="1975"
@@ -199,11 +184,7 @@ export function CarSearchFilter({
                 handleSliderChange("year", values)
               }
             />
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-          </div>
-        </CardContent>
-
-      </Card>
     );
   }

@@ -15,8 +15,8 @@ const Cars = () => {
       <Navbar />
 
       <main className="flex flex-1 items-start bg-indigo-50 py-6">
-        <div className="flex flex-row px-[4.375rem] mt-10 space-x-6 w-full">
-          <div className="flex-none ml-8">
+        <div className="flex flex-row px-[3.5rem] mt-10 space-x-6 w-full">
+        <div className="flex-none w-[340px]">
             <CarSidebar />
           </div>
           <div className="flex-grow">  {/* Container for the search results */}

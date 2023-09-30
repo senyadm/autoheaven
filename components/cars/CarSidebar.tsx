@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef }from 'react';
 import {CarSearchFilter} from './CarSearchFilter'; 
-import { Separator } from '@radix-ui/react-select';
+import { Separator } from '@/components/ui/separator';
 import { ChevronRight, PlusCircle} from "lucide-react";
 import { Filter, types, typeProps, bodyTypes,fuelTypes} from '../landing/types';
 import {
@@ -120,7 +120,7 @@ const brandsWithModels: brandsWithModelsData[] = [
   };
 
   return (
-    <div className="flex flex-col space-y-4 h-full h-[969px] p-4 px-6 bg-white border border-gray-300 shadow-lg">
+    <div className="flex flex-col space-y-4 h-full w-full p-4 px-6 bg-white border border-gray-300 shadow-lg">
     <h2 className='text-l font-semibold mt-2 mb-2'>Filters</h2>
     <Label htmlFor="filter1" className='font-bold'>Car Type</Label>
     <Select
@@ -167,7 +167,24 @@ const brandsWithModels: brandsWithModelsData[] = [
 <Separator/>
 
 <div>
+  <h2 className='text-m font-semibold mt-2 mb-2'>
+    From Dealer
+  </h2>    
+  <div className='flex items-center space-x-2'>
+  <Checkbox className='mr-2'
+    checked={filters.fromDealer}
+    onCheckedChange={(e) => setFilters((prev) => ({...prev, fromDealer: !prev.fromDealer}))}/>
+    <Label>
+    Directly from Dealers
+    </Label>
+  </div>
+</div>
+
+<Separator/>
+
+<div>
     <h2 className='text-l font-semibold mt-2 mb-2'>Brands and Models</h2>
+
 </div>
 
 <Accordion type="multiple" className="w-full">
@@ -215,8 +232,8 @@ const brandsWithModels: brandsWithModelsData[] = [
     </Label>
   </Button>
   <Button className='flex-1'>
-    {offers} offers
-    <ChevronRight size={14}/>
+   <Label className='text-sm'> {offers} offers </Label>
+     <ChevronRight size={14}/>
   </Button>
 </div>
 

@@ -6,6 +6,7 @@ export interface Filter {
     brandAndModel: string;
     vehicleBody: string;
     fuelType: string;
+    fromDealer?: boolean
 }
 
 export type TrucksComponentProps = {

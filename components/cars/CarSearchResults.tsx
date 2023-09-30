@@ -67,7 +67,7 @@ const CarSearchResults = () => {
   const paginationButtonLabels = [<ChevronsLeft key={"csl"} {...paginationIconProps}/>, <ChevronLeft  key={"cl"} {...paginationIconProps}/>, "...", 22, 23, "...", 99, myChevronRight, <ChevronsRight  key={"csr"} {...paginationIconProps}/>]
   return (
     <section className='mr-8'>
-        <div className='flex overflow overflow-y justify-between'>
+        <div className='flex justify-between'>
             <GradientHeading title='143 364 offers found' />
            <DropdownMenu >
       <DropdownMenuTrigger asChild className='bg-background'>
@@ -75,9 +75,12 @@ const CarSearchResults = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="Standard Sort">Standard Sort</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Listing (Newest first)">Listing (Newest first)</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Listing (Oldest first)">Listing (Oldest first)</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Price (Highest first)">Price (Highest first) </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Price (Lowest first)">Price (Lowest first) </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Milage (Highest first)">Milage (Highest first)</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="Milage (Lowest first)">Milage (Lowest first)</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
