@@ -9,7 +9,9 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
-  const navigationMenuItemsInfo = [
+import { Button } from '../ui/button'
+import ProfileNavigationMenuItem from './ProfileNavigationMenuItem'
+  const navigationMenuGeneralItemsInfo = [
     {
       title: "Overview",
       componentName: "overview"
@@ -23,17 +25,32 @@ import {
       componentName: "settings"
     },
   ]
+    const navigationMenuVehiclesItemsInfo = [
+    {
+      title: "My cars",
+      componentName: "cars"
+    },
+    {
+      title: "Messages",
+      componentName: "messages"
+    },
+    {
+      title: "Liked ads",
+      componentName: "ads"
+    },
+  ]
 
-const ProfileNavigationMenu = ({onItemClick}) => {
+const ProfileNavigationMenu = () => {
   return (
    <NavigationMenu>
       <NavigationMenuList className="flex flex-col">
+        General
         {
-            navigationMenuItemsInfo.map(itemInfo => (
-                 <NavigationMenuItem onClick={()=>onItemClick(itemInfo.componentName)} key={itemInfo.componentName}>
-              {itemInfo.title}
-        </NavigationMenuItem>
-            ))
+            navigationMenuGeneralItemsInfo.map(itemInfo => <ProfileNavigationMenuItem itemInfo={itemInfo} key={itemInfo.componentName}/>)
+        }
+        Vehicles 
+        {
+            navigationMenuVehiclesItemsInfo.map(itemInfo => <ProfileNavigationMenuItem itemInfo={itemInfo} key={itemInfo.componentName}/>)
         }
        
         

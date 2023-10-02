@@ -13,22 +13,23 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ProfileContent from "@/components/profile/ProfileContent";
 import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
+import { useSelector } from "react-redux";
+import { RootState } from "../GlobalRedux/store";
 
 const currentPageURL = '/profile/';
 const Cars = () => {
 
-  const [profileComponentName, setProfileComponentName] = useState("overview");
-
+ 
   return (
     <div className="h-screen flex flex-col">
       <Navbar />
-      <main className="flex">
-        <section>
+      <main className="flex w-full h-full space-x-4 mt-4">
+        <section className="border rounded-lg h-full w-56">
           John Doe 
-          <ProfileNavigationMenu onItemClick={(componentName: string)=>setProfileComponentName(componentName)}/>
+          <ProfileNavigationMenu/>
         </section>
-        <section>
-          <ProfileContent tabName={profileComponentName}/>
+        <section className="border rounded-lg h-full w-full">
+          <ProfileContent/>
         </section>
       </main>
      
