@@ -21,7 +21,7 @@ import { usePathname } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 export function Navbar() {
-  const [lang, setLang] = React.useState(false); // false: CZ, true: UK
+  const [lang, setLang] = React.useState(true); // false: CZ, true: UK
   const [openPopover, setOpenPopover] = React.useState(false);
 
   const handleLanguageToggle = () => {
@@ -85,20 +85,24 @@ export function Navbar() {
                 className="color-primary h-full"
                 onClick={handlePopoverToggle}
               >
-                <HiOutlineTranslate style={{ marginLeft: "4px" }} />
+                  <SvgIcon
+                  width={16}
+                  height={16}
+                  alt="Translate Icon"
+                  filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                />
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              style={{ width: "40px", height: "20px", padding: "0" }}
-            >
+className="p-0 w-12"            >
               <Button
                 variant="outline"
-                className="h-full w-full p-0"
+                className="h-full w-full p-0 h-8"
                 onClick={handleLanguageToggle}
               >
                 <SvgIcon
-                  width={60}
-                  height={30}
+                  width={16}
+                  height={16}
                   alt="Translate Icon"
                   filepath={lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
                 />

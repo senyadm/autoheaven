@@ -57,6 +57,7 @@ const volkswagenCar3: ResultCarCardInterface = {
     id: 3,
    
 }
+
 const CarSearchResults = () => {
       const [position, setPosition] = React.useState("Standard Sort")
   const paginationIconProps = {

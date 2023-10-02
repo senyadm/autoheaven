@@ -45,20 +45,21 @@ const [carBrands, dispatch] = useAppStore((state: any) => state.carFiltersAndRes
 
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
-    console.log(values)
-dispatch(loginReducer({ username: values.email, password: values.password }))
-  .unwrap()
-  .then((response) => {
-    // Handle success
-    console.log("Logged in successfully:", response);
-  })
-  .catch((error) => {
-    // Handle error
-    console.error("Login failed:", error);
-  });
+const backendURL = "https://eca9-89-232-63-67.ngrok-free.app/api/token";
+
+// dispatch(loginReducer({ username: values.email, password: values.password }))
+//   .unwrap()
+//   .then((response) => {
+//     // Handle success
+//     console.log("Logged in successfully:", response);
+//   })
+//   .catch((error) => {
+//     // Handle error
+//     console.error("Login failed:", error);
+//   });
 
 
-// axios.post("https://5d5d-87-255-216-88.ngrok-free.app/token", {
+// axios.post(backendURL, {
 //   'username': values.email,
 //   'password': values.password,
 // }, {
@@ -74,7 +75,40 @@ dispatch(loginReducer({ username: values.email, password: values.password }))
 //   .catch(error => {
 //     console.log(error)
 //   });
- 
+
+async function logUserIn() {
+  try {
+    const requestBody = {
+      id: 1,
+      name: 'bobby hadz',
+      salary: 100,
+    };
+
+    const response = await axios.post(
+      backendURL,
+      requestBody,
+      {
+        auth: {
+          username: 'YOUR_USERNAME',
+          password: 'YOUR_PASSWORD',
+        },
+
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    return response.data;
+  } catch (err) {
+    console.log(err.message);
+    console.log(err.response.status);
+  }
+}
+
+logUserIn().then(data => {
+  console.log(data);
+});
   }
 
   return (
