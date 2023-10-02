@@ -122,7 +122,7 @@ const brandsWithModels: brandsWithModelsData[] = [
   };
 
   return (
-    <div className="flex flex-col space-y-4 h-full w-full p-4 px-6 bg-white border border-gray-300 shadow-lg">
+    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
     <h2 className='text-l font-semibold mt-2 mb-2'>Filters</h2>
     <Label htmlFor="filter1" className='font-bold'>Car Type</Label>
     <Select
@@ -197,17 +197,18 @@ const brandsWithModels: brandsWithModelsData[] = [
 
 </div>
 
-<Accordion type="multiple" className="w-full">
+<Accordion type="multiple" className="w-full" >
   {filterBrands.map((brand, index) => (
     <>
       <AccordionItem key={index} value={`item-${index}`}>
-      <AccordionTrigger>
+      <AccordionTrigger >
         <div className="flex justify-between items-center w-full text-foreground text-l">
             <div className="flex mr-auto items-center space-x-2">
             <Checkbox
             className='mr-2'
             checked={brand.checkedAll}
             onCheckedChange={() => handleBrandCheckboxChange(brand)}
+            
             />
                 <label className='text-l text-foreground'>{brand.brand}</label>
             </div>

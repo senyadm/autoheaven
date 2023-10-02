@@ -29,6 +29,21 @@ const volkswagenCar1: ResultCarCardInterface = {
     imageURL: "/img/cars/volkswagen.png",
     id:1
 }
+const volkswagenCar4: ResultCarCardInterface = {
+    title: 'Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio',
+    price: 21500,
+    releaseYear: 2014,
+    mileage: 10000,
+    fuelType: 'petrol',
+    drivetrain: 'fwd',
+    bodyStyle: 'sedan',
+    gear: 'automatic',
+    accidentFree: true,
+    imageURL: "/img/cars/Preview.png",
+    id:1,
+         isTop: true
+
+}
 const volkswagenCar2: ResultCarCardInterface = {
      title: 'Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio',
     price: 21500,
@@ -55,9 +70,20 @@ const volkswagenCar3: ResultCarCardInterface = {
     accidentFree: false,
     imageURL: "/img/cars/volkswagen3.png",
     id: 3,
-   
 }
-
+const otherCars: ResultCarCardInterface[] = [1,2,3,4,5].map(num => `/img/cars/Preview-${num}.png`).map(path => ({
+     title: 'Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio',
+    price: 21500,
+    releaseYear: 2014,
+    mileage: 10000,
+    fuelType: 'petrol',
+    drivetrain: 'fwd',
+    bodyStyle: 'sedan',
+    gear: 'automatic',
+    accidentFree: true,
+    imageURL: path,
+    id: 3,
+}))
 const CarSearchResults = () => {
       const [position, setPosition] = React.useState("Standard Sort")
   const paginationIconProps = {
@@ -91,13 +117,14 @@ const CarSearchResults = () => {
           <div className='space-y-8'>
               <TypographyLarge className='mt-8'>Top offers</TypographyLarge>
               <ResultCarCard {...volkswagenCar2} />
+              <ResultCarCard {...volkswagenCar4} />
+
           </div>
           <div className='space-y-8'>
               <TypographyLarge className='mt-8'>Main offers</TypographyLarge>
               <ResultCarCard {...volkswagenCar1}/>
               <ResultCarCard {...volkswagenCar3}/>
-              <ResultCarCard {...volkswagenCar3}/>
-              <ResultCarCard {...volkswagenCar3}/>
+             {otherCars.map(carInfo => <ResultCarCard {...carInfo} key={carInfo.imageURL}/>)}
               <ResultCarCard {...volkswagenCar3}/>
           </div>
       </div>
