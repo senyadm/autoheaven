@@ -14,7 +14,7 @@ import { TfiAnnouncement } from "react-icons/tfi";
 import { HiOutlineTranslate } from "react-icons/hi";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 
-import { NavigationMenu } from "@/components/ui/Navbar";
+import { NavigationMenu } from "@/components/ui/navigation-menu"
 import { Button } from "@/components/ui/button";
 import SvgIcon from "./SvgIcon";
 import { usePathname } from "next/navigation";
@@ -36,7 +36,7 @@ export function Navbar() {
   };
 
   const pathname = usePathname();
-  const isLoginPage = pathname === "/login";
+  const isNavbarV2 = pathname === "/login" || pathname === "/profile";
 
   return (
     <NavigationMenu className="flex items-center py-3 bg-background border-b sticky top-0 z-20 h-[64px]">
@@ -45,7 +45,7 @@ export function Navbar() {
         style={{ maxWidth: "1140px" }}
       >
         {/* Left side */}
-        {isLoginPage ? (
+        {isNavbarV2 ? (
           <Link
             href="/"
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
@@ -107,7 +107,7 @@ className="p-0 w-12"            >
             </PopoverContent>
           </Popover>
 
-          {!isLoginPage && (
+          {!isNavbarV2 && (
             <>
               <Button variant="default" className="h-full">
                 Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />

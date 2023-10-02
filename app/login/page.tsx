@@ -5,7 +5,7 @@ import logo from '../../public/autoheven_logo.svg'
 import { Button } from "@/components/ui/button"
 
 
-import { NavigationMenu, NavigationMenuLink } from '@/components/ui/Navbar'
+import { NavigationMenu, NavigationMenuLink } from "@/components/ui/navigation-menu"
 import Link from 'next/link'
 import { ArrowLeftIcon, EnterIcon } from '@radix-ui/react-icons'
 import { MoveLeft } from 'lucide-react'
