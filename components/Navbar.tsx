@@ -39,7 +39,7 @@ export function Navbar() {
   const isLoginPage = pathname === "/login";
 
   return (
-    <NavigationMenu className="flex items-center py-3 bg-indigo-50 border-b sticky top-0 z-20 h-[64px]">
+    <NavigationMenu className="flex items-center py-3 bg-background border-b sticky top-0 z-20 h-[64px]">
       <div
         className="container mx-auto px-4 flex items-center justify-between"
         style={{ maxWidth: "1140px" }}
@@ -79,19 +79,16 @@ export function Navbar() {
         {/* Right side */}
         <div className="flex items-center space-x-4">
           <Popover open={openPopover}>
-            <PopoverTrigger>
-              <Button
-                variant="outline"
-                className="color-primary h-full"
-                onClick={handlePopoverToggle}
-              >
+            <PopoverTrigger 
+                className="color-primary h-full border p-3 rounded-lg"
+                onClick={handlePopoverToggle}>
+             
                   <SvgIcon
                   width={16}
                   height={16}
                   alt="Translate Icon"
                   filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
                 />
-              </Button>
             </PopoverTrigger>
             <PopoverContent
 className="p-0 w-12"            >
