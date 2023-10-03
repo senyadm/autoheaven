@@ -19,7 +19,7 @@ const Cars = () => {
         <div className="flex-none w-[340px]">
             <CarSidebar/>
           </div>
-          <div className="flex-grow">  {/* Container for the search results */}
+          <div className="flex-grow"> 
             <CarSearchResults />
           </div>
         </div>

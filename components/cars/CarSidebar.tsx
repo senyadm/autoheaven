@@ -69,7 +69,8 @@ const brandsWithModels: brandsWithModelsData[] = [
   const [offers, setOffers] = useState<number>(0);
   const [filterBrands, setFilterBrands] = useState<brandsWithModelsData[]>(brandsWithModels);
   const [filters, setFilters] = useState<Filter>(filterDefault);
-
+  const [amountOfFilters, setAmountOfFilters] = useState<number>(brandsWithModels.length);
+  const [maximumFilters, setMaximumFilters] = useState<boolean>(false);
 
   const handleOfferNumbers = (offerNumber: number) => {
     setOffers(offerNumber);
@@ -120,6 +121,17 @@ const brandsWithModels: brandsWithModelsData[] = [
     });
     setFilterBrands(updatedBrands);
   };
+
+  const handleAddBrands = () => {
+    if (amountOfFilters+1 < 5) {
+      setAmountOfFilters((prev) => prev++)
+    }
+    else {
+      setMaximumFilters(true)
+    }
+
+    
+  }
 
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
@@ -238,8 +250,8 @@ const brandsWithModels: brandsWithModelsData[] = [
 <div className="flex flex-row">
   <Button className='flex-2 bg-secondary  hover:bg-gray-300 text-secondary-foreground mr-4'>
     <Label className='flex items-center space-x-2 text-sm cursor-pointer'>
-      <PlusCircle size={14}/>
-      <span>Add more brands</span> 
+     <PlusCircle size={14} onClick={handleAddBrands}/>
+    {maximumFilters ? (<span>You cannot select more than 5 car brands</span>) : ( <span>Add more brands</span> )} 
     </Label>
   </Button>
   <Button className='flex-1'>
