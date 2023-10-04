@@ -2,23 +2,14 @@
 
 import * as React from "react";
 import Link from "next/link";
-import {
-  EnterIcon,
-  MagnifyingGlassIcon,
-  DragHandleHorizontalIcon,
-} from "@radix-ui/react-icons"; // Import Radix UI icons
-import { cn } from "@/lib/utils";
 import { InputField } from "@/components/ui/input-field";
-import { Logo } from "@/icons/logo";
-import { TfiAnnouncement } from "react-icons/tfi";
-import { HiOutlineTranslate } from "react-icons/hi";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 
 import { NavigationMenu } from "@/components/ui/navigation-menu"
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import SvgIcon from "./SvgIcon";
 import { usePathname } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, LogInIcon, MegaphoneIcon, SearchIcon, ZoomInIcon } from "lucide-react";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
@@ -66,10 +57,10 @@ export function Navbar() {
               />
             </Link>
 
-            <div className="flex items-center border rounded-md px-2 h-10 w-full">
-              <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
+            <div className="flex items-center border rounded-md pl-2 h-10 w-full">
+              <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
-                className="bg-transparent border-none outline-none text-black ml-2 flex-grow"
+                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md"
                 placeholder="Search"
               />
             </div>
@@ -80,41 +71,46 @@ export function Navbar() {
         <div className="flex items-center space-x-4">
           <Popover open={openPopover}>
             <PopoverTrigger 
-                className="color-primary h-full border p-3 rounded-lg"
-                onClick={handlePopoverToggle}>
-             
-                  <SvgIcon
-                  width={16}
-                  height={16}
-                  alt="Translate Icon"
-                  filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
-                />
+                // className="color-primary h-full border p-3 rounded-lg"
+                onClick={handlePopoverToggle}
+                asChild
+                >
+                  <Button variant="outline" size="icon">
+                    <SvgIcon
+                      width={16}
+                      height={16}
+                      alt="Translate Icon"
+                      filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                    />
+                  </Button>
             </PopoverTrigger>
-            <PopoverContent
-className="p-0 w-12"            >
+            <PopoverContent className="px-1 py-2">
               <Button
-                variant="outline"
-                className="h-full w-full p-0 h-8"
+                variant="ghost"
                 onClick={handleLanguageToggle}
               >
                 <SvgIcon
                   width={16}
                   height={16}
                   alt="Translate Icon"
+                  className="mr-2"
                   filepath={lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
                 />
+                {lang ? "English" : "Czech"}
               </Button>
             </PopoverContent>
           </Popover>
 
           {!isNavbarV2 && (
             <>
-              <Button variant="default" className="h-full">
-                Advertise <TfiAnnouncement style={{ marginLeft: "4px" }} />
-              </Button>
-              <Link href="/login" className="h-full flex items-center" passHref>
-                <EnterIcon className="mr-1" /> Login
+              <Link href="/login" className={buttonVariants({size: "icon", variant: "outline"})}>
+                <LogInIcon className="w-4 h-4" />
+                <span className="sr-only">Login</span>
               </Link>
+              <Button>
+                Advertise
+                <MegaphoneIcon className="ml-2 w-4 h-4"/>
+              </Button>
             </>
           )}
         </div>
