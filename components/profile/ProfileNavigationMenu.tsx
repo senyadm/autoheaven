@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
 
-
+import { Car, FolderHeart, Mail, PenSquare, Settings, LayoutDashboard } from 'lucide-react'
 import { Button } from '../ui/button'
 import ProfileNavigationMenuItem from './ProfileNavigationMenuItem'
 import { Label } from '../ui/label'
@@ -19,41 +19,41 @@ import { Label } from '../ui/label'
 export interface itemInfoModel {
   title: string
   componentName: menuItemType
-  icon: string
+  icon: JSX.Element
 }
 
   const navigationMenuGeneralItemsInfo:itemInfoModel[] = [
     {
       title: "Overview",
       componentName: "overview",
-      icon: '/icons/overview.svg'
+      icon:   <LayoutDashboard size={16}/>
     },
     {
       title: "Edit my profile",
       componentName: "edit",
-      icon: '/icons/edit.svg'
+      icon: <PenSquare size={16}/>
     },
     {
       title: "Settings",
       componentName: "settings",
-      icon: '/icons/settings.svg'
+      icon: <Settings size={16}/>
     },
   ]
     const navigationMenuVehiclesItemsInfo: itemInfoModel[] = [
     {
       title: "My cars",
       componentName: "cars",
-      icon: '/icons/Car.svg'
+      icon: <Car size={16}/>
     },
     {
       title: "Messages",
       componentName: "messages",
-      icon: '/icons/messages.svg'
+      icon: <Mail size={16}/>
     },
     {
       title: "Liked ads",
       componentName: "ads",
-      icon: '/icons/ads.svg'
+      icon: <FolderHeart size={16}/>
     },
   ]
 

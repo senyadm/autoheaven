@@ -30,7 +30,7 @@ const ProfileNavigationMenuItem = ({itemInfo} : ProfileNavigationMenuItemProps) 
               
               <Button 
     className={`w-full text-foreground cursor-pointer hover:bg-gray-300 shadow-none flex justify-start ${itemInfo.componentName === "ads" ? "bg-primary text-primary-foreground" : "bg-white"}`}
-><SvgIcon height={16} width={16} alt={itemInfo.title} filepath={itemInfo.icon}/><Label className='ml-3'>{itemInfo.title}</Label></Button>
+>{itemInfo.icon}<Label className='ml-3'>{itemInfo.title}</Label></Button>
         
 
         </NavigationMenuItem>
