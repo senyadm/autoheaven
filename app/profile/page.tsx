@@ -25,9 +25,9 @@ const Cars = () => {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Navbar />
-      <main className="flex w-full h-full space-x-4 mt-4 ml-7">
-        <section className="border rounded-lg h-full p-3 w-[230px] h-[530px] flex flex-col items-start gap-2.5 flex-shrink-0">
-            <div className="flex items-center mb-4">
+      <main className="flex justify-center items-start flex-grow px-4 mt-10">
+    <div className="flex space-x-4 max-w-screen-xl">    <section className="border rounded-lg h-full p-3 w-[230px] h-[530px] flex flex-col items-start gap-2.5 flex-shrink-0">
+                   <div className="flex items-center mb-4">
                 <div className="mr-4 flex-shrink-0">
                     <SvgIcon filepath="/icons/profile.svg" alt="Logo" width={48} height={48} /> 
                 </div>
@@ -41,9 +41,10 @@ const Cars = () => {
                 <ProfileNavigationMenu/>
             </div>
         </section>
-        <section className="border rounded-lg h-full">
+        <section className="border rounded-lg min-w-[778px] h-full flex-grow">
             <ProfileContent/>
         </section>
+        </div>
       </main>
     </div>
   );
