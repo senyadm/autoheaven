@@ -10,6 +10,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import SvgIcon from "./SvgIcon";
 import { usePathname } from "next/navigation";
 import { ChevronLeft, LogInIcon, MegaphoneIcon, SearchIcon, ZoomInIcon } from "lucide-react";
+import { ModeToggle } from "./ui/mode-toggel";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
@@ -69,6 +70,7 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center space-x-4">
+          <ModeToggle/>
           <Popover open={openPopover}>
             <PopoverTrigger 
                 // className="color-primary h-full border p-3 rounded-lg"

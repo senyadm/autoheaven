@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from './GlobalRedux/provider';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -20,8 +21,16 @@ export default function RootLayout({
       
       <body className={inter.className}>
         <Providers>
-          {children}
-        </Providers></body>
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+            {children}
+          </ThemeProvider>
+        </Providers>
+        </body>
     </html>
   )
 }
