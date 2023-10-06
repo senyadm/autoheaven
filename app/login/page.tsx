@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/tabs"
 import LoginForm from '@/components/login/LoginForm'
 import RegisterForm from '@/components/login/RegisterForm'
-import { Navbar } from '@/components/Navbar'
+import { Navbar } from '@/components/header/Navbar'
 
 const Login = () => {
   return (

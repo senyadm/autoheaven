@@ -4,7 +4,7 @@ import Image from "next/image";
 import logo from "../../public/autoheven_logo.svg";
 import { Button } from "@/components/ui/button";
 
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/header/Navbar";
 import Footer from "@/components/Footer";
 import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSidebar from "@/components/cars/CarSidebar";

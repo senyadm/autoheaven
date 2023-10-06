@@ -3,14 +3,14 @@
 import * as React from "react";
 import Link from "next/link";
 import { InputField } from "@/components/ui/input-field";
-import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
 import { NavigationMenu } from "@/components/ui/navigation-menu"
 import { Button, buttonVariants } from "@/components/ui/button";
-import SvgIcon from "./SvgIcon";
+import SvgIcon from "../SvgIcon";
 import { usePathname } from "next/navigation";
 import { ChevronLeft, LogInIcon, MegaphoneIcon, SearchIcon, ZoomInIcon } from "lucide-react";
-import { ModeToggle } from "./ui/mode-toggel";
+import ModeToggle from "./ModeToggle";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
