@@ -100,7 +100,7 @@ async function logUserIn() {
     );
 
     return response.data;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.message);
     console.log(err.response.status);
   }
