@@ -37,7 +37,7 @@ const ProfileEdit = () => {
             <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1' placeholder='Surname'/>
         </div>
         <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0' placeholder='Phone Number'/>
-        <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2'> <PenSquare size={16}/>Edit</Button>
+        <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 '> <PenSquare className='mr-2' size={16}/>Edit</Button>
     </div>
 </div>
 
@@ -59,7 +59,7 @@ const ProfileEdit = () => {
         <Eye size={16}/>
     </Button>  </div>
 
-    <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2'> <PenSquare size={16}/>Edit</Button>
+    <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 '> <PenSquare className='mr-2' size={16}/>Edit</Button>
 </div>
 </div>
 
