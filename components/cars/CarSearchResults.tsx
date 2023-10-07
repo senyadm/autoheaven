@@ -2,7 +2,7 @@ import { ResultCarCardInterface } from '@/interfaces/ResultCarCard'
 import React from 'react'
 import GradientHeading from '../landing/GradientHeading'
 import { TypographyLarge } from '../ui/typography'
-import ResultCarCard from './ResultCarCard'
+import ResultCarCard from '../shared/ResultCarCard'
  
 import { Button } from "@/components/ui/button"
 import {

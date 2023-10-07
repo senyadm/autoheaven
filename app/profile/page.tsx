@@ -41,7 +41,7 @@ const Cars = () => {
                 <ProfileNavigationMenu/>
             </div>
         </section>
-        <section className="border rounded-lg min-w-[778px] h-full flex-grow">
+        <section className="border rounded-lg min-w-[778px] h-[calc(100vh-100px)] overflow-y-auto flex-grow ">
             <ProfileContent/>
         </section>
         </div>
