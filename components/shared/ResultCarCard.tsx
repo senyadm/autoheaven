@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import SvgIcon from "../SvgIcon";
 import { Button } from "../ui/button";
+import ResultCarCardButtons from "./ResultCarCardButtons";
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
     case "petrol":
@@ -64,6 +65,7 @@ const ResultCarCard = ({
   imageURL,
   id,
   isTop,
+  pageDisplayed
 }: ResultCarCardInterface) => {
   const carInfo = [
     {
@@ -145,19 +147,7 @@ const ResultCarCard = ({
               </div>
             </div>
             <div className="flex items-end">
-              <Button className="bg-background text-primary hover:text-primary-foreground p-[0.625rem] mr-2">
-                <Heart width={16} height={16} />
-              </Button>
-              <Button className="bg-primary text-secondary px-2 py-3">
-                <SvgIcon
-                  filepath="/icons/cars/envelope-closed.svg"
-                  width={16}
-                  height={16}
-                  alt=""
-                  className="invert mr-2"
-                />
-                Contact
-              </Button>
+            <ResultCarCardButtons pageDisplayed={pageDisplayed}/>
             </div>
           </div>
         </div>

@@ -60,7 +60,7 @@ export interface itemInfoModel {
   const ProfileNavigationMenu = () => {
     return (
      <NavigationMenu>
-        <div className="flex flex-col space-y-4 list-none ">
+        <div className="flex flex-col space-y-4 list-none">
           <div className="flex flex-col mb-4 mt-4">
             <Label className="text-sm font-medium leading-none text-muted-foreground mb-2">General</Label>
             {
