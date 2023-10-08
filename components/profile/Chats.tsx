@@ -11,7 +11,7 @@ const chatsData = [
 ]
 const Chats = () => {
   return (
-    <div className='w-64'>
+    <div className='min-w-[256px] h-25'>
         {
             chatsData.map(chatsElement => <ChatComponent {...chatsElement} key={chatsElement.id}/>)
         }
