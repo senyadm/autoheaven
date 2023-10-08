@@ -1,13 +1,23 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Card, CardContent, CardHeader } from '../ui/card'
 import SvgIcon from '../SvgIcon'
 import { Separator } from '../ui/separator'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 import { Input } from "@/components/ui/input"
+import PhoneInput from 'react-phone-number-input'
 import { PenSquare, Eye, Trash2 } from 'lucide-react'
 import { Checkbox } from '../ui/checkbox'
+import { set } from 'react-hook-form'
+import 'react-phone-number-input/style.css'
+import flags from 'react-phone-number-input/flags'
 const ProfileEdit = () => {
+  useEffect(() => {
+    console.log(flags.AD);
+  },[]
+  )
+  const [value, setValue] = useState<string | undefined>("")
+
   return (
     <Card className='w-full border-none'>
       <CardHeader className='relative'>
@@ -36,7 +46,16 @@ const ProfileEdit = () => {
             <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1' placeholder='Name'/>
             <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1' placeholder='Surname'/>
         </div>
-        <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0' placeholder='Phone Number'/>
+   
+            <PhoneInput
+                international
+                defaultCountry="US"
+                value={value}
+                onChange={setValue}
+                style={{ paddingLeft: '5px' }}
+             
+            />
+      
         <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 '> <PenSquare className='mr-2' size={16}/>Edit</Button>
     </div>
 </div>
