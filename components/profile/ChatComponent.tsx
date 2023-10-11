@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const ChatComponent = ({ name, lastMessage, bg, id }) => {
   return (
-    <Button className="flex w-full bg-background hover:bg-secondary justify-start text-left border px-2 py-[18px] space-x-[10px] h-[100px]">
+    <Button className="flex w-full bg-background hover:bg-secondary justify-start text-left border-b px-2 py-[18px] space-x-[10px] h-[100px]">
       <div className="h-16 w-16 relative">
         <div className="absolute inset-0 overflow-hidden  rounded-lg">
           <Image
