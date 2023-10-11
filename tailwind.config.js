@@ -79,6 +79,10 @@ module.exports = {
       backgroundImage: {
         "topography-light": "url('/textures/topography light.svg')",
       },
+      gridTemplateRows: {
+        // Add your custom grid-rows class here
+        13: "repeat(13, minmax(0, 1fr))", // This defines grid-rows-13
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
