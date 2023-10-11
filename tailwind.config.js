@@ -36,7 +36,7 @@ module.exports = {
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          foreground: "#64748B",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
@@ -81,8 +81,11 @@ module.exports = {
       },
       gridTemplateRows: {
         // Add your custom grid-rows class here
-        13: "repeat(13, minmax(0, 1fr))", // This defines grid-rows-13
+        13: "repeat(13, minmax(0, 1fr))", 
       },
+      gridRow: {
+        "span-12": "span 12 / span 12"
+      }
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],

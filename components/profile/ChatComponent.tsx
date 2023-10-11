@@ -1,22 +1,26 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
+import { Button } from "../ui/button";
 
-const ChatComponent = ({
-    name,
-        lastMessage,
-        bg,
-        id,
-}) => {
+const ChatComponent = ({ name, lastMessage, bg, id }) => {
   return (
-    <div className='flex border px-2 py-[18px] space-x-[10px]'>
-        <Image src={bg} alt=''  width={64}
-      height={64}/>
-      <div className='flex flex-col'>
-       {name}
-       <p>{lastMessage}</p>
+    <Button className="flex w-full bg-background hover:bg-secondary justify-start text-left border px-2 py-[18px] space-x-[10px] h-[100px]">
+      <div className="h-16 w-16 relative">
+        <div className="absolute inset-0 overflow-hidden  rounded-lg">
+          <Image
+            src={bg}
+            alt=""
+            layout="fill" // This will fill the parent container
+            objectFit="cover" // Crop the image to cover the container
+          />
+        </div>
       </div>
-    </div>
-  )
-}
+      <div className="flex flex-col">
+        <div className="text-lg text-foreground font-semibold">{name}</div>
+        <div className="text-muted text-muted-foreground">{lastMessage}</div>
+      </div>
+    </Button>
+  );
+};
 
-export default ChatComponent
+export default ChatComponent;
