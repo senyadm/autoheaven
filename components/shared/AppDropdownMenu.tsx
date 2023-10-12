@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -5,11 +6,11 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
 import { Button } from "../ui/button";
+import { useState } from "react";
 
 const AppDropdownMenu = ({ options }) => {
-  const [position, setPosition] = React.useState(options[0]);
+  const [position, setPosition] = useState(options[0]);
 
   return (
     <DropdownMenu>

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
@@ -230,7 +231,7 @@ const CarSidebar = () => {
 
       <Accordion type="multiple" className="w-full">
         {filterBrands.map((brand, index) => (
-          <div className="flex" key={"accordion" + brand}>
+          <div className="flex" key={"accordion" + brand.brand}>
             <Checkbox
               className="mr-2"
               checked={brand.checkedAll}

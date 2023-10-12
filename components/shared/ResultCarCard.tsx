@@ -65,7 +65,7 @@ const ResultCarCard = ({
   imageURL,
   id,
   isTop,
-  pageDisplayed
+  pageDisplayed,
 }: ResultCarCardInterface) => {
   const carInfo = [
     {
@@ -147,7 +147,7 @@ const ResultCarCard = ({
               </div>
             </div>
             <div className="flex items-end">
-            <ResultCarCardButtons pageDisplayed={pageDisplayed}/>
+              <ResultCarCardButtons pageDisplayed={pageDisplayed} />
             </div>
           </div>
         </div>

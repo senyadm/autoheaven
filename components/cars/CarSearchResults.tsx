@@ -1,20 +1,11 @@
+"use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React from "react";
+import React, { useState } from "react";
 import GradientHeading from "../landing/GradientHeading";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   ChevronLeft,
   ChevronRight,
@@ -99,7 +90,7 @@ const sortingMenuOptions = [
   "Milage (Highest first)",
   "Milage (Lowest first)",
 ];
-
+const backendURL = "https://autoheven-cars.vercel.app";
 const CarSearchResults = () => {
   const paginationIconProps = {
     width: "16",
@@ -117,6 +108,9 @@ const CarSearchResults = () => {
     myChevronRight,
     <ChevronsRight key={"csr"} {...paginationIconProps} />,
   ];
+  const [retrievedCarResults, setRetrievedCarResults] = useState([]);
+  fetch(`${backendURL}/api/cars`).then((data) => setRetrievedCarResults(data));
+  console.log(retrievedCarResults);
   return (
     <section className="mr-8">
       <div className="flex justify-between">
