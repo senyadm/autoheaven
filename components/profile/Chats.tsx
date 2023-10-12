@@ -1,7 +1,8 @@
 import React from "react";
 import ChatComponent from "./ChatComponent";
+import { ChatComponentProps } from "../../interfaces/profile/ChatComponent";
 
-const chatsData = [
+const chatsData: ChatComponentProps[] = [
   {
     name: "Audi A8",
     lastMessage: "Hey! we are finalizing some deals",

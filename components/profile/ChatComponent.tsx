@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { ChatComponentProps } from "../../interfaces/profile/ChatComponent";
 
-const ChatComponent = ({ name, lastMessage, bg, id }) => {
+const ChatComponent = ({ name, lastMessage, bg, id }: ChatComponentProps) => {
   return (
     <Button className="flex w-full bg-background hover:bg-secondary justify-start text-left border-b px-2 py-[18px] space-x-[10px] h-[100px]">
       <div className="h-16 w-16 relative">

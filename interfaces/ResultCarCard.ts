@@ -15,7 +15,7 @@ export interface ResultCarCardInterface {
   gear: Gear;
   accidentFree: boolean;
   imageURL: string;
-  id:number;
+  id: number;
   isTop?: boolean;
   pageDisplayed: PageDisplayed;
   isFavorite?: boolean;
