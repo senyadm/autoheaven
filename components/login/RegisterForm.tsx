@@ -26,7 +26,7 @@ const formSchema = zod.object({
   }),
   email: zod.string().min(2, {
     message: "Email must be at least 2 characters.",
-  }),
+  }).email(),
   password: zod
     .string()
     .min(8, {
@@ -58,7 +58,13 @@ const RegisterForm: React.FC = () => {
   });
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
-    console.log(values);
+    const { firstname, lastname, email, password, acceptedTAC } = values;
+    console.log("First Name:", firstname);
+    console.log("Last Name:", lastname);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("Accepted TAC:", acceptedTAC);
+    // The rest of your form submission logic
   }
   const [password, setPassword] = useState<string>("");
   const [passwordStrength, setPasswordStrength] = useState<boolean[]>([
@@ -66,6 +72,7 @@ const RegisterForm: React.FC = () => {
     false,
     false,
   ]);
+  const [canRegister, setCanRegister]=useState(false);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
@@ -77,6 +84,8 @@ const RegisterForm: React.FC = () => {
       /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPassword),
     ];
     setPasswordStrength([isLong, hasLetters, hasSymbols]);
+    setCanRegister(isLong && hasLetters && hasSymbols)
+    console.log(passwordStrength, " ", canRegister)
   };
 
   return (
@@ -103,10 +112,7 @@ const RegisterForm: React.FC = () => {
                   First Name <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="John"
-                    {...field}
-                  />
+                  <Input placeholder="John" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -122,10 +128,7 @@ const RegisterForm: React.FC = () => {
                   Last Name <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Doe"
-                    {...field}
-                  />
+                  <Input placeholder="Doe" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -140,13 +143,10 @@ const RegisterForm: React.FC = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Username <span className="text-red-500">*</span>
+                Email <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="user@example.com"
-                  {...field}
-                />
+                <Input placeholder="user@example.com" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -176,7 +176,7 @@ const RegisterForm: React.FC = () => {
             </FormItem>
           )}
         />
-        <div className="space-x-2">
+        <div className="space-x-2 text-primary-foreground">
           {["More than 8 characters", "Letters", "Symbols"].map(
             (text, index) => (
               <Badge
@@ -185,8 +185,8 @@ const RegisterForm: React.FC = () => {
                 className={`${
                   passwordStrength[index]
                     ? "bg-green-500 text-primary-foreground"
-                    : "bg-background"
-                } text-primary border rounded-lg`}
+                    : "bg-background text-primary"
+                }  border rounded-lg`}
               >
                 {text}
                 <div className="bg-green-500 bg-background text-primary-foreground"></div>
@@ -209,27 +209,16 @@ const RegisterForm: React.FC = () => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="bg-primary"
-        >
+        <Button type="submit" className="bg-primary" disabled={!canRegister}>
           Register
-          <ArrowRight
-            width={16}
-            height={16}
-            className="ml-2"
-          />
+          <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
         <Button
           type="submit"
           className="bg-secondary text-secondary-foreground"
         >
           I&apos;m a dealer
-          <ArrowRight
-            width={16}
-            height={16}
-            className="ml-2"
-          />
+          <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
       </form>
     </Form>

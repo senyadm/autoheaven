@@ -1,6 +1,6 @@
 "use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GradientHeading from "../landing/GradientHeading";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
@@ -13,6 +13,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
+import axios from "axios";
 const volkswagenCar1: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
   price: 21500,
@@ -109,8 +110,25 @@ const CarSearchResults = () => {
     <ChevronsRight key={"csr"} {...paginationIconProps} />,
   ];
   const [retrievedCarResults, setRetrievedCarResults] = useState([]);
-  fetch(`${backendURL}/api/cars`).then((data) => setRetrievedCarResults(data));
-  console.log(retrievedCarResults);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/cars`);
+      const data = response.data;
+
+      // Handle the data (e.g., setting it in state)
+      setRetrievedCarResults(data);
+      console.log(data); // Log the data if needed
+    } catch (error) {
+      console.error("An error occurred while fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    console.log(retrievedCarResults);
+  }, []);
+  console.log("rerender")
   return (
     <section className="mr-8">
       <div className="flex justify-between">
