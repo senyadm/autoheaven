@@ -17,23 +17,7 @@ import {
   Car,
 } from "@/components/landing/types";
 
-const bodyTypes: string[] = [
-    "All",
-    "Sedan",
-    "SUV",
-    "Hatchback",
-    "Pickup",
-    "Example",
-  ];
-  
-  const fuelTypes: string[] = [
-    "All",
-    "Petrol",
-    "Gas",
-    "Electric",
-    "Diesel",
-    "Hybrid",
-  ];
+
   import { useAppStore } from "@/app/GlobalRedux/useStore";
 
 
@@ -46,27 +30,12 @@ export function CarSearchFilter({
     handleOfferNumbers,
   }: ResultsFilterProps) {
     const [carBrands, dispatch] = useAppStore(
-        (state) => state.carFiltersAndResults.carBrands
+        (state) => state.carFiltersAndResults.carMakes
       );
     //   [brands, setBrands] = useState<string[]>([]);
     const [carData, setCardata] = useState<Car[]>(allData);
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [offers, setOffers] = useState<number>(0);
-    const [activePopover, setActivePopover] = useState<string | null>(null);
-    const handlePopoverToggle = () => {
-        setIsPopoverOpen(!isPopoverOpen);
-    };
-  
-    const handleModelClick = (model: string) => {
-        handleSelectorChange("brandAndModel", model);
-        // Close dropdown, or take other desired actions here
-      };
-      
-    const handleBrandClick = (brand: string) => {
-      handleSelectorChange("brandAndModel", brand); 
-      handlePopoverToggle();
-      setActivePopover(brand)
-    };
+
   
     const brands = tempData;
     // brands.push("All")
@@ -113,7 +82,7 @@ export function CarSearchFilter({
     
         const matchedBrand = brands.find(brand => brand.toLowerCase().startsWith(typedChars.toLowerCase()));
         
-        console.log(matchedBrand); // Log the matched brand
+        console.log(matchedBrand);
         if (matchedBrand) {
             handleSelectorChange("brandAndModel", matchedBrand);
         }

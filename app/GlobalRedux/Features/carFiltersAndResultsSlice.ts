@@ -8,19 +8,37 @@ enum RequestStatus {
 }
 
 type CarResult = {
-    id: number;
-    name: string;
-    // ... other properties
+  id: number;
+  make: string;
+  color: string;
+  mileage: number;
+  price: number;
+  seller_id: number;
+  title: string | null;
+  accidentfree: boolean | null;
+  imageurl: string | null;
+  istop: boolean | null;
+  model: string;
+  type: string;
+  year: number;
+  gearbox: string | null;
+  description: string;
+  created_at: string;
+  fueltype: string | null;
+  drivetrain: string | null;
 };
 
 type CarState = {
     allCars: CarResult[];
     filteredCars: CarResult[];
     status: RequestStatus;
-    carBrands: string[]; 
+    carMakes: string[]; 
+    brandsWithModels: brandsWithModels[];
   };
   
- 
+export type  brandsWithModels = {
+    [brand: string]: string[];
+  }
 
 type FilterState = {
     price: [number, number];
@@ -36,7 +54,8 @@ type FilterState = {
 const initialState: CarState = {
     allCars: [],
     filteredCars: [],
-    carBrands: [], 
+    carMakes: [], 
+    brandsWithModels: [],
     status: RequestStatus.Idle,
   };
 
@@ -44,13 +63,31 @@ const initialState: CarState = {
     'carFiltersAndResults/fetchAllCars',
     async (_, { rejectWithValue }) => {
       try {
-        const response = await client.get('/car_makes');
+        const response = await client.get('/api/car_makes');
         return response.data;
       } catch (err: any) {
         return rejectWithValue(err.response.data);
       }
     }
   );
+
+  export const fetchBrands = createAsyncThunk(
+    'carFiltersAndResults/fetchBrands',
+    async (_, { rejectWithValue }): Promise<brandsWithModels[]>=> {
+      try {
+        const response = await client.get(`/api/car_models`, {
+          headers: {
+            'Connection': 'keep-alive',
+          }
+        });
+        console.log(response.data)
+        return response.data;
+      } catch (err: any) {
+        throw rejectWithValue(err.response.data);
+      }
+    }
+  );
+
 
 
 type LoginCredentials = {
@@ -94,13 +131,16 @@ export const loginReducer = createAsyncThunk(
           })
           .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<{ car_makes: string[] }>) => {
             state.status = RequestStatus.Idle;
-            state.carBrands = action.payload.car_makes;
+            state.carMakes = action.payload.car_makes;
           })
           .addCase(fetchAllCars.rejected, (state) => {
             state.status = RequestStatus.Failed;
-          });
+          })
+          .addCase(fetchBrands.fulfilled, (state, action: PayloadAction<brandsWithModels[]>) => {
+            state.brandsWithModels = action.payload;
+          })
       },
 });
-export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carBrands;
+// export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carMakes;
 export const { setFilters } = carFiltersAndResultsSlice.actions;
 export default carFiltersAndResultsSlice.reducer;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: "https://cc0c-178-91-253-88.ngrok-free.app/",
+  baseURL: "https://autoheven-cars.vercel.app",
   timeout: 5000, // Increased timeout
   headers: {
     "Content-Type": "application/json",

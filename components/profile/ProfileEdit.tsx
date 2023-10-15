@@ -19,7 +19,8 @@ const ProfileEdit = () => {
   const [value, setValue] = useState<string | undefined>("")
 
   return (
-    <Card className='w-full border-none'>
+    <div className='h-full overflow-hidden'>
+    <Card className='w-full h-full  border-none'>
       <CardHeader className='relative'>
         <div className='bg-secondary h-[100px]'></div>
 
@@ -98,7 +99,7 @@ const ProfileEdit = () => {
 <Separator/>
 <div className='flex items-start w-[650px] gap-x-[96px] mt-5 mb-4'>
     <div className='flex flex-col w-[260px]'>
-        <Label className='text-foreground font-inter text-lg font-semibold leading-relaxed'>Credentials</Label>
+        <Label className='text-foreground font-inter text-lg font-semibold leading-relaxed'>Delete Account</Label>
         <Label className='text-muted-foreground font-inter text-xs font-normal leading-relaxed'>Once you delete your account, there is no going back. Please be certain.</Label>
     </div>
     <div className='flex items-center space-x-2 justify-end flex-1'>
@@ -111,6 +112,7 @@ const ProfileEdit = () => {
 
       </CardContent>
     </Card>
+    </div>
   )
 }
 

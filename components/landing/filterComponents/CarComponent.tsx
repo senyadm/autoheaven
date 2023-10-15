@@ -1,30 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
 
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
+
 import {
   Select,
   SelectItem,
   SelectTrigger,
   SelectContent,
-  SelectValue,
+
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
-import { ChevronRight, Siren } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import RangeSlider from "../RangeSlider";
 import { tempData } from "../tempData";
 import { allData } from "../allData";
-import { fetchAllCars } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
+import { fetchAllCars, fetchBrands, brandsWithModels } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 import { Filter, CarComponentProps, Car } from "../types";
 
@@ -47,44 +43,26 @@ const fuelTypes: string[] = [
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 
-const brandsWithModels = [
-  {
-    brand: "Toyota",
-    models: ["Camry", "Corolla", "Prius", "RAV4", "4Runner", "Tacoma"],
-  },
-  {
-    brand: "Honda",
-    models: ["Accord", "Civic", "Fit", "CR-V", "Pilot", "Odyssey"],
-  },
-  {
-    brand: "Ford",
-    models: ["Mustang", "Escape", "Explorer", "F-150", "Bronco"],
-  },
-  {
-    brand: "Chevrolet",
-    models: ["Impala", "Malibu", "Equinox", "Tahoe", "Silverado"],
-  },
-  {
-    brand: "BMW",
-    models: ["3 Series", "5 Series", "7 Series", "X3", "X5", "Z4"],
-  },
-  // ... add as many brands and models as needed
-];
 
-export function CarComponent({
+
+export const CarComponent = React.memo(function CarComponent ({
   handleSliderChange,
   filter,
   handleSelectorChange,
   handleOfferNumbers,
 }: CarComponentProps) {
-  const [carBrands, dispatch] = useAppStore(
-    (state) => state.carFiltersAndResults.carBrands
+  const [carMakes, dispatch] = useAppStore(
+    (state) => state?.carFiltersAndResults.carMakes
+  );
+  const [carBrands] = useAppStore(
+    (state) => state?.carFiltersAndResults.brandsWithModels
   );
   //   [brands, setBrands] = useState<string[]>([]);
   const [carData, setCardata] = useState<Car[]>(allData);
+  const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>([]);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [offers, setOffers] = useState<number>(0);
-  const [activePopover, setActivePopover] = useState<string | null>(null);
+
   const handlePopoverToggle = () => {
     setIsPopoverOpen(!isPopoverOpen);
   };
@@ -97,23 +75,34 @@ export function CarComponent({
   const handleBrandClick = (brand: string) => {
     handleSelectorChange("cars", "brandAndModel", brand);
     handlePopoverToggle();
-    setActivePopover(brand);
+
   };
 
   const brands = tempData;
   // brands.push("All")
   useEffect(() => {
-    if (!carBrands) {
+      console.log("fetching cars")
+      dispatch(fetchBrands());
       dispatch(fetchAllCars());
+      
+  }, [dispatch]);
+
+
+  useEffect(() => {
+
+    if(carBrands) {
+      console.log(carBrands)
     }
-  }, [dispatch, carBrands]);
+
+}, [carBrands]);
 
   // useEffect(() => {
-  //   console.log(carBrands);
-  //   if (carBrands) {
-  //     setBrands(carBrands);
+  //   if (carMakes?.length) {
+
+  //     dispatch(fetchBrands());
+  
   //   }
-  // }, [carBrands]);
+  // }, [carMakes]);
 
   const mileageInRange = (car: Car, range: [number, number]) =>
     car.mileage >= range[0] && car.mileage <= range[1];
@@ -147,15 +136,6 @@ export function CarComponent({
 
   const [typedChars, setTypedChars] = useState("");
 
-  const handleKeyup = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (e.key.length > 1) return;
-    setTypedChars((prev) => {
-      const newChars = prev + e.key;
-      console.log(newChars); // Log to ensure characters are captured
-      return newChars;
-    });
-  };
 
   useEffect(() => {
     if (!typedChars) return;
@@ -164,7 +144,7 @@ export function CarComponent({
       brand.toLowerCase().startsWith(typedChars.toLowerCase())
     );
 
-    console.log(matchedBrand); // Log the matched brand
+    console.log(matchedBrand); 
     if (matchedBrand) {
       handleSelectorChange("cars", "brandAndModel", matchedBrand);
     }
@@ -175,11 +155,6 @@ export function CarComponent({
 
     return () => clearTimeout(timer);
   }, [typedChars, brands]);
-
-  const handleDropdownClose = () => {
-    setIsPopoverOpen(false);
-    setTypedChars("");
-  };
 
   return (
     <Card className="border-0">
@@ -249,7 +224,7 @@ export function CarComponent({
                 {filter.brandAndModel || "Select a brand..."}
               </SelectTrigger>
               <SelectContent>
-                {brandsWithModels.map((brandData, brandIndex) => (
+                {/* {carBrands?.map((brandData, brandIndex) => (
                   <div key={brandIndex} className="mb-2">
                     <SelectItem
                       onClick={() => handleBrandClick(brandData.brand)}
@@ -268,7 +243,7 @@ export function CarComponent({
                       </div>
                     ))}
                   </div>
-                ))}
+                ))} */}
               </SelectContent>
             </Select>
           </div>
@@ -335,4 +310,4 @@ export function CarComponent({
       </CardFooter>
     </Card>
   );
-}
+})

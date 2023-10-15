@@ -20,24 +20,12 @@ import {
   CardTitle,
 } from "../ui/card";
 import SvgIcon from "../SvgIcon";
-import { ChevronRight, Siren } from "lucide-react";
-import RangeSlider from "./RangeSlider";
-import { fetchData } from "@/app/GlobalRedux/slice";
+
 import { RootState } from "@/app/GlobalRedux/store";
 import { AppDispatch } from "@/app/GlobalRedux/store";
 import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transportCategorySlice";
-import {
-  fetchAllCars,
-  selectCarBrands,
-} from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { tempData } from "./tempData";
-import { allData } from "./allData";
+
+
 import {
   FilterStates,
   Filter,
