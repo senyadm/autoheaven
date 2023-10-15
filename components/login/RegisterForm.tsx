@@ -16,6 +16,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { Badge } from "../ui/badge";
+import { clientUsers } from "../../app/GlobalRedux/client";
+
+clientUsers.get("/api/users").then((response) => {
+  console.log("GET request successful:", response.data);
+});
 
 const formSchema = zod.object({
   firstname: zod.string().min(2, {
@@ -24,9 +29,12 @@ const formSchema = zod.object({
   lastname: zod.string().min(2, {
     message: "Name must be at least 2 characters",
   }),
-  email: zod.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }).email(),
+  email: zod
+    .string()
+    .min(2, {
+      message: "Email must be at least 2 characters.",
+    })
+    .email(),
   password: zod
     .string()
     .min(8, {
@@ -56,15 +64,52 @@ const RegisterForm: React.FC = () => {
       acceptedTAC: false,
     },
   });
-
+  console.log("clientUsers", clientUsers);
   function onSubmit(values: zod.infer<typeof formSchema>) {
-    const { firstname, lastname, email, password, acceptedTAC } = values;
-    console.log("First Name:", firstname);
-    console.log("Last Name:", lastname);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Accepted TAC:", acceptedTAC);
+    const { firstname, lastname, email, password } = values;
+    // console.log("First Name:", firstname);
+    // console.log("Last Name:", lastname);
+    // console.log("Email:", email);
+    // console.log("Password:", password);
+    // console.log("Accepted TAC:", acceptedTAC);
+    const requestBody = {
+      username: email,
+      email: email,
+      is_active: true,
+      user_info: {
+        name: firstname,
+        surname: lastname,
+        country: "string",
+        city: "string",
+        address: "string",
+      },
+      password: password,
+    };
+    clientUsers
+      .post("/api/users/register", requestBody)
+      .then((response) => {
+        // Handle success, e.g., response.data contains the response data
+        console.log("POST request successful:", response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("POST request failed:", error);
+      });
+
     // The rest of your form submission logic
+    // {
+    //   "username": "string",
+    //   "email": "string",
+    //   "is_active": true,
+    //   "user_info": {
+    //     "name": "string",
+    //     "surname": "string",
+    //     "country": "string",
+    //     "city": "string",
+    //     "address": "string"
+    //   },
+    //   "password": "string"
+    // }
   }
   const [password, setPassword] = useState<string>("");
   const [passwordStrength, setPasswordStrength] = useState<boolean[]>([
@@ -72,7 +117,7 @@ const RegisterForm: React.FC = () => {
     false,
     false,
   ]);
-  const [canRegister, setCanRegister]=useState(false);
+  const [canRegister, setCanRegister] = useState(false);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
@@ -84,8 +129,8 @@ const RegisterForm: React.FC = () => {
       /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPassword),
     ];
     setPasswordStrength([isLong, hasLetters, hasSymbols]);
-    setCanRegister(isLong && hasLetters && hasSymbols)
-    console.log(passwordStrength, " ", canRegister)
+    setCanRegister(isLong && hasLetters && hasSymbols);
+    console.log(passwordStrength, " ", canRegister);
   };
 
   return (
