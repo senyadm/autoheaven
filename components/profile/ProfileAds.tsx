@@ -2,6 +2,7 @@ import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React from "react";
 import ResultCarCard from "../shared/ResultCarCard";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
+import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
 
 const volkswagenCar4: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
@@ -53,29 +54,25 @@ const sortingAdsOptions = [
   "Milage (Highest first)",
   "Milage (Lowest first)",
 ];
+// const results = [];
+const results = [volkswagenCar2, volkswagenCar3, volkswagenCar4].map((car) => (
+  <ResultCarCard
+    {...car}
+    pageDisplayed="profileAds"
+    isFavorite={true}
+    key={car.title + car.id}
+  />
+));
 const ProfileCars = () => {
+  if (results.length === 0) {
+    return <ProfileAdsWillAppear />;
+  }
   return (
     <div className="space-y-2">
       <div className="flex justify-end">
         <AppDropdownMenu options={sortingAdsOptions} />
       </div>
-      <div className="flex flex-col space-y-3">
-        <ResultCarCard
-          {...volkswagenCar2}
-          pageDisplayed="profileAds"
-          isFavorite={true}
-        />
-        <ResultCarCard
-          {...volkswagenCar3}
-          pageDisplayed="profileAds"
-          isFavorite={true}
-        />
-        <ResultCarCard
-          {...volkswagenCar4}
-          pageDisplayed="profileAds"
-          isFavorite={true}
-        />
-      </div>
+      <div className="flex flex-col space-y-3">{results}</div>
     </div>
   );
 };
