@@ -6,13 +6,11 @@ import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
 
-
 import {
   Select,
   SelectItem,
   SelectTrigger,
   SelectContent,
-
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
@@ -20,7 +18,11 @@ import { ChevronRight } from "lucide-react";
 import RangeSlider from "../RangeSlider";
 import { tempData } from "../tempData";
 import { allData } from "../allData";
-import { fetchAllCars, fetchBrands, brandsWithModels } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
+import {
+  fetchAllCars,
+  fetchBrands,
+  brandsWithModels,
+} from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 import { Filter, CarComponentProps, Car } from "../types";
 
@@ -43,9 +45,7 @@ const fuelTypes: string[] = [
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 
-
-
-export const CarComponent = React.memo(function CarComponent ({
+export const CarComponent = React.memo(function CarComponent({
   handleSliderChange,
   filter,
   handleSelectorChange,
@@ -59,7 +59,9 @@ export const CarComponent = React.memo(function CarComponent ({
   );
   //   [brands, setBrands] = useState<string[]>([]);
   const [carData, setCardata] = useState<Car[]>(allData);
-  const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>([]);
+  const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>(
+    []
+  );
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [offers, setOffers] = useState<number>(0);
 
@@ -75,32 +77,27 @@ export const CarComponent = React.memo(function CarComponent ({
   const handleBrandClick = (brand: string) => {
     handleSelectorChange("cars", "brandAndModel", brand);
     handlePopoverToggle();
-
   };
 
   const brands = tempData;
   // brands.push("All")
   useEffect(() => {
-      console.log("fetching cars")
-      dispatch(fetchBrands());
-      dispatch(fetchAllCars());
-      
+    console.log("fetching cars");
+    dispatch(fetchBrands());
+    dispatch(fetchAllCars());
   }, [dispatch]);
 
-
   useEffect(() => {
-
-    if(carBrands) {
-      console.log(carBrands)
+    if (carBrands) {
+      console.log(carBrands);
     }
-
-}, [carBrands]);
+  }, [carBrands]);
 
   // useEffect(() => {
   //   if (carMakes?.length) {
 
   //     dispatch(fetchBrands());
-  
+
   //   }
   // }, [carMakes]);
 
@@ -136,7 +133,6 @@ export const CarComponent = React.memo(function CarComponent ({
 
   const [typedChars, setTypedChars] = useState("");
 
-
   useEffect(() => {
     if (!typedChars) return;
 
@@ -144,7 +140,7 @@ export const CarComponent = React.memo(function CarComponent ({
       brand.toLowerCase().startsWith(typedChars.toLowerCase())
     );
 
-    console.log(matchedBrand); 
+    console.log(matchedBrand);
     if (matchedBrand) {
       handleSelectorChange("cars", "brandAndModel", matchedBrand);
     }
@@ -157,7 +153,7 @@ export const CarComponent = React.memo(function CarComponent ({
   }, [typedChars, brands]);
 
   return (
-    <Card className="border-0">
+    <Card className="border-0 bg-background">
       <CardContent className="space-y-2 mt-8">
         <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
           <RangeSlider
@@ -310,4 +306,4 @@ export const CarComponent = React.memo(function CarComponent ({
       </CardFooter>
     </Card>
   );
-})
+});

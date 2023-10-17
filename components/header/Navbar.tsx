@@ -5,11 +5,17 @@ import Link from "next/link";
 import { InputField } from "@/components/ui/input-field";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
-import { NavigationMenu } from "@/components/ui/navigation-menu"
+import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
 import SvgIcon from "../SvgIcon";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, LogInIcon, MegaphoneIcon, SearchIcon, ZoomInIcon } from "lucide-react";
+import {
+  ChevronLeft,
+  LogInIcon,
+  MegaphoneIcon,
+  SearchIcon,
+  ZoomInIcon,
+} from "lucide-react";
 import ModeToggle from "./ModeToggle";
 
 export function Navbar() {
@@ -70,27 +76,24 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center space-x-4">
-          <ModeToggle/>
+          <ModeToggle />
           <Popover open={openPopover}>
-            <PopoverTrigger 
-                // className="color-primary h-full border p-3 rounded-lg"
-                onClick={handlePopoverToggle}
-                asChild
-                >
-                  <Button variant="outline" size="icon">
-                    <SvgIcon
-                      width={16}
-                      height={16}
-                      alt="Translate Icon"
-                      filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
-                    />
-                  </Button>
+            <PopoverTrigger
+              // className="color-primary h-full border p-3 rounded-lg"
+              onClick={handlePopoverToggle}
+              asChild
+            >
+              <Button variant="outline" size="icon">
+                <SvgIcon
+                  width={16}
+                  height={16}
+                  alt="Translate Icon"
+                  filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                />
+              </Button>
             </PopoverTrigger>
             <PopoverContent className="px-1 py-2">
-              <Button
-                variant="ghost"
-                onClick={handleLanguageToggle}
-              >
+              <Button variant="ghost" onClick={handleLanguageToggle}>
                 <SvgIcon
                   width={16}
                   height={16}
@@ -105,13 +108,16 @@ export function Navbar() {
 
           {!isNavbarV2 && (
             <>
-              <Link href="/login" className={buttonVariants({size: "icon", variant: "outline"})}>
+              <Link
+                href="/login"
+                className={buttonVariants({ size: "icon", variant: "outline" })}
+              >
                 <LogInIcon className="w-4 h-4" />
                 <span className="sr-only">Login</span>
               </Link>
               <Button>
                 Advertise
-                <MegaphoneIcon className="ml-2 w-4 h-4"/>
+                <MegaphoneIcon className="ml-2 w-4 h-4" />
               </Button>
             </>
           )}

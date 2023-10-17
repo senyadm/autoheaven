@@ -25,7 +25,6 @@ import { RootState } from "@/app/GlobalRedux/store";
 import { AppDispatch } from "@/app/GlobalRedux/store";
 import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transportCategorySlice";
 
-
 import {
   FilterStates,
   Filter,
@@ -71,7 +70,6 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 
-
 function FilterComponent({ className }: any) {
   const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
   const status = useSelector((state: RootState) => state.carMakes.status);
@@ -112,7 +110,7 @@ function FilterComponent({ className }: any) {
 
   return (
     <div className={`max-w-[1140px] w-full mb-36px ${className}`}>
-      <Card>
+      <Card className="bg-background">
         <CardHeader>
           <CardContent>
             <Tabs defaultValue="cars">
