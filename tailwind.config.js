@@ -21,6 +21,7 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "#2563EB",
@@ -78,14 +79,16 @@ module.exports = {
       },
       backgroundImage: {
         "topography-light": "url('/textures/topography light.svg')",
+        "topography-dark": "url('/textures/topography dark.svg')",
       },
+
       gridTemplateRows: {
         // Add your custom grid-rows class here
-        13: "repeat(13, minmax(0, 1fr))", 
+        13: "repeat(13, minmax(0, 1fr))",
       },
       gridRow: {
-        "span-12": "span 12 / span 12"
-      }
+        "span-12": "span 12 / span 12",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
