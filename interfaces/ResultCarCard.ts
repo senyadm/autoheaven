@@ -17,6 +17,6 @@ export interface ResultCarCardInterface {
   imageURL: string;
   id: number;
   isTop?: boolean;
-  pageDisplayed: PageDisplayed;
+  pageDisplayed?: PageDisplayed;
   isFavorite?: boolean;
 }

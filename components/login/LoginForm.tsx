@@ -20,6 +20,7 @@ import { useAppStore } from "@/app/GlobalRedux/useStore";
 import { loginReducer } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import axios from "axios";
 import { useState } from "react";
+import { clientUsers } from "../../app/GlobalRedux/client";
 const formSchema = zod.object({
   email: zod.string(),
   password: zod.string().min(2, {
@@ -43,6 +44,14 @@ const LoginForm: React.FC = () => {
   const [carBrands, dispatch] = useAppStore(
     (state: any) => state.carFiltersAndResults.carBrands
   );
+  clientUsers
+    .get("/api/users", {
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "1",
+      },
+    })
+    .then((response) => console.log(response.data));
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
     // dispatch(loginReducer({ username: values.email, password: values.password }))
@@ -56,51 +65,56 @@ const LoginForm: React.FC = () => {
     //     console.error("Login failed:", error);
     //   });
 
-    // axios.post(backendURL, {
-    //   'username': values.email,
-    //   'password': values.password,
-    // }, {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'ngrok-skip-browser-warning': '1',
-
-    //   }
-    // })
-    //   .then(response => {
-    //    console.log("logged")
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   });
-
-    async function logUserIn() {
-      try {
-        const requestBody = {
-          id: 1,
-          name: "bobby hadz",
-          salary: 100,
-        };
-
-        const response = await axios.post(backendURL, requestBody, {
-          auth: {
-            username: "YOUR_USERNAME",
-            password: "YOUR_PASSWORD",
-          },
-
+    clientUsers
+      .post(
+        "/api/users/token",
+        {
+          username: values.email,
+          password: values.password,
+        },
+        {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+            "ngrok-skip-browser-warning": "1",
           },
-        });
+        }
+      )
+      .then((response) => {
+        console.log("token", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-        return response.data;
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    }
+    // async function logUserIn() {
+    //   try {
+    //     const requestBody = {
+    //       id: 1,
+    //       name: "bobby hadz",
+    //       salary: 100,
+    //     };
 
-    logUserIn().then((data) => {
-      console.log(data);
-    });
+    //     const response = await axios.post(backendURL, requestBody, {
+    //       auth: {
+    //         username: "YOUR_USERNAME",
+    //         password: "YOUR_PASSWORD",
+    //       },
+
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     });
+
+    //     return response.data;
+    //   } catch (err: any) {
+    //     console.log(err.message);
+    //   }
+    // }
+
+    // logUserIn().then((data) => {
+    //   console.log(data);
+    // });
   }
 
   return (
