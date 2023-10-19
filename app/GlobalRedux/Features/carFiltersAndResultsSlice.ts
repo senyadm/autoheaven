@@ -7,7 +7,7 @@ enum RequestStatus {
   Failed = "failed",
 }
 
-type CarResult = {
+export type CarResult = {
   id: number;
   make: string;
   color: string;
@@ -33,7 +33,7 @@ type CarState = {
   filteredCars: CarResult[];
   status: RequestStatus;
   carMakes: string[];
-  brandsWithModels: brandsWithModels[];
+  brandsWithModels: brandsWithModels;
 };
 
 export type brandsWithModels = {
@@ -55,12 +55,26 @@ const initialState: CarState = {
   allCars: [],
   filteredCars: [],
   carMakes: [],
-  brandsWithModels: [],
+  brandsWithModels: {},
   status: RequestStatus.Idle,
 };
 
-export const fetchAllCars = createAsyncThunk(
-  "carFiltersAndResults/fetchAllCars",
+interface Car {
+  id: number;
+  type: string;
+  make: string;
+  model: string;
+  color: string;
+  year: number;
+  mileage: number;
+  price: number;
+  description: string;
+  seller_id: number;
+  created_at: string;
+}
+
+export const fetchAllCarMakes = createAsyncThunk(
+  "carFiltersAndResults/fetchAllCarMakes ",
   async (_, { rejectWithValue }) => {
     try {
       const response = await clientCars.get("/api/car_makes");
@@ -73,12 +87,25 @@ export const fetchAllCars = createAsyncThunk(
 
 export const fetchBrands = createAsyncThunk(
   "carFiltersAndResults/fetchBrands",
-  async (_, { rejectWithValue }): Promise<brandsWithModels[]> => {
+  async (_, { rejectWithValue }): Promise<brandsWithModels> => {
     try {
       const response = await clientCars.get(`/api/car_models`, {
-        headers: {
-          Connection: "keep-alive",
-        },
+        timeout: 15000, 
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (err: any) {
+      throw rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const fetchAllCars = createAsyncThunk(
+  "carFiltersAndResults/fetchAllCars",
+  async (_, { rejectWithValue }): Promise<CarResult[]> => {
+    try {
+      const response = await clientCars.get(`/api/cars`, {
+        timeout: 10000, 
       });
       console.log(response.data);
       return response.data;
@@ -123,25 +150,32 @@ export const carFiltersAndResultsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllCars.pending, (state) => {
+      .addCase(fetchAllCarMakes.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
       .addCase(
-        fetchAllCars.fulfilled,
+        fetchAllCarMakes.fulfilled,
         (state, action: PayloadAction<{ car_makes: string[] }>) => {
           state.status = RequestStatus.Idle;
           state.carMakes = action.payload.car_makes;
         }
       )
-      .addCase(fetchAllCars.rejected, (state) => {
+      .addCase(fetchAllCarMakes.rejected, (state) => {
         state.status = RequestStatus.Failed;
       })
       .addCase(
         fetchBrands.fulfilled,
-        (state, action: PayloadAction<brandsWithModels[]>) => {
+        (state, action: PayloadAction<brandsWithModels>) => {
           state.brandsWithModels = action.payload;
         }
-      );
+      )
+      .addCase(fetchAllCars.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<CarResult[]>) => {
+        state.status = RequestStatus.Idle;
+        state.allCars = action.payload;
+      })
   },
 });
 // export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carMakes;

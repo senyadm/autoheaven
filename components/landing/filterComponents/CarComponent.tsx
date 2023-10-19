@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
@@ -8,9 +8,13 @@ import { Label } from "@/components/ui/label";
 
 import {
   Select,
-  SelectItem,
+  SelectGroup,
+  SelectValue,
   SelectTrigger,
   SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
@@ -19,9 +23,9 @@ import RangeSlider from "../RangeSlider";
 import { tempData } from "../tempData";
 import { allData } from "../allData";
 import {
-  fetchAllCars,
-  fetchBrands,
-  brandsWithModels,
+  fetchAllCarMakes,
+  fetchBrands, fetchAllCars,
+  brandsWithModels, CarResult,
 } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 import { Filter, CarComponentProps, Car } from "../types";
@@ -44,8 +48,170 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+export type TabKeys = 'cars' | 'moto' | 'trucks' | 'busses';
+type BrandEntry = [string, string[]];
 
-export const CarComponent = React.memo(function CarComponent({
+type VirtualizedListProps = {
+  entries: BrandEntry[];
+  filter: Filter;
+  toggleBrands: () => void;
+  hidden: boolean;
+  handleBrandClick: (brand: string) => void;
+  handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
+  handleModelClick: (model: string) => void;
+};
+
+interface GroupedEntries {
+  [key: string]: [string, string[]][];
+}
+
+
+const VirtualizedList: React.FC<VirtualizedListProps> = ({
+  entries,
+  handleBrandClick,
+  handleModelClick,
+  handleSelectorChange,
+  filter,
+  toggleBrands,
+  hidden,
+}) => {
+  const [showModels, setShowModels] = useState(false);
+  const [hoveredBrand, setHoveredBrand] = useState("");
+  const [modelListTopPosition, setModelListTopPosition] = useState<number | undefined>(undefined);
+  const [modelListBottomPosition, setModelListBottomPosition] = useState<number | undefined>(undefined);
+  const [hoveringOverModels, setHoveringOverModels] = useState(false);
+  const mainContainerRef = useRef<HTMLDivElement | null>(null);
+  const brandRefs = entries.reduce((acc, [brand]) => {
+    acc[brand] = React.createRef<HTMLDivElement>();
+    return acc;
+  }, {} as Record<string, React.RefObject<HTMLDivElement>>);
+
+  let topPosition: number | undefined;
+  if (hoveredBrand && brandRefs[hoveredBrand]?.current && brandRefs[hoveredBrand]) {
+    topPosition = brandRefs[hoveredBrand]?.current?.offsetTop;
+  }
+
+  const modelsDropdownRef = React.createRef<HTMLDivElement>();
+
+  const sortedEntries = [...entries].sort((a, b) => a[0].localeCompare(b[0]));
+
+  const groupedByLetter = sortedEntries.reduce<GroupedEntries>((acc, entry) => {
+    const letter = entry[0][0].toUpperCase();
+    if (!acc[letter]) {
+      acc[letter] = [];
+    }
+    acc[letter].push(entry);
+    return acc;
+  }, {});
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      console.log(mainContainerRef.current,  !hidden)
+      if (mainContainerRef.current && !mainContainerRef.current.contains(event.target as Node) && !hidden) {
+          toggleBrands();
+      }
+  }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, [hidden]);
+
+  return (
+    <div className={`relative w-full ${hidden ? "hidden" : null}`} ref={mainContainerRef}>
+
+      <div className="w-full border-r h-[200px] relative overflow-y-auto" 
+  onMouseLeave={() => {
+
+    setTimeout(() => {
+      if (!hoveringOverModels) {
+        setShowModels(false);
+      }
+    }, 200);
+  }}
+>
+{Object.entries(groupedByLetter).map(([letter, brandsForLetter]) => (
+          <div key={letter}>
+            <div className="font-bold text-xl">{letter}</div>
+            {brandsForLetter.map(([brand], brandIndex) => (
+              <div
+                key={brandIndex}
+                ref={brandRefs[brand]}
+                className="group relative hover:bg-gray-200 p-2 cursor-pointer"
+            
+            onMouseEnter={() => {
+              const brandRef = brandRefs[brand]?.current;
+              if (brandRef) {
+                  const container = brandRef.closest('.overflow-y-auto');
+                  const brandTopPosition = brandRef.getBoundingClientRect().top;
+                  const brandBottomPosition = brandRef.getBoundingClientRect().bottom;
+                  const availableSpaceBelow = window.innerHeight - brandBottomPosition;
+                  const availableSpaceAbove = brandTopPosition;
+          
+                  const dropdownHeight = modelsDropdownRef.current?.getBoundingClientRect().height || 0;
+                  const adjustedTopPosition = brandRef.offsetTop - (container ? container.scrollTop : 0);
+          
+                  if (availableSpaceBelow < dropdownHeight && availableSpaceAbove < dropdownHeight) {
+                      // If there isn't enough space either above or below, set the dropdown's position below the brand
+                      // and adjust its maximum height to fit in the available space.
+                      setModelListTopPosition(adjustedTopPosition);
+                      setModelListBottomPosition(undefined);
+                  } else if (availableSpaceBelow < dropdownHeight) {
+                      // If there isn't enough space below but there's space above, position it above the brand.
+                      setModelListTopPosition(adjustedTopPosition - dropdownHeight);
+                      setModelListBottomPosition(undefined);
+                  } else {
+                      // Default to positioning below the brand.
+                      setModelListTopPosition(adjustedTopPosition);
+                      setModelListBottomPosition(undefined);
+                  }
+              }
+              setHoveredBrand(brand);
+              setShowModels(true);
+          }}
+          
+            onClick={() => handleBrandClick && handleBrandClick(brand)}
+          >
+        <Label>{brand}</Label>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {showModels && (
+            <div 
+            className="absolute left-full mt-0 z-10 bg-white border border-gray-200 rounded shadow-md w-64 max-h-60 overflow-y-auto"
+            style={{ top: modelListTopPosition, bottom: modelListBottomPosition }}
+            onMouseEnter={() => setHoveringOverModels(true)}
+            onMouseLeave={() => {
+              setHoveringOverModels(false);
+              setShowModels(false);
+            }}
+          >{entries.map(([brand, models]) => {
+            if (brand === hoveredBrand) {
+              return models.map((model, modelIndex) => (
+                <div
+                  key={modelIndex}
+                  className="p-2 cursor-pointer hover:bg-gray-300"
+                  onClick={() => handleModelClick && handleModelClick(`${brand} - ${model}`)}
+                >
+                  {model}
+                </div>
+              ));
+            }
+            return null;
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+export const CarComponent = React.memo(function CarComponent ({
   handleSliderChange,
   filter,
   handleSelectorChange,
@@ -57,39 +223,51 @@ export const CarComponent = React.memo(function CarComponent({
   const [carBrands] = useAppStore(
     (state) => state?.carFiltersAndResults.brandsWithModels
   );
+
+  const [carStore] = useAppStore(
+    (state) => state?.carFiltersAndResults.allCars
+  );
+
+
   //   [brands, setBrands] = useState<string[]>([]);
-  const [carData, setCardata] = useState<Car[]>(allData);
+  const [carData, setCardata] = useState<CarResult[]>([]);
   const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>(
     []
   );
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [offers, setOffers] = useState<number>(0);
+  const [entries, setEntries] = useState<[string, string[]][]>([]);
+  const [brandsOpen, setBrandsOpen] = React.useState(false);
 
-  const handlePopoverToggle = () => {
-    setIsPopoverOpen(!isPopoverOpen);
-  };
 
   const handleModelClick = (model: string) => {
     handleSelectorChange("cars", "brandAndModel", model);
-    // Close dropdown, or take other desired actions here
+    toggleBrandsOpen();
   };
 
   const handleBrandClick = (brand: string) => {
     handleSelectorChange("cars", "brandAndModel", brand);
-    handlePopoverToggle();
+    toggleBrandsOpen();
+
   };
+
+  useEffect(() => {
+    console.log(carStore)
+  }, [carStore])
 
   const brands = tempData;
   // brands.push("All")
   useEffect(() => {
-    console.log("fetching cars");
-    dispatch(fetchBrands());
-    dispatch(fetchAllCars());
+      dispatch(fetchBrands());
+      dispatch(fetchAllCarMakes());
+      dispatch(fetchAllCars());
+
   }, [dispatch]);
 
   useEffect(() => {
-    if (carBrands) {
-      console.log(carBrands);
+
+    if(carBrands) {
+      console.log(carBrands)
+      setEntries(Object.entries(carBrands || {}));
     }
   }, [carBrands]);
 
@@ -97,7 +275,7 @@ export const CarComponent = React.memo(function CarComponent({
   //   if (carMakes?.length) {
 
   //     dispatch(fetchBrands());
-
+  
   //   }
   // }, [carMakes]);
 
@@ -123,13 +301,15 @@ export const CarComponent = React.memo(function CarComponent({
     );
   };
 
+  const toggleBrandsOpen = () => setBrandsOpen(!brandsOpen);
+  
   useEffect(() => {
-    if (carData && carMatchesFilters && filter) {
-      const resData = carData.filter((car) => carMatchesFilters(car, filter));
+    if (carStore && carMatchesFilters && filter) {
+      const resData = carStore.filter((car) => carMatchesFilters(car, filter));
       handleOfferNumbers(resData.length);
       setOffers(resData.length);
     }
-  }, [carData, carMatchesFilters, filter]);
+  }, [carStore, carMatchesFilters, filter]);
 
   const [typedChars, setTypedChars] = useState("");
 
@@ -151,6 +331,10 @@ export const CarComponent = React.memo(function CarComponent({
 
     return () => clearTimeout(timer);
   }, [typedChars, brands]);
+
+
+
+
 
   return (
     <Card className="border-0 bg-background">
@@ -210,38 +394,23 @@ export const CarComponent = React.memo(function CarComponent({
                 height={16}
               />
             </div>
-            <Select
-              onValueChange={(selectorValue) =>
-                handleSelectorChange("cars", "brandAndModel", selectorValue)
-              }
-              value={filter.brandAndModel}
-            >
-              <SelectTrigger>
-                {filter.brandAndModel || "Select a brand..."}
-              </SelectTrigger>
-              <SelectContent>
-                {/* {carBrands?.map((brandData, brandIndex) => (
-                  <div key={brandIndex} className="mb-2">
-                    <SelectItem
-                      onClick={() => handleBrandClick(brandData.brand)}
-                      value={brandData.brand}
-                    >
-                      <strong>{brandData.brand}</strong>
-                    </SelectItem>
-                    {brandData.models.map((model, modelIndex) => (
-                      <div key={modelIndex} className="ml-6 mb-1">
-                        <SelectItem
-                          onClick={() => handleModelClick(model)}
-                          value={model}
-                        >
-                          {model}
-                        </SelectItem>
-                      </div>
-                    ))}
-                  </div>
-                ))} */}
-              </SelectContent>
-            </Select>
+
+      <Select open={brandsOpen} onValueChange={(selectorValue) => {
+        handleSelectorChange("cars", "brandAndModel", selectorValue);
+        toggleBrandsOpen();
+      }} value={filter.brandAndModel}>
+  <SelectTrigger onClick={toggleBrandsOpen} currentValue={filter.brandAndModel}>{filter.brandAndModel || "Select a brand..."}</SelectTrigger>
+  <VirtualizedList 
+    hidden = {!brandsOpen}
+    toggleBrands = {toggleBrandsOpen}
+    entries={entries}
+    filter={filter}
+    handleSelectorChange={handleSelectorChange} 
+    handleBrandClick={handleBrandClick} 
+    handleModelClick={handleModelClick}
+  />
+</Select>
+
           </div>
 
           <div className="space-y-1">
@@ -307,3 +476,4 @@ export const CarComponent = React.memo(function CarComponent({
     </Card>
   );
 });
+
