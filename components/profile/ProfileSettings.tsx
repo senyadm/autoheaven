@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select'
 const ProfileSettings = () => {
 
   const [authorized, setAuthorized] = useState<boolean>(true)
-
+  const token = localStorage.getItem('access_token');
   const languages = [
     { value: "English" },
     { value: "French" },

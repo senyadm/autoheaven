@@ -120,7 +120,9 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
 }, [hidden]);
 
   return (
-    <div className={`relative w-full ${hidden ? "hidden" : null}`} ref={mainContainerRef}>
+    <div     className={`relative w-full bg-white border border-gray-200 rounded shadow-md transition-transform transition-opacity duration-300 ease-in-out transform ${
+      hidden ? "translate-y-4 opacity-0" : "translate-y-0 opacity-100"
+    }`}  ref={mainContainerRef}>
 
       <div className="w-full border-r h-[200px] relative overflow-y-auto" 
   onMouseLeave={() => {
@@ -134,12 +136,12 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
 >
 {Object.entries(groupedByLetter).map(([letter, brandsForLetter]) => (
           <div key={letter}>
-            <div className="font-bold text-xl">{letter}</div>
+            <div className="font-bold text-xl p-2">{letter}</div>
             {brandsForLetter.map(([brand], brandIndex) => (
               <div
                 key={brandIndex}
                 ref={brandRefs[brand]}
-                className="group relative hover:bg-gray-200 p-2 cursor-pointer"
+                className="group relative hover:bg-gray-200 p-2 ml-1 cursor-pointer"
             
             onMouseEnter={() => {
               const brandRef = brandRefs[brand]?.current;

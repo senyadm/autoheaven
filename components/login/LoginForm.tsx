@@ -81,6 +81,7 @@ const LoginForm: React.FC = () => {
         }
       )
       .then((response) => {
+        localStorage.setItem("token", response.data.access_token);
         console.log("token", response.data);
       })
       .catch((error) => {
