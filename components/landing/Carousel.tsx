@@ -11,13 +11,13 @@ const carouselBgs = [
   "truck 1.png",
   "markus-winkler.png",
 ];
-const Carousel = ({ className }: any) => {
+const Carousel = () => {
   const activeTransportCategory = useSelector(
     (state: RootState) => state.transportCategory.activeCategory
   );
   return (
     <div
-      className={`w-full h-[22.1875rem] bg-center bg-cover absolute text-primary-foreground  ${className}`}
+      className={`w-full h-[22.1875rem] bg-center bg-cover absolute text-card-foreground`}
     >
       <div className="absolute top-0 h-full w-full">
         {carouselBgs.map((carouselBg, index) => (

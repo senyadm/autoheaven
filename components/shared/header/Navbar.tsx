@@ -3,11 +3,11 @@
 import * as React from "react";
 import Link from "next/link";
 import { InputField } from "@/components/ui/input-field";
-import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
-
+import { Popover, PopoverTrigger, PopoverContent } from "../../ui/popover";
+import Image from "next/image";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
-import SvgIcon from "../SvgIcon";
+import SvgIcon from "../../SvgIcon";
 import { usePathname } from "next/navigation";
 import {
   ChevronLeft,
@@ -17,6 +17,7 @@ import {
   ZoomInIcon,
 } from "lucide-react";
 import ModeToggle from "./ModeToggle";
+import logo from "../../../public/autoheven_logo.svg";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
@@ -42,7 +43,6 @@ export function Navbar() {
         className="container mx-auto px-4 flex items-center justify-between"
         style={{ maxWidth: "1140px" }}
       >
-        {/* Left side */}
         {isNavbarV2 ? (
           <Link
             href="/"
@@ -55,26 +55,26 @@ export function Navbar() {
         ) : (
           <div className="flex items-center space-x-4">
             <Link href="/">
-              <SvgIcon
+              {/* <SvgIcon
                 width={78}
                 height={36}
                 alt=""
                 filepath="logotype_draft.svg"
                 className="w-18 h-10"
-              />
+              /> */}
+              <Image src={logo} height={30} width={64} alt="" />
             </Link>
 
             <div className="flex items-center border rounded-md pl-2 h-10 w-full">
               <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
-                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md"
+                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
                 placeholder="Search"
               />
             </div>
           </div>
         )}
 
-        {/* Right side */}
         <div className="flex items-center space-x-4">
           <ModeToggle />
           <Popover open={openPopover}>

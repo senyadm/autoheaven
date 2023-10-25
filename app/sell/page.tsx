@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { Navbar } from "@/components/header/Navbar";
+import { Navbar } from "@/components/shared/header/Navbar";
 
 import {
   Card,
