@@ -27,14 +27,9 @@ import {
   FilterStates,
   Filter,
   TrucksComponentProps,
-  CarComponentProps,
-  tabsTriggersInfo,
-  PassengerCars,
-  TabKeys,
-  MotoComponentProps,
+
   BUS_SUBCATEGORIES,
-  TRUCK_SUBCATEGORIES,
-  Car,
+
 } from "../types";
 
 const fuelTypes: string[] = [
@@ -58,9 +53,6 @@ export function BusComponent({
   return (
     <Card className="bg-background border-0">
       <CardHeader>
-        <CardTitle className="mb-5" style={{ fontSize: "14px" }}>
-          Bus Filters
-        </CardTitle>
         <div className="ml-10 mr-10 flex items-center justify-between align-items-center">
           {BUS_SUBCATEGORIES.map((subcategory, index) => (
             <button
@@ -68,7 +60,7 @@ export function BusComponent({
               onClick={() => setSelectedIcon(index)}
               onMouseEnter={() => setHoveredIcon(index)}
               onMouseLeave={() => setHoveredIcon(-1)}
-              className={`subcategory-icon w-32 h-11 flex items-center rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 
+              className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 
           ${
             selectedIcon === index
               ? "border-2 border-gray-600"
@@ -77,7 +69,7 @@ export function BusComponent({
           ${hoveredIcon === index ? "bg-gray-300" : "bg-background "}
       `}
             >
-              <SvgIcon alt={subcategory.value} filepath={subcategory.icon} />
+              <SvgIcon alt={subcategory.value} filepath={subcategory.icon} width={32} height={32}/>
               <span className="ml-1.5">{subcategory.label}</span>
             </button>
           ))}

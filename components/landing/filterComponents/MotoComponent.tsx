@@ -31,10 +31,6 @@ import { ChevronRight, Siren } from "lucide-react";
 import RangeSlider from "../RangeSlider";
 import { tempData } from "../tempData";
 import { allData } from "../allData";
-import {
-  fetchAllCars,
-  selectCarBrands,
-} from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 import {
   FilterStates,

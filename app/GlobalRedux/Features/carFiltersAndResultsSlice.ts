@@ -29,7 +29,6 @@ export type CarResult = {
 };
 
 type CarState = {
-  allCars: CarResult[];
   filteredCars: CarResult[];
   status: RequestStatus;
   carMakes: string[];
@@ -52,7 +51,6 @@ type FilterState = {
 };
 
 const initialState: CarState = {
-  allCars: [],
   filteredCars: [],
   carMakes: [],
   brandsWithModels: {},
@@ -71,6 +69,12 @@ interface Car {
   description: string;
   seller_id: number;
   created_at: string;
+}
+
+export interface FiltersResponse {
+  meta: Record<string, string>
+  payload: CarResult[]
+  type: string
 }
 
 export const fetchAllCarMakes = createAsyncThunk(
@@ -92,7 +96,6 @@ export const fetchBrands = createAsyncThunk(
       const response = await clientCars.get(`/api/car_models`, {
         timeout: 15000, 
       });
-      console.log(response.data);
       return response.data;
     } catch (err: any) {
       throw rejectWithValue(err.response.data);
@@ -102,10 +105,13 @@ export const fetchBrands = createAsyncThunk(
 
 export const fetchAllCars = createAsyncThunk(
   "carFiltersAndResults/fetchAllCars",
-  async (_, { rejectWithValue }): Promise<CarResult[]> => {
+  async (filters: string, { rejectWithValue }): Promise<FiltersResponse> => {
     try {
-      const response = await clientCars.get(`/api/cars`, {
-        timeout: 10000, 
+      const response = await clientCars.get(`/api/cars/fetch`, {
+        timeout: 10000,
+        params: {
+          max_results: 10000
+        }
       });
       console.log(response.data);
       return response.data;
@@ -138,16 +144,7 @@ export const loginReducer = createAsyncThunk(
 export const carFiltersAndResultsSlice = createSlice({
   name: "carFiltersAndResults",
   initialState,
-  reducers: {
-    setFilters: (state, action: PayloadAction<FilterState>) => {
-      const filters = action.payload;
-
-      state.filteredCars = state.allCars.filter((car) => {
-        // Implement your filtering logic here based on the car properties and filters
-        return true; // Return true if the car matches the filter, false otherwise
-      });
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllCarMakes.pending, (state) => {
@@ -172,12 +169,11 @@ export const carFiltersAndResultsSlice = createSlice({
       .addCase(fetchAllCars.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
-      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<CarResult[]>) => {
+      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<FiltersResponse>) => {
         state.status = RequestStatus.Idle;
-        state.allCars = action.payload;
+        state.filteredCars = action.payload.payload;
       })
   },
 });
 // export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carMakes;
-export const { setFilters } = carFiltersAndResultsSlice.actions;
 export default carFiltersAndResultsSlice.reducer;

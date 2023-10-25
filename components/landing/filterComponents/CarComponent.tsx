@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-
+import { FiltersResponse } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { Label } from "@/components/ui/label";
 
 import {
@@ -70,13 +70,12 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
   entries,
   handleBrandClick,
   handleModelClick,
-  handleSelectorChange,
-  filter,
   toggleBrands,
   hidden,
 }) => {
   const [showModels, setShowModels] = useState(false);
   const [hoveredBrand, setHoveredBrand] = useState("");
+  const [typedChars, setTypedChars] = useState("");
   const [modelListTopPosition, setModelListTopPosition] = useState<number | undefined>(undefined);
   const [modelListBottomPosition, setModelListBottomPosition] = useState<number | undefined>(undefined);
   const [hoveringOverModels, setHoveringOverModels] = useState(false);
@@ -91,6 +90,70 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
     topPosition = brandRefs[hoveredBrand]?.current?.offsetTop;
   }
 
+  function scrollToBrand(brandElement: HTMLElement | null) {
+    if (brandElement && brandElement.parentElement) {
+        // Get the current scroll position of the container
+        const containerScrollTop = brandElement.parentElement.scrollTop;
+
+        // Determine the offset of the brandElement relative to its container
+        const brandOffsetTop = brandElement.offsetTop;
+
+        // Determine how much to adjust the scroll by
+        const adjustment = 50; // You can adjust this value to set the preferred offset
+
+        // Set the new scroll position
+        brandElement.parentElement.scrollTop = brandOffsetTop - adjustment;
+    }
+}
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      const char = event.key;
+      if (['ArrowDown', 'ArrowUp', 'Space', 'x', 'f'].includes(char)) {
+        event.preventDefault();
+    }
+      if (char.length === 1 && /[a-zA-Z]/.test(char)) {
+  
+        const newTypedChars = typedChars + char.toLowerCase();
+        console.log("Typed characters:", newTypedChars);
+   
+        const matchingBrand = Object.keys(brandRefs).find(brand => brand.toLowerCase().startsWith(newTypedChars));
+        if (matchingBrand && brandRefs[matchingBrand]?.current) {
+          const brandElement = brandRefs[matchingBrand].current;
+          scrollToBrand(brandElement);
+        }
+   
+        setTypedChars(newTypedChars);
+      }
+   }
+   
+
+    function handleClickOutside(event: MouseEvent) {
+      if (mainContainerRef.current && !mainContainerRef.current.contains(event.target as Node) && !hidden) {
+        toggleBrands();
+      }
+    }
+    
+    if (!hidden) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [hidden, typedChars]); 
+  
+  useEffect(() => {
+    const clearCharsTimeout = setTimeout(() => {
+      setTypedChars("");
+    }, 1000);
+
+    return () => {
+      clearTimeout(clearCharsTimeout);
+    };
+  }, [typedChars]);
   const modelsDropdownRef = React.createRef<HTMLDivElement>();
 
   const sortedEntries = [...entries].sort((a, b) => a[0].localeCompare(b[0]));
@@ -106,7 +169,6 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log(mainContainerRef.current,  !hidden)
       if (mainContainerRef.current && !mainContainerRef.current.contains(event.target as Node) && !hidden) {
           toggleBrands();
       }
@@ -124,15 +186,8 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
       hidden ? "translate-y-4 opacity-0" : "translate-y-0 opacity-100"
     }`}  ref={mainContainerRef}>
 
-      <div className="w-full border-r h-[200px] relative overflow-y-auto" 
-  onMouseLeave={() => {
+      <div className="w-full border-r h-[200px] absolute overflow-y-auto bg-white" 
 
-    setTimeout(() => {
-      if (!hoveringOverModels) {
-        setShowModels(false);
-      }
-    }, 200);
-  }}
 >
 {Object.entries(groupedByLetter).map(([letter, brandsForLetter]) => (
           <div key={letter}>
@@ -156,16 +211,12 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
                   const adjustedTopPosition = brandRef.offsetTop - (container ? container.scrollTop : 0);
           
                   if (availableSpaceBelow < dropdownHeight && availableSpaceAbove < dropdownHeight) {
-                      // If there isn't enough space either above or below, set the dropdown's position below the brand
-                      // and adjust its maximum height to fit in the available space.
                       setModelListTopPosition(adjustedTopPosition);
                       setModelListBottomPosition(undefined);
                   } else if (availableSpaceBelow < dropdownHeight) {
-                      // If there isn't enough space below but there's space above, position it above the brand.
                       setModelListTopPosition(adjustedTopPosition - dropdownHeight);
                       setModelListBottomPosition(undefined);
                   } else {
-                      // Default to positioning below the brand.
                       setModelListTopPosition(adjustedTopPosition);
                       setModelListBottomPosition(undefined);
                   }
@@ -227,7 +278,7 @@ export const CarComponent = React.memo(function CarComponent ({
   );
 
   const [carStore] = useAppStore(
-    (state) => state?.carFiltersAndResults.allCars
+    (state) => state?.carFiltersAndResults.filteredCars
   );
 
 
@@ -253,7 +304,7 @@ export const CarComponent = React.memo(function CarComponent ({
   };
 
   useEffect(() => {
-    console.log(carStore)
+    setOffers(carStore?.length || 0);
   }, [carStore])
 
   const brands = tempData;
@@ -261,14 +312,17 @@ export const CarComponent = React.memo(function CarComponent ({
   useEffect(() => {
       dispatch(fetchBrands());
       dispatch(fetchAllCarMakes());
-      dispatch(fetchAllCars());
+      dispatch(fetchAllCars('')).then((res: any) => {
+        console.log(res.payload);
+        if (res.payload) {
+        setOffers(res.payload.length)
+        }});
 
   }, [dispatch]);
 
   useEffect(() => {
 
     if(carBrands) {
-      console.log(carBrands)
       setEntries(Object.entries(carBrands || {}));
     }
   }, [carBrands]);
@@ -306,8 +360,8 @@ export const CarComponent = React.memo(function CarComponent ({
   const toggleBrandsOpen = () => setBrandsOpen(!brandsOpen);
   
   useEffect(() => {
-    if (carStore && carMatchesFilters && filter) {
-      const resData = carStore.filter((car) => carMatchesFilters(car, filter));
+    if (carStore && carMatchesFilters) {
+      const resData = carStore.filter((car: any) => carMatchesFilters(car, filter));
       handleOfferNumbers(resData.length);
       setOffers(resData.length);
     }
@@ -322,7 +376,6 @@ export const CarComponent = React.memo(function CarComponent ({
       brand.toLowerCase().startsWith(typedChars.toLowerCase())
     );
 
-    console.log(matchedBrand);
     if (matchedBrand) {
       handleSelectorChange("cars", "brandAndModel", matchedBrand);
     }

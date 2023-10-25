@@ -101,7 +101,6 @@ function FilterComponent({ className }: any) {
     id: string,
     selectorValue: string
   ) => {
-    console.log(selectorValue);
     setFilters((prev) => ({
       ...prev,
       [tab]: { ...prev[tab], [id]: selectorValue },

@@ -115,22 +115,22 @@ export const tabsTriggersInfo = [
     {
       value: "touristBus",
       icon: "icons/TouristBus.svg",
-      label: "Tourist Bus",
+      label: "Tourist",
     },
     {
       value: "cityBus",
       icon: "icons/CityBus.svg",
-      label: "City Bus",
+      label: "City",
     },
     {
       value: "doubleDeckerBus",
       icon: "icons/DoubleDeckerBus.svg",
-      label: "Double-Decker Bus",
+      label: "Double Decker",
     },
     {
       value: "electricBus",
       icon: "icons/ElectricBus1.svg",
-      label: "Electric Bus",
+      label: "Electric",
     },
     {
         value: "minivan",
@@ -149,12 +149,12 @@ export const tabsTriggersInfo = [
     {
       value: "commercial",
       icon: "icons/CommercialVehicle.svg",
-      label: "Commercial Vehicle",
+      label: "Commercial",
     },
     {
       value: "truckTractor",
       icon: "icons/TruckTractor.svg",
-      label: "Truck Tractor",
+      label: "Tractor",
     },
     {
       value: "trailer",
@@ -169,7 +169,7 @@ export const tabsTriggersInfo = [
     {
         value: "tankTransport",
         icon: "icons/TankTransport.svg",
-        label: "Tank Transport",
+        label: "Tank",
     }
   ];
 
