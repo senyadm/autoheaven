@@ -48,6 +48,7 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { set } from "react-hook-form";
 export type TabKeys = 'cars' | 'moto' | 'trucks' | 'busses';
 type BrandEntry = [string, string[]];
 
@@ -270,10 +271,7 @@ export const CarComponent = React.memo(function CarComponent ({
   handleSelectorChange,
   handleOfferNumbers,
 }: CarComponentProps) {
-  const [carMakes, dispatch] = useAppStore(
-    (state) => state?.carFiltersAndResults.carMakes
-  );
-  const [carBrands] = useAppStore(
+  const [carBrands, dispatch] = useAppStore(
     (state) => state?.carFiltersAndResults.brandsWithModels
   );
 
@@ -282,7 +280,6 @@ export const CarComponent = React.memo(function CarComponent ({
   );
 
 
-  //   [brands, setBrands] = useState<string[]>([]);
   const [carData, setCardata] = useState<CarResult[]>([]);
   const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>(
     []
@@ -310,7 +307,6 @@ export const CarComponent = React.memo(function CarComponent ({
   const brands = tempData;
   // brands.push("All")
   useEffect(() => {
-      dispatch(fetchBrands());
       dispatch(fetchAllCarMakes());
       dispatch(fetchAllCars('')).then((res: any) => {
         console.log(res.payload);
@@ -327,45 +323,25 @@ export const CarComponent = React.memo(function CarComponent ({
     }
   }, [carBrands]);
 
-  // useEffect(() => {
-  //   if (carMakes?.length) {
-
-  //     dispatch(fetchBrands());
-  
-  //   }
-  // }, [carMakes]);
-
-  const mileageInRange = (car: Car, range: [number, number]) =>
-    car.mileage >= range[0] && car.mileage <= range[1];
-  const priceInRange = (car: Car, range: [number, number]) =>
-    car.price >= range[0] && car.price <= range[1];
-  const yearInRange = (car: Car, range: [number, number]) =>
-    car.year >= range[0] && car.year <= range[1];
-  const isBrand = (car: Car, brand: string) =>
-    car.make === brand || brand === "All";
-  const bodyMatch = (car: Car, body: string) =>
-    car.type === body || body === "All";
-  // const fuelMatch = (car: Car, fuel: string) => car. === fuel || fuel === "All";
-
-  const carMatchesFilters = (car: Car, filters: Filter) => {
-    return (
-      mileageInRange(car, filters.milage) &&
-      priceInRange(car, filters.price) &&
-      yearInRange(car, filters.year) &&
-      isBrand(car, filters.brandAndModel) &&
-      bodyMatch(car, filter.vehicleBody)
-    );
-  };
-
   const toggleBrandsOpen = () => setBrandsOpen(!brandsOpen);
   
-  useEffect(() => {
-    if (carStore && carMatchesFilters) {
-      const resData = carStore.filter((car: any) => carMatchesFilters(car, filter));
-      handleOfferNumbers(resData.length);
-      setOffers(resData.length);
+useEffect(() => {
+  if (carStore && filter) {
+    const payloadFilter = {
+      make: filter.brandAndModel,
+      
     }
-  }, [carStore, carMatchesFilters, filter]);
+  }
+}, [filter, carStore])
+
+  useEffect(() => {
+    
+    if (carStore) {
+      setCardata(carStore);
+      handleOfferNumbers(carStore.length);
+      setOffers(carStore.length);
+    }
+  }, [carStore]);
 
   const [typedChars, setTypedChars] = useState("");
 
@@ -386,10 +362,6 @@ export const CarComponent = React.memo(function CarComponent ({
 
     return () => clearTimeout(timer);
   }, [typedChars, brands]);
-
-
-
-
 
   return (
     <Card className="border-0 bg-background">
