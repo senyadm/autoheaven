@@ -5,6 +5,9 @@ import GradientHeading from "../landing/GradientHeading";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
 
+import { wrapper } from "@/app/GlobalRedux/provider";
+import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
+import { CarResult, FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
@@ -14,7 +17,8 @@ import {
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
 import axios from "axios";
-const volkswagenCar1: ResultCarCardInterface = {
+
+const volskwagenCar1: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
   price: 21500,
   releaseYear: 2014,
@@ -91,12 +95,14 @@ const sortingMenuOptions = [
   "Milage (Highest first)",
   "Milage (Lowest first)",
 ];
-const backendURL = "https://autoheven-cars.vercel.app";
-const CarSearchResults = () => {
+const CarSearchResults = ({ store }: { store: CarResult[] | undefined }) => {
   const paginationIconProps = {
     width: "16",
     height: "16",
   };
+
+
+
   const myChevronRight = <ChevronRight key={"cr"} {...paginationIconProps} />;
   const paginationButtonLabels = [
     <ChevronsLeft key={"csl"} {...paginationIconProps} />,
@@ -111,28 +117,45 @@ const CarSearchResults = () => {
   ];
   const [retrievedCarResults, setRetrievedCarResults] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${backendURL}/api/cars`);
-      const data = response.data;
-
-      // Handle the data (e.g., setting it in state)
-      setRetrievedCarResults(data);
-      console.log(data); // Log the data if needed
-    } catch (error) {
-      console.error("An error occurred while fetching data:", error);
-    }
-  };
+  const [resultsCardData, setResultsCardData] = useState<ResultCarCardInterface[]>([]);
+  const [topCars, setTopCars] = useState<ResultCarCardInterface[]>([]);
 
   useEffect(() => {
-    fetchData();
-    console.log(retrievedCarResults);
-  }, []);
-  console.log("rerender")
+    let topcars: ResultCarCardInterface[] = [];
+    if (store === undefined || store.length === 0) {
+      return;
+    }
+    const allCars = (store || []).map((car) => {
+        const carData = {
+            title: car?.title || "",
+            price: car?.price || 0,
+            releaseYear: car?.year || 0,
+            mileage: car?.mileage || 0,
+            fuelType: car?.fueltype || "",
+            drivetrain: car?.drivetrain || "",
+            bodyStyle: car?.body_type || "",
+            gear: car?.gearbox || "",
+            accidentFree: car?.accidentfree || false,
+            imageURL: car?.imageurl || "",
+            id: car?.id || 0,
+        };
+
+        if (car?.istop) {
+            topcars.push(carData);
+            return {};
+        }
+
+        return carData;
+    }).filter((car) => Object.keys(car).length) as ResultCarCardInterface[];
+    console.log("allcars", allCars)
+    setTopCars(topcars);
+    setResultsCardData(allCars);
+}, [store]);
+
   return (
     <section className="mr-8">
       <div className="flex justify-between">
-        <GradientHeading title="143 364 offers found" />
+        <GradientHeading title={`${store?.length} offers found`} />
         <AppDropdownMenu options={sortingMenuOptions} />
       </div>
       <div className="space-y-8">
@@ -141,16 +164,21 @@ const CarSearchResults = () => {
           {/* Added scrollable wrapper here */}
           <div className="space-y-8">
             <TypographyLarge className="mt-8">Top offers</TypographyLarge>
-            <ResultCarCard {...volkswagenCar2} />
-            <ResultCarCard {...volkswagenCar4} />
+            {topCars?.map((carInfo, index) => (
+            <ResultCarCard {...carInfo} key={`${index}${carInfo.imageURL}`} />
+            ))}
+            {/* <ResultCarCard {...volkswagenCar2} />
+            <ResultCarCard {...volkswagenCar4} /> */}
           </div>
           <div className="space-y-8">
             <TypographyLarge className="mt-8">Main offers</TypographyLarge>
-            <ResultCarCard {...volkswagenCar1} />
-            <ResultCarCard {...volkswagenCar3} />
-            {otherCars.map((carInfo) => (
-              <ResultCarCard {...carInfo} key={carInfo.imageURL} />
+            {resultsCardData?.map((carInfo, index) => (
+              <ResultCarCard {...carInfo} key={`${index}${carInfo.imageURL}`} />
             ))}
+
+            {/* {otherCars.map((carInfo) => (
+              <ResultCarCard {...carInfo} key={carInfo.imageURL} />
+            ))} */}
             <ResultCarCard {...volkswagenCar3} />
           </div>
         </div>
@@ -177,3 +205,6 @@ const CarSearchResults = () => {
 };
 
 export default CarSearchResults;
+
+
+

@@ -1,31 +1,39 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { clientCars } from "../client";
+import { object } from "zod";
 
 enum RequestStatus {
   Idle = "idle",
   Loading = "loading",
   Failed = "failed",
 }
+type FuelType = "petrol" | "electric";
+type Drivetrain = "fwd" | "awd" | "rwd";
+type BodyStyle = "sedan" | "suv";
+type Gear = "automatic" | "manual";
+type PageDisplayed = "cars" | "profileCars" | "profileAds";
+
 
 export type CarResult = {
   id: number;
   make: string;
   color: string;
   mileage: number;
+  body_type: BodyStyle;
   price: number;
   seller_id: number;
   title: string | null;
   accidentfree: boolean | null;
-  imageurl: string | null;
+  imageurl: string;
   istop: boolean | null;
   model: string;
   type: string;
   year: number;
-  gearbox: string | null;
+  gearbox: Gear;
   description: string;
   created_at: string;
-  fueltype: string | null;
-  drivetrain: string | null;
+  fueltype: FuelType;
+  drivetrain: Drivetrain;
 };
 
 type CarState = {
@@ -71,10 +79,22 @@ interface Car {
   created_at: string;
 }
 
-export interface FiltersResponse {
-  meta: Record<string, string>
-  payload: CarResult[]
-  type: string
+export interface FilterPayload {
+  max_results: number
+  type?: string
+  make?: string
+  model?: string
+  fueltype?: string
+  body_type?: string
+  price_max: number
+  price_min: number 
+  min_year: number
+  max_year: number
+  mileage_min: number 
+  mileage_max: number  
+  accidentfree?: boolean
+  drivetrain?: string
+  istop?: boolean
 }
 
 export const fetchAllCarMakes = createAsyncThunk(
@@ -94,7 +114,7 @@ export const fetchBrands = createAsyncThunk(
   async (_, { rejectWithValue }): Promise<brandsWithModels> => {
     try {
       const response = await clientCars.get(`/api/car_models`, {
-        timeout: 15000, 
+        timeout: 20000, 
       });
       return response.data;
     } catch (err: any) {
@@ -105,15 +125,19 @@ export const fetchBrands = createAsyncThunk(
 
 export const fetchAllCars = createAsyncThunk(
   "carFiltersAndResults/fetchAllCars",
-  async (filters: string, { rejectWithValue }): Promise<FiltersResponse> => {
+  async (filters: FilterPayload, { rejectWithValue }): Promise<CarResult[]> => {
     try {
-      const response = await clientCars.get(`/api/cars/fetch`, {
-        timeout: 10000,
-        params: {
-          max_results: 10000
+      if (Object.keys(filters).length === 0) return [];
+      console.log("FILTERS IN BACK", filters)
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          delete filters[key as keyof typeof filters];
         }
       });
-      console.log(response.data);
+      const response = await clientCars.get(`/api/cars/fetch`, {
+        timeout: 10000,
+        params: filters
+      });
       return response.data;
     } catch (err: any) {
       throw rejectWithValue(err.response.data);
@@ -160,18 +184,19 @@ export const carFiltersAndResultsSlice = createSlice({
       .addCase(fetchAllCarMakes.rejected, (state) => {
         state.status = RequestStatus.Failed;
       })
-      .addCase(
-        fetchBrands.fulfilled,
-        (state, action: PayloadAction<brandsWithModels>) => {
-          state.brandsWithModels = action.payload;
-        }
-      )
+      .addCase(fetchBrands.pending, (state) => {
+        state.status = RequestStatus.Loading;
+        })
+      .addCase(fetchBrands.fulfilled, (state, action: PayloadAction<brandsWithModels>) => {
+        state.status = RequestStatus.Idle;
+        state.brandsWithModels = action.payload;
+      })
       .addCase(fetchAllCars.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
-      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<FiltersResponse>) => {
+      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<CarResult[]>) => {
         state.status = RequestStatus.Idle;
-        state.filteredCars = action.payload.payload;
+        state.filteredCars = action.payload;
       })
   },
 });

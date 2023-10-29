@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { FiltersResponse } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { Label } from "@/components/ui/label";
+import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
 
+import Link from "next/link";
 import {
   Select,
   SelectGroup,
@@ -67,7 +67,7 @@ interface GroupedEntries {
 }
 
 
-const VirtualizedList: React.FC<VirtualizedListProps> = ({
+const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(({ 
   entries,
   handleBrandClick,
   handleModelClick,
@@ -116,7 +116,6 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
       if (char.length === 1 && /[a-zA-Z]/.test(char)) {
   
         const newTypedChars = typedChars + char.toLowerCase();
-        console.log("Typed characters:", newTypedChars);
    
         const matchingBrand = Object.keys(brandRefs).find(brand => brand.toLowerCase().startsWith(newTypedChars));
         if (matchingBrand && brandRefs[matchingBrand]?.current) {
@@ -262,7 +261,9 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({
       )}
     </div>
   );
-};
+});
+VirtualizedList.displayName = "VirtualizedList";
+export { VirtualizedList }
 
 
 export const CarComponent = React.memo(function CarComponent ({
@@ -271,6 +272,7 @@ export const CarComponent = React.memo(function CarComponent ({
   handleSelectorChange,
   handleOfferNumbers,
 }: CarComponentProps) {
+  const router = useRouter();
   const [carBrands, dispatch] = useAppStore(
     (state) => state?.carFiltersAndResults.brandsWithModels
   );
@@ -279,43 +281,24 @@ export const CarComponent = React.memo(function CarComponent ({
     (state) => state?.carFiltersAndResults.filteredCars
   );
 
-
-  const [carData, setCardata] = useState<CarResult[]>([]);
-  const [brandsWithModels, setBrandsWithModels] = useState<brandsWithModels[]>(
-    []
-  );
-  const [offers, setOffers] = useState<number>(0);
   const [entries, setEntries] = useState<[string, string[]][]>([]);
   const [brandsOpen, setBrandsOpen] = React.useState(false);
+  const toggleBrandsOpen = useCallback(() => {
+    setBrandsOpen(prevState => !prevState);
+  }, []);
 
+const handleModelClick = useCallback((model: string) => {
+  handleSelectorChange("cars", "brandAndModel", model);
+  toggleBrandsOpen();
+}, [handleSelectorChange, toggleBrandsOpen]);
 
-  const handleModelClick = (model: string) => {
-    handleSelectorChange("cars", "brandAndModel", model);
-    toggleBrandsOpen();
-  };
-
-  const handleBrandClick = (brand: string) => {
-    handleSelectorChange("cars", "brandAndModel", brand);
-    toggleBrandsOpen();
-
-  };
-
-  useEffect(() => {
-    setOffers(carStore?.length || 0);
-  }, [carStore])
+const handleBrandClick = useCallback((brand: string) => {
+  handleSelectorChange("cars", "brandAndModel", brand);
+  toggleBrandsOpen();
+}, [handleSelectorChange, toggleBrandsOpen]);
 
   const brands = tempData;
   // brands.push("All")
-  useEffect(() => {
-      dispatch(fetchAllCarMakes());
-      dispatch(fetchAllCars('')).then((res: any) => {
-        console.log(res.payload);
-        if (res.payload) {
-        setOffers(res.payload.length)
-        }});
-
-  }, [dispatch]);
-
   useEffect(() => {
 
     if(carBrands) {
@@ -323,23 +306,77 @@ export const CarComponent = React.memo(function CarComponent ({
     }
   }, [carBrands]);
 
-  const toggleBrandsOpen = () => setBrandsOpen(!brandsOpen);
-  
+const handleNavigate = (e: any) => {
+  e.preventDefault();
+  router.push(`/cars?${payloadFilters}`);
+}
+
+const initMount = useRef(false); 
+
 useEffect(() => {
-  if (carStore && filter) {
+  dispatch(fetchAllCars({
+    max_results: 100000, 
+    price_min: 0,
+    price_max: 1000000,
+    mileage_min: 0,
+    mileage_max: 500000,
+    min_year: 1975,
+    max_year: 2023
+  }))
+  .then((res: any) => {
+    initMount.current = true;
+  });
+  dispatch(fetchBrands())
+ 
+}, [dispatch])  
+
+const [payloadFilters, setPayloadFilters] = useState<string>("");
+
+useEffect(() => {
+  let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const sendRequest = () => {
+    const splitData = filter.brandAndModel?.split(" - ") || [];
+    const make = splitData[0];
+    const model = splitData[1];
+    console.log(filter)
     const payloadFilter = {
-      make: filter.brandAndModel,
-      
+      max_results: 100000,
+      body_type: filter.vehicleBody || "",
+      make: make || "",
+      model: model || "",
+      fueltype: filter.fuelType || "",
+      price_min:  0,
+      price_max: filter.price[1] || 1000000,
+      mileage_min: filter.milage[0] || 0,
+      mileage_max: filter.milage[1] || 500000,
+      min_year: filter.year[0] || 1975,
+      max_year: filter.year[1] || 2023
     }
+
+    const queryParam = Object.keys(payloadFilter)
+    .map((key) => `${key}=${encodeURIComponent((payloadFilter as any)[key] || '')}`)
+    .join('&');
+    setPayloadFilters(queryParam)
+    console.log(payloadFilter)
+    dispatch(fetchAllCars(payloadFilter));
   }
-}, [filter, carStore])
+
+  if (filter) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(sendRequest, 1000);
+  }
+
+  return () => {
+    clearTimeout(debounceTimer);
+  };
+}, [filter])
 
   useEffect(() => {
     
     if (carStore) {
-      setCardata(carStore);
+      console.log(carStore.length)
       handleOfferNumbers(carStore.length);
-      setOffers(carStore.length);
     }
   }, [carStore]);
 
@@ -495,10 +532,13 @@ useEffect(() => {
         </div>
       </CardContent>
       <CardFooter className="grid place-items-end">
-        <Button>
-          {offers} offers
+ 
+
+        <Button onClick={handleNavigate}>
+          {carStore?.length || 0} offers
           <ChevronRight />
         </Button>
+
       </CardFooter>
     </Card>
   );

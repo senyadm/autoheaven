@@ -1,5 +1,5 @@
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import {
   Calendar,
@@ -110,9 +110,10 @@ const ResultCarCard = ({
       </>
     );
   };
+
   return (
     <div className="flex w-full bg-card border rounded-lg overflow-hidden">
-      <Image src={imageURL} alt="" width={256} height={130}></Image>
+      <img src={imageURL} alt={"Image"} width={256} height={130}></img>
       <div className="flex flex-col w-full">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">

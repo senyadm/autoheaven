@@ -1,17 +1,20 @@
 'use client';
 
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { createWrapper } from 'next-redux-wrapper';
 import React, { ReactNode } from 'react';
+import { store } from './store'; 
 
 interface ProvidersProps {
     children: ReactNode;
 }
 
-export function Providers({ children }: ProvidersProps) {
-    return (
-        <Provider store={store}>
-            {children}
-        </Provider>
-    )
-}
+const makeStore = () => store;
+
+export const wrapper = createWrapper(makeStore);
+
+export const Providers = ({ children }: ProvidersProps) => (
+  <Provider store={store}>
+    {children}
+  </Provider>
+);

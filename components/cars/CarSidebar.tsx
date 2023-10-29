@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
 import { ChevronRight, PlusCircle } from "lucide-react";
+import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import {
   Filter,
   types,
@@ -26,8 +27,10 @@ import {
 } from "@/components/ui/accordion";
 import { Label } from "../ui/label";
 import SvgIcon from "../SvgIcon";
+import { VirtualizedList } from "../landing/filterComponents/CarComponent"
 
-const CarSidebar = () => {
+
+const CarSidebar = (paramFilters: FilterPayload) => {
   const questionMarkPath = "@/public/icons/question-mark.svg";
   const filterDefault: Filter = {
     type: "",
@@ -85,6 +88,20 @@ const CarSidebar = () => {
   );
   const [maximumFilters, setMaximumFilters] = useState<boolean>(false);
 
+    useEffect(() => {
+      const tempFilters = {...filters};
+      tempFilters["brandAndModel"] = paramFilters.make + " - " + paramFilters.model;
+      tempFilters["type"] = paramFilters.type;
+      tempFilters["vehicleBody"] = paramFilters.body_type || "";
+      tempFilters["fuelType"] = paramFilters.fueltype || "";
+      tempFilters["price"] = [paramFilters.price_min, paramFilters.price_max];
+      tempFilters["milage"] = [paramFilters.mileage_min, paramFilters.mileage_max];
+      tempFilters["year"] = [paramFilters.min_year, paramFilters.max_year];
+      tempFilters["accidentFree"] = paramFilters.accidentfree || false;
+      setFilters(tempFilters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paramFilters])
+
   const handleOfferNumbers = (offerNumber: number) => {
     setOffers(offerNumber);
   };
@@ -114,11 +131,15 @@ const CarSidebar = () => {
     setFilterBrands(updatedBrands);
   };
 
+  // useEffect(() => {
+  //   console.log(filters)
+  // },[filters])
+
   const handleModelCheckboxChange = (
     brand: brandsWithModelsData,
     model: modelType
   ) => {
-    // Logic to toggle the 'checked' property of the model
+
     const updatedBrands = filterBrands.map((b) => {
       if (b.brand === brand.brand) {
         const updatedModels = b.models.map((m) => {
@@ -142,7 +163,9 @@ const CarSidebar = () => {
       setMaximumFilters(true);
     }
   };
-
+  // useEffect(() => {
+  //   console.log(filters);
+  // }, [filters])
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
       <h2 className="text-l font-semibold mt-2 mb-2">Filters</h2>

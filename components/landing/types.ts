@@ -7,6 +7,7 @@ export interface Filter {
     vehicleBody: string;
     fuelType: string;
     fromDealer?: boolean
+    accidentFree?: boolean
 }
 
 export type TrucksComponentProps = {

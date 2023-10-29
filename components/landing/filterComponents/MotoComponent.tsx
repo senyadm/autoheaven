@@ -70,10 +70,11 @@ export function MotorcycleComponent({
   filter,
   handleSelectorChange,
 }: MotoComponentProps) {
+  console.log("MOTO")
   return (
     <Card className="bg-background border-0">
       <CardContent className="space-y-2 mt-8">
-        {/* ... (rest of the input components) */}
+  
         <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
           <RangeSlider
             value={filter.price}
