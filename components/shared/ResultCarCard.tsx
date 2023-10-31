@@ -123,11 +123,11 @@ const ResultCarCard = ({
         <div className="flex flex-col justify-between flex-1  px-6 py-4">
           <div className="flex text-sm justify-between">
             <p className="font-bold">{title}</p>
-            <p className="font-medium">€ {price}</p>
+            <p className="font-medium whitespace-nowrap">€ {price}</p>
           </div>
-          <div className="flex">
+          <div className="flex flex-wrap">
             {carInfo.map((el) => (
-              <div className="flex mr-6" key={String(id) + el.label}>
+              <div className="flex mr-6 whitespace-nowrap" key={String(id) + el.label}>
                 <div className="mr-1 flex items-center">{el.icon}</div>
                 {el.label}
               </div>

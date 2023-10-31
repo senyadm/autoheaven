@@ -40,7 +40,7 @@ const Carousel = () => {
           }}
         ></div>
       </div>
-      <div className="z-10 flex flex-col items-center justify-end h-full relative">
+      <div className="z-10 flex flex-col items-center justify-end h-full relative text-white">
         <TypographyH1>Cruise in Comfort</TypographyH1>
         <TypographyH4 className="mt-2.5">
           Discover Cars Tailored to Your Lifestyle
