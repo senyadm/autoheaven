@@ -11,6 +11,8 @@ import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSidebar from "@/components/cars/CarSidebar";
 import { FilterPayload, fetchAllCars } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+
+
 const Cars = () => {
   const query  = useSearchParams()
   const [filters, setFilters] = useState<FilterPayload>({} as FilterPayload);
@@ -49,7 +51,6 @@ const Cars = () => {
     queryParamsObj.mileage_min = Number(queryParamsObj.mileage_min)
     queryParamsObj.mileage_max = Number(queryParamsObj.mileage_max)
   
-    console.log("queryparams",queryParamsObj)
     const finalQueryParams = {
       ...defaultQueryParams,
       ...queryParamsObj
@@ -58,8 +59,7 @@ const Cars = () => {
   }, [query])
 
   useEffect(() => {
-    if (storeIsEmpty) {
-      console.log(filters)
+    if (store && store.length === 0) {
       dispatch(fetchAllCars(filters));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,13 +68,12 @@ const Cars = () => {
   return (
     <div className="h-screen flex flex-col">
       <Navbar />
-
       <main className="flex flex-1 items-start bg-indigo-50 py-6">
-        <div className="flex flex-row mt-10 space-x-6 w-[1140px] mx-auto">
-          <div className="flex-none w-[340px]">
-            <CarSidebar {...filters}/>
+        <div className="flex flex-row mt-10 space-x-10 max-w-screen-2xl mx-auto">
+          <div className="w-full lg:w-1/4">
+            <CarSidebar paramFilters={filters} dispatch={dispatch}/>
           </div>
-          <div className="flex-grow">
+          <div className="w-full lg:w-3/4">
             <CarSearchResults store={store}/>
           </div>
         </div>

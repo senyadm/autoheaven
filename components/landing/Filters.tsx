@@ -83,7 +83,6 @@ function FilterComponent({ className }: any) {
     trucks: filterDefault,
     busses: filterDefault,
   };
-  console.log("rerender filters")
   const [filters, setFilters] = useState<FilterStates>(initialFilterStates);
   const handleOfferNumbers = (offerNumber: number) => {
     setOffers(offerNumber);

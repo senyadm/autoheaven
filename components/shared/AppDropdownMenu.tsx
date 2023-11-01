@@ -9,16 +9,24 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 
-const AppDropdownMenu = ({ options }) => {
-  const [position, setPosition] = useState(options[0]);
+type AppDropdownMenuProps = {
+  options: string[];
+  setSort: (value: string) => void;
+};
 
+const AppDropdownMenu = ({ options, setSort }: AppDropdownMenuProps) => {
+  const [position, setPosition] = useState(options[0]);
+  const handleChange = (value: string) => {
+    setPosition(value);
+    setSort(value);
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="bg-background">
         <Button variant="outline">{position}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <DropdownMenuRadioGroup value={position} onValueChange={handleChange}>
           {options.map((option: string) => (
             <DropdownMenuRadioItem value={option} key={option}>
               {option}

@@ -37,7 +37,7 @@ export type CarResult = {
 };
 
 type CarState = {
-  filteredCars: CarResult[];
+  filteredCars: CarResult[][];
   status: RequestStatus;
   carMakes: string[];
   brandsWithModels: brandsWithModels;
@@ -125,9 +125,9 @@ export const fetchBrands = createAsyncThunk(
 
 export const fetchAllCars = createAsyncThunk(
   "carFiltersAndResults/fetchAllCars",
-  async (filters: FilterPayload, { rejectWithValue }): Promise<CarResult[]> => {
+  async (filters: FilterPayload, { rejectWithValue }): Promise<Record<string, CarResult[]>> => {
     try {
-      if (Object.keys(filters).length === 0) return [];
+      if (Object.keys(filters).length === 0) return {};
       console.log("FILTERS IN BACK", filters)
       Object.entries(filters).forEach(([key, value]) => {
         if (value === null || value === undefined || value === "") {
@@ -135,7 +135,6 @@ export const fetchAllCars = createAsyncThunk(
         }
       });
       const response = await clientCars.get(`/api/cars/fetch`, {
-        timeout: 10000,
         params: filters
       });
       return response.data;
@@ -194,9 +193,11 @@ export const carFiltersAndResultsSlice = createSlice({
       .addCase(fetchAllCars.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
-      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<CarResult[]>) => {
+      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<Record<string, CarResult[]>>) => {
         state.status = RequestStatus.Idle;
-        state.filteredCars = action.payload;
+        const res = Object.values(action.payload)
+        console.log(res)
+        state.filteredCars = res;
       })
   },
 });

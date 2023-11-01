@@ -55,12 +55,12 @@ export function BusComponent({
       <CardHeader>
         <div className="ml-10 mr-10 flex items-center justify-between align-items-center">
           {BUS_SUBCATEGORIES.map((subcategory, index) => (
-            <button
-              key={index}
+           <div key={index} className="flex flex-col items-center justify-center mr-6"> <button
+ 
               onClick={() => setSelectedIcon(index)}
               onMouseEnter={() => setHoveredIcon(index)}
               onMouseLeave={() => setHoveredIcon(-1)}
-              className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 mr-6 text-sm transition-transform duration-300 
+              className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
           ${
             selectedIcon === index
               ? "border-2 border-gray-600"
@@ -70,8 +70,9 @@ export function BusComponent({
       `}
             >
               <SvgIcon alt={subcategory.value} filepath={subcategory.icon} width={32} height={32}/>
-              <span className="ml-1.5">{subcategory.label}</span>
             </button>
+            <Label className="ml-1.5 text-sm mt-2">{subcategory.label}</Label>
+            </div>
           ))}
         </div>
       </CardHeader>

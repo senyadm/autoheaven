@@ -8,8 +8,7 @@ import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
 import Link from "next/link";
 import {
   Select,
-  SelectGroup,
-  SelectValue,
+
   SelectTrigger,
   SelectContent,
   SelectLabel,
@@ -339,7 +338,6 @@ useEffect(() => {
     const splitData = filter.brandAndModel?.split(" - ") || [];
     const make = splitData[0];
     const model = splitData[1];
-    console.log(filter)
     const payloadFilter = {
       max_results: 100000,
       body_type: filter.vehicleBody || "",
@@ -371,11 +369,11 @@ useEffect(() => {
     clearTimeout(debounceTimer);
   };
 }, [filter])
-
+  const [offers, setOffers] = useState<number>(0);
   useEffect(() => {
     
     if (carStore) {
-      console.log(carStore.length)
+      setOffers(carStore.length*20);
       handleOfferNumbers(carStore.length);
     }
   }, [carStore]);
@@ -535,7 +533,7 @@ useEffect(() => {
  
 
         <Button onClick={handleNavigate}>
-          {carStore?.length || 0} offers
+          {offers || 0} offers
           <ChevronRight />
         </Button>
 
