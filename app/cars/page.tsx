@@ -66,8 +66,7 @@ const Cars = () => {
   }, [filters, storeIsEmpty]);
 
   return (
-    <div className="h-screen flex flex-col">
-      <Navbar />
+  
       <main className="flex flex-1 items-start bg-indigo-50 py-6">
         <div className="flex flex-row mt-10 space-x-10 max-w-screen-2xl mx-auto">
           <div className="w-full lg:w-1/4">
@@ -79,8 +78,7 @@ const Cars = () => {
         </div>
       </main>
 
-      <Footer />
-    </div>
+    
   );
 };
 

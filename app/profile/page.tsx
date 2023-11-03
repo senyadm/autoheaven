@@ -36,8 +36,7 @@ const Profile = () => {
     return <></>;
   }
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
-      <Navbar />
+   
       <main className="flex justify-center items-start flex-grow py-4 bg-topography-light">
         <div className="flex space-x-4 max-w-screen-xl">
           <section className="border rounded-lg h-full p-3 w-[230px] h-[530px] flex flex-col items-start gap-2.5 flex-shrink-0 bg-background">
@@ -67,7 +66,6 @@ const Profile = () => {
           </section>
         </div>
       </main>
-    </div>
   );
 };
 

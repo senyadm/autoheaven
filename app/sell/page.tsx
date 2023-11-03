@@ -95,8 +95,8 @@ const Benefits = [
 
 const Sell = () => {
   return (
-    <div className="h-screen flex flex-col ">
-      <Navbar />
+    <div>
+    
       <main className={`flex flex-col justify-center items-center flex-grow py-4 ${styles["bg-gradient1"]}`}>
       <Label className="text-sm text-primary mb-3 mt-3">Plans</Label>
       <Label className="text-4xl bg-gradient-to-t from-gray-500 to-gray-900 text-transparent bg-clip-text">

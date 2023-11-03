@@ -28,17 +28,7 @@ import { Navbar } from "@/components/shared/header/Navbar";
 
 const Login = () => {
   return (
-    <div className="h-screen flex flex-col  bg-topography-light">
-      <Navbar></Navbar>
-      {/* <div className="flex justify-center items-center  h-full my-auto">
-        <div className='flex flex-col justify-center p-8 rounded-lg border'>
-          <div className="mx-auto">
-            <Image src={logo} height={36} width={64} alt="" />
-          </div>
-          <ProfileForm />
-
-        </div>
-      </div> */}
+    
 
       <section className="flex justify-center items-center  h-full w-full">
         <Tabs defaultValue="account" className="w-full  max-w-[700px]">
@@ -54,7 +44,7 @@ const Login = () => {
           </TabsContent>
         </Tabs>
       </section>
-    </div>
+
   );
 };
 
