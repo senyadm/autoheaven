@@ -21,6 +21,7 @@ import { loginReducer } from "@/app/GlobalRedux/Features/carFiltersAndResultsSli
 import axios from "axios";
 import { useState } from "react";
 import { clientUsers } from "../../app/GlobalRedux/client";
+import { useRouter } from "next/navigation";
 const formSchema = zod.object({
   email: zod.string(),
   password: zod.string().min(2, {
@@ -30,6 +31,7 @@ const formSchema = zod.object({
 });
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,14 +46,14 @@ const LoginForm: React.FC = () => {
   const [carBrands, dispatch] = useAppStore(
     (state: any) => state.carFiltersAndResults.carBrands
   );
-  clientUsers
-    .get("/api/users", {
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "1",
-      },
-    })
-    .then((response) => console.log(response.data));
+  // clientUsers
+  //   .get("/api/users", {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "ngrok-skip-browser-warning": "1",
+  //     },
+  //   })
+  //   .then((response) => console.log(response.data));
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
     // dispatch(loginReducer({ username: values.email, password: values.password }))
@@ -82,7 +84,12 @@ const LoginForm: React.FC = () => {
       )
       .then((response) => {
         localStorage.setItem("token", response.data.access_token);
-        console.log("token", response.data);
+        const prevUrl = localStorage.getItem("originalUrl");
+        if(prevUrl){
+          router.push(prevUrl);
+        }else{
+          router.push("/");
+        }
       })
       .catch((error) => {
         console.log(error);

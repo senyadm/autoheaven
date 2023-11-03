@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Navbar } from "@/components/shared/header/Navbar";
 
@@ -7,9 +7,34 @@ import ProfileContent from "@/components/profile/ProfileContent";
 import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
 import { Separator } from "@/components/ui/separator";
 import SvgIcon from "@/components/SvgIcon";
+import { usePathname, useRouter } from "next/navigation";
+import { validateToken } from "@/utils/auth";
 
 const currentPageURL = "/profile/";
-const Cars = () => {
+const Profile = () => {
+  const router = useRouter();
+  const pathname = usePathname()
+  const accessToken = localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated]=useState(false);
+  useEffect( () => {
+    if(accessToken){
+      try{
+        const response = validateToken(accessToken);
+         setIsAuthenticated(true);
+      }catch(e) {
+      localStorage.setItem("originalUrl", pathname);
+      router.push("/login"); // Redirect to the login page
+     setIsAuthenticated(false)
+      }
+    }else{
+      localStorage.setItem("originalUrl", pathname);
+      router.push("/login"); // Redirect to the login page
+     setIsAuthenticated(false)
+    }
+  }, [accessToken, pathname, router])
+  if(!isAuthenticated){
+    return <></>;
+  }
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Navbar />
@@ -46,4 +71,4 @@ const Cars = () => {
   );
 };
 
-export default Cars;
+export default  Profile;
