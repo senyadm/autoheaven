@@ -33,6 +33,12 @@ const CarSearchResults = ({ store }: { store: CarResult[][] | undefined }) => {
  const currentData = useMemo(() => {
   if (!store) return;
   
+  if (sort === "Listing (Newest first)") {
+    return store[currentPage].sort((a, b) => {
+      return b.id - a.id;
+    });
+  }
+
   return store[currentPage];
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [store, currentPage, sort]);

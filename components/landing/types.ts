@@ -200,20 +200,36 @@ export const tabsTriggersInfo = [
 
  export const types: typeProps[] = [
     {
-      value: "cars",
+      value: "Cars",
       label: "Passenger Car",
     },
     {
-      value: "moto",
+      value: "Moto",
       label: "Motorcycles",
     },
     {
-      value: "trucks",
+      value: "Trucks",
       label: "Trucks",
     },
     {
-      value: "busses",
+      value: "Busses",
       label: "Busses",
     },
   ]
 
+  export const Trucks = [
+    "Truck",
+    "Commercial",
+    "TruckTractor",
+    "Trailer",
+    "Semitrailer",
+    "TankTransport"
+  ];
+
+  export const Busses = [
+    "TouristBus",
+    "CityBus",
+    "DoubleDeckerBus",
+    "ElectricBus",
+    "Minivan"
+  ];

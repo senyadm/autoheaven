@@ -2,15 +2,19 @@
 
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
-import { ChevronDown } from "lucide-react"
+import { ChevronDownIcon, TrashIcon } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
+import { Button } from "./button"
 
 const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> & {
+    isSideBar?: boolean;
+    handleDelete?: () => void;
+  }
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
@@ -22,9 +26,13 @@ AccordionItem.displayName = "AccordionItem"
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
+    isSideBar?: boolean;
+    handleDelete?: (i: number | undefined) => void;
+    index?: number
+  }
+>(({ className, children, isSideBar, handleDelete, index, ...props }, ref) => (
+  <AccordionPrimitive.Header className="flex justify-between items-center w-full">
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
@@ -33,9 +41,23 @@ const AccordionTrigger = React.forwardRef<
       )}
       {...props}
     >
-      {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+
+        {children}
+        {!isSideBar && (
+          <ChevronDownIcon className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+        )}
+
     </AccordionPrimitive.Trigger>
+
+    {/* {isSideBar && (
+
+
+      
+      <Button onClick={() => handleDelete?.(index)} className="bg-white p-2 rounded hover:bg-gray-200 transition duration-150 shadow-none">
+        <TrashIcon height={16} width={16} className="text-red-500"/>
+      </Button>
+
+      )} */}
   </AccordionPrimitive.Header>
 ))
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName

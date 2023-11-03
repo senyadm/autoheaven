@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
-import { ChevronRight, PlusCircle } from "lucide-react";
+import { ChevronRight, PlusCircle, TrashIcon } from "lucide-react";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import {
   Filter,
@@ -10,6 +10,8 @@ import {
   typeProps,
   bodyTypes,
   fuelTypes,
+  Trucks,
+  Busses
 } from "../landing/types";
 import {
   Select,
@@ -197,9 +199,22 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
     setFilterBrands(updatedBrands);
   };
 
-  const deleteBrand = (brand: string) => {
-    
-  }
+
+  useEffect(() => {
+    if (exists) {
+      setTimeout(() => {
+        setExists(false);
+      }, 3000);
+    }
+  }, [exists])
+
+  useEffect(() => {
+    if (maximumFilters) {
+      setTimeout(() => {
+        setMaximumFilters(false);
+      }, 3000);
+    }
+  }, [maximumFilters])
 
   const [payloadFilters, setPayloadFilters] = useState<string>("");
   useEffect(() => {
@@ -244,6 +259,18 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters])
+
+  const handleDelete = (index?: number) => {
+    if (!index) return;
+    const temp = [...filterBrands];
+    temp.splice(index, 1);
+    setFilterBrands(temp);
+  }
+
+  const [currentModels, setCurrentModels] = useState<number>(10);
+  const showMore = () => {
+    setCurrentModels((prev) => prev + 10);
+  }
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
       <h2 className="text-l font-semibold mt-2 mb-2">Filters</h2>
@@ -261,12 +288,60 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         <SelectContent>
           {types.map((item: typeProps, index: number) => (
             <SelectItem key={index} value={item.value}>
-              {item.value}
+              {item.label}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
-      <Label htmlFor="filter1" className="font-bold">
+
+  {filters.type === "Trucks" ? (
+        <>  <Label htmlFor="filter1" className="font-bold">
+          Body Type
+        </Label>
+        <Select
+          onValueChange={(selectorValue) =>
+            handleSelectorChange("carType", selectorValue)
+          }
+        >
+          <SelectTrigger className="mb-2" currentValue={filters.vehicleBody}>
+            Type
+          </SelectTrigger>
+          <SelectContent>
+            {Trucks.map((item: string, index: number) => (
+              <SelectItem key={index} value={item}>
+                {item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        </>
+  ) :
+ filters.type === "Busses" ? (
+    <>  <Label htmlFor="filter1" className="font-bold">
+    Body Type
+  </Label>
+  <Select
+    onValueChange={(selectorValue) =>
+      handleSelectorChange("carType", selectorValue)
+    }
+  >
+    <SelectTrigger className="mb-2" currentValue={filters.vehicleBody}>
+      Type
+    </SelectTrigger>
+    <SelectContent>
+      {Busses.map((item: string, index: number) => (
+        <SelectItem key={index} value={item}>
+          {item}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+  </>
+  )
+  : 
+  (
+    <>
+          <Label htmlFor="filter1" className="font-bold">
         Car Category
       </Label>
       <Select
@@ -285,6 +360,9 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
           ))}
         </SelectContent>
       </Select>
+    </>
+  )
+  }
 
       <CarSearchFilter
         handleOfferNumbers={handleOfferNumbers}
@@ -364,54 +442,68 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       <Accordion type="multiple" className="w-full">
         {filterBrands.map((brand, index) => (
           <div className="flex" key={"accordion" + brand.brand}>
+            <AccordionItem
+              className=" border-none"
+              key={index}
+              value={`item-${index}`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
             <Checkbox
               className="mr-2"
               checked={brand.checkedAll}
               onCheckedChange={() => handleBrandCheckboxChange(brand)}
             />
-            <AccordionItem
-              renderDeleteButton={(brand) => {
-                return <button onClick={() => deleteBrand(brand)}>Delete</button>;
-              }}
-              className=" border-none mb-4"
-              key={index}
-              value={`item-${index}`}
-            >
-              <AccordionTrigger className="p-0">
-                <div className="flex justify-between items-center w-full text-foreground text-l">
-                  <div className="flex mr-auto items-center">
-                    <label className="text-l text-foreground leading-none	ml-2">
-                      {brand.brand}
-                    </label>
-                  </div>
-                </div>
+              <AccordionTrigger isSideBar={true} handleDelete={() => handleDelete(index)} index={index} className="p-0 flex flex-grow flex justify-between items-center">
+              <Label className="text-l text-foreground leading-none ml-2">
+        {brand.brand}
+      </Label>
               </AccordionTrigger>
-              <AccordionContent
-                className={`${
-                  brand.checkedAll
-                    ? "animate-accordion-down"
-                    : "animate-accordion-up"
-                }`}
-              >
-                {brand.models.map((model, modelIndex) => (
-                  <div
-                    key={modelIndex}
-                    className="flex items-center space-x-2 my-2 pl-4 text-foreground"
-                  >
-                    <Checkbox
-                      id={`${brand.brand}-${model.name}`}
-                      checked={model.checked}
-                      onCheckedChange={() =>
-                        handleModelCheckboxChange(brand, model)
-                      }
-                    />
+              </div>
+              <Button onClick={() => handleDelete?.(index)} className="bg-white p-2 rounded hover:bg-gray-200 transition duration-150 shadow-none">
+        <TrashIcon height={16} width={16} className="text-red-500"/>
+      </Button>
 
-                    <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      {model.name}
-                    </label>
-                  </div>
-                ))}
-              </AccordionContent>
+              </div>
+              <AccordionContent
+    className={`${brand.checkedAll ? "animate-accordion-down" : "animate-accordion-up"}`}
+  >
+    {brand.models.slice(0, currentModels).map((model, modelIndex) => (
+      <div
+        key={modelIndex}
+        className="flex items-center space-x-2 my-2 pl-4 text-foreground"
+      >
+        <Checkbox
+          id={`${brand.brand}-${model.name}`}
+          checked={model.checked}
+          onCheckedChange={() => handleModelCheckboxChange(brand, model)}
+        />
+        <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          {model.name}
+        </label>
+      </div>
+    ))}
+
+    <div className="flex justify-between items-center">
+      {brand.models.length > currentModels && (
+        <Label
+          onClick={() => setCurrentModels(prev => prev + 10)}
+          className="cursor-pointer text-blue-500 hover:underline"
+        >
+          Show More Models
+        </Label>
+      )}
+
+      {currentModels > brand.models.length && (
+        <Label
+          onClick={() => setCurrentModels(10)}
+          className="cursor-pointer text-blue-500 hover:underline"
+        >
+          Show Less Models
+        </Label>
+      )}
+    </div>
+  </AccordionContent>
             </AccordionItem>
           </div>
         ))}
@@ -422,14 +514,10 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         <DropdownMenuTrigger className="flex-2 bg-secondary  hover:bg-gray-300 text-secondary-foreground mr-4">
           <Label className="flex items-center space-x-2 text-sm cursor-pointer p-2">
             <PlusCircle size={14}/>
-            {
-  maximumFilters ? (
-    <span>You cannot select more than 5 car brands</span>
-  ) :  (
-    <span>Add more brands</span>
-  )
-}
+
+    <span className={exists || maximumFilters ? "text-red-500" : ""}>Add more brands</span>
           </Label>
+
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64 h-[200px] overflow-y-auto">
           <DropdownMenuGroup>
@@ -439,8 +527,12 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
                     className="flex items-center space-x-2 my-2 pl-4 text-foreground"
                     onClick={() => {
                       const newBrands = [...filterBrands];
+                      if (newBrands.find((b) => b.brand === brand)) {
+                        setExists(true);
+                        return;
+                      }
                       newBrands.push({
-                        brand: brand,
+                        brand,
                         checkedAll: false,
                         models: carBrands[brand].map((model) => ({
                           name: model,
@@ -462,11 +554,14 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
           </DropdownMenuGroup>
         </DropdownMenuContent>
         </DropdownMenu>
+
         <Button className="flex-1">
           <Label className="text-sm"> {offers} offers </Label>
           <ChevronRight size={14} />
         </Button>
       </div>
+      {exists && <span className="text-xs text-red-500 block transition-opacity">You've already selected this brand</span>}
+      {maximumFilters && <span className="text-xs text-red-500 block transition-opacity">You cannot select more than 5 car brands</span>}
     </div>
   );
 };
