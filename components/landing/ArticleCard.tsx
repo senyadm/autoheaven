@@ -28,20 +28,6 @@ const ArticleCard = ({ tipsInfo }: ArticleCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [addClassTimeout, setAddClassTimeout] = useState(null);
 
-  const handleMouseEnter = () => {
-    // Set a timeout to add the class after 1000 milliseconds (1 second)
-    const timeoutId = setTimeout(() => {
-      setIsHovered(true);
-    }, 1000);
-    setAddClassTimeout(timeoutId);
-  };
-
-  const handleMouseLeave = () => {
-    // Clear the timeout if the cursor leaves before 1 second
-    if (addClassTimeout) {
-      clearTimeout(addClassTimeout);
-    }
-  };
   return (
     <>
       <Card
