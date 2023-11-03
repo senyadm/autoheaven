@@ -46,10 +46,9 @@ const ArticleCard = ({ tipsInfo }: ArticleCardProps) => {
     <>
       <Card
         className={`w-[350px] w-full bg-background shadow transform transition-transform duration-300 ${
-          isHovered ? "hover:scale-105" : ""
+         "hover:scale-105"
         }`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onClick={()=>setIsHovered(true)}
       >
         <CardHeader>
           <CardDescription className="text-xs text-primary">
