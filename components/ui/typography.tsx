@@ -16,6 +16,13 @@ export function TypographyH2({children, className}: TypographyProps) {
     </h2>
   )
 }
+export function TypographyH3({ children, className }: TypographyProps) {
+  return (
+    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+      The Joke Tax
+    </h3>
+  );
+}
 export function TypographyH4({children, className}: TypographyProps) {
   return (
     <h4 className={`scroll-m-20 text-xl font-semibold tracking-tight ${className? className:""}`}>
@@ -25,13 +32,16 @@ export function TypographyH4({children, className}: TypographyProps) {
 }
 interface TypographyListProps{
     listItems: string[];
+    ulClassName?: string;
 }
-export function TypographyList({listItems}: TypographyListProps) {
+export function TypographyList({ listItems, ulClassName }: TypographyListProps) {
   return (
-    <ul className="text-sm [&>li]:mt-2">
-       {listItems.map(listItem => <li key={listItem}>{listItem}</li>)}
+    <ul className={`text-sm [&>li]:mt-2 ${ulClassName}`}>
+      {listItems.map((listItem) => (
+        <li key={listItem}>{listItem}</li>
+      ))}
     </ul>
-  )
+  );
 }
 export function TypographyLarge({children, className}: TypographyProps) {
   return (

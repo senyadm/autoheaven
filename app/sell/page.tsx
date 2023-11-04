@@ -1,32 +1,19 @@
 import React from "react";
-import { Navbar } from "@/components/shared/header/Navbar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
 import {
   BadgeCheck,
   Banknote,
   CalendarCheck,
-  CheckCheck,
   Clipboard,
-  ChevronRight,
-  Star,
   Megaphone,
   Zap,
   ZoomIn,
 } from "lucide-react";
-import { Button } from "../../components/ui/button";
 import styles from "../../components/sell/sell.module.css";
-import { Label } from "@/components/ui/label";
 import SectionHeader from "@/components/sell/SectionHeader";
 import PlansCard from "@/components/sell/PlansCard";
 import ProcessCard from "@/components/sell/ProcessCard";
-import StarRating from "@/components/sell/StarRating";
+import BenefitsBlock from "@/components/sell/BenefitsBlock";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 const cardInfo = [
   {
@@ -87,38 +74,20 @@ const howItWorksInfo = [
     icon: <Zap width={24} height={24} color="#2563EB" />,
   },
 ];
-
-const Benefits = [
+const FAQItems = [
   {
-    title: "Some Benefit",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis sodales gravida. Lorem ipsum dolor sit amet, consectetur adipiscing",
-    classic: 3,
-    direct: 5,
+    question: "How do I sell my vehicle?",
+    answer: "How do I sell my vehicle?",
   },
   {
-    title: "Some Benefit",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis sodales gravida. Lorem ipsum dolor sit amet, consectetur adipiscing",
-    classic: 3,
-    direct: 5,
+    question: "Inform and set the price",
+    answer: "Inform and set the price",
   },
   {
-    title: "Some Benefit",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis sodales gravida. Lorem ipsum dolor sit amet, consectetur adipiscing",
-    classic: 1,
-    direct: 4,
-  },
-  {
-    title: "Some Benefit",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis sodales gravida. Lorem ipsum dolor sit amet, consectetur adipiscing",
-    classic: 2,
-    direct: 5,
+    question: "Vehicle care and preparation",
+    answer: "Vehicle care and preparation",
   },
 ];
-
 const Sell = () => {
   return (
     <div>
@@ -158,57 +127,26 @@ const Sell = () => {
           />
         </div>
 
-        <div className="flex space-x-6 mt-8">
-          <Card className="w-[1008px] h-min px-12 py-10 bg-primary-foreground border border-primary text-primary-foreground">
-            <CardContent className="p-0">
-              <table>
-                <thead className="text-primary">
-                  <tr>
-                    <th></th>
-                    <th>
-                      <div className="flex">
-                        <BadgeCheck width={24} height={24} color="#2563EB" />
-                        <div>Classic</div>
-                      </div>
-                    </th>
-                    <th>
-                      <div className="flex">
-                        <Zap width={24} height={24} color="#2563EB" />
-                        <div>Direct</div>
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Benefits.map((benefit, index) => (
-                    <tr key={index}>
-                      <td>
-                        <div className="flex flex-col">
-                          <div className="text-foreground">
-                            {
-                              //semibold 24
-                            }
-                            {benefit.title}
-                          </div>
-                          <div className="text-muted-foreground">
-                            {benefit.content}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <StarRating rating={benefit.classic} />
-                      </td>
-                      <td>
-                        <StarRating rating={benefit.direct} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div></div>
-            </CardContent>
-          </Card>
+        <BenefitsBlock />
+
+        <div className="text-center mb-6 mt-12 flex flex-col">
+          <SectionHeader
+            title="FAQ"
+            text="Important Questions"
+            description="We are happy to see that you are eager to know more"
+          />
         </div>
+        
+        <Accordion type="single" collapsible className="w-[406px] mb-12">
+          {FAQItems.map((accItem, index) => (
+            <AccordionItem value={""+index} key={accItem.question}>
+              <AccordionTrigger>{accItem.question}</AccordionTrigger>
+              <AccordionContent>
+                {accItem.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </main>
     </div>
   );

@@ -9,5 +9,6 @@ export interface PlansInfo extends CardInfo{
   icon: JSX.Element;
 }
 export interface ProcessInfo extends CardInfo {
+  icon: JSX.Element;
   icons: JSX.Element[];
 }
