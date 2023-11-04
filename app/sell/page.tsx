@@ -25,7 +25,7 @@ const cardInfo = [
       "Communicate with other customers",
     ],
     buttonText: "Get started",
-    icon: <BadgeCheck width={24} height={24} color="#2563EB" />,
+    icon: <BadgeCheck width={32} height={32} color="#2563EB" />,
   },
   {
     title: "Direct Partner",
@@ -36,7 +36,7 @@ const cardInfo = [
       "Unsubscribe anytime for free",
     ],
     buttonText: "Get started",
-    icon: <Zap width={24} height={24} color="#2563EB" />,
+    icon: <Zap width={32} height={32} color="#2563EB" />,
   },
 ];
 
