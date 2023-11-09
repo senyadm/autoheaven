@@ -16,32 +16,26 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
+type SortValue = "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst";
+
+const sortingMenuDisplayMap: { [key: string]: SortValue } = {
+  "Listing (Newest first)": "newestFirst",
+  "Listing (Oldest first)": "oldestFirst",
+  "Price (Highest first)": "priceHighestFirst",
+  "Price (Lowest first)": "priceLowestFirst",
+  "Mileage (Highest first)": "mileageHighestFirst",
+  "Mileage (Lowest first)": "mileageLowestFirst",
+};
 
 
-const sortingMenuOptions = [
-  "Listing (Newest first)",
-  "Listing (Oldest first)",
-  "Price (Highest first)",
-  "Price (Lowest first)",
-  "Milage (Highest first)",
-  "Milage (Lowest first)",
-];
-const CarSearchResults = ({ store }: { store: CarResult[][] | undefined }) => {
+const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined, setSort: (value: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst") => void }) => {
 
  const [currentPage, setCurrentPage] = useState(0);
- const [sort, setSort] = useState<string>("");
  const currentData = useMemo(() => {
   if (!store) return;
-  
-  if (sort === "Listing (Newest first)") {
-    return store[currentPage].sort((a, b) => {
-      return b.id - a.id;
-    });
-  }
-
-  return store[currentPage];
+    return store[currentPage];
 // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [store, currentPage, sort]);
+}, [store, currentPage]);
 
   const paginationIconProps = {
     width: "16",
@@ -85,7 +79,7 @@ const CarSearchResults = ({ store }: { store: CarResult[][] | undefined }) => {
             gear: car?.gearbox || "",
             accidentFree: car?.accidentfree || false,
             imageURL: car?.imageurl || "",
-            id: car?.id || 0,
+            id: car?.id || 0
         };
 
         if (car?.istop) {
@@ -104,7 +98,10 @@ const CarSearchResults = ({ store }: { store: CarResult[][] | undefined }) => {
     <section className="mr-8">
       <div className="flex justify-between">
         <GradientHeading title={`${store?.length} offers found`} />
-        <AppDropdownMenu options={sortingMenuOptions} setSort={setSort}/>
+        <AppDropdownMenu 
+  options={sortingMenuDisplayMap} 
+  setSort={setSort}
+/>
       </div>
       <div className="space-y-8">
         <div className="space-y-8">

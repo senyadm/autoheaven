@@ -16,6 +16,7 @@ import { useAppStore } from "@/app/GlobalRedux/useStore";
 const Cars = () => {
   const query  = useSearchParams()
   const [filters, setFilters] = useState<FilterPayload>({} as FilterPayload);
+  const [sort, setSort] = useState<"newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst">("newestFirst");
   const [store, dispatch] = useAppStore(
     (state) => state?.carFiltersAndResults.filteredCars  
   );
@@ -35,7 +36,7 @@ const Cars = () => {
       max_year: 2023,
       mileage_min: 0,
       mileage_max: 500000,
-    
+      sortBy: "newestFirst",
       drivetrain: "",
       
     };
@@ -50,13 +51,14 @@ const Cars = () => {
     queryParamsObj.max_year = Number(queryParamsObj.max_year) || 2023
     queryParamsObj.mileage_min = Number(queryParamsObj.mileage_min)
     queryParamsObj.mileage_max = Number(queryParamsObj.mileage_max)
-  
+    queryParamsObj.sortBy = sort
     const finalQueryParams = {
       ...defaultQueryParams,
       ...queryParamsObj
     };
+    console.log(sort)
     setFilters(finalQueryParams);
-  }, [query])
+  }, [query, sort])
 
   useEffect(() => {
     if (store && store.length === 0) {
@@ -73,7 +75,7 @@ const Cars = () => {
             <CarSidebar paramFilters={filters} dispatch={dispatch}/>
           </div>
           <div className="w-full lg:w-3/4">
-            <CarSearchResults store={store}/>
+            <CarSearchResults store={store} setSort={setSort}/>
           </div>
         </div>
       </main>

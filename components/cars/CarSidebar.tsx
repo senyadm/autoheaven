@@ -70,31 +70,6 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
     models: modelType[];
   };
 
-  const brandsWithModels: brandsWithModelsData[] = [
-    {
-      brand: "Toyota",
-      checkedAll: false,
-      models: [
-        { name: "Camry", checked: false },
-        { name: "Corolla", checked: false },
-        { name: "Prius", checked: false },
-        { name: "RAV4", checked: false },
-        { name: "4Runner", checked: false },
-        { name: "Tacoma", checked: false },
-      ],
-    },
-    {
-      brand: "Honda",
-      checkedAll: false,
-      models: [
-        { name: "Accord", checked: false },
-        { name: "Civic", checked: false },
-        { name: "Fit", checked: false },
-        { name: "CR-V", checked: false },
-        { name: "Pilot", checked: false },
-      ],
-    },
-  ];
 
   const [offers, setOffers] = useState<number>(0);
   const [filterBrands, setFilterBrands] =
@@ -145,6 +120,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       tempFilters["milage"] = [paramFilters.mileage_min, paramFilters.mileage_max];
       tempFilters["year"] = [paramFilters.min_year, paramFilters.max_year];
       tempFilters["accidentFree"] = paramFilters.accidentfree || false;
+      tempFilters["sortBy"] = paramFilters.sortBy || "newestFirst";
       setFilters(tempFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramFilters])
@@ -238,14 +214,13 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         min_year: filters.year[0] || 1975,
         max_year: filters.year[1] || 2023,
         accident_free: filters.accidentFree || false,
-
+        sortBy: filters.sortBy || "newestFirst"
       }
   
       const queryParam = Object.keys(payloadFilter)
       .map((key) => `${key}=${encodeURIComponent((payloadFilter as any)[key] || '')}`)
       .join('&');
       setPayloadFilters(queryParam)
-      console.log(payloadFilter)
       dispatch(fetchAllCars(payloadFilter));
     }
   

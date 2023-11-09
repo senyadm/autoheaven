@@ -95,6 +95,7 @@ export interface FilterPayload {
   accidentfree?: boolean
   drivetrain?: string
   istop?: boolean
+  sortBy?: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst";
 }
 
 export const fetchAllCarMakes = createAsyncThunk(
@@ -196,7 +197,6 @@ export const carFiltersAndResultsSlice = createSlice({
       .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<Record<string, CarResult[]>>) => {
         state.status = RequestStatus.Idle;
         const res = Object.values(action.payload)
-        console.log(res)
         state.filteredCars = res;
       })
   },

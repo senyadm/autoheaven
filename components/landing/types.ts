@@ -8,6 +8,7 @@ export interface Filter {
     fuelType: string;
     fromDealer?: boolean
     accidentFree?: boolean
+    sortBy?: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst"
 }
 
 export type TrucksComponentProps = {
