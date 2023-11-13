@@ -19,7 +19,7 @@ const ProfileEdit = () => {
   const [value, setValue] = useState<string | undefined>("")
 
   return (
-    <div className='h-full overflow-hidden'>
+    <div className='h-full'>
     <Card className='w-full h-full  border-none'>
       <CardHeader className='relative'>
         <div className='bg-secondary h-[100px]'></div>
