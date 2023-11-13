@@ -17,20 +17,21 @@ const Profile = () => {
   const accessToken = localStorage.getItem("token");
   const [isAuthenticated, setIsAuthenticated]=useState(false);
   useEffect( () => {
-    if(accessToken){
-      try{
-        const response = validateToken(accessToken);
-         setIsAuthenticated(true);
-      }catch(e) {
-      localStorage.setItem("originalUrl", pathname);
-      router.push("/login"); // Redirect to the login page
-     setIsAuthenticated(false)
+    const checkAuthentication = async () => {
+      if (accessToken) {
+        const isValid = await validateToken(accessToken);
+        if (!isValid){
+          localStorage.setItem("originalUrl", pathname);
+          router.push("/login"); // Redirect to the login page
+        }
+        setIsAuthenticated(isValid) ;
+      } else {
+        localStorage.setItem("originalUrl", pathname);
+        router.push("/login");
+        setIsAuthenticated(false);
       }
-    }else{
-      localStorage.setItem("originalUrl", pathname);
-      router.push("/login"); // Redirect to the login page
-     setIsAuthenticated(false)
     }
+    checkAuthentication();
   }, [accessToken, pathname, router])
   if(!isAuthenticated){
     return <></>;

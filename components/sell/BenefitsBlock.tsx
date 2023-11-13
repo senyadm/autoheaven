@@ -45,14 +45,24 @@ const BenefitsBlock = () => {
           <thead className="text-primary">
             <tr>
               <th></th>
-              {[
-                <BadgeCheck {...iconDimensions} key="badge_check" />,
-                <Zap key="zap" />,
+              {
+              [{
+                element: 
+                <BadgeCheck
+                  {...iconDimensions}
+                  key="badge_check"
+                />,
+                title: "Classic"
+              },
+               { 
+                element: <Zap {...iconDimensions} key="zap" />,
+                title: "Direct" 
+              }
               ].map((icon) => (
-                <th key={icon.key + "th"}>
+                <th key={icon.element.key + "th"}>
                   <div className="flex justify-center items-center space-x-2">
-                    {icon}
-                    <div>Direct</div>
+                    {icon.element}
+                    <div>{icon.title}</div>
                   </div>
                 </th>
               ))}

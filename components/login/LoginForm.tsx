@@ -23,11 +23,10 @@ import { useState } from "react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
 const formSchema = zod.object({
-  email: zod.string(),
-  password: zod.string().min(2, {
-    message: "Password must be at least 2 characters.",
+  email: zod.string().email(),
+  password: zod.string().min(8, {
+    message: "Password must be at least 8 characters.",
   }),
-  // acceptedTAC: zod.boolean(),
 });
 
 const LoginForm: React.FC = () => {
@@ -37,36 +36,10 @@ const LoginForm: React.FC = () => {
     defaultValues: {
       email: "",
       password: "",
-      // acceptedTAC: false,
     },
   });
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [carBrands, dispatch] = useAppStore(
-    (state: any) => state.carFiltersAndResults.carBrands
-  );
-  // clientUsers
-  //   .get("/api/users", {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "ngrok-skip-browser-warning": "1",
-  //     },
-  //   })
-  //   .then((response) => console.log(response.data));
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
-    // dispatch(loginReducer({ username: values.email, password: values.password }))
-    //   .unwrap()
-    //   .then((response) => {
-    //     // Handle success
-    //     console.log("Logged in successfully:", response);
-    //   })
-    //   .catch((error) => {
-    //     // Handle error
-    //     console.error("Login failed:", error);
-    //   });
-
     clientUsers
       .post(
         "/api/users/token",
@@ -85,44 +58,21 @@ const LoginForm: React.FC = () => {
       .then((response) => {
         localStorage.setItem("token", response.data.access_token);
         const prevUrl = localStorage.getItem("originalUrl");
-        if(prevUrl){
+        if (prevUrl) {
           router.push(prevUrl);
-        }else{
+        } else {
           router.push("/");
         }
       })
       .catch((error) => {
+        form.resetField("password");
+        form.setError("password", {
+          type: "manual",
+          message: "Password or email not found",
+        });
+
         console.log(error);
       });
-
-    // async function logUserIn() {
-    //   try {
-    //     const requestBody = {
-    //       id: 1,
-    //       name: "bobby hadz",
-    //       salary: 100,
-    //     };
-
-    //     const response = await axios.post(backendURL, requestBody, {
-    //       auth: {
-    //         username: "YOUR_USERNAME",
-    //         password: "YOUR_PASSWORD",
-    //       },
-
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     });
-
-    //     return response.data;
-    //   } catch (err: any) {
-    //     console.log(err.message);
-    //   }
-    // }
-
-    // logUserIn().then((data) => {
-    //   console.log(data);
-    // });
   }
 
   return (
@@ -171,7 +121,6 @@ const LoginForm: React.FC = () => {
                   {...field}
                   onChange={(event) => {
                     field.onChange(event.target.value);
-                    setPassword(event.target.value);
                   }}
                 />
               </FormControl>
