@@ -6,8 +6,9 @@ import { PlansInfo } from '@/interfaces/sell/CardInfo';
 import { TypographyH3, TypographyP } from '../ui/typography';
 interface Props{
   card: PlansInfo;
+  handleNavigate: (e: any, mode: 'classic' | 'direct' | undefined) => void;
 }
-const PlansCard = ({card}: Props) => {
+const PlansCard = ({card, handleNavigate}: Props) => {
   return (
     <Card
       key={card.title}
@@ -38,7 +39,7 @@ const PlansCard = ({card}: Props) => {
         </ul>
       </CardContent>
       <CardFooter className="p-0">
-        <Button className="w-full border rounded-lg">
+        <Button className="w-full border rounded-lg" onClick={(e) => handleNavigate(e, card.plan)}>
           <div>{card.buttonText}</div>
           <ChevronRight width={16} height={16} />
         </Button>

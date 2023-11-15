@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import {
   BadgeCheck,
@@ -14,9 +15,12 @@ import PlansCard from "@/components/sell/PlansCard";
 import ProcessCard from "@/components/sell/ProcessCard";
 import BenefitsBlock from "@/components/sell/BenefitsBlock";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { useRouter } from 'next/navigation';
+import { PlansInfo } from '@/interfaces/sell/CardInfo';
 
-const cardInfo = [
+const cardInfo: PlansInfo[] = [
   {
+    plan: "classic",
     title: "Classic Ad",
     description: "Sell your car using our platform to other client",
     text: [
@@ -28,6 +32,7 @@ const cardInfo = [
     icon: <BadgeCheck width={32} height={32} color="#2563EB" />,
   },
   {
+    plan: "direct",
     title: "Direct Partner",
     description: "Sell your car to our trusted partners",
     text: [
@@ -89,6 +94,13 @@ const FAQItems = [
   },
 ];
 const Sell = () => {
+  const router = useRouter();
+
+  const handleNavigate = (e: any, mode: 'classic' | 'direct' | undefined) => {
+    e.preventDefault();
+    router.push(`sell/${mode}`);
+  }
+
   return (
     <div>
       <main
@@ -102,7 +114,7 @@ const Sell = () => {
 
         <div className="flex space-x-6 mt-8">
           {cardInfo.map((card) => (
-            <PlansCard card={card} key={card.title} />
+            <PlansCard card={card} key={card.title} handleNavigate={handleNavigate}/>
           ))}
         </div>
         <div className="text-center mb-6 mt-12 flex flex-col">
