@@ -3,7 +3,7 @@ interface CardInfo{
     description: string,
     text: string[],
     buttonText:string,
-    
+    plan?: 'classic' | 'direct'
   }
 export interface PlansInfo extends CardInfo{
   icon: JSX.Element;

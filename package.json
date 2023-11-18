@@ -18,6 +18,8 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.3",
     "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slider": "^1.1.2",
@@ -51,6 +53,7 @@
     "react-phone-number-input": "^3.3.6",
     "react-redux": "^8.1.2",
     "react-responsive-carousel": "^3.2.23",
+    "react-stack-grid": "^0.7.1",
     "react-window": "^1.8.9",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
@@ -61,6 +64,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@types/react-stack-grid": "^0.7.6",
     "@types/react-window": "^1.8.6"
   }
 }

@@ -5,13 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -28,13 +21,8 @@ import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transport
 import {
   FilterStates,
   Filter,
-  TrucksComponentProps,
-  CarComponentProps,
   tabsTriggersInfo,
   TabKeys,
-  MotoComponentProps,
-  BUS_SUBCATEGORIES,
-  Car,
 } from "./types";
 
 import { TrucksComponent } from "./filterComponents/TrucksComponent";
@@ -52,23 +40,6 @@ const filterDefault: Filter = {
   fuelType: "",
 };
 
-const bodyTypes: string[] = [
-  "All",
-  "Sedan",
-  "SUV",
-  "Hatchback",
-  "Pickup",
-  "Example",
-];
-
-const fuelTypes: string[] = [
-  "All",
-  "Petrol",
-  "Gas",
-  "Electric",
-  "Diesel",
-  "Hybrid",
-];
 
 function FilterComponent({ className }: any) {
   const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);

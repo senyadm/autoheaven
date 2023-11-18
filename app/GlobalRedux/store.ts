@@ -5,6 +5,8 @@ import transportCategoryReducer from "./Features/transportCategorySlice";
 import profileNavigationMenuReducer from "./profile/profileNavigationMenuSlice";
 import userReducer from "./profile/userSlice";
 import profileReducer from "./profile/profileSlice";
+import carCreationSlice from "./CreateCar/CreateCarSlice";
+
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -15,6 +17,7 @@ export const store = configureStore({
     profileNavigationMenu: profileNavigationMenuReducer,
     user: userReducer,
     profile: profileReducer,
+    createCarProgress: carCreationSlice,
   },
 });
 

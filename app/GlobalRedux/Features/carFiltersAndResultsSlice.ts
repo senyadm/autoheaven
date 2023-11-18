@@ -129,7 +129,6 @@ export const fetchAllCars = createAsyncThunk(
   async (filters: FilterPayload, { rejectWithValue }): Promise<Record<string, CarResult[]>> => {
     try {
       if (Object.keys(filters).length === 0) return {};
-      console.log("FILTERS IN BACK", filters)
       Object.entries(filters).forEach(([key, value]) => {
         if (value === null || value === undefined || value === "") {
           delete filters[key as keyof typeof filters];
