@@ -65,7 +65,23 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
- 
+@layer utilities {
+  .column-container {
+    -moz-column-width: 120px; /* Firefox */
+    -webkit-column-width: 120px; /* Safari and Chrome */
+    column-width: 150px;
+    -moz-column-gap: 1rem; /* Firefox */
+    -webkit-column-gap: 1rem; /* Safari and Chrome */
+    column-gap: 1rem;
+    column-count: 4;
+  }
+  
+  .break-inside-avoid {
+    -webkit-column-break-inside: avoid; /* Chrome, Safari */
+    page-break-inside: avoid; /* Firefox */
+    break-inside: avoid-column; /* CSS3 */
+  }
+}
 @layer base {
   * {
     @apply border-border;

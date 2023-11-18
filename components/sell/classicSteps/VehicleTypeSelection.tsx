@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
 import { Button } from '@/components/ui/button'; 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import SvgIcon from "@/components/SvgIcon";
 import { Label } from '@/components/ui/label';
 import { ChevronRight } from 'lucide-react';
+import { useAppStore } from '@/app/GlobalRedux/useStore';
+import { setCarType } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 
-
-interface VehicleCreateParams {
-    vehicleType: string;
-    brand: string;
-    model: string;
-    year: number;
-}
-
-const VehicleTypeSelection = ({ onNext }: {onNext: (param: keyof VehicleCreateParams, value: number | string) => void} ) => {
-  const [selectedVehicleType, setSelectedVehicleType] = useState<string>();
+const VehicleTypeSelection = ({ onNext }: {onNext: () => void} ) => {
   const vehicleTypes = [
     { name: 'Passenger car', iconPath: '/icons/Car.svg' },
     { name: 'Truck', iconPath: '/icons/Truck.svg' },
     { name: 'Motorcycle', iconPath: '/icons/Bike.svg' },
     { name: 'Bus', iconPath: '/icons/CityBus.svg' }   
   ];
+
+const [store, dispatch] = useAppStore(
+  (state) => state?.createCarProgress
+)
 
   return (
 
@@ -32,20 +28,20 @@ const VehicleTypeSelection = ({ onNext }: {onNext: (param: keyof VehicleCreatePa
           {vehicleTypes.map((vehicle, index) => (
             <Button
               key={vehicle.name}
-              onClick={() => setSelectedVehicleType(vehicle.name)}
+              onClick={() => dispatch(setCarType(vehicle.name ?? ''))}
               className={`my-2 flex items-center justify-center px-4 py-2 rounded-md transition-colors w-full shadow-none border-border
-                ${selectedVehicleType === vehicle.name ? 'bg-primary text-white' : 'text-foreground bg-white'}
+                ${store?.carType === vehicle.name ? 'bg-primary text-white' : 'text-foreground bg-white'}
               `}
             >
-              <SvgIcon width={24} height={24} alt={vehicle.name} filepath={vehicle.iconPath} className={`${selectedVehicleType === vehicle.name ? 'text-white' : 'text-foreground'}`}/>
-              <Label className={`ml-2 ${selectedVehicleType === vehicle.name ? 'text-white' : 'text-foreground'}`}>{vehicle.name}</Label>
+              <SvgIcon width={24} height={24} alt={vehicle.name} filepath={vehicle.iconPath} className={`${store?.carType === vehicle.name ? 'text-white' : 'text-foreground'}`}/>
+              <Label className={`ml-2 ${store?.carType === vehicle.name ? 'text-white' : 'text-foreground'}`}>{vehicle.name}</Label>
             </Button>
           ))}
         </CardContent>
         <CardFooter className="grid place-items-end ">
           <Button
-            disabled={!selectedVehicleType}
-            onClick={() => selectedVehicleType && onNext('vehicleType', selectedVehicleType)}
+            disabled={!store?.carType}
+            onClick={() => onNext()}
             className={`mt-4 w-full bg-primary text-white disabled:opacity-50`}
           >
             Continue

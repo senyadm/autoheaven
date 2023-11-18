@@ -20,11 +20,8 @@ import SvgIcon from "../../SvgIcon";
 import { ChevronRight } from "lucide-react";
 import RangeSlider from "../RangeSlider";
 import { tempData } from "../tempData";
-import { allData } from "../allData";
 import {
-  fetchAllCarMakes,
   fetchBrands, fetchAllCars,
-  brandsWithModels, CarResult,
 } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 import { Filter, CarComponentProps, Car } from "../types";
@@ -47,7 +44,6 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
-import { set } from "react-hook-form";
 export type TabKeys = 'cars' | 'moto' | 'trucks' | 'busses';
 type BrandEntry = [string, string[]];
 
