@@ -8,7 +8,7 @@ export const validateToken = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("user info ", resp)
+    console.log("user info ", resp);
     return true;
   } catch {
     return false;
@@ -17,4 +17,11 @@ export const validateToken = async () => {
 
 export const getToken = () => {
   return localStorage.getItem("token");
-}
+};
+export const saveToken = (token: string) => {
+  localStorage.setItem("token", token);
+};
+// before redirecting to login page, save the original url
+export const getOriginalUrl = () => {
+  return localStorage.getItem("originalUrl");
+};

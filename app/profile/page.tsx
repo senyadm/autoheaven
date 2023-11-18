@@ -16,11 +16,13 @@ const Profile = () => {
   const redirectToLogin = useLoginRedirect();
   const router = useRouter();
   const pathname = usePathname();
-  const accessToken = getToken();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
+    const token = getToken();
+    console.log("checking authentication");
     const checkAuthentication = async () => {
-      if (accessToken) {
+      if (token) {
         const isValid = await validateToken();
         if (!isValid) {
           redirectToLogin();
@@ -32,7 +34,7 @@ const Profile = () => {
       }
     };
     checkAuthentication();
-  }, [accessToken, pathname, redirectToLogin, router]);
+  }, []);
   if (!isAuthenticated) {
     return <></>;
   }

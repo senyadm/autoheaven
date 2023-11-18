@@ -1,5 +1,9 @@
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { clientUsers } from "../client";
+import { get } from "http";
+import { getToken } from "../../../utils/auth";
+import { AppDispatch } from "../store";
 
 interface UserInfo {
   address: string;
@@ -11,6 +15,7 @@ interface UserInfo {
   region: string | null;
   surname: string;
 }
+type LoadState = "idle" | "loading" | "succeeded" | "failed";
 
 interface UserState {
   email: string;
@@ -21,6 +26,7 @@ interface UserState {
   user_info: UserInfo | null;
   user_info_id: number;
   username: string;
+  loadState: LoadState; // for async
 }
 
 const initialState: UserState = {
@@ -32,6 +38,7 @@ const initialState: UserState = {
   user_info: null,
   user_info_id: 0,
   username: "",
+  loadState: "idle",
 };
 
 export const userSlice = createSlice({
@@ -39,10 +46,36 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
-      state = action.payload;
+      console.log("setUser executed", action.payload);
+      return action.payload;
     },
   },
 });
+
+export const fetchUserData = createAsyncThunk(
+  "user/fetchUserData",
+  async (_, { dispatch }) => {
+    try {
+      const token = getToken();
+      // Assume that the token is valid
+      const response = await clientUsers.get("/api/users/me/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      dispatch(setUser(response.data));
+
+      // Return the data if needed
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      // Dispatch an action to handle the error, e.g., set an error state
+      // dispatch(setError(error.message));
+      throw error; // Rethrow the error if needed
+    }
+  }
+);
 
 export const { setUser } = userSlice.actions;
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,7 +23,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
-import { getToken, validateToken } from "@/utils/auth";
+import {
+  getOriginalUrl,
+  getToken,
+  saveToken,
+  validateToken,
+} from "@/utils/auth";
 import useLoginRedirect from "@/hooks/useLoginRedirect";
 const formSchema = zod.object({
   email: zod.string().email(),
@@ -41,21 +46,6 @@ const LoginForm: React.FC = () => {
       password: "",
     },
   });
-  const accessToken = getToken();
-  const redirectToLogin = useLoginRedirect();
-
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      if (accessToken) {
-        const isValid = await validateToken();
-        if (isValid) {
-          console.log("valid token")
-          router.push("/");
-        }
-      }
-    };
-    checkAuthentication();
-  }, [accessToken, redirectToLogin, router]);
 
   function onSubmit(values: zod.infer<typeof formSchema>) {
     clientUsers
@@ -74,8 +64,8 @@ const LoginForm: React.FC = () => {
         }
       )
       .then((response) => {
-        localStorage.setItem("token", response.data.access_token);
-        const prevUrl = localStorage.getItem("originalUrl");
+        saveToken(response.data.access_token);
+        const prevUrl = getOriginalUrl();
         if (prevUrl) {
           router.push(prevUrl);
         } else {
