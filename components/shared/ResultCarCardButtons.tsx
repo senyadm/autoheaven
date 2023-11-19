@@ -39,7 +39,7 @@ const pageDisplayedToButtons = {
     </>,
 }
 
-const ResultCarCardButtons = ({pageDisplayed, isFavorite}) => {
+const ResultCarCardButtons = ({pageDisplayed}: {pageDisplayed: 'cars'}) => {
   return pageDisplayedToButtons[pageDisplayed];
 }
 

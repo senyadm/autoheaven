@@ -27,7 +27,6 @@ const [brands, dispatchBrands] = useAppStore(
 const sortedBrandsWithHeadings = useMemo(() => {
   if (!brands) return [];
 
-  // If brands is an object where keys are brand names, we first get the keys and sort them
   const sortedBrands: string[] = [...Object.keys(brands)].sort();
   let lastLetter = '';
   let groupedBrands: string[][] = []; // An array of arrays of strings
@@ -35,19 +34,16 @@ const sortedBrandsWithHeadings = useMemo(() => {
   sortedBrands.forEach(brand => {
     const firstLetter = brand[0].toUpperCase();
     if (firstLetter !== lastLetter) {
-      // Start a new group with the first letter
       groupedBrands.push([firstLetter]);
       lastLetter = firstLetter;
     }
     groupedBrands[groupedBrands.length - 1].push(brand);
   });
   if (search) {
-    // Filter the groupedBrands based on the search term
     groupedBrands = groupedBrands.filter(grouped => 
       grouped.some(brand => brand.toLowerCase().includes(search.toLowerCase()))
     );
   }
-  console.log(groupedBrands);
   return groupedBrands;
 }, [brands, search]);
 
@@ -56,7 +52,6 @@ const sortedAndGroupedBrands = useMemo(() => {
 
   const sortedBrands: string[] = [...Object.keys(brands)].sort();
 
-  // Group brands by the first letter
   const grouped = sortedBrands.reduce((acc: Record<string, string[]>, brand) => {
     const firstLetter = brand[0].toUpperCase();
     if (!acc[firstLetter]) {
@@ -99,7 +94,6 @@ const handleBrand = (brand: string) => {
     </CardHeader>
     <CardContent className={`border shadow-md border-rounded w-full p-4 ${showSimplified ? '' : 'column-container'}`} >
   {showSimplified ? (
-    // Simplified view for the first 6 brands
     Object.keys(sortedAndGroupedBrands).sort().slice(0, 6).map((brand) => (
       <div key={brand} className="flex items-center">
         <input

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useMemo } from "react";
+
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
 import { ChevronRight, PlusCircle, TrashIcon } from "lucide-react";
@@ -9,7 +10,6 @@ import {
   types,
   typeProps,
   bodyTypes,
-  fuelTypes,
   Trucks,
   Busses
 } from "../landing/types";
@@ -22,8 +22,6 @@ import {
 import { DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger, } from "../ui/dropdown-menu";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -37,9 +35,7 @@ import { Label } from "../ui/label";
 import SvgIcon from "../SvgIcon";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import {
-  fetchAllCarMakes,
   fetchBrands, fetchAllCars,
- CarResult,
 } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 
@@ -535,7 +531,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
           <ChevronRight size={14} />
         </Button>
       </div>
-      {exists && <span className="text-xs text-red-500 block transition-opacity">You've already selected this brand</span>}
+      {exists && <span className="text-xs text-red-500 block transition-opacity">You ve already selected this brand</span>}
       {maximumFilters && <span className="text-xs text-red-500 block transition-opacity">You cannot select more than 5 car brands</span>}
     </div>
   );

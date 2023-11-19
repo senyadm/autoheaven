@@ -1,16 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ChevronRight } from "lucide-react";
 import RangeSlider from "@/components/landing/RangeSlider";
 import { allData } from "@/components/landing/allData";
-import {
-    fetchAllCars,
-  } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-
-import { tempData } from "@/components/landing/tempData";
-
 import {
   Filter,
   ResultsFilterProps,
@@ -37,13 +29,13 @@ export function CarSearchFilter({
     const [offers, setOffers] = useState<number>(0);
 
   
-    const brands = tempData;
-    // brands.push("All")
-    useEffect(() => {
-      if (!carBrands) {
-        dispatch(fetchAllCars());
-      }
-    }, [dispatch, carBrands]);
+    // const brands = tempData;
+    // // brands.push("All")
+    // useEffect(() => {
+    //   if (!carBrands) {
+    //     dispatch(fetchAllCars());
+    //   }
+    // }, [dispatch, carBrands]);
   
     const mileageInRange = (car: Car, range: [number, number]) =>
       car.mileage >= range[0] && car.mileage <= range[1];
@@ -77,22 +69,22 @@ export function CarSearchFilter({
 
     const [typedChars, setTypedChars] = useState('');
 
-    useEffect(() => {
-        if (!typedChars) return;
+    // useEffect(() => {
+    //     if (!typedChars) return;
     
-        const matchedBrand = brands.find(brand => brand.toLowerCase().startsWith(typedChars.toLowerCase()));
+    //     const matchedBrand = brands.find(brand => brand.toLowerCase().startsWith(typedChars.toLowerCase()));
         
-        console.log(matchedBrand);
-        if (matchedBrand) {
-            handleSelectorChange("brandAndModel", matchedBrand);
-        }
+    //     console.log(matchedBrand);
+    //     if (matchedBrand) {
+    //         handleSelectorChange("brandAndModel", matchedBrand);
+    //     }
     
-        const timer = setTimeout(() => {
-          setTypedChars('');
-        }, 1000);
+    //     const timer = setTimeout(() => {
+    //       setTypedChars('');
+    //     }, 1000);
     
-        return () => clearTimeout(timer);
-    }, [typedChars, brands]);
+    //     return () => clearTimeout(timer);
+    // }, [typedChars, brands]);
     
     return (
           <div className=" mt-4 mb-6">

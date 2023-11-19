@@ -1,5 +1,6 @@
+"use client"
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Calendar,
@@ -7,15 +8,24 @@ import {
   CheckCheck,
   ClipboardList,
   Divide,
+  Eye,
   Flame,
   Fuel,
   Heart,
   Sliders,
   Wind,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import SvgIcon from "../SvgIcon";
 import { Button } from "../ui/button";
 import ResultCarCardButtons from "./ResultCarCardButtons";
+import { Label } from "../ui/label";
+import { EyeClosedIcon } from "@radix-ui/react-icons";
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
     case "petrol":
@@ -61,6 +71,7 @@ const ResultCarCard = ({
   drivetrain,
   bodyStyle,
   gear,
+  phone_number,
   accidentFree,
   imageURL,
   id,
@@ -111,6 +122,8 @@ const ResultCarCard = ({
     );
   };
 
+const [eyeOpen, setEyeOpen] = useState(false);
+
   return (
     <div className="flex w-full bg-card border rounded-lg overflow-hidden">
       <img src={imageURL} alt={"Image"} width={256} height={130}></img>
@@ -136,19 +149,27 @@ const ResultCarCard = ({
           <div className="flex justify-between items-end">
             <div>
               <div className="flex items-center">{getAccidentStateIcon()}</div>
-              <div className="flex">
-                <SvgIcon
-                  filepath="/icons/cars/eye-closed.svg"
-                  alt=""
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+              <div onMouseLeave={() => setEyeOpen(false)} onMouseEnter={() => setEyeOpen(true)} className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer">
+               {eyeOpen ? <Eye
                   width={16}
                   height={16}
                   className="mr-1"
-                />{" "}
-                Show contact
+                /> : 
+                <EyeClosedIcon width={16} height={16}/>} 
+               <Label className="cursor-pointer">Show contact</Label> 
               </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                {phone_number}
+              </TooltipContent>
+              </Tooltip>
+              </TooltipProvider>
             </div>
-            <div className="flex items-end">
-              <ResultCarCardButtons pageDisplayed={pageDisplayed} />
+            <div className="flex items-end text-foreground">
+              <ResultCarCardButtons pageDisplayed={pageDisplayed || 'cars'} />
             </div>
           </div>
         </div>

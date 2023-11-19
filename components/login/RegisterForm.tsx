@@ -29,6 +29,12 @@ const formSchema = zod.object({
   lastname: zod.string().min(2, {
     message: "Name must be at least 2 characters",
   }),
+  phone: zod
+  .string()
+  .min(1, { message: "Phone number is required" })
+  .regex(/^(\+\d{1,3}[- ]?)?\d{10}$/, {
+    message: "Invalid phone number. Please enter a valid phone number.",
+  }),
   email: zod
     .string()
     .min(2, {
@@ -66,7 +72,7 @@ const RegisterForm: React.FC = () => {
   });
   console.log("clientUsers", clientUsers);
   function onSubmit(values: zod.infer<typeof formSchema>) {
-    const { firstname, lastname, email, password } = values;
+    const { firstname, lastname, email, password, phone } = values;
     // console.log("First Name:", firstname);
     // console.log("Last Name:", lastname);
     // console.log("Email:", email);
@@ -82,6 +88,7 @@ const RegisterForm: React.FC = () => {
         country: "string",
         city: "string",
         address: "string",
+        phone,
       },
       password: password,
     };
@@ -181,6 +188,22 @@ const RegisterForm: React.FC = () => {
             )}
           />
         </div>
+
+        <FormField
+  control={form.control}
+  name="phone"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>
+        Phone <span className="text-red-500">*</span>
+      </FormLabel>
+      <FormControl>
+        <Input placeholder="+1234567890" {...field} />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
         <FormField
           control={form.control}

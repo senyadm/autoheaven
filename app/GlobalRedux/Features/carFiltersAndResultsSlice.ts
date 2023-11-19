@@ -33,6 +33,7 @@ export type CarResult = {
   description: string;
   created_at: string;
   fueltype: FuelType;
+  phone_number: string;
   drivetrain: Drivetrain;
 };
 
@@ -115,8 +116,8 @@ export const fetchBrands = createAsyncThunk(
   async (_, { rejectWithValue }): Promise<brandsWithModels> => {
     try {
       const response = await clientCars.get(`/api/car_models`, {
-        timeout: 20000, 
-      });
+        timeout: 20000,
+      }); 
       return response.data;
     } catch (err: any) {
       throw rejectWithValue(err.response.data);
@@ -135,7 +136,8 @@ export const fetchAllCars = createAsyncThunk(
         }
       });
       const response = await clientCars.get(`/api/cars/fetch`, {
-        params: filters
+        params: filters,
+        timeout: 20000,
       });
       return response.data;
     } catch (err: any) {

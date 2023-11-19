@@ -19,7 +19,7 @@ interface VehicleCreateParams {
 const steps = ['vehicleType', 'brand', 'model', 'details'];
 
 const MultiStepForm = () => {
-  const [currentStep, setCurrentStep] = useState(0); // State to track current step
+  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<VehicleCreateParams>({} as VehicleCreateParams);
   const router = useRouter();
 

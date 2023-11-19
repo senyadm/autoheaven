@@ -11,7 +11,7 @@ interface SocialMediaLinkProps{
 const SocialMediaLink = ({ href, iconFilename }: SocialMediaLinkProps) => {
   return (
     <a href={href} target="_blank" rel="noopener noreferrer" className='w-9 h-9 flex justify-center border rounded-lg'>
-      <SvgIcon filepath={`icons/${iconFilename}`} alt="Social Media Icon" width={12} height={12}/>
+      <SvgIcon filepath={`/icons/${iconFilename}`} alt="Social Media Icon" width={16} height={16}/>
     </a>
   );
 };

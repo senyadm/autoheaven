@@ -37,7 +37,7 @@ interface TypographyListProps{
 export function TypographyList({ listItems, ulClassName }: TypographyListProps) {
   return (
     <ul className={`text-sm [&>li]:mt-2 ${ulClassName}`}>
-      {listItems.map((listItem) => (
+      {listItems?.map((listItem) => (
         <li key={listItem}>{listItem}</li>
       ))}
     </ul>

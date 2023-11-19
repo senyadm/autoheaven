@@ -8,13 +8,6 @@ import { Label } from '@/components/ui/label';
 import { ChevronRight, SearchIcon } from 'lucide-react';
 import React, { useMemo, useState } from 'react'
 
-interface VehicleCreateParams {
-    vehicleType: string;
-    brand: string;
-    model: string;
-    year: number;
-}
-
 const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious: () => void}) => {
   
   const [search, setSearch] = useState<string>('');
@@ -33,7 +26,6 @@ const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious:
     sortedModels.forEach(model => {
       const firstLetter = model[0].toUpperCase();
       if (firstLetter !== lastLetter) {
-        // Start a new group with the first letter
         groupedModels.push([firstLetter]);
         lastLetter = firstLetter;
       }

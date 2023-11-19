@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import GradientHeading from "../landing/GradientHeading";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
-
+import { Skeleton } from "@/components/ui/skeleton"
 import { wrapper } from "@/app/GlobalRedux/provider";
 import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
 import { CarResult, FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
@@ -16,18 +16,6 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
-type SortValue = "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst";
-
-const sortingMenuDisplayMap: { [key: string]: SortValue } = {
-  "Listing (Newest first)": "newestFirst",
-  "Listing (Oldest first)": "oldestFirst",
-  "Price (Highest first)": "priceHighestFirst",
-  "Price (Lowest first)": "priceLowestFirst",
-  "Mileage (Highest first)": "mileageHighestFirst",
-  "Mileage (Lowest first)": "mileageLowestFirst",
-};
-
-
 const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined, setSort: (value: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst") => void }) => {
 
  const [currentPage, setCurrentPage] = useState(0);
@@ -37,6 +25,15 @@ const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [store, currentPage]);
 
+const [offers, setOffers] = useState<number>(0);
+useEffect(() => {
+    
+  if (store) {
+    let i = 0;
+    store.forEach((list: any[]) => list.forEach(() => i++))
+    setOffers(i);
+  }
+}, [store]);
   const paginationIconProps = {
     width: "16",
     height: "16",
@@ -68,7 +65,7 @@ const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined
     let topcars: ResultCarCardInterface[] = [];
     if (!currentData) return;
     const allCars = currentData.map((car) => {
-        const carData = {
+        const carData: ResultCarCardInterface = {
             title: car?.title || "",
             price: car?.price || 0,
             releaseYear: car?.year || 0,
@@ -79,7 +76,9 @@ const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined
             gear: car?.gearbox || "",
             accidentFree: car?.accidentfree || false,
             imageURL: car?.imageurl || "",
-            id: car?.id || 0
+            id: car?.id || 0,
+            phone_number: car?.phone_number || "",
+            pageDisplayed: "cars",
         };
 
         if (car?.istop) {
@@ -97,9 +96,8 @@ const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined
   return (
     <section className="mr-8">
       <div className="flex justify-between">
-        <GradientHeading title={`${store?.length} offers found`} />
+        <GradientHeading title={`${offers} offers found`} />
         <AppDropdownMenu 
-  options={sortingMenuDisplayMap} 
   setSort={setSort}
 />
       </div>
@@ -107,15 +105,17 @@ const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined
         <div className="space-y-8">
           <div className="space-y-8">
             <TypographyLarge className="mt-8">Top offers</TypographyLarge>
-            {topCars?.map((carInfo, index) => (
+            {topCars.length ? topCars.map((carInfo, index) => (
             <ResultCarCard {...carInfo} key={`${index}${carInfo.imageURL}`} />
-            ))}
+            )) : <Skeleton className="flex w-[800px] h-[200px] border rounded-lg overflow-hidden" />}
           </div>
           <div className="space-y-8">
+
             <TypographyLarge className="mt-8">Main offers</TypographyLarge>
-            {resultsCardData?.map((carInfo, index) => (
+            {resultsCardData ? resultsCardData.map((carInfo, index) => (
               <ResultCarCard {...carInfo} key={`${index}${carInfo.imageURL}`} />
-            ))}
+            )) : 
+            <Skeleton className="flex w-[800px] h-[200px] border rounded-lg overflow-hidden" />}
           </div>
         </div>
         <div className="flex justify-end">

@@ -19,4 +19,5 @@ export interface ResultCarCardInterface {
   isTop?: boolean;
   pageDisplayed?: PageDisplayed;
   isFavorite?: boolean;
+  phone_number: string;
 }

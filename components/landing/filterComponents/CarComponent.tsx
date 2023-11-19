@@ -8,18 +8,14 @@ import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
 import Link from "next/link";
 import {
   Select,
-
   SelectTrigger,
   SelectContent,
-  SelectLabel,
   SelectItem,
-  SelectSeparator,
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
 import { ChevronRight } from "lucide-react";
 import RangeSlider from "../RangeSlider";
-import { tempData } from "../tempData";
 import {
   fetchBrands, fetchAllCars,
 } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
@@ -292,8 +288,7 @@ const handleBrandClick = useCallback((brand: string) => {
   toggleBrandsOpen();
 }, [handleSelectorChange, toggleBrandsOpen]);
 
-  const brands = tempData;
-  // brands.push("All")
+
   useEffect(() => {
 
     if(carBrands) {
@@ -369,30 +364,32 @@ useEffect(() => {
   useEffect(() => {
     
     if (carStore) {
-      setOffers(carStore.length*20);
-      handleOfferNumbers(carStore.length);
+      let i = 0;
+      carStore.forEach((list: any[]) => list.forEach(() => i++))
+      setOffers(i);
+      handleOfferNumbers(i);
     }
   }, [carStore]);
 
   const [typedChars, setTypedChars] = useState("");
 
-  useEffect(() => {
-    if (!typedChars) return;
+  // useEffect(() => {
+  //   if (!typedChars || !carBrands) return;
 
-    const matchedBrand = brands.find((brand) =>
-      brand.toLowerCase().startsWith(typedChars.toLowerCase())
-    );
+  //   const matchedBrand = entries.find((brand) =>
+  //     brand.toLowerCase().startsWith(typedChars.toLowerCase())
+  //   );
 
-    if (matchedBrand) {
-      handleSelectorChange("cars", "brandAndModel", matchedBrand);
-    }
+  //   if (matchedBrand) {
+  //     handleSelectorChange("cars", "brandAndModel", matchedBrand);
+  //   }
 
-    const timer = setTimeout(() => {
-      setTypedChars("");
-    }, 1000);
+  //   const timer = setTimeout(() => {
+  //     setTypedChars("");
+  //   }, 1000);
 
-    return () => clearTimeout(timer);
-  }, [typedChars, brands]);
+  //   return () => clearTimeout(timer);
+  // }, [typedChars, entries]);
 
   return (
     <Card className="border-0 bg-background">

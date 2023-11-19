@@ -15,9 +15,11 @@ import {
   MegaphoneIcon,
   SearchIcon,
   ZoomInIcon,
+  MapPin
 } from "lucide-react";
 import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
+import { Label } from "@/components/ui/label";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
@@ -49,8 +51,8 @@ export function Navbar() {
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
             passHref
           >
-            <ChevronLeft width={16} height={12} />
-            Back Home
+            <ChevronLeft width={20} height={20} />
+            <Label className="text-bold text-lg">Home</Label>
           </Link>
         ) : (
           <div className="flex items-center space-x-4">
@@ -88,7 +90,7 @@ export function Navbar() {
                   width={16}
                   height={16}
                   alt="Translate Icon"
-                  filepath={!lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                  filepath={!lang ? "/icons/UK_Flag.svg" : "/icons/CZ_Flag.svg"}
                 />
               </Button>
             </PopoverTrigger>
@@ -99,7 +101,7 @@ export function Navbar() {
                   height={16}
                   alt="Translate Icon"
                   className="mr-2"
-                  filepath={lang ? "icons/UK_Flag.svg" : "icons/CZ_Flag.svg"}
+                  filepath={lang ? "/icons/UK_Flag.svg" : "/icons/CZ_Flag.svg"}
                 />
                 {lang ? "English" : "Czech"}
               </Button>

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface CarDetails {
+export interface CarDetails {
     type: string;
     body_type: string;
     color: string;
@@ -65,6 +65,5 @@ export const carCreationSlice = createSlice({
 
 // Export actions
 export const { setCarType, setBrand, setModel, setModels, setDetails, resetSelections } = carCreationSlice.actions;
-
 // Export reducer
 export default carCreationSlice.reducer;
