@@ -8,15 +8,26 @@ import { Send } from "lucide-react";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
+import { useTheme } from "next-themes";
+import { getLanguageLS, setLanguageLS } from "../../utils/preferences";
+import { Language } from "../../interfaces/Language";
+const languages: Record<Language, string> = {
+  en: "English",
+  cz: "Czech",
+  de: "German",
+  es: "Spanish",
+  fr: "French",
+};
 const ProfileSettings = () => {
+  const { setTheme, theme } = useTheme();
+  const isThemeDark = theme === "dark";
+  const toggleTheme = () => {
+    setTheme(isThemeDark ? "light" : "dark");
+  };
   const [authorized, setAuthorized] = useState<boolean>(true);
   const token = localStorage.getItem("access_token");
-  const languages = [
-    { value: "English" },
-    { value: "French" },
-    { value: "German" },
-    { value: "Spanish" },
-  ];
+
+  const [language, setLanguage] = React.useState(getLanguageLS());
 
   return (
     <div className=" flex flex-col h-full overflow-hidden w-full px-8 py-5">
@@ -52,7 +63,7 @@ const ProfileSettings = () => {
             </Label>
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
-            <Switch />
+            <Switch onCheckedChange={toggleTheme} checked={isThemeDark} />
           </div>
         </div>
 
@@ -65,12 +76,19 @@ const ProfileSettings = () => {
             </Label>
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
-            <Select>
-              <SelectTrigger className="mb-2">Languages</SelectTrigger>
+            <Select
+              onValueChange={(val: Language) => {
+                setLanguage(val);
+                setLanguageLS(val);
+              }}
+            >
+              <SelectTrigger className="mb-2">
+                {languages[language]}
+              </SelectTrigger>
               <SelectContent>
-                {languages.map((item: any, index: number) => (
-                  <SelectItem key={index} value={item.value}>
-                    {item.value}
+                {Object.keys(languages).map((item, index: number) => (
+                  <SelectItem key={index} value={item}>
+                    {languages[item as Language]}
                   </SelectItem>
                 ))}
               </SelectContent>
