@@ -168,7 +168,12 @@ const ProfileEdit = () => {
                 </Button>{" "}
               </div>
 
-              <EditButton />
+              <EditButton
+                onSave={handleSavePP}
+                onEdit={handleEditPP}
+                onCancel={handleCancelPP}
+                disabledState={isDisabledPP}
+              />
             </div>
           </div>
 
