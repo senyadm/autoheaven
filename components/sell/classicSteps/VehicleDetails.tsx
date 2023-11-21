@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { InputField } from '@/components/ui/input-field';
 import { Label } from '@/components/ui/label';
 import { ChevronRight, PenSquare, SearchIcon } from 'lucide-react';
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { CarDetails } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { Input } from '@/components/ui/input';
 import PhoneInput from 'react-phone-number-input'
@@ -48,31 +48,9 @@ const defaultCarDetails: CarDetails = {
   istop: false
 };
 
-const bodyTypes: string[] = [
-  "All",
-  "Sedan",
-  "SUV",
-  "Hatchback",
-  "Pickup",
-  "Example",
-];
-
-const fuelTypes: string[] = [
-  "All",
-  "Petrol",
-  "Gas",
-  "Electric",
-  "Diesel",
-  "Hybrid",
-];
 
 const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext: (mode?: string) => void}) => {
-  
-  const [search, setSearch] = useState<string>('');
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const [selectedBodyType, setSelectedBodyType] = useState<string>(defaultCarDetails.body_type);
-  const [selectedfuelType, setSelectedFuelType] = useState<string>(defaultCarDetails.fueltype);
-  const [store, dispatch] = useAppStore(
+    const [store, dispatch] = useAppStore(
     (state) => state?.createCarProgress
   )
   const [fileError, setFileError] = React.useState("");
@@ -82,35 +60,9 @@ const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext:
   toggle = () => setHidden(!hidden);
 
   const areDetailsValid = () => {
-    return detailsData.type && detailsData.body_type && detailsData.color && detailsData.year && detailsData.description;
+    return  detailsData.year && detailsData.description;
 
   };
-
-  const sortedModelsWithHeadings = useMemo(() => {
-    if (!store?.models || !store.models.length) return [];
-  
-    const sortedModels: string[] = [...store.models].sort();
-    let lastLetter = '';
-    let groupedModels: string[][] = [];
-  
-    sortedModels.forEach(model => {
-      const firstLetter = model[0].toUpperCase();
-      if (firstLetter !== lastLetter) {
-        groupedModels.push([firstLetter]);
-        lastLetter = firstLetter;
-      }
-      groupedModels[groupedModels.length - 1].push(model);
-    });
-    if (search) {
-      // Filter the groupedBrands based on the search term
-      groupedModels = groupedModels.filter(grouped => 
-        grouped.some(model => model.toLowerCase().includes(search.toLowerCase()))
-      );
-    }
-    console.log(groupedModels);
-    return groupedModels;
-  }, [store, search]);
-
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -140,125 +92,83 @@ const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext:
     }
   };
   
+const handleCreateCar = () => {
+if (!areDetailsValid()) return;
+
+  const prev = {...store, ...detailsData};
+
+ prev.phone = value || '';
+
+  dispatch(setDetails(prev))
+  onNext('final');
+}
+
+useEffect(() => {
+console.log(store);
+}
+, [store])
 
   return (
 <Card className="w-full mx-auto bg-white border-none shadow-none">
   <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
-    <div className="space-y-2">
+      <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Vehicle body</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
-            </div>
-            <Select
-              name="body_type"
-              value={detailsData.body_type}
-              onValueChange={(selectorValue) => setDetailsData({...detailsData, body_type: selectorValue})}
-            >
-              <SelectTrigger currentValue={selectedBodyType}>
-                Select body...
-              </SelectTrigger>
-              <SelectContent>
-              {bodyTypes.map((type) => (
-                <SelectItem key={type} value={type}>{type}</SelectItem>
-              ))}
-              </SelectContent>
-            </Select>
-            </div>
-            <div className="space-y-2">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="filter3">Fuel type</Label>
-              <SvgIcon
-                filepath="icons/fuel.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
-            </div>
-            <Select
-              name="fueltype"
-              value={detailsData.fueltype}
-              onValueChange={(selectorValue) => setDetailsData({...detailsData, fueltype: selectorValue})}
-            >
-              <SelectTrigger currentValue={detailsData.fueltype}>
-                Select fuel...
-              </SelectTrigger>
-              <SelectContent>
-              {fuelTypes.map((type) => (
-                <SelectItem key={type} value={type}>{type}</SelectItem>
-              ))}
-              </SelectContent>
-            </Select>
-            </div>
-            <div className="space-y-2">
-    <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Price</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+              <Label className='text-md text-foreground' htmlFor="filter2">Mileage</Label>
+              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
         type="number"
-        id="year"
-        name="year"
-        placeholder="Price"
-        value={store?.details?.price}
-        onChange={(e) => setDetailsData({...detailsData, price: parseInt(e.target.value)})}
+        min={0}
+        id="mileage"
+        name="mileage"
+        placeholder="Mileage"
+        value={detailsData.mileage}
+        onChange={(e) => setDetailsData({...detailsData, mileage: parseInt(e.target.value)})}
       />
       </div>
-      <div className="space-y-2">
+            <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Mileage</Label>
+              <Label className='text-md text-foreground' htmlFor="filter2">Year</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
         type="number"
         id="year"
         name="year"
-        placeholder="Mileage"
-        value={store?.details?.mileage}
-        onChange={(e) => setDetailsData({...detailsData, mileage: parseInt(e.target.value)})}
-      />
-      </div>
-            <div className="space-y-2">
-    <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Year</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
-            </div>
-      <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
-        type="number"
-        id="year"
-        name="year"
         placeholder="Year"
-        value={store?.details?.year}
+        value={detailsData.year}
         onChange={(e) => setDetailsData({...detailsData, year: parseInt(e.target.value)})}
       />
       </div>
       <div className="space-y-2">
       <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Year</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+              <Label className='text-md text-foreground' htmlFor="filter2">Phone Number</Label>
+              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
-    <div className='flex justify-between flex-1'>
+    <div className='flex justify-between flex-1 w-full'>
             <PhoneInput
+            className='w-full border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
                 international
                 defaultCountry="CZ"
                 value={value}
                 onChange={setValue}
-                style={{ paddingLeft: '5px' }}
+                style={{ paddingLeft: '10px' }}
              
             />
-        <Button className='self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 '> <PenSquare className='mr-2' size={16}/>Edit</Button>
+  
     </div>
 </div>
       <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Description</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+              <Label className='text-md text-foreground' htmlFor="filter2">Description</Label>
+              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Textarea className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
         maxLength={500}
         id="desc"
         name="desc"
-        placeholder="Say something about your car"
-        value={store?.details?.description}
+        placeholder="Tell something nice about your car"
+        value={detailsData.description}
         onChange={(e) => setDetailsData({...detailsData, description: e.target.value})}
       />
       <div className="flex justify-end bottom-2 right-3 text-xs text-muted-foreground">
@@ -267,18 +177,18 @@ const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext:
       </div>
       <Separator/>
 <div className='flex justify-between items-center'>
-      <Label className=''>Accident Free</Label>
+      <Label className='text-md text-foreground'>Accident Free</Label>
       <Checkbox
         id="accidentfree"
         name="accidentfree"
-        checked={store?.details?.accidentfree || false}
+        checked={detailsData.accidentfree || false}
         onClick={() => setDetailsData({...detailsData, accidentfree: !detailsData.accidentfree})}
         className="col-span-2"
       />
 </div>
 <Separator/>
 <div className="grid w-full items-center gap-5">
-      <Label htmlFor="picture">Pictures</Label>
+      <Label className='text-md text-foreground' htmlFor="picture">Pictures</Label>
       <div className="grid grid-cols-1 gap-4">   {fileError && (
         <div className="text-red-500 text-sm">
           {fileError}
@@ -309,8 +219,8 @@ const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext:
     <Button onClick={onPrevious} className="mt-4">
       Previous
     </Button>
-    <Button onClick={() => onNext('final')} className="mt-4" disabled={!!areDetailsValid()}>
-      Continue
+    <Button onClick={handleCreateCar} className="mt-4">
+      Create Car
     </Button>
   </CardFooter>
 </Card>

@@ -58,7 +58,6 @@ export function TrucksComponent({
   return (
     <Card className="bg-background border-0">
       <CardHeader>
-        <CardTitle className="text-sm mb-5">Truck Filters</CardTitle>
 
         <div className="flex items-center justify-center align-items-center ">
           {TRUCK_SUBCATEGORIES.map((subcategory, index) => (

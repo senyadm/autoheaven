@@ -9,6 +9,7 @@ export interface CarDetails {
     gearbox: string;
     price: number;
     description: string;
+    phone?: string
     title: string;
     fueltype: string;
     accidentfree: boolean;
