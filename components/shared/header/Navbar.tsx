@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import * as React from "react";
 import Link from "next/link";
 import { InputField } from "@/components/ui/input-field";
@@ -20,10 +21,14 @@ import {
 import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
 import { Label } from "@/components/ui/label";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
   const [openPopover, setOpenPopover] = React.useState(false);
+  const token = localStorage.getItem("token");
+
+
 
   const handleLanguageToggle = () => {
     setOpenPopover(false);
@@ -57,13 +62,6 @@ export function Navbar() {
         ) : (
           <div className="flex items-center space-x-4">
             <Link href="/">
-              {/* <SvgIcon
-                width={78}
-                height={36}
-                alt=""
-                filepath="logotype_draft.svg"
-                className="w-18 h-10"
-              /> */}
               <Image src={logo} height={30} width={64} alt="" />
             </Link>
 
@@ -77,9 +75,45 @@ export function Navbar() {
           </div>
         )}
 
+
         <div className="flex items-center space-x-4">
           <ModeToggle />
-          <Popover open={openPopover}>
+        {token ? <Popover open={openPopover}>
+            <PopoverTrigger
+              asChild
+            >
+              <Button onClick={() => setOpenPopover(!openPopover)} variant="outline" size="icon" className="w-full p-2 items-center">
+
+              <SvgIcon
+                filepath="/icons/profile.svg"
+                alt="Logo"
+                width={24}
+                height={24}
+              />
+ 
+            <ChevronDown width={16} height={16} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
+              <Link href="/login" onClick={handleLanguageToggle} className="flex flex-row justify-center items-center p-2 space-x-2">
+                <Label className="text-foreground text-l">Logout</Label>
+                <LogInIcon className="w-4 h-4" />
+              </Link>
+              <Button>
+                Advertise
+                <MegaphoneIcon className="ml-2 w-4 h-4" />
+              </Button>
+            </PopoverContent>
+          </Popover> : (
+                <Link
+                href="/login"
+                className={buttonVariants({ size: "icon", variant: "outline" })}
+              >
+                <LogInIcon className="w-4 h-4" />
+                <span className="sr-only">Login</span>
+              </Link>
+          )}  
+          {/* <Popover open={openPopover}>
             <PopoverTrigger
               // className="color-primary h-full border p-3 rounded-lg"
               onClick={handlePopoverToggle}
@@ -106,10 +140,11 @@ export function Navbar() {
                 {lang ? "English" : "Czech"}
               </Button>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
 
-          {!isNavbarV2 && (
+          {/* {!isNavbarV2 && (
             <>
+              
               <Link
                 href="/login"
                 className={buttonVariants({ size: "icon", variant: "outline" })}
@@ -121,8 +156,9 @@ export function Navbar() {
                 Advertise
                 <MegaphoneIcon className="ml-2 w-4 h-4" />
               </Button>
+              
             </>
-          )}
+          )} */}
         </div>
       </div>
     </NavigationMenu>

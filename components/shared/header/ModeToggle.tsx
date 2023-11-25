@@ -17,7 +17,7 @@ const ModeToggle = () => {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme}>
+    <Button className="p-2" variant="outline" size="icon" onClick={toggleTheme}>
       {theme === "light" ? (
         <Sun className="h-[1.2rem] w-[1.2rem]" />
       ) : (

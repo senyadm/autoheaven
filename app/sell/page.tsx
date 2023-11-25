@@ -95,9 +95,15 @@ const FAQItems = [
 ];
 const Sell = () => {
   const router = useRouter();
-
+  const token = localStorage.getItem('token');
   const handleNavigate = (e: any, mode: 'classic' | 'direct' | undefined) => {
     e.preventDefault();
+
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
     router.push(`sell/${mode}`);
   }
 

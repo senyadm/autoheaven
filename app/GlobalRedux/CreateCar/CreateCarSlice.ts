@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
+import { clientCars } from "../client";
 
 export interface CarDetails {
     type: string;
@@ -18,22 +19,114 @@ export interface CarDetails {
     istop: boolean;
   }
   
+  enum RequestStatus {
+    Idle = "idle",
+    Loading = "loading",
+    Failed = "failed",
+  }
+  
+  const defaultCarDetails = {
+    type: '',
+    body_type: '',
+    color: '',
+    year: new Date().getFullYear(),
+    mileage: 0,
+    gearbox: '',
+    price: 0,
+    description: '',
+    title: '',
+    fueltype: '',
+    accidentfree: false,
+    imageurl: '',
+    drivetrain: '',
+    istop: false
+  };
 
 interface CarCreationState {
   carType: string | null;
   brand: string | null;
   model: string | null;
-  details: CarDetails | null;
+  details: CarDetails;
   models: string[];
+  wishlist: number[];
 }
 
 const initialState: CarCreationState = {
   carType: null,
   brand: null,
   model: null,
-  details: null,
-  models: []
+  details: defaultCarDetails,
+  models: [],
+  wishlist: []
 };
+
+export const fetchWishlistCars = createAsyncThunk(
+  'carCreation/fetchWishlistCars',
+  async (): Promise<number[]> => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+    const response = await clientCars.get("/api/cars/wishlist/", { headers });
+    return response.data; // Assuming the API returns an array of cars
+  }
+);
+
+
+  export async function createCar(params: CarCreationState): Promise<string> {
+
+    const payload = {
+      type: params.carType,
+      body_type: params.details?.body_type,
+      make: params.brand,
+      model: params.model,
+      color: params.details?.color,
+      year: params.details?.year,
+      mileage: params.details?.mileage,
+      gearbox: params.details?.gearbox,
+      price: params.details?.price,
+      description: params.details?.description,
+      phone: params.details?.phone,
+      title: params.details?.title,
+      fueltype: params.details?.fueltype,
+      accidentfree: params.details?.accidentfree,
+      imageurl: params.details?.imageurl,
+      drivetrain: params.details?.drivetrain,
+      istop: params.details?.istop,
+    }
+    const token = localStorage.getItem("token");
+
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+
+    try {
+      const response = await clientCars.post("/api/cars", payload, { headers });
+      return response.data;
+    } catch (err: any) {
+      return err.response.data;
+    }
+  }
+
+  export const addToWishListThunk = createAsyncThunk(
+    'carCreation/addToWishList',
+    async (id: number, { dispatch, getState }) => {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`
+      };
+  
+      try {
+        const response = await clientCars.post(`/api/cars/wishlist?car_id=${id}`, { headers });
+               
+        return response.data;
+      } catch (err: any) {
+        // You can also dispatch error handling actions here if needed
+        return err.response.data;
+      }
+    }
+  );
+
 
 export const carCreationSlice = createSlice({
   name: 'carCreation',
@@ -59,9 +152,24 @@ export const carCreationSlice = createSlice({
       state.carType = null;
       state.brand = null;
       state.model = null;
-      state.details = null;
+      state.details = defaultCarDetails;
+    },
+    addToWishlist: (state, action: PayloadAction<number>) => {
+      if (!state.wishlist.includes(action.payload)) {
+        state.wishlist = [...state.wishlist, action.payload];
+      }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchWishlistCars.fulfilled, (state, action) => {
+      state.wishlist = action.payload;
+    })
+    .addCase(addToWishListThunk.fulfilled, (state, action) => {
+      if (!state.wishlist.includes(action.meta.arg)) {
+        state.wishlist = action.payload;
+      }
+    });
+  }
 });
 
 // Export actions

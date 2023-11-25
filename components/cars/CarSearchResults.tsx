@@ -5,8 +5,7 @@ import GradientHeading from "../landing/GradientHeading";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
 import { Skeleton } from "@/components/ui/skeleton"
-import { wrapper } from "@/app/GlobalRedux/provider";
-import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
+
 import { CarResult, FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +15,16 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
+import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { fetchWishlistCars } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined, setSort: (value: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst") => void }) => {
+const [, wishlistDispatch] = useAppStore(
+  (state) => state?.createCarProgress.wishlist
+);
+
+useEffect(() => {
+    wishlistDispatch(fetchWishlistCars())
+}, [wishlistDispatch])
 
  const [currentPage, setCurrentPage] = useState(0);
  const currentData = useMemo(() => {

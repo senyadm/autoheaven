@@ -1,3 +1,4 @@
+"use client"
 import { clientUsers } from "@/app/GlobalRedux/client";
 
 export const validateToken = async () => {

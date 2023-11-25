@@ -64,6 +64,21 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 
+const gearbox: {
+  gear: string;
+  key: string;
+}[]
+= [
+  {
+      gear: "Automatic",
+      key: "auto"
+  },
+  {
+      gear: "Manual",
+      key: "manual"
+  }
+  ];
+
 const driveTrain: {
     driveTrain: string;
     key: string;
@@ -86,18 +101,17 @@ const driveTrain: {
 const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, onNext: (mode?: string) => void}) => {
   
   const [store, dispatch] = useAppStore(
-    (state) => state?.createCarProgress
+    (state) => state?.createCarProgress.details
   )
-  const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
 
   const handleNext = () => {
-    dispatch(setDetails({...store, ...detailsData}));
+    dispatch(setDetails(store));
     onNext('final')
 }
 
   const handleYear = (year: string) => {
    if (Number(year) > new Date().getFullYear()) return;
-    setDetailsData({...detailsData, year: parseInt(year)});
+    dispatch(setDetails({...store, year: parseInt(year)}));
   }
 
   return (
@@ -110,10 +124,10 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
             </div>
             <Select
               name="body_type"
-              value={detailsData.body_type}
-              onValueChange={(selectorValue) => setDetailsData({...detailsData, body_type: selectorValue})}
+              value={store?.body_type}
+              onValueChange={(selectorValue) => dispatch(setDetails({...store, body_type: selectorValue}))}
             >
-              <SelectTrigger currentValue={detailsData.body_type}>
+              <SelectTrigger currentValue={store?.body_type}>
                 Select body...
               </SelectTrigger>
               <SelectContent>
@@ -135,10 +149,10 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
             </div>
             <Select
               name="fueltype"
-              value={detailsData.fueltype}
-              onValueChange={(selectorValue) => setDetailsData({...detailsData, fueltype: selectorValue})}
+              value={store?.fueltype}
+              onValueChange={(selectorValue) => dispatch(setDetails({...store, fueltype: selectorValue}))}
             >
-              <SelectTrigger currentValue={detailsData.fueltype}>
+              <SelectTrigger currentValue={store?.fueltype}>
                 Select fuel...
               </SelectTrigger>
               <SelectContent>
@@ -161,11 +175,10 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
         max={new Date().getFullYear()}
         name="year"
         placeholder="Year"
-        value={detailsData?.year}
+        value={store?.year}
         onChange={(e) => handleYear(e.target.value)}
       />
       </div>
-
       <div className="space-y-4">
     <div className="flex items-center space-x-2">
               <Label className='text-lg text-foreground' htmlFor="filter2">Drive Train</Label>
@@ -175,11 +188,29 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
     {driveTrain.map((item, index) => (
         <div key={index} className='items-center'>
 <Checkbox isRounded={true}
-       name="fwd"
-       checked={detailsData.drivetrain === item.key}
-       onClick={() => {setDetailsData({...detailsData, drivetrain: item.key})}}
+       checked={store?.gearbox === item.key}
+       onClick={() => {dispatch(setDetails({...store, gearbox: item.key}))}}
        className="mr-2"/>
       <Label htmlFor={`brand-${item.key}`} className='text-md text-foreground'>{item.driveTrain}</Label>
+        </div>
+    )
+
+    )}  
+      </div>
+      </div>
+      <div className="space-y-4">
+    <div className="flex items-center space-x-2">
+              <Label className='text-lg text-foreground' htmlFor="filter2">Gearbox</Label>
+              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            </div>
+            <div className='flex flex-row space-x-8 items-center'>
+    {gearbox.map((item, index) => (
+        <div key={index} className='items-center'>
+<Checkbox isRounded={true}
+       checked={store?.drivetrain === item.key}
+       onClick={() => {dispatch(setDetails({...store, drivetrain: item.key}))}}
+       className="mr-2"/>
+      <Label htmlFor={`brand-${item.key}`} className='text-md text-foreground'>{item.gear}</Label>
         </div>
     )
 

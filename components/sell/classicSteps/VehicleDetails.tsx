@@ -1,19 +1,15 @@
-import { setDetails } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { useAppStore } from '@/app/GlobalRedux/useStore';
 import { SketchPicker } from 'react-color';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { InputField } from '@/components/ui/input-field';
 import { Label } from '@/components/ui/label';
-import { ChevronRight, PenSquare, SearchIcon } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react'
-import { CarDetails } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
+import { CarDetails, createCar } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { Input } from '@/components/ui/input';
 import PhoneInput from 'react-phone-number-input'
 import { Separator } from '@/components/ui/separator';
 import 'react-phone-number-input/style.css'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import {
   DropdownMenu,
@@ -50,9 +46,10 @@ const defaultCarDetails: CarDetails = {
 
 
 const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext: (mode?: string) => void}) => {
-    const [store, dispatch] = useAppStore(
+  const [store] = useAppStore(
     (state) => state?.createCarProgress
   )
+
   const [fileError, setFileError] = React.useState("");
   const [value, setValue] = useState<string | undefined>("")
   const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
@@ -94,23 +91,45 @@ const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext:
   
 const handleCreateCar = () => {
 if (!areDetailsValid()) return;
+  if (!store) return;
+  const prev = {...store};
 
-  const prev = {...store, ...detailsData};
+  const newDetails = {
+    ...prev.details,
+    phone: value || '',
+    price: detailsData.price,
+    mileage: detailsData.mileage,
+    description: detailsData.description,
+    accidentfree: detailsData.accidentfree
+  };
+  
+  const newStore = {
+    ...store,
+    details: newDetails
+  };
 
- prev.phone = value || '';
-
-  dispatch(setDetails(prev))
+  createCar(newStore)
   onNext('final');
 }
-
-useEffect(() => {
-console.log(store);
-}
-, [store])
 
   return (
 <Card className="w-full mx-auto bg-white border-none shadow-none">
   <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
+  <div className="space-y-2">
+    <div className="flex items-center space-x-2">
+              <Label className='text-md text-foreground' htmlFor="filter2">Price</Label>
+              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            </div>
+      <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
+        type="number"
+        min={0}
+        id="price"
+        name="price"
+        placeholder="price"
+        value={detailsData.price}
+        onChange={(e) => setDetailsData({...detailsData, price: parseInt(e.target.value)})}
+      />
+      </div>
       <div className="space-y-2">
     <div className="flex items-center space-x-2">
               <Label className='text-md text-foreground' htmlFor="filter2">Mileage</Label>
@@ -124,20 +143,6 @@ console.log(store);
         placeholder="Mileage"
         value={detailsData.mileage}
         onChange={(e) => setDetailsData({...detailsData, mileage: parseInt(e.target.value)})}
-      />
-      </div>
-            <div className="space-y-2">
-    <div className="flex items-center space-x-2">
-              <Label className='text-md text-foreground' htmlFor="filter2">Year</Label>
-              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
-            </div>
-      <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
-        type="number"
-        id="year"
-        name="year"
-        placeholder="Year"
-        value={detailsData.year}
-        onChange={(e) => setDetailsData({...detailsData, year: parseInt(e.target.value)})}
       />
       </div>
       <div className="space-y-2">

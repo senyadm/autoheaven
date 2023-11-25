@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import { addToWishListThunk } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import {
   Calendar,
   Car,
@@ -26,6 +27,7 @@ import { Button } from "../ui/button";
 import ResultCarCardButtons from "./ResultCarCardButtons";
 import { Label } from "../ui/label";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
+import { useAppStore } from "@/app/GlobalRedux/useStore";
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
     case "petrol":
@@ -123,6 +125,32 @@ const ResultCarCard = ({
   };
 
 const [eyeOpen, setEyeOpen] = useState(false);
+const [wishlist, dispatch] = useAppStore(
+  (state) => state?.createCarProgress.wishlist
+);
+const onButtonClick = (type: string) => {
+  const item = localStorage.getItem('token');
+  if (!wishlist) return;
+  if (!item) {
+    console.log('no token')    
+    return;
+  }
+
+  if (type === 'like') {
+
+    if (wishlist?.includes(id)) {
+      const prevWishList = wishlist.filter((el) => el !== id);
+      dispatch(addToWishListThunk(prevWishList));
+    }
+    else {
+      const prevWishList = [...wishlist, id];
+
+      dispatch(addToWishListThunk(prevWishList));
+    }
+    
+  }
+
+}
 
   return (
     <div className="flex w-full bg-card border rounded-lg overflow-hidden">
@@ -169,7 +197,7 @@ const [eyeOpen, setEyeOpen] = useState(false);
               </TooltipProvider>
             </div>
             <div className="flex items-end text-foreground">
-              <ResultCarCardButtons pageDisplayed={pageDisplayed || 'cars'} />
+              <ResultCarCardButtons isWish={wishlist?.includes(id)} onButtonClick={onButtonClick} pageDisplayed={pageDisplayed || 'cars'} />
             </div>
           </div>
         </div>
