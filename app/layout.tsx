@@ -5,6 +5,7 @@ import { Providers } from "./GlobalRedux/provider";
 import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
+import { GetServerSideProps } from 'next';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>

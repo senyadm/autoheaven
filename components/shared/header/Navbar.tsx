@@ -22,13 +22,11 @@ import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 
 export function Navbar() {
   const [lang, setLang] = React.useState(true); // false: CZ, true: UK
   const [openPopover, setOpenPopover] = React.useState(false);
-  const token = localStorage.getItem("token");
-
-
 
   const handleLanguageToggle = () => {
     setOpenPopover(false);
@@ -36,6 +34,34 @@ export function Navbar() {
       setLang(!lang);
     }, 300);
   };
+
+  const [location, setLocation] = useState({ country: '', city: '' });
+  const [cities, setCities] = useState([]);
+  const [token, setToken] = useState<string | null>();
+  useEffect(() => {
+    const tok = localStorage.getItem("token");
+    setToken(tok ? tok : null);
+    // Function to fetch location data
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch('/api/location'); // Replace with your API endpoint
+        const data = await response.json();
+        setLocation({ country: data.country, city: data.city });
+        // Optionally, fetch cities based on the country
+        const citiesResponse = await fetch(`/api/cities?country=${data.country}`);
+        const citiesData = await citiesResponse.json();
+        setCities(citiesData.cities);
+      } catch (error) {
+        console.error('Failed to fetch location', error);
+      }
+    };
+
+    fetchLocation();
+  }, []);
+
+  useEffect(() => {
+    console.log(location);
+  }, [location])
 
   const handlePopoverToggle = () => {
     setOpenPopover(!openPopover);
