@@ -11,6 +11,7 @@ import {
 
 
   import { useAppStore } from "@/app/GlobalRedux/useStore";
+import usePremiumStatus from "@/hooks/usePremiumStatus";
 
 
   
@@ -21,6 +22,9 @@ export function CarSearchFilter({
     handleSelectorChange,
     handleOfferNumbers,
   }: ResultsFilterProps) {
+    const {premiumThreshold, isPremium} = usePremiumStatus();
+    const variablePriceMin = isPremium ? premiumThreshold : 1000;
+
     const [carBrands, dispatch] = useAppStore(
         (state) => state.carFiltersAndResults.carMakes
       );
@@ -91,11 +95,11 @@ export function CarSearchFilter({
             <div className="mt-8">
             <RangeSlider 
               value={filter.price}
-              fixedLowerText="1000 $"
+              fixedLowerText={`${variablePriceMin} $"`}
               fixedUpperText="1000000 $"
               filename="banknote.svg"
               id="price"
-              min={1000}
+              min={variablePriceMin}
               max={1000000}
               step={1000}
               label="Price"

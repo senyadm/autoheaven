@@ -49,7 +49,10 @@ module.exports = {
         card: {
           DEFAULT: "#F8FAFC",
           foreground: "hsl(var(--card-foreground))",
-        }
+        },
+        premium: {
+          DEFAULT: "#2c2a28",
+        },
       },
       spacing: {
         17.5: "4.375rem",
@@ -79,7 +82,7 @@ module.exports = {
       backgroundImage: {
         "topography-light": "url('/textures/topography light.svg')",
         "topography-dark": "url('/textures/topography dark.svg')",
-        'gradient-to-r-gray': 'linear-gradient(to right, #80808000, #808080)'
+        "gradient-to-r-gray": "linear-gradient(to right, #80808000, #808080)",
       },
 
       gridTemplateRows: {

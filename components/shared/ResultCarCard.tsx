@@ -28,6 +28,8 @@ import ResultCarCardButtons from "./ResultCarCardButtons";
 import { Label } from "../ui/label";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+import usePremiumStatus from "@/hooks/usePremiumStatus";
+
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
     case "petrol":
@@ -80,6 +82,8 @@ const ResultCarCard = ({
   isTop,
   pageDisplayed,
 }: ResultCarCardInterface) => {
+    const { isPremium } = usePremiumStatus();
+
   const carInfo = [
     {
       icon: <Calendar width={16} height={16} />, // Replace with the actual CalendarIcon component
@@ -153,7 +157,11 @@ const onButtonClick = (type: string) => {
 }
 
   return (
-    <div className="flex w-full bg-card border rounded-lg overflow-hidden">
+    <div
+      className={`flex w-full ${
+        isPremium ? "bg-premium text-white" : "bg-background"
+      } border rounded-lg overflow-hidden`}
+    >
       <img src={imageURL} alt={"Image"} width={256} height={130}></img>
       <div className="flex flex-col w-full">
         {isTop && (
@@ -168,7 +176,10 @@ const onButtonClick = (type: string) => {
           </div>
           <div className="flex flex-wrap">
             {carInfo.map((el) => (
-              <div className="flex mr-6 whitespace-nowrap" key={String(id) + el.label}>
+              <div
+                className="flex mr-6 whitespace-nowrap"
+                key={String(id) + el.label}
+              >
                 <div className="mr-1 flex items-center">{el.icon}</div>
                 {el.label}
               </div>
@@ -180,24 +191,29 @@ const onButtonClick = (type: string) => {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-              <div onMouseLeave={() => setEyeOpen(false)} onMouseEnter={() => setEyeOpen(true)} className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer">
-               {eyeOpen ? <Eye
-                  width={16}
-                  height={16}
-                  className="mr-1"
-                /> : 
-                <EyeClosedIcon width={16} height={16}/>} 
-               <Label className="cursor-pointer">Show contact</Label> 
-              </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                {phone_number}
-              </TooltipContent>
-              </Tooltip>
+                    <div
+                      onMouseLeave={() => setEyeOpen(false)}
+                      onMouseEnter={() => setEyeOpen(true)}
+                      className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer"
+                    >
+                      {eyeOpen ? (
+                        <Eye width={16} height={16} className="mr-1" />
+                      ) : (
+                        <EyeClosedIcon width={16} height={16} />
+                      )}
+                      <Label className="cursor-pointer">Show contact</Label>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>{phone_number}</TooltipContent>
+                </Tooltip>
               </TooltipProvider>
             </div>
             <div className="flex items-end text-foreground">
-              <ResultCarCardButtons isWish={wishlist?.includes(id)} onButtonClick={onButtonClick} pageDisplayed={pageDisplayed || 'cars'} />
+              <ResultCarCardButtons
+                isWish={wishlist?.includes(id)}
+                onButtonClick={onButtonClick}
+                pageDisplayed={pageDisplayed || "cars"}
+              />
             </div>
           </div>
         </div>

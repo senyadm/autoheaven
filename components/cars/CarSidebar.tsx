@@ -38,6 +38,8 @@ import {
   fetchBrands, fetchAllCars,
 } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
+import { usePathname } from "next/navigation";
+import usePremiumStatus from "@/hooks/usePremiumStatus";
 
 type CarSidebarProps = {
   paramFilters: FilterPayload;
@@ -45,9 +47,11 @@ type CarSidebarProps = {
 };
 
 const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
+  const {isPremium, premiumThreshold} = usePremiumStatus();
+  const variablePriceMin = isPremium ? premiumThreshold : 1000;
   const filterDefault: Filter = {
     type: "",
-    price: [1000, 1000000],
+    price: [variablePriceMin, 1000000],
     milage: [0, 500000],
     year: [1975, 2023],
     brandAndModel: "",
@@ -129,14 +133,12 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
   };
 
   const handleSelectorChange = (id: string, selectorValue: string) => {
-    console.log(id, selectorValue);
     setFilters((prev) => ({
       ...prev,
       [id]: selectorValue,
     }));
   };
   const handleBrandCheckboxChange = (brand: brandsWithModelsData) => {
-    console.log(brand);
     const updatedBrands = filterBrands.map((b) => {
       if (b.brand === brand.brand) {
         return {
@@ -203,7 +205,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         make: make || "",
         model: model || "",
         fueltype: filters.fuelType || "",
-        price_min:  filters.price[0] || 1000,
+        price_min:  filters.price[0] || variablePriceMin,
         price_max: filters.price[1] || 1000000,
         mileage_min: filters.milage[0] || 0,
         mileage_max: filters.milage[1] || 500000,

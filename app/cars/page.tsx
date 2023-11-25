@@ -12,8 +12,13 @@ import CarSidebar from "@/components/cars/CarSidebar";
 import { FilterPayload, fetchAllCars } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 
+const premiumThreshold = 250_000;
 
-const Cars = () => {
+interface CarsProps{
+  isPremium?: boolean;
+}
+const Cars = ({isPremium=false}:CarsProps) => {
+  console.log(isPremium)
   const query  = useSearchParams()
   const [filters, setFilters] = useState<FilterPayload>({} as FilterPayload);
   const [sort, setSort] = useState<"newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst">("newestFirst");
@@ -31,7 +36,7 @@ const Cars = () => {
       fueltype: "",
       body_type: "",
       price_max: 1000000,
-      price_min: 1000,
+      price_min: isPremium ? premiumThreshold : 1000,
       min_year: 1975,
       max_year: 2023,
       mileage_min: 0,

@@ -73,8 +73,10 @@ useEffect(() => {
     let topcars: ResultCarCardInterface[] = [];
     if (!currentData) return;
     const allCars = currentData.map((car) => {
+        const alternativeTitle =
+          car?.make && car?.model && `${car?.make} ${car?.model}`;
         const carData: ResultCarCardInterface = {
-            title: car?.title || "",
+            title: car?.title || alternativeTitle || "",
             price: car?.price || 0,
             releaseYear: car?.year || 0,
             mileage: car?.mileage || 0,
