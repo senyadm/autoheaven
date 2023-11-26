@@ -114,7 +114,8 @@ export const deleteFromWishlistThunk = createAsyncThunk(
   async (id: number, { dispatch }) => {
     try {
       const response = await clientCars.delete(
-        `/api/cars/wishlist/${id}`
+        `/api/cars/wishlist/${id}`,
+    
       );
 
       dispatch(deleteFromWishlist(id));

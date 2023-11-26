@@ -13,10 +13,6 @@ const Profile = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  if (!isAuthenticated) {
-    return <></>;
-  }
   return (
     <main className="flex justify-center items-start flex-grow py-4 bg-topography-light">
       <div className="flex space-x-4 max-w-screen-xl">
