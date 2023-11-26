@@ -1,6 +1,6 @@
 import { getToken } from "@/utils/auth";
 import axios from "axios";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const [clientCars, clientUsers] = [
   "https://autoheven-cars.vercel.app",
@@ -20,7 +20,7 @@ const [clientCars, clientUsers] = [
     (config) => {
       // Do something before the request is sent
       // For example, set authentication tokens
-      config.headers['Authorization'] = 'Bearer ' + getToken();
+      config.headers["Authorization"] = "Bearer " + getToken();
       return config;
     },
     (error) => {
@@ -39,7 +39,7 @@ const [clientCars, clientUsers] = [
       // Any status code outside the range of 2xx causes this function to trigger
       if (error.response && error.response.status === 401) {
         // Handle 401 errors globally, for example, redirect to login
-        redirect('/login');
+        window.location.replace("/login");
       }
       return Promise.reject(error);
     }

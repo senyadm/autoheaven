@@ -8,10 +8,25 @@ import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
 import { Separator } from "@/components/ui/separator";
 import SvgIcon from "@/components/SvgIcon";
 import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../GlobalRedux/store";
+import { fetchUserData } from "../GlobalRedux/profile/userSlice";
 
 const Profile = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const userName = useSelector(
+    (state: RootState) => state?.user?.user_info?.name
+  );
+  if (!userName) {
+    dispatch(fetchUserData());
+  }
+  const userSurname = useSelector(
+    (state: RootState) => state?.user?.user_info?.surname
+  );
+  const fullName = `${userName} ${userSurname}`;
+  const userEmail = useSelector((state: RootState) => state?.user?.email);
 
   return (
     <main className="flex justify-center items-start flex-grow py-4 bg-topography-light">
@@ -27,9 +42,9 @@ const Profile = () => {
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold ">John Doe</span>
+              <span className="font-bold ">{fullName}</span>
               <span className="text-foreground text-sm text-muted-foreground">
-                johndoe@gmail.com
+                {userEmail}
               </span>
             </div>
           </div>
