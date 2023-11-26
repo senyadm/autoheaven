@@ -19,10 +19,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<HandlerResponse>
 ) {
+  console.log(" ASDASDASDASD")
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const response = await fetch(`https://ipapi.co/${ip}/json/`);
   const location: GeoLocationResponse = await response.json();
-
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.status(200).json({
     country: location.country_name,
     city: location.city,
