@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import { clientCars } from "../client";
+import { getToken } from '@/utils/auth';
 
 export interface CarDetails {
     type: string;
@@ -60,17 +61,17 @@ const initialState: CarCreationState = {
   wishlist: []
 };
 
-export const fetchWishlistCars = createAsyncThunk(
-  'carCreation/fetchWishlistCars',
-  async (): Promise<number[]> => {
-    const token = localStorage.getItem("token");
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
-    const response = await clientCars.get("/api/cars/wishlist/", { headers });
-    return response.data; // Assuming the API returns an array of cars
-  }
-);
+// export const fetchWishlistCars = createAsyncThunk(
+//   'carCreation/fetchWishlistCars',
+//   async (): Promise<number[]> => {
+//     const token = localStorage.getItem("token");
+//     const headers = {
+//       Authorization: `Bearer ${token}`
+//     };
+//     const response = await clientCars.get("/api/cars/wishlist/", { headers });
+//     return response.data; // Assuming the API returns an array of cars
+//   }
+// );
 
 
   export async function createCar(params: CarCreationState): Promise<string> {
@@ -94,7 +95,7 @@ export const fetchWishlistCars = createAsyncThunk(
       drivetrain: params.details?.drivetrain,
       istop: params.details?.istop,
     }
-    const token = localStorage.getItem("token");
+    const token = getToken();
 
     const headers = {
       Authorization: `Bearer ${token}`
@@ -108,24 +109,24 @@ export const fetchWishlistCars = createAsyncThunk(
     }
   }
 
-  export const addToWishListThunk = createAsyncThunk(
-    'carCreation/addToWishList',
-    async (id: number, { dispatch, getState }) => {
-      const token = localStorage.getItem("token");
-      const headers = {
-        Authorization: `Bearer ${token}`
-      };
+  // export const addToWishListThunk = createAsyncThunk(
+  //   'carCreation/addToWishList',
+  //   async (id: number, { dispatch, getState }) => {
+  //     const token = getToken();
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`
+  //     };
   
-      try {
-        const response = await clientCars.post(`/api/cars/wishlist?car_id=${id}`, { headers });
+  //     try {
+  //       const response = await clientCars.post(`/api/cars/wishlist?car_id=${id}`, { headers });
                
-        return response.data;
-      } catch (err: any) {
-        // You can also dispatch error handling actions here if needed
-        return err.response.data;
-      }
-    }
-  );
+  //       return response.data;
+  //     } catch (err: any) {
+  //       // You can also dispatch error handling actions here if needed
+  //       return err.response.data;
+  //     }
+  //   }
+  // );
 
 
 export const carCreationSlice = createSlice({
@@ -154,21 +155,21 @@ export const carCreationSlice = createSlice({
       state.model = null;
       state.details = defaultCarDetails;
     },
-    addToWishlist: (state, action: PayloadAction<number>) => {
-      if (!state.wishlist.includes(action.payload)) {
-        state.wishlist = [...state.wishlist, action.payload];
-      }
-    },
+    // addToWishlist: (state, action: PayloadAction<number>) => {
+    //   if (!state.wishlist.includes(action.payload)) {
+    //     state.wishlist = [...state.wishlist, action.payload];
+    //   }
+    // },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchWishlistCars.fulfilled, (state, action) => {
-      state.wishlist = action.payload;
-    })
-    .addCase(addToWishListThunk.fulfilled, (state, action) => {
-      if (!state.wishlist.includes(action.meta.arg)) {
-        state.wishlist = action.payload;
-      }
-    });
+    // builder.addCase(fetchWishlistCars.fulfilled, (state, action) => {
+    //   state.wishlist = action.payload;
+    // })
+    // .addCase(addToWishListThunk.fulfilled, (state, action) => {
+    //   if (!state.wishlist.includes(action.meta.arg)) {
+    //     state.wishlist = action.payload;
+    //   }
+    // });
   }
 });
 

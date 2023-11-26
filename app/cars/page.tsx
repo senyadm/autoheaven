@@ -72,6 +72,7 @@ const Cars = ({isPremium=false}:CarsProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, storeIsEmpty]);
 
+
   return (
   
       <main className="flex flex-1 items-start bg-indigo-50 py-6">

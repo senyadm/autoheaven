@@ -2,7 +2,6 @@
 "use client"
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React, { useEffect, useState } from "react";
-import { addToWishListThunk } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import {
   Calendar,
   Car,
@@ -29,6 +28,8 @@ import { Label } from "../ui/label";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/hooks/usePremiumStatus";
+import { getToken } from "@/utils/auth";
+import { addToWishlistThunk, deleteFromWishlist, deleteFromWishlistThunk } from "@/app/GlobalRedux/profile/userSlice";
 
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
@@ -130,10 +131,10 @@ const ResultCarCard = ({
 
 const [eyeOpen, setEyeOpen] = useState(false);
 const [wishlist, dispatch] = useAppStore(
-  (state) => state?.createCarProgress.wishlist
+  (state) => state?.user.wishlist
 );
 const onButtonClick = (type: string) => {
-  const item = localStorage.getItem('token');
+  const item = getToken();
   if (!wishlist) return;
   if (!item) {
     console.log('no token')    
@@ -143,13 +144,10 @@ const onButtonClick = (type: string) => {
   if (type === 'like') {
 
     if (wishlist?.includes(id)) {
-      const prevWishList = wishlist.filter((el) => el !== id);
-      dispatch(addToWishListThunk(prevWishList));
+      dispatch(deleteFromWishlistThunk(id));
     }
     else {
-      const prevWishList = [...wishlist, id];
-
-      dispatch(addToWishListThunk(prevWishList));
+      dispatch(addToWishlistThunk(id));
     }
     
   }

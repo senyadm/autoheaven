@@ -8,33 +8,12 @@ import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
 import { Separator } from "@/components/ui/separator";
 import SvgIcon from "@/components/SvgIcon";
 import { usePathname, useRouter } from "next/navigation";
-import { getToken, validateToken } from "@/utils/auth";
-import useLoginRedirect from "@/hooks/useLoginRedirect";
 
-const currentPageURL = "/profile/";
 const Profile = () => {
-  const redirectToLogin = useLoginRedirect();
   const router = useRouter();
   const pathname = usePathname();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {
-    const token = getToken();
-    console.log("checking authentication");
-    const checkAuthentication = async () => {
-      if (token) {
-        const isValid = await validateToken();
-        if (!isValid) {
-          redirectToLogin();
-        }
-        setIsAuthenticated(isValid);
-      } else {
-        redirectToLogin();
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuthentication();
-  }, []);
   if (!isAuthenticated) {
     return <></>;
   }

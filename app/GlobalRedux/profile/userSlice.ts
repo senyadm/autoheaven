@@ -1,6 +1,6 @@
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { clientUsers } from "../client";
+import { clientCars, clientUsers } from "../client";
 import { get } from "http";
 import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
@@ -27,6 +27,7 @@ interface UserState {
   user_info_id: number;
   username: string;
   loadState: LoadState; // for async
+  wishlist: number[];
 }
 
 const initialState: UserState = {
@@ -39,6 +40,7 @@ const initialState: UserState = {
   user_info_id: 0,
   username: "",
   loadState: "idle",
+  wishlist: [],
 };
 
 export const userSlice = createSlice({
@@ -49,6 +51,15 @@ export const userSlice = createSlice({
       console.log("setUser executed", action.payload);
       return action.payload;
     },
+    addToWishlist: (state, action: PayloadAction<number>) => {
+      state.wishlist.push(action.payload);
+    },
+    deleteFromWishlist: (state, action: PayloadAction<number>) => {
+      state.wishlist = state.wishlist.filter((id) => id !== action.payload);
+    },
+    setWishlist: (state, action: PayloadAction<number[]>) => {
+      state.wishlist = action.payload;
+    }
   },
 });
 
@@ -77,6 +88,60 @@ export const fetchUserData = createAsyncThunk(
   }
 );
 
-export const { setUser } = userSlice.actions;
+export const addToWishlistThunk = createAsyncThunk(
+  "user/addToWishlist",
+  async (id: number, { dispatch }) => {
+    try {
+      const response = await clientCars.post(
+        `/api/cars/wishlist?car_id=${id}`,
+        {
+          car_id: id,
+        }
+      );
+
+      dispatch(addToWishlist(id));
+
+      return response.data;
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      throw error;
+    }
+  }
+);
+
+export const deleteFromWishlistThunk = createAsyncThunk(
+  "user/deleteFromWishlist",
+  async (id: number, { dispatch }) => {
+    try {
+      const response = await clientCars.delete(
+        `/api/cars/wishlist/${id}`
+      );
+
+      dispatch(deleteFromWishlist(id));
+
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting from wishlist:", error);
+      throw error;
+    }
+  }
+);
+
+
+export const fetchWishlistCars = createAsyncThunk(
+  "user/fetchWishlistCars",
+  async (_, { dispatch }) => {
+    try {
+      const response = await clientCars.get("/api/cars/wishlist/");
+      dispatch(setWishlist(response.data.map((car: any) => car.id) as number[]) );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching wishlist cars:", error);
+      throw error;
+    }
+  }
+);
+
+export const { setUser, addToWishlist, deleteFromWishlist, setWishlist } = userSlice.actions;
 
 export default userSlice.reducer;

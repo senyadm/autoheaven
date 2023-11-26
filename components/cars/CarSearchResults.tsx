@@ -16,10 +16,10 @@ import {
 } from "lucide-react";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
-import { fetchWishlistCars } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
+import { fetchWishlistCars } from "@/app/GlobalRedux/profile/userSlice";
 const CarSearchResults = ({ store, setSort }: { store: CarResult[][] | undefined, setSort: (value: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst") => void }) => {
 const [, wishlistDispatch] = useAppStore(
-  (state) => state?.createCarProgress.wishlist
+  (state) => state?.user.wishlist
 );
 
 useEffect(() => {

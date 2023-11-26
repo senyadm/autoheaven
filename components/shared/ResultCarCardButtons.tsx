@@ -16,7 +16,7 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({pageDisplaye
   const pageDisplayedToButtons = {
     cars: <>
       <Button className={` text-primary hover:text-primary-foreground p-[0.625rem] mr-2
-      ${isWish ? 'bg-red' : 'bg-background'}`} onClick={() => onButtonClick('like')}>
+      ${isWish ? 'bg-primary text-background' : 'bg-background'}`} onClick={() => onButtonClick('like')}>
         <Heart width={16} height={16} />
       </Button>
       <Button className="bg-primary text-secondary px-2 py-3" onClick={() => onButtonClick('contact')}>

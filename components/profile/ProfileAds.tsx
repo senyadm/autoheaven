@@ -1,8 +1,10 @@
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ResultCarCard from "../shared/ResultCarCard";
 import AppDropdownMenu from "../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
+import { clientCars } from "@/app/GlobalRedux/client";
+import { getToken } from "@/utils/auth";
 
 const volkswagenCar4: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
@@ -64,6 +66,20 @@ const results = [volkswagenCar2, volkswagenCar3, volkswagenCar4].map((car) => (
   />
 ));
 const ProfileCars = () => {
+  const [results, setResults] = useState<ResultCarCardInterface[]>([]);
+  useEffect(() => {
+    // fetch results
+    clientCars
+      .get("api/cars/wishlist/", {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .then((response) => {
+        setResults(response.data);
+      });
+  }, []);
+
   if (results.length === 0) {
     return <ProfileAdsWillAppear />;
   }
@@ -72,7 +88,16 @@ const ProfileCars = () => {
       <div className="flex justify-end">
         <AppDropdownMenu options={sortingAdsOptions} />
       </div>
-      <div className="flex flex-col space-y-3">{results}</div>
+      <div className="flex flex-col space-y-3">
+        {results?.map((car) => (
+          <ResultCarCard
+            {...car}
+            pageDisplayed="profileAds"
+            isFavorite={true}
+            key={car.title + car.id}
+          />
+        ))}
+      </div>
     </div>
   );
 };
