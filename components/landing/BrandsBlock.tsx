@@ -35,9 +35,7 @@ useEffect(() => {
 
 
 useEffect(() => {
-  console.log("outside", cars, store, store?.brandAndModels)
   if (!store || !cars) return;
-  console.log("inside", cars)
   const brandsResultData: brandInfo[] = brandsData.map((item: string) => {
     const brandInfo: brandInfo = {
       brandName: item,
@@ -61,7 +59,8 @@ useEffect(() => {
   })
 
   setBrandsDataState(brandsResultData);
-}, [store, cars])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [cars])
 
   return (
     <section className='flex flex-col items-center border mx-17.5 my-9 py-10 px-6 rounded-lg bg-background'>
