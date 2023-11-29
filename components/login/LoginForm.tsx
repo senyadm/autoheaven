@@ -30,6 +30,8 @@ import {
   validateToken,
 } from "@/utils/auth";
 import useLoginRedirect from "@/hooks/useLoginRedirect";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/app/GlobalRedux/profile/userSlice";
 const formSchema = zod.object({
   email: zod.string().email(),
   password: zod.string().min(8, {
@@ -38,6 +40,7 @@ const formSchema = zod.object({
 });
 
 const LoginForm: React.FC = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,6 +68,7 @@ const LoginForm: React.FC = () => {
       )
       .then((response) => {
         saveToken(response.data.access_token);
+        dispatch(setUser(response.data));
         const prevUrl = getOriginalUrl();
         if (prevUrl) {
           router.push(prevUrl);

@@ -28,6 +28,7 @@ interface UserState {
   username: string;
   loadState: LoadState; // for async
   wishlist: number[];
+  isLoggedIn: boolean;
 }
 
 const initialState: UserState = {
@@ -41,6 +42,7 @@ const initialState: UserState = {
   username: "",
   loadState: "idle",
   wishlist: [],
+  isLoggedIn: false,
 };
 
 export const userSlice = createSlice({
@@ -48,8 +50,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
-      console.log("setUser executed", action.payload);
-      return action.payload;
+      for(const key in action.payload) {
+        state[key] = action.payload[key];
+      }
+      state.isLoggedIn = true;
     },
     addToWishlist: (state, action: PayloadAction<number>) => {
       state.wishlist.push(action.payload);
