@@ -108,6 +108,7 @@ const LoginForm: React.FC = () => {
                 <Input
                   placeholder="user@example.com"
                   {...field}
+                  type="email"
                   onChange={(event) => {
                     field.onChange(event.target.value);
                   }}
@@ -129,6 +130,7 @@ const LoginForm: React.FC = () => {
               <FormControl>
                 <Input
                   placeholder="********"
+                  type="password"
                   {...field}
                   onChange={(event) => {
                     field.onChange(event.target.value);

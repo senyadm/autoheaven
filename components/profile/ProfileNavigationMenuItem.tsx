@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,37 +8,50 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
-import { Button } from '../ui/button'
-import { setProfileNavigationMenuItemName } from '@/app/GlobalRedux/profile/profileNavigationMenuSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import SvgIcon from '../SvgIcon'
-import { itemInfoModel } from './ProfileNavigationMenu'
-import { Label } from '../ui/label'
-import { useAppStore } from '@/app/GlobalRedux/useStore'
-
+import { Button } from "../ui/button";
+import { setProfileNavigationMenuItemName } from "@/app/GlobalRedux/profile/profileNavigationMenuSlice";
+import { useDispatch, useSelector } from "react-redux";
+import SvgIcon from "../SvgIcon";
+import { itemInfoModel } from "./ProfileNavigationMenu";
+import { Label } from "../ui/label";
+import { useAppStore } from "@/app/GlobalRedux/useStore";
 
 interface ProfileNavigationMenuItemProps {
-  itemInfo: itemInfoModel
+  itemInfo: itemInfoModel;
 }
 
-const ProfileNavigationMenuItem = ({itemInfo} : ProfileNavigationMenuItemProps) => {
-    const dispatch = useDispatch();
-    const profileNavigationMenuState = useAppStore(state => state.profileNavigationMenu)
-    useEffect(() => {
-        console.log(profileNavigationMenuState)
-    }, [profileNavigationMenuState])
+const ProfileNavigationMenuItem = ({
+  itemInfo,
+}: ProfileNavigationMenuItemProps) => {
+  const dispatch = useDispatch();
+  const profileNavigationMenuState = useAppStore(
+    (state) => state.profileNavigationMenu
+  );
+  // useEffect(() => {
+  //   console.log(profileNavigationMenuState);
+  // }, [profileNavigationMenuState]);
   return (
-                 <NavigationMenuItem className='w-full mb-4 flex flex-row' onClick={()=>dispatch(setProfileNavigationMenuItemName(itemInfo.componentName))} key={itemInfo.componentName}>
-              
-              <Button 
-    className={`w-full text-foreground cursor-pointer hover:bg-gray-300 shadow-none flex justify-start ${itemInfo.componentName === profileNavigationMenuState[0]?.menuItemName ? "bg-primary text-primary-foreground" : "bg-white"}`}
->{itemInfo.icon}<Label className='ml-3'>{itemInfo.title}</Label></Button>
-        
+    <NavigationMenuItem
+      className="w-full mb-4 flex flex-row"
+      onClick={() =>
+        dispatch(setProfileNavigationMenuItemName(itemInfo.componentName))
+      }
+      key={itemInfo.componentName}
+    >
+      <Button
+        className={`w-full text-foreground cursor-pointer hover:bg-gray-300 shadow-none flex justify-start ${
+          itemInfo.componentName === profileNavigationMenuState[0]?.menuItemName
+            ? "bg-primary text-primary-foreground"
+            : "bg-white"
+        }`}
+      >
+        {itemInfo.icon}
+        <Label className="ml-3 cursor-pointer">{itemInfo.title}</Label>
+      </Button>
+    </NavigationMenuItem>
+  );
+};
 
-        </NavigationMenuItem>
-            )
-}
-
-export default ProfileNavigationMenuItem
+export default ProfileNavigationMenuItem;

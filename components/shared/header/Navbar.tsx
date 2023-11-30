@@ -10,9 +10,14 @@ import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
 import SvgIcon from "../../SvgIcon";
 import { usePathname } from "next/navigation";
-import { euCountries } from './countries';
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import {CountrySelectDialog}  from './RegionModal';
+import { euCountries } from "./countries";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { CountrySelectDialog } from "./RegionModal";
 import {
   ChevronLeft,
   LogInIcon,
@@ -20,7 +25,7 @@ import {
   SearchIcon,
   ZoomInIcon,
   MapPin,
-  Bell
+  Bell,
 } from "lucide-react";
 import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
@@ -33,7 +38,7 @@ export function Navbar() {
   const [openPopover, setOpenPopover] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [regionModalOpen, setRegionModalOpen] = useState(false),
-  toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
+    toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
   const handleLanguageToggle = () => {
     setOpenPopover(false);
     setTimeout(() => {
@@ -41,14 +46,14 @@ export function Navbar() {
     }, 300);
   };
 
-  const [location, setLocation] = useState({ country: '', city: '' });
+  const [location, setLocation] = useState({ country: "", city: "" });
   const [cities, setCities] = useState([]);
   const [token, setToken] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
     // Now this code will only run client-side
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     setToken(storedToken);
 
     // ... (existing code for fetching location)
@@ -58,17 +63,16 @@ export function Navbar() {
     const fetchLocation = async () => {
       try {
         // Fetch IP address
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipResponse = await fetch("https://api.ipify.org?format=json");
         const ipData = await ipResponse.json();
         const ip = ipData.ip;
-
 
         // Fetch location data using IP address
         const locationResponse = await fetch(`http://ip-api.com/json/${ip}`);
         const locationData = await locationResponse.json();
         setLocation({ country: locationData.country, city: locationData.city });
       } catch (error) {
-        console.error('Failed to fetch location', error);
+        console.error("Failed to fetch location", error);
       }
     };
 
@@ -79,10 +83,10 @@ export function Navbar() {
     setOpenPopover(!openPopover);
   };
 
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  window.location.reload();
-}
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
 
   const pathname = usePathname();
   const isNavbarV2 = pathname === "/login" || pathname === "/profile";
@@ -100,7 +104,7 @@ const handleLogout = () => {
             passHref
           >
             <ChevronLeft width={20} height={20} />
-            <Label className="text-bold text-lg">Home</Label>
+            <Label className="text-bold text-lg cursor-pointer">Home</Label>
           </Link>
         ) : (
           <div className="flex items-center space-x-4">
@@ -118,93 +122,110 @@ const handleLogout = () => {
           </div>
         )}
 
-
         <div className="flex items-center space-x-4">
+          {/*         <ModeToggle />  */}
+          {token ? (
+            <>
+              <Dialog open={regionModalOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    onClick={toggleRegionModal}
+                    variant="outline"
+                    size="icon"
+                    className="w-full p-2 items-center space-x-3 border-none shadow-none"
+                  >
+                    <MapPin width={16} height={16} />
+                    <Label className="text-foreground text-l">
+                      {location.city}
+                    </Label>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle>Choose a Country</DialogTitle>
+                  <div className="grid grid-cols-2 gap-4">
+                    {euCountries.map((country) => (
+                      <button
+                        key={country.code}
+                        onClick={() => setSelectedCountry(country.name)}
+                        className="p-2 border rounded hover:bg-gray-100"
+                      >
+                        {country.name}
+                      </button>
+                    ))}
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <Popover open={notificationsOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    onClick={() => setNotificationsOpen(!notificationsOpen)}
+                    variant="outline"
+                    size="icon"
+                    className="w-full p-2 items-center"
+                  >
+                    <Bell width={16} height={16} />
 
- {/*         <ModeToggle />  */}
-        {token ? (<>
+                    <ChevronDown width={16} height={16} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
+                  <Link
+                    href="/login"
+                    onClick={handleLogout}
+                    className="flex flex-row justify-center items-center p-2 space-x-2"
+                  >
+                    <Label className="text-foreground text-l">Logout</Label>
+                    <LogInIcon className="w-4 h-4" />
+                  </Link>
+                  <Button>
+                    Advertise
+                    <MegaphoneIcon className="ml-2 w-4 h-4" />
+                  </Button>
+                </PopoverContent>
+              </Popover>
+              <Popover open={openPopover}>
+                <PopoverTrigger asChild>
+                  <Button
+                    onClick={() => setOpenPopover(!openPopover)}
+                    variant="outline"
+                    size="icon"
+                    className="w-full p-2 items-center"
+                  >
+                    <SvgIcon
+                      filepath="/icons/profile.svg"
+                      alt="Logo"
+                      width={24}
+                      height={24}
+                    />
 
-          <Dialog open={regionModalOpen}>
-      <DialogTrigger asChild>
-      <Button onClick={toggleRegionModal} variant="outline" size="icon" className="w-full p-2 items-center space-x-3 border-none shadow-none">
-            <MapPin
-              width={16} height={16}/>
-            <Label className="text-foreground text-l">{location.city}</Label>
-          </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Choose a Country</DialogTitle>
-        <div className="grid grid-cols-2 gap-4">
-    {euCountries.map((country) => (
-      <button
-        key={country.code}
-        onClick={() => setSelectedCountry(country.name)}
-        className="p-2 border rounded hover:bg-gray-100"
-      >
-        {country.name}
-      </button>
-    ))}
-  </div>
-      </DialogContent>
-    </Dialog>
-          <Popover open={notificationsOpen}>
-            <PopoverTrigger
-              asChild
+                    <ChevronDown width={16} height={16} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
+                  <Link
+                    href="/login"
+                    onClick={handleLogout}
+                    className="flex flex-row justify-center items-center p-2 space-x-2"
+                  >
+                    <Label className="text-foreground text-l">Logout</Label>
+                    <LogInIcon className="w-4 h-4" />
+                  </Link>
+                  <Button>
+                    Advertise
+                    <MegaphoneIcon className="ml-2 w-4 h-4" />
+                  </Button>
+                </PopoverContent>
+              </Popover>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className={buttonVariants({ size: "icon", variant: "outline" })}
             >
-              <Button onClick={() => setNotificationsOpen(!notificationsOpen)} variant="outline" size="icon" className="w-full p-2 items-center">
-
-              <Bell
-              width={16} height={16}/>
- 
-            <ChevronDown width={16} height={16} />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
-              <Link href="/login" onClick={handleLogout} className="flex flex-row justify-center items-center p-2 space-x-2">
-                <Label className="text-foreground text-l">Logout</Label>
-                <LogInIcon className="w-4 h-4" />
-              </Link>
-              <Button>
-                Advertise
-                <MegaphoneIcon className="ml-2 w-4 h-4" />
-              </Button>
-            </PopoverContent>
-          </Popover>
-        <Popover open={openPopover}>
-            <PopoverTrigger
-              asChild
-            >
-              <Button onClick={() => setOpenPopover(!openPopover)} variant="outline" size="icon" className="w-full p-2 items-center">
-
-              <SvgIcon
-                filepath="/icons/profile.svg"
-                alt="Logo"
-                width={24}
-                height={24}
-              />
- 
-            <ChevronDown width={16} height={16} />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
-              <Link href="/login" onClick={handleLogout} className="flex flex-row justify-center items-center p-2 space-x-2">
-                <Label className="text-foreground text-l">Logout</Label>
-                <LogInIcon className="w-4 h-4" />
-              </Link>
-              <Button>
-                Advertise
-                <MegaphoneIcon className="ml-2 w-4 h-4" />
-              </Button>
-            </PopoverContent>
-          </Popover></>) : (
-                <Link
-                href="/login"
-                className={buttonVariants({ size: "icon", variant: "outline" })}
-              >
-                <LogInIcon className="w-4 h-4" />
-                <span className="sr-only">Login</span>
-              </Link>
-          )}  
+              <LogInIcon className="w-4 h-4" />
+              <span className="sr-only">Login</span>
+            </Link>
+          )}
           {/* <Popover open={openPopover}>
             <PopoverTrigger
               // className="color-primary h-full border p-3 rounded-lg"

@@ -4,6 +4,7 @@ import { clientCars, clientUsers } from "../client";
 import { get } from "http";
 import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
+import { Car } from "../../../interfaces/shared/Car";
 
 interface UserInfo {
   address: string;
@@ -28,6 +29,7 @@ interface UserState {
   username: string;
   loadState: LoadState; // for async
   wishlist: number[];
+  cars: Car[];
   isLoggedIn: boolean;
 }
 
@@ -42,6 +44,7 @@ const initialState: UserState = {
   username: "",
   loadState: "idle",
   wishlist: [],
+  cars: [],
   isLoggedIn: false,
 };
 
@@ -50,7 +53,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
-      for(const key in action.payload) {
+      for (const key in action.payload) {
         state[key] = action.payload[key];
       }
       state.isLoggedIn = true;
@@ -63,7 +66,10 @@ export const userSlice = createSlice({
     },
     setWishlist: (state, action: PayloadAction<number[]>) => {
       state.wishlist = action.payload;
-    }
+    },
+    setCars: (state, action: PayloadAction<Car[]>) => {
+      state.cars = action.payload;
+    },
   },
 });
 
@@ -117,10 +123,7 @@ export const deleteFromWishlistThunk = createAsyncThunk(
   "user/deleteFromWishlist",
   async (id: number, { dispatch }) => {
     try {
-      const response = await clientCars.delete(
-        `/api/cars/wishlist/${id}`,
-    
-      );
+      const response = await clientCars.delete(`/api/cars/wishlist/${id}`);
 
       dispatch(deleteFromWishlist(id));
 
@@ -132,13 +135,14 @@ export const deleteFromWishlistThunk = createAsyncThunk(
   }
 );
 
-
 export const fetchWishlistCars = createAsyncThunk(
   "user/fetchWishlistCars",
   async (_, { dispatch }) => {
     try {
       const response = await clientCars.get("/api/cars/wishlist/");
-      dispatch(setWishlist(response.data.map((car: any) => car.id) as number[]) );
+      dispatch(
+        setWishlist(response.data.map((car: any) => car.id) as number[])
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching wishlist cars:", error);
@@ -147,6 +151,26 @@ export const fetchWishlistCars = createAsyncThunk(
   }
 );
 
-export const { setUser, addToWishlist, deleteFromWishlist, setWishlist } = userSlice.actions;
+export const fetchUserCars = createAsyncThunk(
+  "user/fetchUserCars",
+  async (_, { dispatch }) => {
+    try {
+      const response = await clientCars.get("/api/cars/user/");
+      dispatch(setCars(response.data));
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user cars:", error);
+      throw error;
+    }
+  }
+);
+
+export const {
+  setUser,
+  addToWishlist,
+  deleteFromWishlist,
+  setWishlist,
+  setCars,
+} = userSlice.actions;
 
 export default userSlice.reducer;

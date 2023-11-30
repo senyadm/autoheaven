@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React, { useEffect, useState } from "react";
 import {
@@ -20,7 +20,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import SvgIcon from "../SvgIcon";
 import { Button } from "../ui/button";
 import ResultCarCardButtons from "./ResultCarCardButtons";
@@ -29,7 +29,11 @@ import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/hooks/usePremiumStatus";
 import { getToken } from "@/utils/auth";
-import { addToWishlistThunk, deleteFromWishlist, deleteFromWishlistThunk } from "@/app/GlobalRedux/profile/userSlice";
+import {
+  addToWishlistThunk,
+  deleteFromWishlist,
+  deleteFromWishlistThunk,
+} from "@/app/GlobalRedux/profile/userSlice";
 
 const FuelTypeIcon = (fuelType) => {
   switch (fuelType) {
@@ -70,41 +74,41 @@ const DrivetrainIcon = (drivetrain) => {
 const ResultCarCard = ({
   title,
   price,
-  releaseYear,
+  year,
   mileage,
-  fuelType,
+  fueltype,
   drivetrain,
-  bodyStyle,
-  gear,
+  body_type,
+  gearbox,
   phone_number,
-  accidentFree,
-  imageURL,
+  accidentfree,
+  imageurl,
   id,
   isTop,
   pageDisplayed,
 }: ResultCarCardInterface) => {
-    const { isPremium } = usePremiumStatus();
+  const { isPremium } = usePremiumStatus();
 
   const carInfo = [
     {
       icon: <Calendar width={16} height={16} />, // Replace with the actual CalendarIcon component
-      label: releaseYear,
+      label: year,
     },
     {
       icon: <Wind width={16} height={16} />, // Replace with the actual WindIcon component
       label: `${mileage} km`,
     },
     {
-      icon: <FuelTypeIcon fuelType={fuelType} />, // Replace with the actual FuelTypeIcon component
-      label: fuelType,
+      icon: <FuelTypeIcon fuelType={fueltype} />, // Replace with the actual FuelTypeIcon component
+      label: fueltype,
     },
     {
-      icon: <BodyStyleIcon bodyStyle={bodyStyle} />, // Replace with the actual BodyStyleIcon component
-      label: bodyStyle,
+      icon: <BodyStyleIcon bodyStyle={body_type} />, // Replace with the actual BodyStyleIcon component
+      label: body_type,
     },
     {
-      icon: <GearIcon gear={gear} />, // Replace with the actual GearIcon component
-      label: gear,
+      icon: <GearIcon gear={gearbox} />, // Replace with the actual GearIcon component
+      label: gearbox,
     },
     {
       icon: <DrivetrainIcon drivetrain={drivetrain} />, // Replace with the actual DrivetrainIcon component
@@ -112,13 +116,13 @@ const ResultCarCard = ({
     },
   ];
   const getAccidentStateIcon = () => {
-    const iconColorClass = accidentFree ? "text-green-500" : "text-red-500";
+    const iconColorClass = accidentfree ? "text-green-500" : "text-red-500";
     const iconProps = {
       width: 16,
       height: 16,
       className: `mr-1 ${iconColorClass}`,
     };
-    return accidentFree ? (
+    return accidentfree ? (
       <>
         <CheckCheck {...iconProps} /> Accident free
       </>
@@ -129,30 +133,24 @@ const ResultCarCard = ({
     );
   };
 
-const [eyeOpen, setEyeOpen] = useState(false);
-const [wishlist, dispatch] = useAppStore(
-  (state) => state?.user.wishlist
-);
-const onButtonClick = (type: string) => {
-  const item = getToken();
-  if (!wishlist) return;
-  if (!item) {
-    console.log('no token')    
-    return;
-  }
-
-  if (type === 'like') {
-
-    if (wishlist?.includes(id)) {
-      dispatch(deleteFromWishlistThunk(id));
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [wishlist, dispatch] = useAppStore((state) => state?.user.wishlist);
+  const onButtonClick = (type: string) => {
+    const item = getToken();
+    if (!wishlist) return;
+    if (!item) {
+      console.log("no token");
+      return;
     }
-    else {
-      dispatch(addToWishlistThunk(id));
-    }
-    
-  }
 
-}
+    if (type === "like") {
+      if (wishlist?.includes(id)) {
+        dispatch(deleteFromWishlistThunk(id));
+      } else {
+        dispatch(addToWishlistThunk(id));
+      }
+    }
+  };
 
   return (
     <div
@@ -160,7 +158,7 @@ const onButtonClick = (type: string) => {
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
-      <img src={imageURL} alt={"Image"} width={256} height={130}></img>
+      <img src={imageurl} alt={"Image"} width={256} height={130}></img>
       <div className="flex flex-col w-full">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
