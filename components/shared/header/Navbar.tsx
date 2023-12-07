@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogOutIcon } from "lucide-react";
 import * as React from "react";
 import Link from "next/link";
 import { InputField } from "@/components/ui/input-field";
@@ -10,7 +10,7 @@ import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
 import SvgIcon from "../../SvgIcon";
 import { usePathname } from "next/navigation";
-import { euCountries } from "./countries";
+import { euCountries, euCountriesCities } from "./countries";
 import {
   Dialog,
   DialogTrigger,
@@ -34,6 +34,19 @@ import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useEffect, useMemo, useState } from "react";
 
 export function Navbar() {
+  const [modalState, setModalState] = useState("country");
+  const [cityList, setCityList] = useState<string[]>([]);
+  const handleCountrySelect = (countryName: string) => {
+    setSelectedCountry(countryName);
+    setCityList(euCountriesCities[countryName])
+    console.log(countryName, euCountriesCities[countryName], euCountriesCities)
+    setModalState("city");
+  };
+  const handleCitySelect = (cityName: string) => {
+    setLocation({ ...location, city: cityName });
+    setModalState("none");
+    toggleRegionModal();
+  };
   const [lang, setLang] = useState(true); // false: CZ, true: UK
   const [openPopover, setOpenPopover] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -52,11 +65,9 @@ export function Navbar() {
   const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
-    // Now this code will only run client-side
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
 
-    // ... (existing code for fetching location)
   }, []);
 
   useEffect(() => {
@@ -91,6 +102,10 @@ export function Navbar() {
   const pathname = usePathname();
   const isNavbarV2 = pathname === "/login" || pathname === "/profile";
 
+  const handleClose = () => {
+    setRegionModalOpen(!regionModalOpen);
+  };
+
   return (
     <NavigationMenu className="flex items-center py-3 bg-background border-b sticky top-0 z-20 h-[64px]">
       <div
@@ -124,9 +139,9 @@ export function Navbar() {
 
         <div className="flex items-center space-x-4">
           {/*         <ModeToggle />  */}
-          {token ? (
-            <>
-              <Dialog open={regionModalOpen}>
+  
+            
+              <Dialog open={regionModalOpen} onOpenChange={handleClose}>
                 <DialogTrigger asChild>
                   <Button
                     onClick={toggleRegionModal}
@@ -140,82 +155,80 @@ export function Navbar() {
                     </Label>
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+             {modalState === 'country' ? <DialogContent className="overflow-y-auto max-h-[80vh]">
                   <DialogTitle>Choose a Country</DialogTitle>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     {euCountries.map((country) => (
                       <button
                         key={country.code}
-                        onClick={() => setSelectedCountry(country.name)}
+                        onClick={() => handleCountrySelect(country.code)}
                         className="p-2 border rounded hover:bg-gray-100"
                       >
                         {country.name}
                       </button>
                     ))}
                   </div>
-                </DialogContent>
+                </DialogContent> : 
+                <DialogContent>
+                <DialogTitle>Choose a City</DialogTitle>
+                <div className="grid grid-cols-3 gap-4">
+                  {cityList?.map((city) => (
+                    <button
+                      key={city}
+                      onClick={() => handleCitySelect(city)}
+                      className="p-2 border rounded hover:bg-gray-100"
+                    >
+                      {city}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-4">
+        <Button
+          variant="default"
+          onClick={() => setModalState('country')}
+          className="p-2 border rounded"
+        >
+          Select Country
+        </Button>
+      </div>
+              </DialogContent>}   
               </Dialog>
-              <Popover open={notificationsOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    onClick={() => setNotificationsOpen(!notificationsOpen)}
-                    variant="outline"
-                    size="icon"
-                    className="w-full p-2 items-center"
-                  >
-                    <Bell width={16} height={16} />
+              {token ? (   <> <Popover open={openPopover}>
+  <PopoverTrigger asChild>
+    <Button
+      onClick={() => setOpenPopover(!openPopover)}
+      variant="outline"
+      size="icon"
+      className="w-full p-2 items-center space-x-3 border-none shadow-none"
+    >
+      <SvgIcon
+        filepath="/icons/profile.svg"
+        alt="Profile"
+        width={24}
+        height={24}
+      />
+      <ChevronDown width={16} height={16} />
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-full px-1 py-2 space-y- flex flex-col">
+    {/* Notification section */}
 
-                    <ChevronDown width={16} height={16} />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
-                  <Link
-                    href="/login"
-                    onClick={handleLogout}
-                    className="flex flex-row justify-center items-center p-2 space-x-2"
-                  >
-                    <Label className="text-foreground text-l">Logout</Label>
-                    <LogInIcon className="w-4 h-4" />
-                  </Link>
-                  <Button>
-                    Advertise
-                    <MegaphoneIcon className="ml-2 w-4 h-4" />
-                  </Button>
-                </PopoverContent>
-              </Popover>
-              <Popover open={openPopover}>
-                <PopoverTrigger asChild>
-                  <Button
-                    onClick={() => setOpenPopover(!openPopover)}
-                    variant="outline"
-                    size="icon"
-                    className="w-full p-2 items-center"
-                  >
-                    <SvgIcon
-                      filepath="/icons/profile.svg"
-                      alt="Logo"
-                      width={24}
-                      height={24}
-                    />
+     <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'> <Label className="text-foreground text-l">Notifs</Label><Bell width={16} height={16} /></Button>
+     <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'>
+    <Label className="text-foreground text-l">  Make Ad</Label>
+      <MegaphoneIcon className="ml-2 w-4 h-4" />
+    </Button>
+    <Link
+onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2"
+      href="/login"
+    >
+     <Label className="text-foreground text-l">Logout</Label>
+      <LogOutIcon width={16} height={16} />
+    </Link>
+ 
 
-                    <ChevronDown width={16} height={16} />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full px-1 py-2 space-y-2 flex flex-col">
-                  <Link
-                    href="/login"
-                    onClick={handleLogout}
-                    className="flex flex-row justify-center items-center p-2 space-x-2"
-                  >
-                    <Label className="text-foreground text-l">Logout</Label>
-                    <LogInIcon className="w-4 h-4" />
-                  </Link>
-                  <Button>
-                    Advertise
-                    <MegaphoneIcon className="ml-2 w-4 h-4" />
-                  </Button>
-                </PopoverContent>
-              </Popover>
+  </PopoverContent>
+</Popover>
             </>
           ) : (
             <Link
