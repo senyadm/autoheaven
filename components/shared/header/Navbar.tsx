@@ -219,7 +219,7 @@ export function Navbar() {
       <MegaphoneIcon className="ml-2 w-4 h-4" />
     </Button>
     <Link
-onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2"
+      onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2"
       href="/login"
     >
      <Label className="text-foreground text-l">Logout</Label>
