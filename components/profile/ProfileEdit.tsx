@@ -185,10 +185,23 @@ const ProfileEdit = () => {
                 Privacy
               </Label>
             </div>
-            <div className="flex items-center space-x-4 justify-end flex-1">
-              <Checkbox className="rounded-full " />
-              <Label className="text-foreground font-inter font-semibold leading-relaxed">
-                I agree that my data is used for market research
+            <div className="">
+              <div className="flex items-center space-x-4 justify-end flex-1">
+                <Checkbox className="rounded-full " />
+                <Label className="text-foreground font-inter font-semibold leading-relaxed">
+                  I agree that my data is used for market research
+                </Label>
+              </div>
+
+              <Label>
+                <a
+                  href="/documents/privacy_policy.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground leading-relaxed"
+                >
+                  View Privacy Policy (PDF)
+                </a>
               </Label>
             </div>
           </div>
