@@ -86,6 +86,9 @@
     trucks: string
     busses: string
     offers: string
+    fromDealer?: string
+    accidentFree?: string
+    type?: string
   }
 
   export interface OverviewDictionary {

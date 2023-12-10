@@ -89,7 +89,9 @@
       "motorcycles": "Motorcycles",
       "trucks": "Trucks",
       "busses": "Busses",
-      "offers": "offers"
+      "offers": "offers",
+      "accidentFree": "Accident free",
+      "fromDealer": "From dealer"
     },
     "tipsBlock": {
       "learnPlatformTitle": "Learn our platform",

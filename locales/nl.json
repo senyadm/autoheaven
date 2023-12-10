@@ -89,7 +89,9 @@
       "motorcycles": "Motoren",
       "trucks": "Vrachtwagens",
       "busses": "Bussen",
-      "offers": "aanbiedingen"
+      "offers": "aanbiedingen",
+      "accidentFree": "Ongevalvrij",
+      "fromDealer": "Van Dealer"
   },
   "tipsBlock": {
       "learnPlatformTitle": "Leer ons platform",

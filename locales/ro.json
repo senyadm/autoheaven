@@ -89,7 +89,9 @@
       "motorcycles": "Motociclete",
       "trucks": "Camioane",
       "busses": "Autobuze",
-      "offers": "oferte"
+      "offers": "oferte",
+      "fromDealer": "De La Dealer",
+      "accidentFree": "Fără Accidente"
   },
   "tipsBlock": {
       "learnPlatformTitle": "Învață Platforma Noastră",

@@ -89,7 +89,9 @@
     "motorcycles": "Moto",
     "trucks": "Camion",
     "busses": "Autobus",
-    "offers": "offerte"
+    "offers": "offerte",
+    "fromDealer": "Da un concessionario",
+    "accidentFree": "Senza incidenti"
   },
   "tipsBlock": {
     "learnPlatformTitle": "Scopri la nostra piattaforma",

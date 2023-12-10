@@ -89,7 +89,9 @@
       "motorcycles": "Motocykly",
       "trucks": "Nákladní automobily",
       "busses": "Autobusy",
-      "offers": "nabídky"
+      "offers": "nabídky",
+      "accidentFree": "Bez nehod",
+      "fromDealer": "Od prodejce"
   },
   "tipsBlock": {
       "learnPlatformTitle": "Naučte se naší platformu",

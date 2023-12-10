@@ -11,14 +11,17 @@ import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSidebar from "@/components/cars/CarSidebar";
 import { FilterPayload, fetchAllCars } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { Locale } from "@/i18n.config";
 
 const premiumThreshold = 250_000;
 
+
 interface CarsProps{
+  params: { lang: Locale }
   isPremium?: boolean;
 }
-const Cars = ({isPremium=false}:CarsProps) => {
-  console.log(isPremium)
+
+const Cars = ({params, isPremium=false}:CarsProps) => {
   const query  = useSearchParams()
   const [filters, setFilters] = useState<FilterPayload>({} as FilterPayload);
   const [sort, setSort] = useState<"newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst">("newestFirst");
@@ -46,6 +49,8 @@ const Cars = ({isPremium=false}:CarsProps) => {
       
     };
     const queryParamsObj: Partial<FilterPayload> = {};
+    if (!query) return;
+
     query.forEach((value, key) => {
       (queryParamsObj as any)[key] = value;
     });
@@ -61,8 +66,9 @@ const Cars = ({isPremium=false}:CarsProps) => {
       ...defaultQueryParams,
       ...queryParamsObj
     };
-    console.log(sort)
+
     setFilters(finalQueryParams);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, sort])
 
   useEffect(() => {
@@ -72,16 +78,29 @@ const Cars = ({isPremium=false}:CarsProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, storeIsEmpty]);
 
+  const [offers, setOffers] = useState<number>(0);
+
+  useEffect(() => {
+    if (!store) return; // Exit early if store is falsy
+  
+    let totalElements = 0;
+  
+    store.forEach((list) => {
+      totalElements += list.length;
+    });
+  
+    setOffers(totalElements);
+  }, [store]);
 
   return (
   
       <main className="flex flex-1 items-start bg-indigo-50 py-6">
         <div className="flex flex-row mt-10 space-x-10 max-w-screen-2xl mx-auto">
           <div className="w-full lg:w-1/4">
-            <CarSidebar paramFilters={filters} dispatch={dispatch}/>
+            <CarSidebar lang={params.lang} offerNumber={offers}  paramFilters={filters} dispatch={dispatch}/>
           </div>
           <div className="w-full lg:w-3/4">
-            <CarSearchResults store={store} setSort={setSort}/>
+            <CarSearchResults lang={params.lang} store={store} setSort={setSort}/>
           </div>
         </div>
       </main>

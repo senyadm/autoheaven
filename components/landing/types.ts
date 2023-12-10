@@ -52,6 +52,7 @@ export type ResultsFilterProps = {
   handleSelectorChange: (type: string, selectorValue: string) => void;
   handleOfferNumbers: (offerNumber: number) => void;
   filter: Filter
+  dict: FiltersDictionary | null
 };
 
 export type Car = {

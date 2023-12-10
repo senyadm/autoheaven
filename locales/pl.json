@@ -89,7 +89,9 @@
     "motorcycles": "Motocykle",
     "trucks": "Ciężarówki",
     "busses": "Autokary",
-    "offers": "oferty"
+    "offers": "oferty",
+    "accidentFree": "Bezwypadkowy",
+    "damaged": "Uszkodzony"
   },
   "tipsBlock": {
     "learnPlatformTitle": "Dowiedz się o naszej platformie",
