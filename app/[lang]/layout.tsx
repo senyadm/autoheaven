@@ -1,12 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Providers } from "./GlobalRedux/provider";
+import { Providers } from "../GlobalRedux/provider";
 import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
-import { GetServerSideProps } from 'next';
-
+import { Locale, defaultLocale } from '@/i18n.config'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,12 +15,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params
 }: {
   children: React.ReactNode;
+  params: { lang: Locale }
 }) {
 
   return (
-    <html lang="en">
+    <html lang={params.lang ?? defaultLocale}>
       <body className={inter.className}>
         <Providers>
           <ThemeProvider
@@ -31,9 +32,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <div className="h-screen flex flex-col ">
-              <Navbar />
+              <Navbar lang={params.lang ?? defaultLocale}/>
               {children}
-              <Footer />
+              <Footer lang={params.lang ?? defaultLocale}/>
             </div>
           </ThemeProvider>
         </Providers>

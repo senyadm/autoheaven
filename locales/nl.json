@@ -1,0 +1,136 @@
+{
+  "navbar": {
+      "profile": "Profiel",
+      "home": "Thuis",
+      "notifications": "Meldingen",
+      "make_ad": "Advertentie maken",
+      "logout": "Uitloggen",
+      "login": "Inloggen",
+      "home_href": "thuis",
+      "about_href": "over",
+      "country": "Land",
+      "city": "Kies Stad",
+      "search": "Zoeken",
+      "country_select": "Kies Land"
+  },
+  "profile": {
+      "settings": "Instellingen",
+      "myProfile": "Mijn Profiel",
+      "editMyProfile": "Mijn Profiel Bewerken",
+      "darkTheme": "Donker Thema",
+      "language": "Taal",
+      "privacy": "Privacy",
+      "privacySubtext": "Ik wil graag e-mails van Autoheven ontvangen over aanbiedingen, enquêtes en informatie over producten en diensten van",
+      "emailConfirmation": "E-mailbevestiging",
+      "emailConfirmationSubtext": "Bevestig dat a***@e**.com uw e-mail is door op de link in uw inbox te klikken",
+      "resendActivationLink": "Activeringslink opnieuw verzenden",
+      "english": "Engels",
+      "czech": "Tsjechisch",
+      "german": "Duits",
+      "spanish": "Spaans",
+      "french": "Frans"
+  },
+  "profileEdit": {
+      "edit": "Bewerken",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "publicProfile": "Openbaar Profiel",
+      "publicProfileSubtext": "Dit wordt weergegeven in uw profiel",
+      "credentials": "Referenties",
+      "credentialsSubtext": "Uw inloggegevens",
+      "privacy": "Privacy",
+      "privacyPolicy": "Privacybeleid bekijken (PDF)",
+      "deleteAccount": "Account Verwijderen",
+      "deleteAccountSubtext": "Zodra u uw account verwijdert, is er geen weg terug. Wees zeker.",
+      "deleteAccountButton": "Mijn account verwijderen",
+      "agreeMarketResearch": "Ik ga ermee akkoord dat mijn gegevens worden gebruikt voor marktonderzoek"
+  },
+  "overview": {
+      "startNewSearch": "Begin een nieuwe zoekopdracht",
+      "showActiveAds": "Toon mijn actieve advertenties",
+      "inbox": "Inbox",
+      "saved": "Opgeslagen",
+      "vehicles": "Beschikbare voertuigen"
+  },
+  "sidebarItems": {
+      "overview": "Overzicht",
+      "messages": "Berichten",
+      "edit": "Mijn Profiel Bewerken",
+      "cars": "Mijn Auto's",
+      "settings": "Instellingen",
+      "ads": "Leuk Vindt Advertenties"
+  },
+  "footer": {
+      "company": "Bedrijf",
+      "aboutUs": "Over ons",
+      "careers": "Carrières",
+      "advertising": "Adverteren",
+      "helpContact": "Help & Contact",
+      "information": "Informatie",
+      "termsConditions": "Voorwaarden en Condities",
+      "priceList": "Prijslijst",
+      "privacyPolicy": "Privacybeleid"
+  },
+  "carousel": {
+      "cruise": "Cruise in Comfort",
+      "discover": "Ontdek Auto's Aangepast aan Uw Levensstijl"
+  },
+  "filters": {
+      "brandAndModel": "Merk en model",
+      "body": "Voertuigcarrosserie",
+      "fuel": "Brandstoftype",
+      "price": "Prijs",
+      "mileage": "Kilometerstand",
+      "year": "Jaar",
+      "selectBrand": "Selecteer een merk...",
+      "selectBody": "Selecteer carrosserie...",
+      "selectFuel": "Selecteer brandstof...",
+      "passengerCars": "Personenauto",
+      "motorcycles": "Motoren",
+      "trucks": "Vrachtwagens",
+      "busses": "Bussen",
+      "offers": "aanbiedingen"
+  },
+  "tipsBlock": {
+      "learnPlatformTitle": "Leer ons platform",
+      "tips": {
+          "tip1": {
+              "type": "Tips",
+              "title": "Hoe U Uw Auto Veilig Online Kunt Verkopen",
+              "description": "Leer praktische stappen om uzelf te beschermen tegen online auto-oplichting bij het kopen of verkopen.",
+              "readMore": "Lees meer"
+          },
+          "tip2": {
+              "type": "Verkennen",
+              "title": "Waar U Uw Droomauto Kunt Vinden",
+              "description": "Ontdek hoe u de perfecte auto kunt vinden met behulp van eenvoudige categorieën en subcategorieën.",
+              "readMore": "Lees meer"
+          },
+          "tip3": {
+              "type": "Tips",
+              "title": "Voordelen van registratie bij Autoheven",
+              "description": "Begrijp de overwegingen van registratie op ons platform versus het gebruik als gast.",
+              "readMore": "Lees meer"
+          },
+          "tip4": {
+              "type": "Tips",
+              "title": "Filters Effectief Gebruiken",
+              "description": "Ontdek hoe filters u helpen uw ideale auto te vinden. Leer opties te verkleinen op basis van prijs, jaar, kilometerstand, type en brandstof om de perfecte match te vinden.",
+              "readMore": "Lees meer"
+          },
+          "tip5": {
+              "type": "Verkennen",
+              "title": "Elektrische Auto's Verkennen",
+              "description": "Leer waarom elektrische auto's populair worden. Ontdek de voordelen, oplaadopties en hoe ons platform de elektrische autobeweging ondersteunt.",
+              "readMore": "Lees meer"
+          },
+          "tip6": {
+              "type": "Verkennen",
+              "title": "Unieke Voertuigen: Vrachtwagens",
+              "description": "Duik in speciale voertuigen zoals tractoren en campers. Ontdek unieke opties in de categorie 'Speciale Voertuigen' om specifieke behoeften te voldoen.",
+              "readMore": "Lees meer"
+          }
+      }
+  },
+  "popularBrands": "Populaire Merken"
+}

@@ -19,10 +19,12 @@ import { Label } from "../ui/label";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 
 interface ProfileNavigationMenuItemProps {
+  title: string;
   itemInfo: itemInfoModel;
 }
 
 const ProfileNavigationMenuItem = ({
+  title,
   itemInfo,
 }: ProfileNavigationMenuItemProps) => {
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const ProfileNavigationMenuItem = ({
         }`}
       >
         {itemInfo.icon}
-        <Label className="ml-3 cursor-pointer">{itemInfo.title}</Label>
+        <Label className="ml-3 cursor-pointer">{title}</Label>
       </Button>
     </NavigationMenuItem>
   );

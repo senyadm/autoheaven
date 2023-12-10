@@ -1,0 +1,136 @@
+{
+  "navbar": {
+    "profile": "Profilo",
+    "home": "Home",
+    "notifications": "Notifiche",
+    "make_ad": "Crea Annuncio",
+    "logout": "Disconnettersi",
+    "login": "Accedi",
+    "home_href": "home",
+    "about_href": "su-di-noi",
+    "country": "Paese",
+    "city": "Seleziona una città",
+    "search": "Ricerca",
+    "country_select": "Seleziona un paese"
+  },
+  "profile": {
+    "settings": "Impostazioni",
+    "myProfile": "Il Mio Profilo",
+    "editMyProfile": "Modifica il Mio Profilo",
+    "darkTheme": "Tema Scuro",
+    "language": "Lingua",
+    "privacy": "Privacy",
+    "privacySubtext": "Desidero ricevere email da Autoheven riguardanti offerte, sondaggi e informazioni sui prodotti e servizi",
+    "emailConfirmation": "Conferma Email",
+    "emailConfirmationSubtext": "Conferma che a***@e**.com è la tua email cliccando sul link nella tua casella di posta",
+    "resendActivationLink": "Reinvia Link di Attivazione",
+    "english": "Inglese",
+    "czech": "Ceco",
+    "german": "Tedesco",
+    "spanish": "Spagnolo",
+    "french": "Francese"
+  },
+  "profileEdit": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "edit": "Modifica",
+    "publicProfile": "Profilo Pubblico",
+    "publicProfileSubtext": "Questo sarà visualizzato nel tuo profilo",
+    "credentials": "Credenziali",
+    "credentialsSubtext": "Le tue informazioni di accesso",
+    "privacy": "Privacy",
+    "privacyPolicy": "Vedi la politica sulla privacy (PDF)",
+    "deleteAccount": "Elimina Account",
+    "deleteAccountSubtext": "Una volta che elimini il tuo account, non c'è più possibilità di tornare indietro. Si prega di essere certi.",
+    "deleteAccountButton": "Elimina il mio account",
+    "agreeMarketResearch": "Accetto che i miei dati vengano utilizzati per ricerche di mercato"
+  },
+  "overview": {
+    "startNewSearch": "Inizia una nuova ricerca",
+    "showActiveAds": "Mostra annunci attivi",
+    "inbox": "Posta in arrivo",
+    "saved": "Salvato",
+    "vehicles": "Veicoli disponibili."
+  },
+  "sidebarItems": {
+    "overview": "Panoramica",
+    "messages": "Messaggi",
+    "edit": "Modifica il Mio Profilo",
+    "cars": "Le Mie Auto",
+    "settings": "Impostazioni",
+    "ads": "Annunci Preferiti"
+  },
+  "footer": {
+    "company": "Azienda",
+    "aboutUs": "Chi siamo",
+    "careers": "Carriere",
+    "advertising": "Pubblicità",
+    "helpContact": "Aiuto & Contatti",
+    "information": "Informazioni",
+    "termsConditions": "Termini e condizioni",
+    "priceList": "Lista dei prezzi",
+    "privacyPolicy": "Politica sulla Privacy"
+  },
+  "carousel": {
+    "cruise": "Crociera in Comfort",
+    "discover": "Scopri Auto Adatte al Tuo Stile di Vita"
+  },
+  "filters": {
+    "brandAndModel": "Marca e modello",
+    "body": "Tipo di carrozzeria",
+    "fuel": "Tipo di carburante",
+    "price": "Prezzo",
+    "mileage": "Chilometraggio",
+    "year": "Anno",
+    "selectBrand": "Seleziona una marca...",
+    "selectBody": "Seleziona un tipo...",
+    "selectFuel": "Seleziona un carburante...",
+    "passengerCars": "Auto per passeggeri",
+    "motorcycles": "Moto",
+    "trucks": "Camion",
+    "busses": "Autobus",
+    "offers": "offerte"
+  },
+  "tipsBlock": {
+    "learnPlatformTitle": "Scopri la nostra piattaforma",
+    "tips": {
+      "tip1": {
+        "type": "Consigli",
+        "title": "Come vendere la tua auto online in sicurezza",
+        "description": "Impara i passaggi pratici per proteggerti dalle truffe online quando compri o vendi un'auto.",
+        "readMore": "Leggi di più."
+      },
+      "tip2": {
+        "type": "Esplora",
+        "title": "Dove trovare la tua auto dei sogni",
+        "description": "Esplora come trovare l'auto perfetta utilizzando categorie e sottocategorie semplici.",
+        "readMore": "Leggi di più."
+      },
+      "tip3": {
+        "type": "Consigli",
+        "title": "I vantaggi della registrazione ad Autoheven",
+        "description": "Capisci i vantaggi della registrazione sulla nostra piattaforma rispetto all'uso come ospite.",
+        "readMore": "Leggi di più."
+      },
+      "tip4": {
+        "type": "Consigli",
+        "title": "Utilizzare efficacemente i filtri",
+        "description": "Scopri come i filtri ti aiutano a trovare la tua auto ideale. Impara a restringere le opzioni per prezzo, anno, chilometraggio, tipo e carburante per trovare la corrispondenza perfetta.",
+        "readMore": "Leggi di più."
+      },
+      "tip5": {
+        "type": "Esplora",
+        "title": "Esplorare le auto elettriche",
+        "description": "Scopri perché le auto elettriche stanno guadagnando popolarità. Esplora i benefici, le opzioni di ricarica e come la nostra piattaforma supporta il movimento delle auto elettriche.",
+        "readMore": "Leggi di più."
+      },
+      "tip6": {
+        "type": "Esplora",
+        "title": "Veicoli unici: Camion",
+        "description": "Immergiti in veicoli speciali come trattori e camper. Scopri opzioni uniche nella categoria 'Veicoli Speciali' per soddisfare esigenze specifiche.",
+        "readMore": "Leggi di più."
+      }
+    }
+  },
+  "popularBrands": "Marche popolari"
+}

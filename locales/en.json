@@ -1,0 +1,136 @@
+{
+    "navbar": {
+      "profile": "Profile",
+      "home": "Home",
+      "notifications": "Notifications",
+      "make_ad": "Make Ad",
+      "logout": "Log out",
+      "login": "Login",
+      "home_href": "home",
+      "about_href": "about",
+      "country": "Country",
+      "city": "Select City",
+      "search": "Search",
+      "country_select": "Select Country"
+    },
+    "profile": {
+      "settings": "Settings",
+      "myProfile": "My Profile",
+      "editMyProfile": "Edit my profile",
+      "darkTheme": "Dark Theme",
+      "language": "Language",
+      "privacy": "Privacy",
+      "privacySubtext": "I would like to receive emails from Autoheven about offers, surveys and information on products and services from",
+      "emailConfirmation": "Email confirmation",
+      "emailConfirmationSubtext": "Please confirm that a***@e**.com is your email by clicking the link in your inbox",
+      "resendActivationLink": "Resend Activation link",
+      "english": "English",
+      "czech": "Czech",
+      "german": "German",
+      "spanish": "Spanish",
+      "french": "French"
+    },
+    "profileEdit": {
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "publicProfile": "Public profile",
+      "publicProfileSubtext": "This will be displayed in your profile",
+      "credentials": "Credentials",
+      "credentialsSubtext": "Your login info",
+      "privacy": "Privacy",
+      "privacyPolicy": "View Privacy Policy (PDF)",
+      "deleteAccount": "Delete Account",
+      "deleteAccountSubtext": "Once you delete your account, there is no going back. Please be certain.",
+      "deleteAccountButton": "Delete my account",
+      "agreeMarketResearch": "I agree that my data is used for market research"
+    },
+    "overview": {
+      "startNewSearch": "Start a new search",
+      "showActiveAds": "Show my active ads",
+      "inbox": "Inbox",
+      "saved": "Saved",
+      "vehicles": "Vehicles available"
+    },
+    "sidebarItems": {
+      "overview": "Overview",
+      "messages": "Messages",
+      "edit": "Edit My Profile",
+      "cars": "My Cars",
+      "settings": "Settings",
+      "ads": "Likes Ads"
+    },
+    "footer": {
+      "company": "Company",
+      "aboutUs": "About us",
+      "careers": "Careers",
+      "advertising": "Advertising",
+      "helpContact": "Help & Contact",
+      "information": "Information",
+      "termsConditions": "Terms and Conditions",
+      "priceList": "Price List",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "carousel": {
+      "cruise": "Cruise in Comfort",
+      "discover": "Discover Cars Tailored to Your Lifestyle"
+    },
+    "filters": {
+      "brandAndModel": "Brand and model",
+      "body": "Vehicle body",
+      "fuel": "Fuel type",
+      "price": "Price",
+      "mileage": "Mileage",
+      "year": "Year",
+      "selectBrand": "Select a brand...",
+      "selectBody": "Select body...",
+      "selectFuel": "Select fuel...",
+      "passengerCars": "Passenger Car",
+      "motorcycles": "Motorcycles",
+      "trucks": "Trucks",
+      "busses": "Busses",
+      "offers": "offers"
+    },
+    "tipsBlock": {
+      "learnPlatformTitle": "Learn our platform",
+      "tips": {
+        "tip1": {
+          "type": "Tips",
+          "title": "How to Sell Your Car Safely Online",
+          "description": "Learn practical steps to protect yourself from online car scams when buying or selling.",
+          "readMore": "Read more"
+        },
+        "tip2": {
+          "type": "Explore",
+          "title": "Where to Find Your Dream Car",
+          "description": "Explore how to find the perfect car using easy categories and subcategories.",
+          "readMore": "Read more"
+        },
+        "tip3": {
+          "type": "Tips",
+          "title": "Benefits of registering to Autoheven",
+          "description": "Understand the considerations of registering on our platform versus using it as a guest.",
+          "readMore": "Read more"
+        },
+        "tip4": {
+          "type": "Tips",
+          "title": "Using Filters Effectively",
+          "description": "Discover how filters help you find your ideal car. Learn to narrow down options by price, year, mileage, type, and fuel to find the perfect match.",
+          "readMore": "Read more"
+        },
+        "tip5": {
+          "type": "Explore",
+          "title": "Exploring Electric Cars",
+          "description": "Learn why electric cars are gaining popularity. Explore benefits, charging options, and how our platform supports the electric car movement.",
+          "readMore": "Read more"
+        },
+        "tip6": {
+          "type": "Explore",
+          "title": "Unique Vehicles: Trucks",
+          "description": "Dive into special vehicles like tractors and motorhomes. Discover unique options in the 'Special Vehicles' category to meet specific needs.",
+          "readMore": "Read more"
+      } 
+      }
+    },
+    "popularBrands": "Popular Brands"
+  }

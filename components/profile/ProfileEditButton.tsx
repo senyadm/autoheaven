@@ -2,12 +2,18 @@ import { PenSquare } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface EditButtonProps {
+  saveText: string;
+  cancelText: string;
+  editText: string
   disabledState: boolean;
   onEdit: () => void;
   onCancel: () => void;
   onSave: () => void;
 }
 const EditButton = ({
+  saveText,
+  cancelText,
+  editText,
   disabledState,
   onEdit,
   onCancel,
@@ -20,7 +26,7 @@ const EditButton = ({
         onClick={onEdit}
       >
         <PenSquare className="mr-2" size={16} />
-        Edit
+        {editText}
       </Button>
     );
   } else {
@@ -31,14 +37,14 @@ const EditButton = ({
           onClick={onSave}
         >
           <PenSquare className="mr-2" size={16} />
-          Save
+          {saveText}
         </Button>
         <Button
           className="bg-whit hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 "
           onClick={onCancel}
         >
           <PenSquare className="mr-2" size={16} />
-          Cancel
+          {cancelText}
         </Button>
       </div>
     );

@@ -32,14 +32,34 @@ import logo from "../../../public/autoheven_logo.svg";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { useEffect, useMemo, useState } from "react";
+import { getlocales } from '@/app/actions'
+import { Locale } from "@/i18n.config";
+import { NavbarData } from "@/types";
 
-export function Navbar() {
+export function Navbar({ lang }: { lang: Locale }) {
+
+  const [menu, setMenu] = useState<NavbarData | null>(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { navbar } = await getlocales(lang)
+        setMenu(navbar)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!menu) {
+      fetchData()
+    }
+  }, [lang, menu])
+
   const [modalState, setModalState] = useState("country");
   const [cityList, setCityList] = useState<string[]>([]);
   const handleCountrySelect = (countryName: string) => {
     setSelectedCountry(countryName);
     setCityList(euCountriesCities[countryName])
-    console.log(countryName, euCountriesCities[countryName], euCountriesCities)
     setModalState("city");
   };
   const handleCitySelect = (cityName: string) => {
@@ -47,17 +67,16 @@ export function Navbar() {
     setModalState("none");
     toggleRegionModal();
   };
-  const [lang, setLang] = useState(true); // false: CZ, true: UK
+
   const [openPopover, setOpenPopover] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [regionModalOpen, setRegionModalOpen] = useState(false),
     toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
-  const handleLanguageToggle = () => {
-    setOpenPopover(false);
-    setTimeout(() => {
-      setLang(!lang);
-    }, 300);
-  };
+  // const handleLanguageToggle = () => {
+  //   setOpenPopover(false);
+  //   setTimeout(() => {
+  //     setLang(!lang);
+  //   }, 300);
+  // };
 
   const [location, setLocation] = useState({ country: "", city: "" });
   const [cities, setCities] = useState([]);
@@ -114,16 +133,16 @@ export function Navbar() {
       >
         {isNavbarV2 ? (
           <Link
-            href="/"
+            href={`/${lang}`}
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
             passHref
           >
             <ChevronLeft width={20} height={20} />
-            <Label className="text-bold text-lg cursor-pointer">Home</Label>
+            <Label className="text-bold text-lg cursor-pointer">  {menu?.home}</Label>
           </Link>
         ) : (
           <div className="flex items-center space-x-4">
-            <Link href="/">
+            <Link href={`/${lang}`}>
               <Image src={logo} height={30} width={64} alt="" />
             </Link>
 
@@ -131,7 +150,7 @@ export function Navbar() {
               <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
                 className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
-                placeholder="Search"
+                placeholder={menu?.search}
               />
             </div>
           </div>
@@ -156,7 +175,7 @@ export function Navbar() {
                   </Button>
                 </DialogTrigger>
              {modalState === 'country' ? <DialogContent className="overflow-y-auto max-h-[80vh]">
-                  <DialogTitle>Choose a Country</DialogTitle>
+                  <DialogTitle>{menu?.country}</DialogTitle>
                   <div className="grid grid-cols-3 gap-4">
                     {euCountries.map((country) => (
                       <button
@@ -170,7 +189,7 @@ export function Navbar() {
                   </div>
                 </DialogContent> : 
                 <DialogContent>
-                <DialogTitle>Choose a City</DialogTitle>
+                <DialogTitle>{menu?.city}</DialogTitle>
                 <div className="grid grid-cols-3 gap-4">
                   {cityList?.map((city) => (
                     <button
@@ -188,12 +207,14 @@ export function Navbar() {
           onClick={() => setModalState('country')}
           className="p-2 border rounded"
         >
-          Select Country
+          {menu?.country_select}
         </Button>
       </div>
               </DialogContent>}   
               </Dialog>
-              {token ? (   <> <Popover open={openPopover}>
+              {token ? (   <> 
+                <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'><Bell width={16} height={16} /></Button>
+              <Popover open={openPopover}>
   <PopoverTrigger asChild>
     <Button
       onClick={() => setOpenPopover(!openPopover)}
@@ -211,18 +232,24 @@ export function Navbar() {
     </Button>
   </PopoverTrigger>
   <PopoverContent className="w-full px-1 py-2 space-y- flex flex-col">
-    {/* Notification section */}
-
-     <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'> <Label className="text-foreground text-l">Notifs</Label><Bell width={16} height={16} /></Button>
+  <Link href={`/${lang}/profile`} className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer">
+    <Label className="text-foreground text-l">{menu?.profile || "Profile"}</Label>
+    <SvgIcon
+        className="ml-2 w-4 h-4" 
+        filepath="/icons/profile.svg"
+        alt="Profile"
+      />
+    </Link>
      <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'>
-    <Label className="text-foreground text-l">  Make Ad</Label>
+    <Label className="text-foreground text-l">{menu?.make_ad || "Make Add"}</Label>
       <MegaphoneIcon className="ml-2 w-4 h-4" />
     </Button>
     <Link
-      onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2"
-      href="/login"
+    
+      onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
+      href={`/${lang}/login`}
     >
-     <Label className="text-foreground text-l">Logout</Label>
+     <Label className="text-foreground text-l">{menu?.logout || "Log Out"}</Label>
       <LogOutIcon width={16} height={16} />
     </Link>
  
@@ -232,11 +259,11 @@ export function Navbar() {
             </>
           ) : (
             <Link
-              href="/login"
+              href={`/${lang}/login`}
               className={buttonVariants({ size: "icon", variant: "outline" })}
             >
               <LogInIcon className="w-4 h-4" />
-              <span className="sr-only">Login</span>
+              <span className="sr-only">{menu?.login || "Login"}</span>
             </Link>
           )}
           {/* <Popover open={openPopover}>

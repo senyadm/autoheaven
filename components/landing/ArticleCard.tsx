@@ -20,10 +20,16 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 interface ArticleCardProps {
-  tipsInfo: tipsInfo; // Make sure brandInfo is properly imported
+  tipsInfo: tipsInfo;
+  tipsDict: {
+    type: string
+    title: string
+    description: string
+    readMore: string
+  } | null
 }
 
-const ArticleCard = ({ tipsInfo }: ArticleCardProps) => {
+const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
   const { tipType, title, description, icon } = tipsInfo;
   const [isHovered, setIsHovered] = useState(false);
   const [addClassTimeout, setAddClassTimeout] = useState(null);
@@ -38,9 +44,11 @@ const ArticleCard = ({ tipsInfo }: ArticleCardProps) => {
       >
         <CardHeader>
           <CardDescription className="text-xs text-primary">
-            {tipType}
+            {tipsDict?.type || tipType}
           </CardDescription>
-          <CardTitle className="text-xl">{title}</CardTitle>
+          <CardTitle className="text-xl">
+            {tipsDict?.title || title}
+          </CardTitle>
         </CardHeader>
       </Card>
       <Dialog
@@ -52,17 +60,19 @@ const ArticleCard = ({ tipsInfo }: ArticleCardProps) => {
         <DialogContent className="!w-80">
           <DialogHeader>
             <DialogDescription className="text-xs text-primary">
-              {tipType}
+              {tipsDict?.type || tipType}
             </DialogDescription>
-            <DialogTitle className="text-xl">{title}</DialogTitle>
+            <DialogTitle className="text-xl">
+              {tipsDict?.title || title}
+            </DialogTitle>
             <DialogDescription className="text-xs text-primary">
-              {description}
+              {tipsDict?.description || description}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex !justify-between w-full">
             {icon}
             <Button>
-              Read more
+              {tipsDict?.readMore || "Read more"}
               <ChevronRight />
             </Button>
           </DialogFooter>

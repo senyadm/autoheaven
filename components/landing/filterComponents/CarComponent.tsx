@@ -40,10 +40,12 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { FiltersDictionary } from "@/types";
 export type TabKeys = 'cars' | 'moto' | 'trucks' | 'busses';
 type BrandEntry = [string, string[]];
 
 type VirtualizedListProps = {
+  dict: FiltersDictionary
   entries: BrandEntry[];
   filter: Filter;
   toggleBrands: () => void;
@@ -59,6 +61,7 @@ interface GroupedEntries {
 
 
 const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(({ 
+  dict,
   entries,
   handleBrandClick,
   handleModelClick,
@@ -259,6 +262,7 @@ export { VirtualizedList }
 
 export const CarComponent = React.memo(function CarComponent ({
   handleSliderChange,
+  dict,
   filter,
   handleSelectorChange,
   handleOfferNumbers,
@@ -404,7 +408,7 @@ useEffect(() => {
             min={1000}
             max={1000000}
             step={1000}
-            label="Price"
+            label={dict?.price || "Price"}
             onValueChange={(values) =>
               handleSliderChange("cars", "price", values)
             }
@@ -418,7 +422,7 @@ useEffect(() => {
             min={0}
             max={500000}
             step={10000}
-            label="Milage"
+            label={dict?.mileage || "Mileage"}
             onValueChange={(values) =>
               handleSliderChange("cars", "milage", values)
             }
@@ -432,7 +436,7 @@ useEffect(() => {
             min={1975}
             max={2023}
             step={1}
-            label="Year"
+            label={dict?.year || "Year"}
             onValueChange={(values) =>
               handleSliderChange("cars", "year", values)
             }
@@ -441,7 +445,9 @@ useEffect(() => {
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter1">Brand and model</Label>
+              <Label htmlFor="filter1">
+                {dict?.brandAndModel || "Brand and model"}
+              </Label>
               <SvgIcon
                 filepath="icons/tick.svg"
                 alt=""
@@ -455,7 +461,8 @@ useEffect(() => {
         toggleBrandsOpen();
       }} value={filter.brandAndModel}>
   <SelectTrigger onClick={toggleBrandsOpen} currentValue={filter.brandAndModel}>{filter.brandAndModel || "Select a brand..."}</SelectTrigger>
-  <VirtualizedList 
+  <VirtualizedList
+    dict={dict} 
     hidden = {!brandsOpen}
     toggleBrands = {toggleBrandsOpen}
     entries={entries}
@@ -470,7 +477,9 @@ useEffect(() => {
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Vehicle body</Label>
+              <Label htmlFor="filter2">
+                {dict?.body || "Vehicle body"}
+              </Label>
               <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
             </div>
             <Select
@@ -480,7 +489,7 @@ useEffect(() => {
               value={filter.vehicleBody}
             >
               <SelectTrigger currentValue={filter.vehicleBody}>
-                Select body...
+                {dict?.selectBody || "Select body..."}
               </SelectTrigger>
               <SelectContent>
                 {bodyTypes.map((item: string, index: number) => (
@@ -494,7 +503,9 @@ useEffect(() => {
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter3">Fuel type</Label>
+              <Label htmlFor="filter3">
+                {dict?.fuel || "Fuel type"}
+              </Label>
               <SvgIcon
                 filepath="icons/fuel.svg"
                 alt=""
@@ -509,7 +520,7 @@ useEffect(() => {
               value={filter.fuelType}
             >
               <SelectTrigger currentValue={filter.fuelType}>
-                Select fuel...
+                {dict?.selectFuel || "Select fuel..."}
               </SelectTrigger>
               <SelectContent>
                 {fuelTypes.map((item: string, index: number) => (
@@ -526,7 +537,7 @@ useEffect(() => {
  
 
         <Button onClick={handleNavigate}>
-          {offers || 0} offers
+          {offers || 0} {dict?.offers || "offers"}
           <ChevronRight />
         </Button>
 
