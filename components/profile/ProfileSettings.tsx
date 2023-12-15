@@ -23,7 +23,8 @@ const languages: Record<Language, string> = {
   it: "Italian",
   pl: "Polish",
   pt: "Portuguese",
-  nl: "Dutch"
+  nl: "Dutch",
+  ro: "Romanian"
 };
 const ProfileSettings = ({ lang }: { lang: Locale }) => {
   const pathName = usePathname();

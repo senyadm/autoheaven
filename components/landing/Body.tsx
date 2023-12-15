@@ -34,7 +34,7 @@ function Body({ lang }: { lang: Locale }) {
     return (
         <main className="body-container flex flex-col items-center bg-topography-light relative">
         <Carousel lang={lang}/>
-        <FilterComponent dict={dict} className="mt-[19.5rem] z-10" />
+        <FilterComponent lang={lang} dict={dict} className="mt-[19.5rem] z-10" />
         <TipsBlock tipsBlock={tipsBlock}/>
         <BrandsBlock popularBrands={brands}/>
     </main>

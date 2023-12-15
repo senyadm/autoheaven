@@ -24,16 +24,16 @@ const Footer = async ({ lang }: { lang: Locale }) => {
         </div>
         <div className='flex flex-col'>
             <div><strong>{footer?.company}</strong></div>
-            <Link href=''>{footer?.aboutUs}</Link>
-            <Link href=''>{footer?.careers}</Link>
-            <Link href=''>{footer?.advertising}</Link>
-            <Link href=''>{footer?.helpContact}</Link>
+            <Link href={`/${lang}`}>{footer?.aboutUs}</Link>
+            <Link href={`/${lang}`}>{footer?.careers}</Link>
+            <Link href={`/${lang}`}>{footer?.advertising}</Link>
+            <Link href={`/${lang}`}>{footer?.helpContact}</Link>
         </div>
          <div className='flex flex-col'>
             <div><strong>{footer?.information}</strong></div>
-            <Link href=''>{footer?.termsConditions}</Link>
-            <Link href=''>{footer?.priceList}</Link>
-            <Link href=''>{footer?.privacyPolicy}</Link>
+            <Link href={`/${lang}`}>{footer?.termsConditions}</Link>
+            <Link href={`/${lang}`}>{footer?.priceList}</Link>
+            <Link href={`/${lang}`}>{footer?.privacyPolicy}</Link>
         </div>
         <Select>
   <SelectTrigger className="w-[180px]">

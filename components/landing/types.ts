@@ -40,6 +40,7 @@ export type FilterStates = {
 
 export type CarComponentProps = {
     dict: FiltersDictionary
+    lang: string
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
     handleOfferNumbers: (offerNumber: number) => void;

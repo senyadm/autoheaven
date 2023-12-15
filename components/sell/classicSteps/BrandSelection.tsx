@@ -16,8 +16,9 @@ import { setBrand, setModels } from '@/app/GlobalRedux/CreateCar/CreateCarSlice'
 import { InputField } from '@/components/ui/input-field';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { SellClassicTranslations } from '@/types';
 
-const BrandSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious: () => void}) => {
+const BrandSelection = ({ onNext, onPrevious, dict }: {onNext: () => void, onPrevious: () => void, dict: SellClassicTranslations | null}) => {
 const [search, setSearch] = useState<string>('');
 const [showSimplified, setShowSimplified] = useState<boolean>(false);
 
@@ -86,7 +87,7 @@ const handleBrand = (brand: string) => {
               <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
                 className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
-                placeholder="Search a brand"
+                placeholder={dict?.brand || "Search a brand"}
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />
@@ -137,7 +138,7 @@ const handleBrand = (brand: string) => {
     onClick={onPrevious}
     className="mt-4 bg-white text-primary border-primary"
   >
-    Previous
+    {dict?.previous || 'Previous'}
   </Button>
   <Button
     onClick={() => setShowSimplified(!showSimplified)}
@@ -150,7 +151,7 @@ const handleBrand = (brand: string) => {
     onClick={() => onNext()}
     className="mt-4 bg-primary text-white disabled:opacity-50"
   >
-    Continue
+    {dict?.continue || 'Continue'}
     <ChevronRight/>
   </Button>
 </CardFooter>

@@ -7,8 +7,9 @@ import { ChevronRight } from 'lucide-react';
 import { useAppStore } from '@/app/GlobalRedux/useStore';
 import { setCarType } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { useState } from 'react';
+import { SellClassicTranslations } from '@/types';
 
-const VehicleTypeSelection = ({ onNext }: {onNext: () => void} ) => {
+const VehicleTypeSelection = ({ onNext, dict }: {onNext: () => void, dict: SellClassicTranslations | null} ) => {
   const vehicleTypes = [
     { name: 'Passenger car', iconPath: '/icons/Car.svg' },
     { name: 'Truck', iconPath: '/icons/Truck.svg' },
@@ -26,7 +27,7 @@ const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
 
       <Card className="w-full  mx-auto bg-white border-none shadow-none">
         <CardHeader>
-          <CardTitle className='text-center text-foreground'>I want to sell a...</CardTitle>
+          <CardTitle className='text-center text-foreground'>{dict?.title || "I want to sell..."}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center border shadow-md border-rounded">
           {vehicleTypes.map((vehicle, index) => (
@@ -51,7 +52,7 @@ const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
             onClick={() => onNext()}
             className={`mt-4 w-full bg-primary text-white disabled:opacity-50`}
           >
-            Continue
+            {dict?.continue || "Continue"}
             <ChevronRight/>
           </Button>
         </CardFooter>

@@ -8,11 +8,9 @@ import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-number-input";
 import { PenSquare, Eye, Trash2 } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { set } from "react-hook-form";
 import "react-phone-number-input/style.css";
 import flags from "react-phone-number-input/flags";
 import { fetchUserData } from "../../app/GlobalRedux/profile/userSlice";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../app/GlobalRedux/store";
 import EditButton from "./ProfileEditButton";
 import { setPublicProfile } from "../../app/GlobalRedux/profile/profileSlice";
@@ -35,8 +33,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   };
   const [name, setName] = useState(profileInfo.name);
   const [surname, setSurname] = useState(profileInfo.surname);
-  const [phoneNumber, setPhoneNumber] = useState<string>(profileInfo.name);
-  const [email, setEmail] = useState<string>(userInfo.email);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(profileInfo.name);
   const [dict, setDict] = useState<ProfileEdit | null>(null)
 
   useEffect(() => {
@@ -70,6 +67,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
     setName(userInfo.user_info?.name || "");
     setSurname(userInfo.user_info?.surname || "");
     setPhoneNumber(userInfo.user_info?.phone_number || "");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleEditPP = () => {
@@ -82,6 +80,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
     setPhoneNumber(profileInfo.phoneNumber);
   };
   const handleSavePP = () => {
+    if (!phoneNumber) return;
     toggleDisabledPP();
     dispatch(setPublicProfile({ name, surname, phoneNumber }));
   };

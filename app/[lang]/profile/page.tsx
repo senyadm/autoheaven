@@ -32,7 +32,6 @@ const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [dict, setDict] = useState<SideBarItemsDictionary | null>(null)
 
   useEffect(() => {
-    console.log('lang', lang)
     async function fetchData() {
       try {
         const { sidebarItems } = await getlocales(lang)

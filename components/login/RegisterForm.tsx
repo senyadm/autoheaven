@@ -61,7 +61,11 @@ const formSchema = zod.object({
   }),
 });
 
-const RegisterForm: React.FC = () => {
+interface LoginFormProps {
+  lang: string;
+}
+
+const RegisterForm: React.FC<LoginFormProps> = ({lang}) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,11 +77,6 @@ const RegisterForm: React.FC = () => {
   console.log("clientUsers", clientUsers);
   function onSubmit(values: zod.infer<typeof formSchema>) {
     const { firstname, lastname, email, password, phone } = values;
-    // console.log("First Name:", firstname);
-    // console.log("Last Name:", lastname);
-    // console.log("Email:", email);
-    // console.log("Password:", password);
-    // console.log("Accepted TAC:", acceptedTAC);
     const requestBody = {
       username: email,
       email: email,

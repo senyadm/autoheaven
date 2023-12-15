@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter,  usePathname, useSearchParams } from 'next/navigation';
 
-import Link from "next/link";
 import {
   Select,
   SelectTrigger,
@@ -264,6 +263,7 @@ export const CarComponent = React.memo(function CarComponent ({
   handleSliderChange,
   dict,
   filter,
+  lang,
   handleSelectorChange,
   handleOfferNumbers,
 }: CarComponentProps) {
@@ -302,7 +302,7 @@ const handleBrandClick = useCallback((brand: string) => {
 
 const handleNavigate = (e: any) => {
   e.preventDefault();
-  router.push(`/cars?${payloadFilters}`);
+  router.push(`${lang}/cars?${payloadFilters}`);
 }
 
 const initMount = useRef(false); 

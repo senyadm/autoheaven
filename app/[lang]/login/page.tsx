@@ -1,35 +1,17 @@
 "use client";
-import React, { useEffect } from "react";
-import Image from "next/image";
-import logo from "../../public/autoheven_logo.svg";
-import { Button } from "@/components/ui/button";
-
-import {
-  NavigationMenu,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import Link from "next/link";
-import { ArrowLeftIcon, EnterIcon } from "@radix-ui/react-icons";
-import { MoveLeft } from "lucide-react";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
-import { Navbar } from "@/components/shared/header/Navbar";
-import { useRouter } from "next/navigation";
-import useLoginRedirect from "../../hooks/useLoginRedirect";
-import { getToken, validateToken } from "../../utils/auth";
+import { Locale } from "@/i18n.config";
 
-const Login = () => {
+const Login = ({
+  children,
+  params
+}: {
+  children: React.ReactNode;
+  params: { lang: Locale }
+}) => {
   return (
     <section className="flex justify-center items-center  h-full w-full">
       <Tabs defaultValue="account" className="w-full  max-w-[700px]">
@@ -38,10 +20,10 @@ const Login = () => {
           <TabsTrigger value="password">Register</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <LoginForm />
+          <LoginForm lang={params?.lang || 'en'}/>
         </TabsContent>
         <TabsContent value="password">
-          <RegisterForm />
+          <RegisterForm lang={params?.lang || 'en'}/>
         </TabsContent>
       </Tabs>
     </section>
