@@ -41,7 +41,7 @@ const filterDefault: Filter = {
 };
 
 
-function FilterComponent({ className }: any) {
+function FilterComponent({ className, dict, lang }: any) {
   const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
   const status = useSelector((state: RootState) => state.carMakes.status);
   const [selectedIcon, setSelectedIcon] = useState(-1);
@@ -102,6 +102,8 @@ function FilterComponent({ className }: any) {
               </TabsList>
               <TabsContent value="cars">
                 <CarComponent
+                lang={lang}
+                  dict={dict}
                   handleOfferNumbers={handleOfferNumbers}
                   filter={filters.cars}
                   handleSliderChange={handleSliderChange}

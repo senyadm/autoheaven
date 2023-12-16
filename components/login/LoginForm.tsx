@@ -12,26 +12,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
-import logo from "../../public/autoheven_logo.svg";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
-import { loginReducer } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
 import {
   getOriginalUrl,
-  getToken,
   saveToken,
-  validateToken,
 } from "@/utils/auth";
 import useLoginRedirect from "@/hooks/useLoginRedirect";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/app/GlobalRedux/profile/userSlice";
+import { useEffect, useState } from "react";
+import { AuthTranslations } from "@/types";
+import { getlocales } from "@/app/actions";
+import { Locale } from "@/i18n.config";
 const formSchema = zod.object({
   email: zod.string().email(),
   password: zod.string().min(8, {
@@ -39,7 +35,29 @@ const formSchema = zod.object({
   }),
 });
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  lang: Locale;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
+
+  const [dict, setDict] = useState<AuthTranslations | null>(null)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { auth } = await getlocales(lang)
+        setDict(auth)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!dict) {
+      fetchData()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang])
+  
   const dispatch = useDispatch();
   const router = useRouter();
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -73,7 +91,7 @@ const LoginForm: React.FC = () => {
         if (prevUrl) {
           router.push(prevUrl);
         } else {
-          router.push("/");
+          router.push(`/${lang}`);
         }
       })
       .catch((error) => {
@@ -102,7 +120,7 @@ const LoginForm: React.FC = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Username <span className="text-red-500">*</span>
+              {dict?.emailLabel || 'Username'} <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -125,7 +143,7 @@ const LoginForm: React.FC = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Password <span className="text-red-500">*</span>
+              {dict?.passwordLabel || 'Password'} <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -144,18 +162,18 @@ const LoginForm: React.FC = () => {
         />
 
         <Button type="submit" className="bg-primary">
-          Login
+        {dict?.loginButton || 'Login'}
           <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
         <Button
           type="submit"
           className="bg-secondary text-secondary-foreground"
         >
-          I&apos;m a dealer
+          {dict?.dealerButton || `I'm a dealer`}
           <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
         <Link href="/" passHref>
-          Forgot your password?
+        {dict?.forgotPasswordLink || 'Forgot your password?'}
         </Link>
       </form>
     </Form>

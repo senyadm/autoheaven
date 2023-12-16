@@ -5,10 +5,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Checkbox } from '@/components/ui/checkbox';
 import { InputField } from '@/components/ui/input-field';
 import { Label } from '@/components/ui/label';
+import { SellClassicTranslations } from '@/types';
 import { ChevronRight, SearchIcon } from 'lucide-react';
 import React, { useMemo, useState } from 'react'
 
-const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious: () => void}) => {
+const ModelSelection = ({ onNext, onPrevious, dict }: {onNext: () => void, onPrevious: () => void, dict: SellClassicTranslations | null}) => {
   
   const [search, setSearch] = useState<string>('');
   const [showSimplified, setShowSimplified] = useState<boolean>(false);
@@ -48,7 +49,7 @@ const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious:
               <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
                 className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
-                placeholder="Search a brand"
+                placeholder={dict?.model || "Search a model"}
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />
@@ -84,7 +85,7 @@ const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious:
     onClick={onPrevious}
     className="mt-4 bg-white text-primary border-primary"
   >
-    Previous
+    {dict?.previous || 'Previous'}
   </Button>
   <Button
     onClick={() => setShowSimplified(!showSimplified)}
@@ -97,7 +98,7 @@ const ModelSelection = ({ onNext, onPrevious }: {onNext: () => void, onPrevious:
     onClick={() => onNext()}
     className="mt-4 bg-primary text-white disabled:opacity-50"
   >
-    Continue
+    {dict?.continue || 'Continue'}
     <ChevronRight/>
   </Button>
 </CardFooter>

@@ -22,6 +22,7 @@ import {
 import { Button } from "../ui/button";
 import ProfileNavigationMenuItem from "./ProfileNavigationMenuItem";
 import { Label } from "../ui/label";
+import { SideBarItemsDictionary } from "@/types";
 
 export interface itemInfoModel {
   title: string;
@@ -64,7 +65,11 @@ const navigationMenuVehiclesItemsInfo: itemInfoModel[] = [
   },
 ];
 
-const ProfileNavigationMenu = () => {
+interface ProfileNavigationMenuProps {
+  dict: SideBarItemsDictionary | null
+}
+
+const ProfileNavigationMenu = ({ dict }: ProfileNavigationMenuProps) => {
   return (
     <NavigationMenu>
       <div className="flex flex-col space-y-4 list-none">
@@ -74,6 +79,7 @@ const ProfileNavigationMenu = () => {
           </Label>
           {navigationMenuGeneralItemsInfo.map((itemInfo) => (
             <ProfileNavigationMenuItem
+              title={dict?.[itemInfo.componentName] || itemInfo.title}
               itemInfo={itemInfo}
               key={itemInfo.componentName}
             />
@@ -86,6 +92,7 @@ const ProfileNavigationMenu = () => {
           </Label>
           {navigationMenuVehiclesItemsInfo.map((itemInfo) => (
             <ProfileNavigationMenuItem
+              title={dict?.[itemInfo.componentName] || itemInfo.title}
               itemInfo={itemInfo}
               key={itemInfo.componentName}
             />

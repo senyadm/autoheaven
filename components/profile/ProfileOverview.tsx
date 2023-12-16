@@ -2,8 +2,13 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { ActivitySquare, Book, Bookmark, Mail, Search } from 'lucide-react';
 import { Label } from '../ui/label';
+import { OverviewDictionary } from '@/types';
 
-const ProfileOverview = () => {
+interface OverviewProps {
+    overview: OverviewDictionary | null
+}
+
+const ProfileOverview = ({ overview }: OverviewProps) => {
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
  <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
@@ -12,8 +17,8 @@ const ProfileOverview = () => {
         <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />
     </svg>  <CardContent className='flex flex-col p-6 items-start '>
                     <Search size={64} color='#2563EB'/>
-                    <Label className='mt-3 text-foreground font-bold'>Start a new search</Label>
-                    <Label className='text-foreground text-sm'>2341 Vehicles available</Label>
+                    <Label className='mt-3 text-foreground font-bold'>{overview?.startNewSearch || "Start a new search"}</Label>
+                    <Label className='text-foreground text-sm'>2341 {overview?.vehicles || "Vehicles available"}</Label>
                 </CardContent>
             </Card>
             
@@ -23,8 +28,8 @@ const ProfileOverview = () => {
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />
 </svg>  <CardContent className='flex flex-col p-6 items-start'>
                     <ActivitySquare size={64} color='#2563EB'/>
-                    <Label className='mt-3 text-foreground font-bold'>Show my active ads</Label>
-                    <Label className='text-foreground text-sm'>2341 Vehicles available</Label>
+                    <Label className='mt-3 text-foreground font-bold'>{overview?.showActiveAds || "Show my active ads"}</Label>
+                    <Label className='text-foreground text-sm'>2341 {overview?.vehicles || "Vehicles available"}</Label>
                 </CardContent>
             </Card>
             <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
@@ -33,8 +38,10 @@ const ProfileOverview = () => {
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="4" strokeDasharray="18,4" />
 </svg>    <CardContent className='flex flex-col p-6 items-start'>
                     <Mail size={64} color='#2563EB'/>
-                    <Label className='mt-3 text-foreground font-bold'>Inbox</Label>
-                    <Label className='text-foreground text-sm'>2341 Vehicles available</Label>
+                    <Label className='mt-3 text-foreground font-bold'>
+                        {overview?.inbox || "Inbox"}
+                    </Label>
+                    <Label className='text-foreground text-sm'>2341 {overview?.vehicles || "Vehicles available"}</Label>
                 </CardContent>
             </Card>
 
@@ -44,8 +51,11 @@ const ProfileOverview = () => {
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />
 </svg>  <CardContent className='flex flex-col p-6 items-start'>
                     <Bookmark size={64} color='#2563EB'/>
-                    <Label className='mt-3 text-foreground font-bold'>Saved</Label>
-                    <Label className='text-foreground text-sm'>2341 Vehicles available</Label>
+                    <Label className='mt-3 text-foreground font-bold'>
+                        {overview?.saved || "Saved"}
+                    </Label>
+                    <Label className='text-foreground text-sm'>2341 {overview?.vehicles || "Vehicles available"}
+                    </Label>
                 </CardContent>
             </Card>
         </div>

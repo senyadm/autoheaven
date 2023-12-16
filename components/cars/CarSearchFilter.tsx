@@ -19,6 +19,7 @@ import usePremiumStatus from "@/hooks/usePremiumStatus";
 export function CarSearchFilter({
     handleSliderChange,
     filter,
+    dict,
     handleSelectorChange,
     handleOfferNumbers,
   }: ResultsFilterProps) {
@@ -64,45 +65,27 @@ export function CarSearchFilter({
     };
   
     useEffect(() => {
+
       if (carData && carMatchesFilters && filter) {
         const resData = carData.filter((car) => carMatchesFilters(car, filter));
         handleOfferNumbers(resData.length);
         setOffers(resData.length);
       }
     }, [carData, carMatchesFilters, filter]);
-
-    const [typedChars, setTypedChars] = useState('');
-
-    // useEffect(() => {
-    //     if (!typedChars) return;
-    
-    //     const matchedBrand = brands.find(brand => brand.toLowerCase().startsWith(typedChars.toLowerCase()));
-        
-    //     console.log(matchedBrand);
-    //     if (matchedBrand) {
-    //         handleSelectorChange("brandAndModel", matchedBrand);
-    //     }
-    
-    //     const timer = setTimeout(() => {
-    //       setTypedChars('');
-    //     }, 1000);
-    
-    //     return () => clearTimeout(timer);
-    // }, [typedChars, brands]);
     
     return (
           <div className=" mt-4 mb-6">
             <div className="mt-8">
             <RangeSlider 
               value={filter.price}
-              fixedLowerText={`${variablePriceMin} $"`}
+              fixedLowerText={`${variablePriceMin} $`}
               fixedUpperText="1000000 $"
               filename="banknote.svg"
               id="price"
               min={variablePriceMin}
               max={1000000}
               step={1000}
-              label="Price"
+              label={dict?.price || "Price"}
               onValueChange={(values) =>
                 handleSliderChange("price", values)
               }
@@ -118,7 +101,7 @@ export function CarSearchFilter({
               min={0}
               max={500000}
               step={10000}
-              label="Milage"
+              label={dict?.mileage || "Mileage"}
               onValueChange={(values) =>
                 handleSliderChange("milage", values)
               }
@@ -134,7 +117,7 @@ export function CarSearchFilter({
               min={1975}
               max={2023}
               step={1}
-              label="Year"
+              label={dict?.year || "Year"}
               onValueChange={(values) =>
                 handleSliderChange("year", values)
               }

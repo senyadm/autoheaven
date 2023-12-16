@@ -1,3 +1,5 @@
+import { FiltersDictionary } from "@/types";
+
 export interface Filter {
     type?: string
     price: [number, number];
@@ -37,6 +39,8 @@ export type FilterStates = {
 };
 
 export type CarComponentProps = {
+    dict: FiltersDictionary
+    lang: string
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
     handleOfferNumbers: (offerNumber: number) => void;
@@ -49,6 +53,7 @@ export type ResultsFilterProps = {
   handleSelectorChange: (type: string, selectorValue: string) => void;
   handleOfferNumbers: (offerNumber: number) => void;
   filter: Filter
+  dict: FiltersDictionary | null
 };
 
 export type Car = {

@@ -9,7 +9,11 @@ import { fetchAllCars, fetchBrands } from '@/app/GlobalRedux/Features/carFilters
 
 const brandsData: string[] = ['Volkswagen','Porsche', 'Audi', 'BMW', 'Ford', 'Mercedes-Benz', 'Toyota']
 
-const BrandsBlock = () => {
+interface Props {
+  popularBrands: string
+}
+
+const BrandsBlock = ({ popularBrands }: Props) => {
   const [store, dispatch] = useAppStore(
     (state) => state?.carFiltersAndResults.brandsWithModels
   )
@@ -64,7 +68,7 @@ useEffect(() => {
 
   return (
     <section className='flex flex-col items-center border mx-17.5 my-9 py-10 px-6 rounded-lg bg-background'>
-      <GradientHeading title='Popular Brands' className='mb-9'/>     
+      <GradientHeading title={popularBrands || 'Popular Brands'} className='mb-9'/>     
       <div className='grid grid-cols-5 gap-y-4 gap-x-5 w-full'>
         {brandsDataState.map(brandsDataEl => (
           <BrandsElement key={brandsDataEl.brandName} brandInfo={brandsDataEl} />

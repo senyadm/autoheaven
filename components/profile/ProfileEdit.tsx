@@ -8,16 +8,17 @@ import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-number-input";
 import { PenSquare, Eye, Trash2 } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { set } from "react-hook-form";
 import "react-phone-number-input/style.css";
 import flags from "react-phone-number-input/flags";
 import { fetchUserData } from "../../app/GlobalRedux/profile/userSlice";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../app/GlobalRedux/store";
 import EditButton from "./ProfileEditButton";
 import { setPublicProfile } from "../../app/GlobalRedux/profile/profileSlice";
+import { Locale } from "@/i18n.config";
+import { getlocales } from "@/app/actions";
+import { ProfileEdit } from "@/types";
 
-const ProfileEdit = () => {
+const ProfileEdit = ({ lang }: { lang: Locale }) => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user);
   const profileInfo = useAppSelector((state) => state.profile);
@@ -32,8 +33,25 @@ const ProfileEdit = () => {
   };
   const [name, setName] = useState(profileInfo.name);
   const [surname, setSurname] = useState(profileInfo.surname);
-  const [phoneNumber, setPhoneNumber] = useState<string>(profileInfo.name);
-  const [email, setEmail] = useState<string>(userInfo.email);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(profileInfo.name);
+  const [dict, setDict] = useState<ProfileEdit | null>(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { profileEdit } = await getlocales(lang)
+        setDict(profileEdit)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!dict) {
+      fetchData()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang])
+
   useEffect(() => {
     console.log("fetching user data");
     dispatch(fetchUserData());
@@ -49,6 +67,7 @@ const ProfileEdit = () => {
     setName(userInfo.user_info?.name || "");
     setSurname(userInfo.user_info?.surname || "");
     setPhoneNumber(userInfo.user_info?.phone_number || "");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleEditPP = () => {
@@ -61,6 +80,7 @@ const ProfileEdit = () => {
     setPhoneNumber(profileInfo.phoneNumber);
   };
   const handleSavePP = () => {
+    if (!phoneNumber) return;
     toggleDisabledPP();
     dispatch(setPublicProfile({ name, surname, phoneNumber }));
   };
@@ -95,10 +115,10 @@ const ProfileEdit = () => {
           <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
             <div className="flex flex-col w-[160px]">
               <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                Public profile
+                {dict?.publicProfile}
               </Label>
               <Label className="text-muted-foreground font-inter text-xs font-normal leading-relaxed">
-                This will be displayed in your profile
+                {dict?.publicProfileSubtext}
               </Label>
             </div>
             <div className="flex flex-col space-y-4 flex-1">
@@ -131,6 +151,9 @@ const ProfileEdit = () => {
               />
 
               <EditButton
+                saveText={dict?.save || "Save"}
+                cancelText={dict?.cancel || "Cancel"}
+                editText={dict?.edit || "Edit"}
                 onSave={handleSavePP}
                 onEdit={handleEditPP}
                 onCancel={handleCancelPP}
@@ -144,10 +167,10 @@ const ProfileEdit = () => {
           <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
             <div className="flex flex-col w-[160px]">
               <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                Credentials
+                {dict?.credentials}
               </Label>
               <Label className="text-muted-foreground font-inter text-xs font-normal leading-3">
-                Your login info
+                {dict?.credentialsSubtext}
               </Label>
             </div>
             <div className="flex flex-col space-y-4 flex-1">
@@ -169,6 +192,9 @@ const ProfileEdit = () => {
               </div>
 
               <EditButton
+                saveText={dict?.save || "Save"}
+                cancelText={dict?.cancel || "Cancel"}
+                editText={dict?.edit || "Edit"}
                 onSave={handleSavePP}
                 onEdit={handleEditPP}
                 onCancel={handleCancelPP}
@@ -182,14 +208,14 @@ const ProfileEdit = () => {
           <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
             <div className="flex flex-col w-[160px]">
               <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                Privacy
+                {dict?.privacy}
               </Label>
             </div>
             <div className="">
               <div className="flex items-center space-x-4 justify-end flex-1">
                 <Checkbox className="rounded-full " />
                 <Label className="text-foreground font-inter font-semibold leading-relaxed">
-                  I agree that my data is used for market research
+                  {dict?.agreeMarketResearch}
                 </Label>
               </div>
 
@@ -200,7 +226,7 @@ const ProfileEdit = () => {
                   rel="noopener noreferrer"
                   className="text-foreground leading-relaxed"
                 >
-                  View Privacy Policy (PDF)
+                  {dict?.privacyPolicy}
                 </a>
               </Label>
             </div>
@@ -209,18 +235,17 @@ const ProfileEdit = () => {
           <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
             <div className="flex flex-col w-[260px]">
               <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                Delete Account
+                {dict?.deleteAccount}
               </Label>
               <Label className="text-muted-foreground font-inter text-xs font-normal leading-relaxed">
-                Once you delete your account, there is no going back. Please be
-                certain.
+                {dict?.deleteAccountSubtext}
               </Label>
             </div>
             <div className="flex items-center space-x-2 justify-end flex-1">
               <Button className="bg-white text-secondary-foreground hover:bg-gray-300 space-x-2 border border-destructive">
                 {" "}
                 <Label className="font-semibold leading-relaxed">
-                  Delete my account
+                  {dict?.deleteAccountButton}
                 </Label>
                 <Trash2 size={16} />
               </Button>

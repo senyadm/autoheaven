@@ -7,7 +7,7 @@ const useLoginRedirect = () => {
   const router = useRouter();
 
   const redirectToLogin = () => {
-    localStorage.setItem("originalUrl", pathname);
+    localStorage.setItem("originalUrl", pathname || '/');
     router.push("/login");
   };
 

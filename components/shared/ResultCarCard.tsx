@@ -63,11 +63,11 @@ const DrivetrainIcon = (drivetrain) => {
   switch (drivetrain) {
     case "fwd":
       return (
-        <SvgIcon filepath="icons/cars/fwd.svg" alt="" width={16} height={16} />
+        <SvgIcon filepath="/icons/cars/fwd.svg" alt="" width={16} height={16} />
       );
     default:
       return (
-        <SvgIcon filepath="icons/cars/fwd.svg" alt="" width={16} height={16} />
+        <SvgIcon filepath="/icons/cars/fwd.svg" alt="" width={16} height={16} />
       );
   }
 };
@@ -139,7 +139,7 @@ const ResultCarCard = ({
     const item = getToken();
     if (!wishlist) return;
     if (!item) {
-      console.log("no token");
+      console.error("no token");
       return;
     }
 

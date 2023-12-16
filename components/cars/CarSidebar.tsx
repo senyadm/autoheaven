@@ -40,13 +40,35 @@ import {
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { usePathname } from "next/navigation";
 import usePremiumStatus from "@/hooks/usePremiumStatus";
+import { getlocales } from "@/app/actions";
+import { FiltersDictionary } from "@/types";
 
 type CarSidebarProps = {
   paramFilters: FilterPayload;
-  dispatch: Function; // Adjust the type as per the function you're passing
+  dispatch: Function;
+  offerNumber: number;
+  lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro"
 };
 
-const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
+const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch, offerNumber, lang }) => {
+  const [menu, setMenu] = useState<FiltersDictionary | null>(null)
+
+  useEffect(() => {
+    console.log(lang)
+    async function fetchData() {
+      try {
+        const { filters } = await getlocales(lang)
+        setMenu(filters)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!menu) {
+      fetchData()
+    }
+  }, [lang, menu])
+  
   const {isPremium, premiumThreshold} = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;
   const filterDefault: Filter = {
@@ -116,11 +138,12 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       tempFilters["type"] = paramFilters.type;
       tempFilters["vehicleBody"] = paramFilters.body_type || "";
       tempFilters["fuelType"] = paramFilters.fueltype || "";
-      tempFilters["price"] = [paramFilters.price_min, paramFilters.price_max];
-      tempFilters["milage"] = [paramFilters.mileage_min, paramFilters.mileage_max];
+      tempFilters["price"] = [paramFilters.price_min || 1000, paramFilters.price_max || 1000000];
+      tempFilters["milage"] = [paramFilters.mileage_min || 0, paramFilters.mileage_max || 500000];
       tempFilters["year"] = [paramFilters.min_year, paramFilters.max_year];
       tempFilters["accidentFree"] = paramFilters.accidentfree || false;
       tempFilters["sortBy"] = paramFilters.sortBy || "newestFirst";
+      console.log(tempFilters)
       setFilters(tempFilters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paramFilters])
@@ -246,9 +269,8 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
   }
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
-      <h2 className="text-l font-semibold mt-2 mb-2">Filters</h2>
       <Label htmlFor="filter1" className="font-bold">
-        Car Type
+        Type
       </Label>
       <Select
         onValueChange={(selectorValue) =>
@@ -256,7 +278,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         }
       >
         <SelectTrigger className="mb-2" currentValue={filters.type}>
-          Car Type
+          Chose Type
         </SelectTrigger>
         <SelectContent>
           {types.map((item: typeProps, index: number) => (
@@ -315,7 +337,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
   (
     <>
           <Label htmlFor="filter1" className="font-bold">
-        Car Category
+        Category
       </Label>
       <Select
         onValueChange={(selectorValue) =>
@@ -323,7 +345,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         }
       >
         <SelectTrigger className="mb-2" currentValue={filters.vehicleBody}>
-          Category
+         Choose Category
         </SelectTrigger>
         <SelectContent>
           {bodyTypes.map((item: string, index: number) => (
@@ -338,6 +360,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
   }
 
       <CarSearchFilter
+        dict={menu}
         handleOfferNumbers={handleOfferNumbers}
         filter={filters}
         handleSliderChange={handleSliderChange}
@@ -349,11 +372,11 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       <div className="flex items-center justify-between">
         <div className="relative">
           <Label className="text-l font-semibold flex flex-row">
-            From Dealer
+           {menu?.fromDealer || "From Dealer"}
             <div className="group inline-block ml-2 relative">
               <SvgIcon
                 alt="?"
-                filepath="icons/question-mark.svg"
+                filepath="/icons/question-mark.svg"
                 width={16}
                 height={16}
                 name="question-mark-circle"
@@ -380,11 +403,11 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       <div className="flex items-center justify-between">
         <div className="relative">
           <Label className="text-l font-semibold flex flex-row">
-            Accident Free
+            {menu?.accidentFree || "Accident Free"}
             <div className="group inline-block ml-2 relative">
               <SvgIcon
                 alt="?"
-                filepath="icons/question-mark.svg"
+                filepath="/icons/question-mark.svg"
                 width={16}
                 height={16}
                 name="question-mark-circle"
@@ -409,7 +432,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
       <Separator />
 
       <div>
-        <h2 className="text-l font-semibold mt-2 mb-2">Brands and Models</h2>
+        <h2 className="text-l font-semibold mt-2 mb-2">{menu?.brandAndModel || "Brand and model"}</h2>
       </div>
 
       <Accordion type="multiple" className="w-full">
@@ -529,7 +552,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch }) => {
         </DropdownMenu>
 
         <Button className="flex-1">
-          <Label className="text-sm"> {offers} offers </Label>
+          <Label className="text-sm"> {offerNumber} offers </Label>
           <ChevronRight size={14} />
         </Button>
       </div>

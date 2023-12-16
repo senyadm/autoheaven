@@ -11,21 +11,8 @@ import PhoneInput from 'react-phone-number-input'
 import { Separator } from '@/components/ui/separator';
 import 'react-phone-number-input/style.css'
 import { Textarea } from '@/components/ui/textarea';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import SvgIcon from '@/components/SvgIcon';
+import { SellClassicTranslations } from '@/types';
 
 const defaultCarDetails: CarDetails = {
   type: '',
@@ -45,10 +32,12 @@ const defaultCarDetails: CarDetails = {
 };
 
 
-const VehicleDetails = ({ onNext, onPrevious }: {onPrevious: () => void, onNext: (mode?: string) => void}) => {
+const VehicleDetails = ({ onNext, onPrevious, dict }: {onPrevious: () => void, onNext: (mode?: string) => void, dict: SellClassicTranslations | null}) => {
   const [store] = useAppStore(
     (state) => state?.createCarProgress
   )
+
+
 
   const [fileError, setFileError] = React.useState("");
   const [value, setValue] = useState<string | undefined>("")
@@ -117,7 +106,7 @@ if (!areDetailsValid()) return;
   <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
   <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label className='text-md text-foreground' htmlFor="filter2">Price</Label>
+              <Label className='text-md text-foreground' htmlFor="filter2">{dict?.price || 'Price'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
@@ -125,14 +114,13 @@ if (!areDetailsValid()) return;
         min={0}
         id="price"
         name="price"
-        placeholder="price"
         value={detailsData.price}
         onChange={(e) => setDetailsData({...detailsData, price: parseInt(e.target.value)})}
       />
       </div>
       <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label className='text-md text-foreground' htmlFor="filter2">Mileage</Label>
+              <Label className='text-md text-foreground' htmlFor="filter2">{dict?.mileage || 'Mileage'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Input className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
@@ -140,14 +128,13 @@ if (!areDetailsValid()) return;
         min={0}
         id="mileage"
         name="mileage"
-        placeholder="Mileage"
         value={detailsData.mileage}
         onChange={(e) => setDetailsData({...detailsData, mileage: parseInt(e.target.value)})}
       />
       </div>
       <div className="space-y-2">
       <div className="flex items-center space-x-2">
-              <Label className='text-md text-foreground' htmlFor="filter2">Phone Number</Label>
+              <Label className='text-md text-foreground' htmlFor="filter2">{dict?.phone || 'Phone'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
     <div className='flex justify-between flex-1 w-full'>
@@ -165,7 +152,7 @@ if (!areDetailsValid()) return;
 </div>
       <div className="space-y-2">
     <div className="flex items-center space-x-2">
-              <Label className='text-md text-foreground' htmlFor="filter2">Description</Label>
+              <Label className='text-md text-foreground' htmlFor="filter2">{dict?.description || 'Description'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
       <Textarea className='border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1'
@@ -182,7 +169,7 @@ if (!areDetailsValid()) return;
       </div>
       <Separator/>
 <div className='flex justify-between items-center'>
-      <Label className='text-md text-foreground'>Accident Free</Label>
+      <Label className='text-md text-foreground'>{dict?.accidentFree || 'Accident Free'}</Label>
       <Checkbox
         id="accidentfree"
         name="accidentfree"
@@ -193,7 +180,7 @@ if (!areDetailsValid()) return;
 </div>
 <Separator/>
 <div className="grid w-full items-center gap-5">
-      <Label className='text-md text-foreground' htmlFor="picture">Pictures</Label>
+      <Label className='text-md text-foreground' htmlFor="picture">{dict?.pictures || 'Pictures'}</Label>
       <div className="grid grid-cols-1 gap-4">   {fileError && (
         <div className="text-red-500 text-sm">
           {fileError}
@@ -222,10 +209,10 @@ if (!areDetailsValid()) return;
   </CardContent>
   <CardFooter className="flex justify-between">
     <Button onClick={onPrevious} className="mt-4">
-      Previous
+    {dict?.previous || 'Previous'}
     </Button>
     <Button onClick={handleCreateCar} className="mt-4">
-      Create Car
+       {dict?.create || 'Create ad'}
     </Button>
   </CardFooter>
 </Card>

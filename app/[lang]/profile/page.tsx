@@ -9,12 +9,13 @@ import { Separator } from "@/components/ui/separator";
 import SvgIcon from "@/components/SvgIcon";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../GlobalRedux/store";
-import { fetchUserData } from "../GlobalRedux/profile/userSlice";
+import { RootState, useAppDispatch } from "../../GlobalRedux/store";
+import { fetchUserData } from "../../GlobalRedux/profile/userSlice";
+import { Locale } from "@/i18n.config";
+import { SideBarItemsDictionary } from "@/types";
+import { getlocales } from "@/app/actions";
 
-const Profile = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const dispatch = useAppDispatch();
   const userName = useSelector(
     (state: RootState) => state?.user?.user_info?.name
@@ -27,6 +28,24 @@ const Profile = () => {
   );
   const fullName = `${userName} ${userSurname}`;
   const userEmail = useSelector((state: RootState) => state?.user?.email);
+
+  const [dict, setDict] = useState<SideBarItemsDictionary | null>(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { sidebarItems } = await getlocales(lang)
+        setDict(sidebarItems)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!dict) {
+      fetchData()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang])
 
   return (
     <main className="flex justify-center items-start flex-grow py-4 bg-topography-light">
@@ -50,11 +69,11 @@ const Profile = () => {
           </div>
           <Separator />
           <div className="mt-4">
-            <ProfileNavigationMenu />
+            <ProfileNavigationMenu dict={dict} />
           </div>
         </section>
         <section className="border rounded-lg min-w-[778px] h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background">
-          <ProfileContent />
+          <ProfileContent lang={lang || 'en'}/>
         </section>
       </div>
     </main>

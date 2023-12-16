@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import SvgIcon from '@/components/SvgIcon';
+import { SellClassicTranslations } from '@/types';
 
 const defaultCarDetails: CarDetails = {
   type: '',
@@ -98,7 +99,7 @@ const driveTrain: {
     }
     ];
 
-const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, onNext: (mode?: string) => void}) => {
+const VehicleModification = ({ onNext, onPrevious, dict }: {onPrevious: () => void, onNext: (mode?: string) => void,  dict: SellClassicTranslations | null}) => {
   
   const [store, dispatch] = useAppStore(
     (state) => state?.createCarProgress.details
@@ -128,7 +129,7 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
               onValueChange={(selectorValue) => dispatch(setDetails({...store, body_type: selectorValue}))}
             >
               <SelectTrigger currentValue={store?.body_type}>
-                Select body...
+                {dict?.selectbody || "Select body..."}
               </SelectTrigger>
               <SelectContent>
               {bodyTypes.map((type) => (
@@ -139,7 +140,7 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
             </div>
             <div className="space-y-2">
             <div className="flex items-center space-x-2">
-              <Label className='text-lg text-foreground' htmlFor="filter3">Fuel type</Label>
+              <Label className='text-lg text-foreground' htmlFor="filter3">{dict?.fuel || "Fuel"}</Label>
               <SvgIcon
                 filepath="/icons/fuel.svg"
                 alt=""
@@ -153,7 +154,7 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
               onValueChange={(selectorValue) => dispatch(setDetails({...store, fueltype: selectorValue}))}
             >
               <SelectTrigger currentValue={store?.fueltype}>
-                Select fuel...
+                {dict?.selectfuel || "Select fuel..."}
               </SelectTrigger>
               <SelectContent>
               {fuelTypes.map((type) => (
@@ -181,7 +182,7 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
       </div>
       <div className="space-y-4">
     <div className="flex items-center space-x-2">
-              <Label className='text-lg text-foreground' htmlFor="filter2">Drive Train</Label>
+              <Label className='text-lg text-foreground' htmlFor="filter2">{dict?.drivetrain || 'Drive Train'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
             <div className='flex flex-row justify-between'>
@@ -200,7 +201,7 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
       </div>
       <div className="space-y-4">
     <div className="flex items-center space-x-2">
-              <Label className='text-lg text-foreground' htmlFor="filter2">Gearbox</Label>
+              <Label className='text-lg text-foreground' htmlFor="filter2">{dict?.gearbox || 'Gearbox'}</Label>
               <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
             </div>
             <div className='flex flex-row space-x-8 items-center'>
@@ -221,10 +222,10 @@ const VehicleModification = ({ onNext, onPrevious }: {onPrevious: () => void, on
   </CardContent>
   <CardFooter className="flex justify-between">
     <Button onClick={onPrevious} className="mt-4">
-      Previous
+    {dict?.previous || 'Previous'}
     </Button>
     <Button onClick={handleNext} className="mt-4">
-      Continue
+    {dict?.continue || 'Continue'}
     </Button>
   </CardFooter>
 </Card>

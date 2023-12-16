@@ -25,6 +25,7 @@ import { RootState } from "../../app/GlobalRedux/store";
 const CarSearchResults = ({
   store,
   setSort,
+  lang,
 }: {
   store: CarResult[][] | undefined;
   setSort: (
@@ -36,6 +37,7 @@ const CarSearchResults = ({
       | "mileageHighestFirst"
       | "mileageLowestFirst"
   ) => void;
+  lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro"
 }) => {
   const [, wishlistDispatch] = useAppStore((state) => state?.user.wishlist);
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
@@ -98,17 +100,19 @@ const CarSearchResults = ({
         const carData: ResultCarCardInterface = {
           title: car?.title || alternativeTitle || "",
           price: car?.price || 0,
-          releaseYear: car?.year || 0,
+          type: car?.type || "",
+          year: car?.year || 0,
           mileage: car?.mileage || 0,
-          fuelType: car?.fueltype || "",
+          fueltype: car?.fueltype || "",
           drivetrain: car?.drivetrain || "",
-          bodyStyle: car?.body_type || "",
-          gear: car?.gearbox || "",
-          accidentFree: car?.accidentfree || false,
-          imageURL: car?.imageurl || "",
+          body_type: car?.body_type || "",
+          gearbox: car?.gearbox || "",
+          accidentfree: car?.accidentfree || false,
+          imageurl: car?.imageurl || "",
           id: car?.id || 0,
           phone_number: car?.phone_number || "",
           pageDisplayed: "cars",
+          seller_id: car?.seller_id || 0,
         };
 
         if (car?.istop) {
@@ -138,7 +142,7 @@ const CarSearchResults = ({
               topCars.map((carInfo, index) => (
                 <ResultCarCard
                   {...carInfo}
-                  key={`${index}${carInfo.imageURL}`}
+                  key={`${index}${carInfo.imageurl}`}
                 />
               ))
             ) : (
@@ -151,7 +155,7 @@ const CarSearchResults = ({
               resultsCardData.map((carInfo, index) => (
                 <ResultCarCard
                   {...carInfo}
-                  key={`${index}${carInfo.imageURL}`}
+                  key={`${index}${carInfo.imageurl}`}
                 />
               ))
             ) : (

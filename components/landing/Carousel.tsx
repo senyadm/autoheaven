@@ -1,9 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TypographyH1, TypographyH4 } from "../ui/typography";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/GlobalRedux/store";
 import Image from "next/image";
+import { Locale } from "@/i18n.config";
+import { getlocales } from "@/app/actions";
+import { CarouselDictionary } from "@/types";
 
 const carouselBgs = [
   "waqas-sultan.png",
@@ -11,10 +14,28 @@ const carouselBgs = [
   "truck 1.png",
   "markus-winkler.png",
 ];
-const Carousel = () => {
+const Carousel = ({ lang }: { lang: Locale }) => {
   const activeTransportCategory = useSelector(
     (state: RootState) => state.transportCategory.activeCategory
   );
+
+  const [menu, setMenu] = useState<CarouselDictionary | null>(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { carousel } = await getlocales(lang)
+        setMenu(carousel)
+      } catch (error) {
+        console.error('Error fetching tools data:', error)
+      }
+    }
+
+    if (!menu) {
+      fetchData()
+    }
+  }, [lang, menu])
+
   return (
     <div
       className={`w-full h-[22.1875rem] bg-center bg-cover absolute text-card-foreground`}
@@ -41,9 +62,9 @@ const Carousel = () => {
         ></div>
       </div>
       <div className="z-10 flex flex-col items-center justify-end h-full relative text-white">
-        <TypographyH1>Cruise in Comfort</TypographyH1>
+        <TypographyH1>{menu?.cruise || "Cruise in Comfort"}</TypographyH1>
         <TypographyH4 className="mt-2.5">
-          Discover Cars Tailored to Your Lifestyle
+          {menu?.discover || "Discover Cars Tailored to Your Lifestyle"}
         </TypographyH4>
         <div className="mb-[4.2rem] mt-[1.25rem] flex">
           {

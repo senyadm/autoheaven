@@ -1,0 +1,216 @@
+{
+  "navbar": {
+    "profile": "Profil",
+    "home": "Strona główna",
+    "notifications": "Powiadomienia",
+    "make_ad": "Dodaj ogłoszenie",
+    "logout": "Wyloguj",
+    "login": "Zaloguj",
+    "home_href": "strona-glowna",
+    "about_href": "o-nas",
+    "country": "Kraj",
+    "city": "Wybierz miasto",
+    "search": "Szukaj",
+    "country_select": "Wybierz kraj"
+  },
+  "profile": {
+    "settings": "Ustawienia",
+    "myProfile": "Mój profil",
+    "editMyProfile": "Edytuj mój profil",
+    "darkTheme": "Ciemny motyw",
+    "language": "Język",
+    "privacy": "Prywatność",
+    "privacySubtext": "Chciałbym otrzymywać e-maile od Autoheven dotyczące ofert, badań i informacji o produktach i usługach od",
+    "emailConfirmation": "Potwierdzenie adresu e-mail",
+    "emailConfirmationSubtext": "Proszę potwierdzić, że a***@e**.com to Twój adres e-mail, klikając link w swojej skrzynce odbiorczej",
+    "resendActivationLink": "Wyślij ponownie link aktywacyjny",
+    "english": "Angielski",
+    "czech": "Czeski",
+    "german": "Niemiecki",
+    "spanish": "Hiszpański",
+    "french": "Francuski"
+  },
+  "profileEdit": {
+    "edit": "Edytuj",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "publicProfile": "Profil publiczny",
+    "publicProfileSubtext": "To będzie wyświetlane na Twoim profilu",
+    "credentials": "Dane logowania",
+    "credentialsSubtext": "Twoje informacje logowania",
+    "privacy": "Prywatność",
+    "privacyPolicy": "Zobacz Politykę Prywatności (PDF)",
+    "deleteAccount": "Usuń konto",
+    "deleteAccountSubtext": "Po usunięciu konta nie ma odwrotu. Proszę być pewnym decyzji.",
+    "deleteAccountButton": "Usuń moje konto",
+    "agreeMarketResearch": "Zgadzam się na wykorzystanie moich danych do badań rynkowych"
+  },
+  "overview": {
+    "startNewSearch": "Rozpocznij nowe wyszukiwanie",
+    "showActiveAds": "Pokaż moje aktywne ogłoszenia",
+    "inbox": "Skrzynka odbiorcza",
+    "saved": "Zapisane",
+    "vehicles": "Dostępne pojazdy"
+  },
+  "sidebarItems": {
+    "overview": "Przegląd",
+    "messages": "Wiadomości",
+    "edit": "Edytuj mój profil",
+    "cars": "Moje samochody",
+    "settings": "Ustawienia",
+    "ads": "Ulubione ogłoszenia"
+  },
+  "footer": {
+    "company": "Firma",
+    "aboutUs": "O nas",
+    "careers": "Kariera",
+    "advertising": "Reklama",
+    "helpContact": "Pomoc i kontakt",
+    "information": "Informacje",
+    "termsConditions": "Regulamin",
+    "priceList": "Cennik",
+    "privacyPolicy": "Polityka prywatności"
+  },
+  "carousel": {
+    "cruise": "Podróżuj w Komforcie",
+    "discover": "Odkryj Samochody Dopasowane do Twojego Stylu Życia"
+  },
+  "filters": {
+    "brandAndModel": "Marka i model",
+    "body": "Typ pojazdu",
+    "fuel": "Rodzaj paliwa",
+    "price": "Cena",
+    "mileage": "Przebieg",
+    "year": "Rok",
+    "selectBrand": "Wybierz markę...",
+    "selectBody": "Wybierz typ pojazdu...",
+    "selectFuel": "Wybierz rodzaj paliwa...",
+    "passengerCars": "Samochody osobowe",
+    "motorcycles": "Motocykle",
+    "trucks": "Ciężarówki",
+    "busses": "Autokary",
+    "offers": "oferty",
+    "accidentFree": "Bezwypadkowy",
+    "damaged": "Uszkodzony"
+  },
+  "tipsBlock": {
+    "learnPlatformTitle": "Dowiedz się o naszej platformie",
+    "tips": {
+      "tip1": {
+        "type": "Porady",
+        "title": "Jak Bezpiecznie Sprzedawać Samochód Online",
+        "description": "Dowiedz się o praktycznych krokach, które pomogą Ci chronić się przed oszustwami internetowymi podczas kupowania lub sprzedawania samochodów.",
+        "readMore": "Czytaj więcej"
+      },
+      "tip2": {
+        "type": "Odkrywanie",
+        "title": "Gdzie Znaleźć Swój Samochód Marzeń",
+        "description": "Odkryj, jak znaleźć idealny samochód, korzystając z prostych kategorii i podkategorii.",
+        "readMore": "Czytaj więcej"
+      },
+      "tip3": {
+        "type": "Porady",
+        "title": "Korzyści z Rejestracji w Autoheven",
+        "description": "Zrozum, jakie są zalety rejestracji na naszej platformie w porównaniu z korzystaniem z niej jako gość.",
+        "readMore": "Czytaj więcej"
+      },
+      "tip4": {
+        "type": "Porady",
+        "title": "Skuteczne Korzystanie z Filtrów",
+        "description": "Odkryj, jak filtry pomagają Ci znaleźć idealny samochód. Naucz się zawężać opcje według ceny, roku, przebiegu, typu i rodzaju paliwa, aby znaleźć idealne dopasowanie.",
+        "readMore": "Czytaj więcej"
+      },
+      "tip5": {
+        "type": "Odkrywanie",
+        "title": "Odkrywanie Samochodów Elektrycznych",
+        "description": "Dowiedz się, dlaczego samochody elektryczne zyskują na popularności. Poznaj korzyści, opcje ładowania i jak nasza platforma wspiera ruch samochodów elektrycznych.",
+        "readMore": "Czytaj więcej"
+      },
+      "tip6": {
+        "type": "Odkrywanie",
+        "title": "Wyjątkowe Pojazdy: Ciężarówki",
+        "description": "Zanurz się w specjalnych pojazdach, takich jak traktory i kampery. Odkryj unikalne opcje w kategorii 'Specjalne Pojazdy', aby zaspokoić konkretne potrzeby.",
+        "readMore": "Czytaj więcej"
+      }
+    }
+  },
+  "popularBrands": "Popularne Marki",
+  "auth": {
+    "firstNameLabel": "Imię *",
+    "lastNameLabel": "Nazwisko *",
+    "phoneLabel": "Telefon *",
+    "emailLabel": "E-mail *",
+    "passwordLabel": "Hasło *",
+    "moreThan8Chars": "Więcej niż 8 znaków",
+    "letters": "Litery",
+    "symbols": "Symbole",
+    "acceptTACLabel": "Akceptuję regulamin",
+    "registerButton": "Zarejestruj się",
+    "dealerButton": "Jestem dealerem",
+    "usernameLabel": "Nazwa użytkownika *",
+    "loginButton": "Zaloguj się",
+    "forgotPasswordLink": "Zapomniałeś hasła?"
+  },
+  "sell": {
+    "main": {
+      "plans": "Plany",
+      "sellYourCar": "Sprzedaj swój samochód z AutoHeven",
+      "howToSell": "Jak chciałbyś sprzedać swój pojazd?",
+      "classicAd": "Klasyczne Ogłoszenie",
+      "sellViaPlatform": "Sprzedaj swój samochód za pomocą naszej platformy innym klientom",
+      "setYourPrice": "Ustaw swoją własną cenę",
+      "fullAdControl": "Pełna kontrola nad twoją reklamą",
+      "communicateCustomers": "Komunikuj się z innymi klientami",
+      "getStarted": "Rozpocznij",
+      "directPartner": "Bezpośredni Partner",
+      "sellToPartners": "Sprzedaj swój samochód naszym zaufanym partnerom",
+      "sellIn3Days": "Sprzedaj w ciągu 3 dni",
+      "professionalValuation": "Profesjonalna wycena twojego samochodu",
+      "unsubscribeFree": "Wypisz się bezpłatnie w dowolnym momencie",
+      "howItWorks": "Jak to działa?",
+      "simple3Step": "Prosty 3-krokowy plan na każdym etapie",
+      "classicAdWay": "Sposób na Klasyczne Ogłoszenia",
+      "createAd": "Utwórz ogłoszenie",
+      "receiveRequests": "Odbieraj zapytania, ustalając spotkania",
+      "sellBestPrice": "Sprzedaj samochód po najlepszej cenie",
+      "directPartnersWay": "Sposób na Bezpośrednich Partnerów",
+      "determineCostOnline": "Określ koszt pojazdu online",
+      "onsiteAssessment": "Ekspercka ocena na miejscu",
+      "easySale": "Łatwa sprzedaż",
+      "letsCompare": "Porównajmy",
+      "decideNeeds": "Zdecyduj, co najlepiej odpowiada twoim potrzebom",
+      "faq": "Najważniejsze pytania",
+      "importantQuestions": "Ważne pytania",
+      "happyToKnowMore": "Cieszymy się, że chcesz dowiedzieć się więcej",
+      "howToSellVehicle": "Jak sprzedać mój pojazd?",
+      "informSetPrice": "Informuj i ustaw cenę",
+      "vehicleCarePreparation": "Zadbaj o pojazd i przygotuj go do sprzedaży"
+    },    
+    "classic": {
+      "title": "Chcę sprzedać",
+      "start": "Rozpocznij",
+      "brand": "Marka",
+      "model": "Model",
+      "mod": "Modyfikacja",
+      "details": "Szczegóły",
+      "previous": "Wstecz",
+      "continue": "Kontynuuj",
+      "searchBrand": "Wyszukaj markę",
+      "searchModel": "Wyszukaj model",
+      "vehiclebody": "Typ pojazdu",
+      "selectbody": "Wybierz typ...",
+      "fuel": "Rodzaj paliwa",
+      "selectfuel": "Wybierz paliwo...",
+      "year": "Rok",
+      "drivetrain": "Napęd",
+      "gearbox": "Skrzynia biegów",
+      "price": "Cena",
+      "mileage": "Przebieg",
+      "phone": "Telefon",
+      "description": "Opis",
+      "accidentFree": "Bez wypadków",
+      "pictures": "Zdjęcia",
+      "create": "Utwórz ogłoszenie"
+    }
+  }
+}
