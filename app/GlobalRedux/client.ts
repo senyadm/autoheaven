@@ -8,9 +8,8 @@ const [clientCars, clientUsers] = [
 ].map((url) => {
   const client = axios.create({
     baseURL: url,
-    timeout: 5000, // Increased timeout
+    timeout: 15000, // Increased timeout
     headers: {
-      "Content-Type": "application/json",
       "ngrok-skip-browser-warning": true,
     },
   });

@@ -28,6 +28,9 @@ import { useEffect, useState } from "react";
 import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
+import qs from 'qs';
+
+
 const formSchema = zod.object({
   email: zod.string().email(),
   password: zod.string().min(8, {
@@ -68,41 +71,41 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
     },
   });
 
-  function onSubmit(values: zod.infer<typeof formSchema>) {
-    clientUsers
-      .post(
-        "/api/users/token",
-        {
-          username: values.email,
-          password: values.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Accept: "application/json",
-            "ngrok-skip-browser-warning": "1",
-          },
-        }
-      )
-      .then((response) => {
-        saveToken(response.data.access_token);
-        dispatch(setUser(response.data));
-        const prevUrl = getOriginalUrl();
-        if (prevUrl) {
-          router.push(prevUrl);
-        } else {
-          router.push(`/${lang}`);
-        }
-      })
-      .catch((error) => {
-        form.resetField("password");
-        form.setError("password", {
-          type: "manual",
-          message: "Password or email not found",
-        });
+   function onSubmit(values: zod.infer<typeof formSchema>) {
 
-        console.log(error);
+  clientUsers
+    .post(
+      "/api/users/token/",
+      new URLSearchParams({
+        username: values.email,
+        password: values.password,
+      }),
+      {
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+    .then((response) => {
+      saveToken(response.data.access_token);
+      dispatch(setUser(response.data));
+      const prevUrl = getOriginalUrl();
+      if (prevUrl) {
+        router.push(prevUrl);
+      } else {
+        router.push(`/${lang}`);
+      }
+    })
+    .catch((error) => {
+      form.resetField("password");
+      form.setError("password", {
+        type: "manual",
+        message: "Password or email not found",
       });
+
+      console.log(error);
+    });
   }
 
   return (
