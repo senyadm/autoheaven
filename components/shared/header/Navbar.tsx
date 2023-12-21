@@ -27,6 +27,7 @@ import {
   MapPin,
   Bell,
 } from "lucide-react";
+import {AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK} from 'country-flag-icons/react/3x2'
 import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
 import { Label } from "@/components/ui/label";
@@ -35,6 +36,37 @@ import { useEffect, useMemo, useState } from "react";
 import { getlocales } from '@/app/actions'
 import { Locale } from "@/i18n.config";
 import { NavbarData } from "@/types";
+
+const flagComponents: Record<string, any> = {
+  AT: AT,
+  BE: BE,
+  BG: BG,
+  CY: CY,
+  CZ: CZ,
+  DE: DE,
+  DK: DK,
+  EE: EE,
+  ES: ES,
+  FI: FI,
+  FR: FR,
+  GR: GR,
+  HR: HR,
+  HU: HU,
+  IE: IE,
+  IT: IT,
+  LT: LT,
+  LU: LU,
+  LV: LV,
+  MT: MT,
+  NL: NL,
+  PL: PL,
+  PT: PT,
+  RO: RO,
+  SE: SE,
+  SI: SI,
+  SK: SK
+};
+
 
 export function Navbar({ lang }: { lang: Locale }) {
 
@@ -177,18 +209,22 @@ export function Navbar({ lang }: { lang: Locale }) {
              {modalState === 'country' ? <DialogContent className="overflow-y-auto max-h-[80vh]">
                   <DialogTitle>{menu?.country}</DialogTitle>
                   <div className="grid grid-cols-3 gap-4">
-                    {euCountries.map((country) => (
-                      <button
+                    {euCountries.map((country) => {
+                      const FlagIcon = flagComponents[country.code];
+
+                      return (                      <button
                         key={country.code}
                         onClick={() => handleCountrySelect(country.code)}
-                        className="p-2 border rounded hover:bg-gray-100"
+                        className="flex items-center space-x-2 pl-4 p-1 border rounded hover:bg-gray-100"
                       >
-                        {country.name}
-                      </button>
-                    ))}
+                         <FlagIcon className="w-5 h-auto" />
+                        <span>{country.name}</span>
+                      </button>)
+
+})}
                   </div>
                 </DialogContent> : 
-                <DialogContent>
+                <DialogContent className="overflow-y-auto max-h-[80vh]">
                 <DialogTitle>{menu?.city}</DialogTitle>
                 <div className="grid grid-cols-3 gap-4">
                   {cityList?.map((city) => (
