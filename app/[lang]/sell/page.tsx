@@ -43,7 +43,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
 
   const cardInfo: PlansInfo[] = [
     {
-      plan: dict?.classicAd || "classic",
+      plan: "classic",
       title: dict?.classicAdWay || "Classic Ad",
       description: dict?.sellViaPlatform || "Sell your car using our platform to other client",
       text: [
@@ -128,7 +128,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
       return;
     }
 
-    router.push(`${lang}/sell/${mode}`);
+    router.push(`/${lang}/sell/${mode}`);
   }
 
   return (
