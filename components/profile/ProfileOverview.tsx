@@ -11,7 +11,7 @@ interface OverviewProps {
 const ProfileOverview = ({ overview }: OverviewProps) => {
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4'>
- <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
+ <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
 
     <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />
@@ -22,7 +22,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
                 </CardContent>
             </Card>
             
-            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
+            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
 
 <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />
@@ -32,7 +32,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
                     <Label className='text-foreground text-sm'>2341 {overview?.vehicles || "Vehicles available"}</Label>
                 </CardContent>
             </Card>
-            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
+            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
 
 <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="4" strokeDasharray="18,4" />
@@ -45,7 +45,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
                 </CardContent>
             </Card>
 
-            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-white overflow-hidden border-none shadow-none">
+            <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
 
 <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#2563EB" strokeWidth="3" strokeDasharray="18,4" />

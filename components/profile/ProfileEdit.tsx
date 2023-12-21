@@ -13,10 +13,11 @@ import flags from "react-phone-number-input/flags";
 import { fetchUserData } from "../../app/GlobalRedux/profile/userSlice";
 import { useAppDispatch, useAppSelector } from "../../app/GlobalRedux/store";
 import EditButton from "./ProfileEditButton";
-import { setPublicProfile } from "../../app/GlobalRedux/profile/profileSlice";
+import { setCredentials, setPublicProfile } from "../../app/GlobalRedux/profile/profileSlice";
 import { Locale } from "@/i18n.config";
 import { getlocales } from "@/app/actions";
 import { ProfileEdit } from "@/types";
+import  './ProfileEdit.css'
 
 const ProfileEdit = ({ lang }: { lang: Locale }) => {
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   const [name, setName] = useState(profileInfo.name);
   const [surname, setSurname] = useState(profileInfo.surname);
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(profileInfo.name);
+  const [email, setEmail] = useState(profileInfo.email);
   const [dict, setDict] = useState<ProfileEdit | null>(null)
 
   useEffect(() => {
@@ -63,21 +65,40 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
         surname: userInfo.user_info?.surname || "",
         phoneNumber: userInfo.user_info?.phone_number || "",
       })
+      
     );
+    dispatch(setCredentials({
+        email: userInfo.email || "",
+        password: "",
+      }));
+    
     setName(userInfo.user_info?.name || "");
     setSurname(userInfo.user_info?.surname || "");
     setPhoneNumber(userInfo.user_info?.phone_number || "");
+    setEmail(userInfo.email || "");
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleEditPP = () => {
     toggleDisabledPP();
   };
+  const handleEditCred = () => {
+    toggleDisabledCred();
+  }
+  const handleCancelCred = () => {
+    toggleDisabledCred();
+    setEmail(profileInfo.email);
+  };
   const handleCancelPP = () => {
     toggleDisabledPP();
     setName(profileInfo.name);
     setSurname(profileInfo.surname);
     setPhoneNumber(profileInfo.phoneNumber);
+  };
+  const handleSaveCred = () => {
+    if (!email) return;
+    toggleDisabledCred();
+    dispatch(setCredentials({ email, password: "" }));
   };
   const handleSavePP = () => {
     if (!phoneNumber) return;
@@ -86,7 +107,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   };
   return (
     <div className="h-full">
-      <Card className="w-full h-full  border-none">
+      <Card className="w-full h-full  border-none bg-primary-foreground">
         <CardHeader className="relative">
           <div className="bg-secondary h-[100px]"></div>
 
@@ -178,6 +199,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 type="text"
                 className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
                 placeholder="Email"
+                disabled={isDisabledCred}
               />
 
               <div className="flex items-center space-x-2">
@@ -185,20 +207,18 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                   type="password"
                   className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
                   placeholder="Password"
+                  disabled={isDisabledCred}
                 />
-                <Button className="bg-white hover:bg-gray-300 text-secondary-foreground border-r border-gray-300 rounded-r-md flex justify-center items-center w-10 h-10 p-2">
-                  <Eye size={16} />
-                </Button>{" "}
               </div>
 
               <EditButton
                 saveText={dict?.save || "Save"}
                 cancelText={dict?.cancel || "Cancel"}
                 editText={dict?.edit || "Edit"}
-                onSave={handleSavePP}
-                onEdit={handleEditPP}
-                onCancel={handleCancelPP}
-                disabledState={isDisabledPP}
+                onSave={handleSaveCred}
+                onEdit={handleEditCred}
+                onCancel={handleCancelCred}
+                disabledState={isDisabledCred}
               />
             </div>
           </div>
@@ -242,7 +262,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
               </Label>
             </div>
             <div className="flex items-center space-x-2 justify-end flex-1">
-              <Button className="bg-white text-secondary-foreground hover:bg-gray-300 space-x-2 border border-destructive">
+              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-gray-300 space-x-2 border border-destructive">
                 {" "}
                 <Label className="font-semibold leading-relaxed">
                   {dict?.deleteAccountButton}

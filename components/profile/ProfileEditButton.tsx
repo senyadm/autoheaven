@@ -22,7 +22,7 @@ const EditButton = ({
   if (disabledState) {
     return (
       <Button
-        className="self-end bg-white hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 "
+        className="self-end bg-primary-foreground hover:bg-gray-300 text-secondary-foreground border border-gray-300 rounded-md mt-2 "
         onClick={onEdit}
       >
         <PenSquare className="mr-2" size={16} />

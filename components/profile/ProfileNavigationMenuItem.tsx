@@ -36,17 +36,17 @@ const ProfileNavigationMenuItem = ({
   // }, [profileNavigationMenuState]);
   return (
     <NavigationMenuItem
-      className="w-full mb-4 flex flex-row"
+      className="w-full mb-4 flex flex-row bg-background"
       onClick={() =>
         dispatch(setProfileNavigationMenuItemName(itemInfo.componentName))
       }
       key={itemInfo.componentName}
     >
       <Button
-        className={`w-full text-foreground cursor-pointer hover:bg-gray-300 shadow-none flex justify-start ${
+        className={`w-full text-foreground cursor-pointer shadow-none flex justify-start ${
           itemInfo.componentName === profileNavigationMenuState[0]?.menuItemName
-            ? "bg-primary text-primary-foreground"
-            : "bg-white"
+            ? "bg-primary text-primary-foreground hover:bg-background"
+            : "bg-background"
         }`}
       >
         {itemInfo.icon}

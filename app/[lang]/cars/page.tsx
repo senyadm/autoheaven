@@ -94,7 +94,7 @@ const Cars = ({params, isPremium=false}:CarsProps) => {
 
   return (
   
-      <main className="flex flex-1 items-start bg-indigo-50 py-6">
+      <main className="flex flex-1 items-start bg-primary-foreground py-6">
         <div className="flex flex-row mt-10 space-x-10 max-w-screen-2xl mx-auto">
           <div className="w-full lg:w-1/4">
             <CarSidebar lang={params.lang} offerNumber={offers}  paramFilters={filters} dispatch={dispatch}/>

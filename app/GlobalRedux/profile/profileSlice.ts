@@ -35,9 +35,14 @@ export const profileSlice = createSlice({
       state.surname = surname;
       state.phoneNumber = phoneNumber;
     },
+    setCredentials: (state, action: PayloadAction<CredentialsState>) => {
+      const { email, password } = action.payload;
+      if(email) state.email = email;
+      if(password) state.password = password;
+    }
   },
 });
 
-export const { setPublicProfile } = profileSlice.actions;
+export const { setPublicProfile, setCredentials } = profileSlice.actions;
 
 export default profileSlice.reducer;

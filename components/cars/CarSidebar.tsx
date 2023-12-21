@@ -268,7 +268,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch, offerNum
     setCurrentModels((prev) => prev + 10);
   }
   return (
-    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-white border border-gray-300 shadow-lg rounded-lg">
+    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg">
       <Label htmlFor="filter1" className="font-bold">
         Type
       </Label>
@@ -456,7 +456,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch, offerNum
       </Label>
               </AccordionTrigger>
               </div>
-              <Button onClick={() => handleDelete?.(index)} className="bg-white p-2 rounded hover:bg-gray-200 transition duration-150 shadow-none">
+              <Button onClick={() => handleDelete?.(index)} className="bg-primary-foreground p-2 rounded hover:bg-gray-200 transition duration-150 shadow-none">
         <TrashIcon height={16} width={16} className="text-red-500"/>
       </Button>
 
