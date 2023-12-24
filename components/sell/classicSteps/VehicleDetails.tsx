@@ -60,21 +60,20 @@ const VehicleDetails = ({ onNext, onPrevious, dict }: {onPrevious: () => void, o
       for (const file of files) {
         if (!["image/png", "image/jpeg", "image/gif"].includes(file.type)) {
           errorMessage = `The file type of ${file.name} is not allowed.`;
-          break; // Exit the loop after the first error
+          break;
         }
         if (file.size > 5 * 1024 * 1024) { // 5MB limit
           errorMessage = `The file ${file.name} is too large.`;
-          break; // Exit the loop after the first error
+          break;
         }
       }
     }
   
     if (errorMessage) {
       setFileError(errorMessage);
-      event.target.value = ''; // Reset the file input
+      event.target.value = '';
     } else {
       setFileError("");
-      // Process the files as required
     }
   };
   
@@ -98,7 +97,19 @@ if (!areDetailsValid()) return;
   };
 
   createCar(newStore)
+  .then(() => {
+    window.location.href = '/success';
+  })
+  .catch(() => {
+    
+  })
   onNext('final');
+}
+
+const checkIfEmpty = () => {
+  if (!detailsData.description || !detailsData.mileage || !detailsData.price) return true;
+
+  return false;
 }
 
   return (
@@ -211,7 +222,7 @@ if (!areDetailsValid()) return;
     <Button onClick={onPrevious} className="mt-4">
     {dict?.previous || 'Previous'}
     </Button>
-    <Button onClick={handleCreateCar} className="mt-4">
+    <Button disabled={checkIfEmpty()} onClick={handleCreateCar} className="mt-4">
        {dict?.create || 'Create ad'}
     </Button>
   </CardFooter>

@@ -28,7 +28,6 @@ import {
   Bell,
 } from "lucide-react";
 import {AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, PL, PT, RO, SE, SI, SK} from 'country-flag-icons/react/3x2'
-import ModeToggle from "./ModeToggle";
 import logo from "../../../public/autoheven_logo.svg";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
@@ -103,22 +102,15 @@ export function Navbar({ lang }: { lang: Locale }) {
   const [openPopover, setOpenPopover] = useState(false);
   const [regionModalOpen, setRegionModalOpen] = useState(false),
     toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
-  // const handleLanguageToggle = () => {
-  //   setOpenPopover(false);
-  //   setTimeout(() => {
-  //     setLang(!lang);
-  //   }, 300);
-  // };
-
   const [location, setLocation] = useState({ country: "", city: "" });
-  const [cities, setCities] = useState([]);
   const [token, setToken] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
+
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
-
+    console.log(storedToken)
   }, []);
 
   useEffect(() => {
@@ -140,10 +132,6 @@ export function Navbar({ lang }: { lang: Locale }) {
 
     fetchLocation();
   }, []);
-
-  const handlePopoverToggle = () => {
-    setOpenPopover(!openPopover);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -276,10 +264,10 @@ export function Navbar({ lang }: { lang: Locale }) {
         alt="Profile"
       />
     </Link>
-     <Button className="flex flex-row justify-between items-center p-2 space-x-2" variant='ghost'>
+     <Link className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer" href={`/${lang}/sell`}>
     <Label className="text-foreground text-l">{menu?.make_ad || "Make Add"}</Label>
       <MegaphoneIcon className="ml-2 w-4 h-4" />
-    </Button>
+    </Link>
     <Link
     
       onClick={handleLogout} className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
@@ -302,52 +290,6 @@ export function Navbar({ lang }: { lang: Locale }) {
               <span className="sr-only">{menu?.login || "Login"}</span>
             </Link>
           )}
-          {/* <Popover open={openPopover}>
-            <PopoverTrigger
-              // className="color-primary h-full border p-3 rounded-lg"
-              onClick={handlePopoverToggle}
-              asChild
-            >
-              <Button variant="outline" size="icon">
-                <SvgIcon
-                  width={16}
-                  height={16}
-                  alt="Translate Icon"
-                  filepath={!lang ? "/icons/UK_Flag.svg" : "/icons/CZ_Flag.svg"}
-                />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="px-1 py-2">
-              <Button variant="ghost" onClick={handleLanguageToggle}>
-                <SvgIcon
-                  width={16}
-                  height={16}
-                  alt="Translate Icon"
-                  className="mr-2"
-                  filepath={lang ? "/icons/UK_Flag.svg" : "/icons/CZ_Flag.svg"}
-                />
-                {lang ? "English" : "Czech"}
-              </Button>
-            </PopoverContent>
-          </Popover> */}
-
-          {/* {!isNavbarV2 && (
-            <>
-              
-              <Link
-                href="/login"
-                className={buttonVariants({ size: "icon", variant: "outline" })}
-              >
-                <LogInIcon className="w-4 h-4" />
-                <span className="sr-only">Login</span>
-              </Link>
-              <Button>
-                Advertise
-                <MegaphoneIcon className="ml-2 w-4 h-4" />
-              </Button>
-              
-            </>
-          )} */}
         </div>
       </div>
     </NavigationMenu>

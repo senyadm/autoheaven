@@ -141,12 +141,6 @@ const handleBrand = (brand: string) => {
     {dict?.previous || 'Previous'}
   </Button>
   <Button
-    onClick={() => setShowSimplified(!showSimplified)}
-    className="mt-4 bg-primary text-white disabled:opacity-50"
-  >
-    {showSimplified ? 'Full' : 'Simplified'}
-  </Button>
-  <Button
     disabled={!store?.brand}
     onClick={() => onNext()}
     className="mt-4 bg-primary text-white disabled:opacity-50"
