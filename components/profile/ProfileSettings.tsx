@@ -1,9 +1,10 @@
+"use client"
 import { Label } from "@radix-ui/react-label";
 import { Separator } from "@/components/ui/separator";
 import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Send } from "lucide-react";
-
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
@@ -14,6 +15,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { getlocales } from '@/app/actions'
 import { ProfileSettingsDictionary } from "@/types";
+import { RootState } from "@/app/GlobalRedux/store";
+import { useSelector } from "react-redux";
+import { sendEmail } from "@/app/GlobalRedux/profile/profileSlice";
 const languages: Record<Language, string> = {
   en: "English",
   cz: "Czech",
@@ -29,16 +33,16 @@ const languages: Record<Language, string> = {
 const ProfileSettings = ({ lang }: { lang: Locale }) => {
   const pathName = usePathname();
   const router = useRouter();
-
+  const email = useSelector((state: RootState) => state?.user?.email);
   const [dict, setDict] = useState<ProfileSettingsDictionary | null>(null)
-
+  const { toast } = useToast()
   const [language, setLanguage] = React.useState(getLanguageLS());
 
   useEffect(() => {
     setLanguageLS(lang);
     setLanguage(lang);
   }, [lang]);
-
+  const [isTimerActive, setIsTimerActive] = useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -81,6 +85,25 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
     localStorage.setItem('language', val);
     router.replace(newPath)
   };
+
+  const handleResend = () => {
+    sendEmail(email)
+    .then((res) => {
+      toast({
+        description: `The confirmation email has been sent to ${email}`,
+      });
+      setIsTimerActive(true);
+      setTimeout(() => setIsTimerActive(false), 30000);
+    })
+    .catch((err) => {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong.",
+        description: "There was a problem with your request."
+      });
+      console.error(err);
+    })
+  }
 
   return (
     <div className=" flex flex-col h-full overflow-hidden w-full px-8 py-5">
@@ -172,7 +195,9 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
                 </Label>
               </div>
               <div className="flex items-center space-x-2 justify-end flex-1">
-                <Button className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2">
+                <Button disabled={isTimerActive} onClick={() => {
+                  handleResend();
+                  }} className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2">
                   <Send size={16} />{" "}
                   <Label className="font-semibold text-xs">
                     {dict?.resendActivationLink}

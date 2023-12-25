@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
 import { Locale, defaultLocale } from '@/i18n.config'
+import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
             <div className="h-screen flex flex-col ">
               <Navbar lang={params.lang ?? defaultLocale}/>
               {children}
+              <Toaster />
               <Footer lang={params.lang ?? defaultLocale}/>
             </div>
           </ThemeProvider>

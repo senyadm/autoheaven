@@ -1,9 +1,6 @@
-import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { clientUsers } from "../client";
-import { get } from "http";
-import { getToken } from "../../../utils/auth";
-import { AppDispatch } from "../store";
+import { getToken } from "@/utils/auth";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { clientCars, clientEmail } from "../client";
 interface PPState {
   name: string;
   surname: string;
@@ -24,6 +21,29 @@ const initialState: ProfileState = {
   password: "",
   confirmedPrivacy: false,
 };
+
+export async function sendEmail(email: unknown): Promise<string> {
+
+  const payload = {
+    "to": [
+      email
+    ],
+    "subject": "string",
+    "body": "string"
+  }
+  const token = getToken();
+
+  const headers = {
+    Authorization: `Bearer ${token}`
+  };
+
+  try {
+    const response = await clientEmail.post("/send_mail", payload, { headers });
+    return response.data;
+  } catch (err: any) {
+    return err?.response?.data;
+  }
+}
 
 export const profileSlice = createSlice({
   name: "profile",

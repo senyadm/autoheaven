@@ -20,6 +20,7 @@ const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const userName = useSelector(
     (state: RootState) => state?.user?.user_info?.name
   );
+
   if (!userName) {
     dispatch(fetchUserData());
   }
