@@ -1,50 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
 
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectContent,
-  SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../ui/card";
+import { ChevronRight } from "lucide-react";
 import SvgIcon from "../../SvgIcon";
-import { ChevronRight, Siren } from "lucide-react";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 import RangeSlider from "../RangeSlider";
-import { tempData } from "../tempData";
-import { allData } from "../allData";
 
-import {
-  FilterStates,
-  Filter,
-  TrucksComponentProps,
-  CarComponentProps,
-  tabsTriggersInfo,
-  PassengerCars,
-  TabKeys,
-  MotoComponentProps,
-  BUS_SUBCATEGORIES,
-  TRUCK_SUBCATEGORIES,
-  Car,
-} from "../types";
+import { MotoComponentProps } from "../types";
 
 const bodyTypes: string[] = [
   "All",
@@ -63,19 +34,17 @@ const fuelTypes: string[] = [
   "Diesel",
   "Hybrid",
 ];
-import { useAppStore } from "@/app/GlobalRedux/useStore";
 
 export function MotorcycleComponent({
   handleSliderChange,
   filter,
   handleSelectorChange,
 }: MotoComponentProps) {
-  console.log("MOTO")
+  console.log("MOTO");
   return (
     <Card className="bg-background border-0">
       <CardContent className="space-y-2 mt-8">
-  
-        <div className="grid grid-cols-3 gap-4 mt-4 mb-6">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-4 mb-6">
           <RangeSlider
             value={filter.price}
             fixedLowerText="1000 $"

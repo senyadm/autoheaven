@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { TypographyH1, TypographyH4 } from "../ui/typography";
-import { useSelector } from "react-redux";
 import { RootState } from "@/app/GlobalRedux/store";
-import Image from "next/image";
-import { Locale } from "@/i18n.config";
 import { getlocales } from "@/app/actions";
-import { CarouselDictionary } from "@/types";
+import { Locale } from "@/i18n.config";
+import { CarouselDictionaryItem } from "@/types";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { TypographyH1, TypographyH4 } from "../ui/typography";
 
 const carouselBgs = [
   "waqas-sultan.png",
@@ -14,27 +14,47 @@ const carouselBgs = [
   "truck 1.png",
   "markus-winkler.png",
 ];
+
+const copywrite = [
+  {
+    heading: "Cruise in Comfort",
+    subheading: "Discover Cars Tailored to Your Lifestyle",
+  },
+  {
+    heading: "Effortless Urban Travel",
+    subheading: "Discover Cars Tailored to Your Lifestyle",
+  },
+  {
+    heading: "Group Travel made easy",
+    subheading: "Discover Cars Tailored to Your Lifestyle",
+  },
+  {
+    heading: "Empower your business",
+    subheading: "Discover Cars Tailored to Your Lifestyle",
+  },
+];
+
 const Carousel = ({ lang }: { lang: Locale }) => {
   const activeTransportCategory = useSelector(
     (state: RootState) => state.transportCategory.activeCategory
   );
 
-  const [menu, setMenu] = useState<CarouselDictionary | null>(null)
+  const [menu, setMenu] = useState<CarouselDictionaryItem[] | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { carousel } = await getlocales(lang)
-        setMenu(carousel)
+        const { carousel } = await getlocales(lang);
+        setMenu(carousel);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!menu) {
-      fetchData()
+      fetchData();
     }
-  }, [lang, menu])
+  }, [lang, menu]);
 
   return (
     <div
@@ -45,11 +65,12 @@ const Carousel = ({ lang }: { lang: Locale }) => {
           <Image
             src={`/img/landing/${carouselBg}`}
             alt="Picture of the author"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill
+            // layout="fill"
+            // objectFit="cover"
+            // objectPosition="center"
             key={carouselBg}
-            className={`transition-opacity duration-700 ${
+            className={`transition-opacity duration-700 object-cover object-center ${
               activeTransportCategory !== index ? "opacity-0" : "opacity-100"
             }`}
           />
@@ -61,12 +82,15 @@ const Carousel = ({ lang }: { lang: Locale }) => {
           }}
         ></div>
       </div>
-      <div className="z-10 flex flex-col items-center justify-end h-full relative text-white">
-        <TypographyH1>{menu?.cruise || "Cruise in Comfort"}</TypographyH1>
+      <div className="z-10 flex flex-col items-center justify-end h-full relative text-white bottom-16">
+        <TypographyH1>
+          {(menu && menu[activeTransportCategory].h1) || "Cruise in Comfort"}
+        </TypographyH1>
         <TypographyH4 className="mt-2.5">
-          {menu?.discover || "Discover Cars Tailored to Your Lifestyle"}
+          {(menu && menu[activeTransportCategory].h2) ||
+            "Discover Cars Tailored to Your Lifestyle"}
         </TypographyH4>
-        <div className="mb-[4.2rem] mt-[1.25rem] flex">
+        {/* <div className="mb-[4.2rem] mt-[1.25rem] flex">
           {
             // get an array of 4 elements to draw the dots
             Array.from({ length: 4 }, (_, i) => i).map((index) => (
@@ -80,7 +104,7 @@ const Carousel = ({ lang }: { lang: Locale }) => {
               ></div>
             ))
           }
-        </div>
+        </div> */}
       </div>
     </div>
   );

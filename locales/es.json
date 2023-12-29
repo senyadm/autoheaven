@@ -71,10 +71,24 @@
     "priceList": "Lista de Precios",
     "privacyPolicy": "Política de Privacidad"
   },
-  "carousel": {
-    "cruise": "Viaja con Comodidad",
-    "discover": "Descubre Autos Adaptados a Tu Estilo de Vida"
-  },
+  "carousel": [
+    {
+      "h1": "Cruise in Comfort",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Effortless Urban Travel",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Empowering Your Business",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Group Travel Made Easy",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    }
+  ],
   "filters": {
     "brandAndModel": "Marca y Modelo",
     "body": "Tipo de Vehículo",
@@ -185,7 +199,7 @@
       "howToSellVehicle": "¿Cómo vender mi vehículo?",
       "informSetPrice": "Informa y establece el precio",
       "vehicleCarePreparation": "Cuidado y preparación del vehículo"
-    },    
+    },
     "classic": {
       "title": "Quiero vender",
       "start": "Comenzar",

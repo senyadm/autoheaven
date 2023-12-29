@@ -1,35 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import SvgIcon from "../SvgIcon";
+import { Card, CardContent, CardHeader } from "../ui/card";
 
-import { RootState } from "@/app/GlobalRedux/store";
-import { AppDispatch } from "@/app/GlobalRedux/store";
 import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transportCategorySlice";
+import { AppDispatch, RootState } from "@/app/GlobalRedux/store";
 
-import {
-  FilterStates,
-  Filter,
-  tabsTriggersInfo,
-  TabKeys,
-} from "./types";
+import { Filter, FilterStates, TabKeys, tabsTriggersInfo } from "./types";
 
-import { TrucksComponent } from "./filterComponents/TrucksComponent";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BusComponent } from "./filterComponents/BusComponent";
 import { CarComponent } from "./filterComponents/CarComponent";
 import { MotorcycleComponent } from "./filterComponents/MotoComponent";
-import { BusComponent } from "./filterComponents/BusComponent";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TrucksComponent } from "./filterComponents/TrucksComponent";
 
 const filterDefault: Filter = {
   price: [1000, 1000000],
@@ -39,7 +24,6 @@ const filterDefault: Filter = {
   vehicleBody: "",
   fuelType: "",
 };
-
 
 function FilterComponent({ className, dict, lang }: any) {
   const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
@@ -92,17 +76,18 @@ function FilterComponent({ className, dict, lang }: any) {
                   >
                     <SvgIcon
                       filepath={tab.icon}
-                      alt=""
+                      alt={tab.label}
+                      color="#2563EB"
                       width={16}
                       height={16}
                     />
-                    <span style={{ marginLeft: "5px" }}>{tab.label}</span>
+                    <span className="ml-2 hidden md:block">{tab.label}</span>
                   </TabsTrigger>
                 ))}
               </TabsList>
               <TabsContent value="cars">
                 <CarComponent
-                lang={lang}
+                  lang={lang}
                   dict={dict}
                   handleOfferNumbers={handleOfferNumbers}
                   filter={filters.cars}

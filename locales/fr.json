@@ -1,216 +1,230 @@
 {
-    "navbar": {
-      "profile": "Profil",
-      "home": "Accueil",
-      "notifications": "Notifications",
-      "make_ad": "Créer une annonce",
-      "logout": "Se déconnecter",
-      "login": "Connexion",
-      "home_href": "accueil",
-      "about_href": "à-propos",
-      "country": "Pays",
-      "city": "Sélectionner une ville",
-      "search": "Recherche",
-      "country_select": "Sélectionner un pays"
+  "navbar": {
+    "profile": "Profil",
+    "home": "Accueil",
+    "notifications": "Notifications",
+    "make_ad": "Créer une annonce",
+    "logout": "Se déconnecter",
+    "login": "Connexion",
+    "home_href": "accueil",
+    "about_href": "à-propos",
+    "country": "Pays",
+    "city": "Sélectionner une ville",
+    "search": "Recherche",
+    "country_select": "Sélectionner un pays"
+  },
+  "profile": {
+    "settings": "Paramètres",
+    "myProfile": "Mon Profil",
+    "editMyProfile": "Éditer mon profil",
+    "darkTheme": "Thème Sombre",
+    "language": "Langue",
+    "privacy": "Confidentialité",
+    "privacySubtext": "Je souhaite recevoir des emails de Autoheven concernant des offres, des sondages et des informations sur les produits et services de",
+    "emailConfirmation": "Confirmation de l'email",
+    "emailConfirmationSubtext": "Veuillez confirmer que a***@e**.com est votre email en cliquant sur le lien dans votre boîte de réception",
+    "resendActivationLink": "Renvoyer le lien d'activation",
+    "english": "Anglais",
+    "czech": "Tchèque",
+    "german": "Allemand",
+    "spanish": "Espagnol",
+    "french": "Français"
+  },
+  "profileEdit": {
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "edit": "Éditer",
+    "publicProfile": "Profil public",
+    "publicProfileSubtext": "Cela sera affiché dans votre profil",
+    "credentials": "Identifiants",
+    "credentialsSubtext": "Vos informations de connexion",
+    "privacy": "Confidentialité",
+    "privacyPolicy": "Voir la politique de confidentialité (PDF)",
+    "deleteAccount": "Supprimer le compte",
+    "deleteAccountSubtext": "Une fois votre compte supprimé, il n'y a pas de retour en arrière. Veuillez en être certain.",
+    "deleteAccountButton": "Supprimer mon compte",
+    "agreeMarketResearch": "J'accepte que mes données soient utilisées pour des études de marché"
+  },
+  "overview": {
+    "startNewSearch": "Commencer une nouvelle recherche",
+    "showActiveAds": "Afficher mes annonces actives",
+    "inbox": "Boîte de réception",
+    "saved": "Enregistré",
+    "vehicles": "Véhicules disponibles."
+  },
+  "sidebarItems": {
+    "overview": "Aperçu",
+    "messages": "Messages",
+    "edit": "Éditer Mon Profil",
+    "cars": "Mes Voitures",
+    "settings": "Paramètres",
+    "ads": "Annonces Aimées"
+  },
+  "footer": {
+    "company": "Entreprise",
+    "aboutUs": "À propos de nous",
+    "careers": "Carrières",
+    "advertising": "Publicité",
+    "helpContact": "Aide & Contact",
+    "information": "Informations",
+    "termsConditions": "Termes et conditions",
+    "priceList": "Liste de prix",
+    "privacyPolicy": "Politique de confidentialité"
+  },
+  "carousel": [
+    {
+      "h1": "Cruise in Comfort",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
     },
-    "profile": {
-      "settings": "Paramètres",
-      "myProfile": "Mon Profil",
-      "editMyProfile": "Éditer mon profil",
-      "darkTheme": "Thème Sombre",
-      "language": "Langue",
-      "privacy": "Confidentialité",
-      "privacySubtext": "Je souhaite recevoir des emails de Autoheven concernant des offres, des sondages et des informations sur les produits et services de",
-      "emailConfirmation": "Confirmation de l'email",
-      "emailConfirmationSubtext": "Veuillez confirmer que a***@e**.com est votre email en cliquant sur le lien dans votre boîte de réception",
-      "resendActivationLink": "Renvoyer le lien d'activation",
-      "english": "Anglais",
-      "czech": "Tchèque",
-      "german": "Allemand",
-      "spanish": "Espagnol",
-      "french": "Français"
+    {
+      "h1": "Effortless Urban Travel",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
     },
-    "profileEdit": {
-      "save": "Sauvegarder",
-      "cancel": "Annuler",
-      "edit": "Éditer",
-      "publicProfile": "Profil public",
-      "publicProfileSubtext": "Cela sera affiché dans votre profil",
-      "credentials": "Identifiants",
-      "credentialsSubtext": "Vos informations de connexion",
-      "privacy": "Confidentialité",
-      "privacyPolicy": "Voir la politique de confidentialité (PDF)",
-      "deleteAccount": "Supprimer le compte",
-      "deleteAccountSubtext": "Une fois votre compte supprimé, il n'y a pas de retour en arrière. Veuillez en être certain.",
-      "deleteAccountButton": "Supprimer mon compte",
-      "agreeMarketResearch": "J'accepte que mes données soient utilisées pour des études de marché"
+    {
+      "h1": "Empowering Your Business",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
     },
-    "overview": {
-      "startNewSearch": "Commencer une nouvelle recherche",
-      "showActiveAds": "Afficher mes annonces actives",
-      "inbox": "Boîte de réception",
-      "saved": "Enregistré",
-      "vehicles": "Véhicules disponibles."
-    },
-    "sidebarItems": {
-      "overview": "Aperçu",
-      "messages": "Messages",
-      "edit": "Éditer Mon Profil",
-      "cars": "Mes Voitures",
-      "settings": "Paramètres",
-      "ads": "Annonces Aimées"
-    },
-    "footer": {
-      "company": "Entreprise",
-      "aboutUs": "À propos de nous",
-      "careers": "Carrières",
-      "advertising": "Publicité",
-      "helpContact": "Aide & Contact",
-      "information": "Informations",
-      "termsConditions": "Termes et conditions",
-      "priceList": "Liste de prix",
-      "privacyPolicy": "Politique de confidentialité"
-    },
-    "carousel": {
-      "cruise": "Croisière en Confort",
-      "discover": "Découvrez des Voitures Adaptées à Votre Style de Vie"
-    },
-    "filters": {
-      "brandAndModel": "Marque et modèle",
-      "body": "Type de carrosserie",
-      "fuel": "Type de carburant",
-      "price": "Prix",
-      "mileage": "Kilométrage",
-      "year": "Année",
-      "selectBrand": "Sélectionnez une marque...",
-      "selectBody": "Sélectionnez un type...",
-      "selectFuel": "Sélectionnez un carburant...",
-      "passengerCars": "Voiture particulière",
-      "motorcycles": "Motos",
-      "trucks": "Camions",
-      "busses": "Bus",
-      "offers": "offres",
-      "fromDealer": "de concessionnaire",
-      "accidentFree": "sans accident"
-    },
-    "tipsBlock": {
-      "learnPlatformTitle": "Découvrez notre plateforme",
-      "tips": {
-        "tip1": {
-          "type": "Astuces",
-          "title": "Comment vendre votre voiture en toute sécurité en ligne",
-          "description": "Apprenez des étapes pratiques pour vous protéger contre les escroqueries de voitures en ligne lors de l'achat ou de la vente.",
-          "readMore": "Lire la suite."
-        },
-        "tip2": {
-          "type": "Découvrir",
-          "title": "Où trouver la voiture de vos rêves",
-          "description": "Explorez comment trouver la voiture parfaite en utilisant des catégories et sous-catégories simples.",
-          "readMore": "Lire la suite."
-        },
-        "tip3": {
-          "type": "Astuces",
-          "title": "Avantages de l'inscription à Autoheven",
-          "description": "Comprenez les avantages de vous inscrire sur notre plateforme par rapport à l'utilisation en tant qu'invité.",
-          "readMore": "Lire la suite."
-        },
-        "tip4": {
-          "type": "Astuces",
-          "title": "Utiliser efficacement les filtres",
-          "description": "Découvrez comment les filtres peuvent vous aider à trouver la voiture idéale. Apprenez à affiner les options par prix, année, kilométrage, type et carburant pour trouver le véhicule parfait.",
-          "readMore": "Lire la suite."
-        },
-        "tip5": {
-          "type": "Découvrir",
-          "title": "À la découverte des voitures électriques",
-          "description": "Découvrez pourquoi les voitures électriques gagnent en popularité. Explorez les avantages, les options de recharge et comment notre plateforme soutient le mouvement des voitures électriques.",
-          "readMore": "Lire la suite."
-        },
-        "tip6": {
-          "type": "Découvrir",
-          "title": "Véhicules uniques : Camions",
-          "description": "Plongez dans des véhicules spéciaux tels que les tracteurs et les camping-cars. Découvrez des options uniques dans la catégorie 'Véhicules spéciaux' pour répondre à des besoins précis.",
-          "readMore": "Lire la suite."
-        }
-      }
-    },
-    "popularBrands": "Marques populaires",
-    "auth": {
-      "firstNameLabel": "Prénom *",
-      "lastNameLabel": "Nom de famille *",
-      "phoneLabel": "Téléphone *",
-      "emailLabel": "E-mail *",
-      "passwordLabel": "Mot de passe *",
-      "moreThan8Chars": "Plus de 8 caractères",
-      "letters": "Lettres",
-      "symbols": "Symboles",
-      "acceptTACLabel": "Accepter les conditions générales",
-      "registerButton": "S'inscrire",
-      "dealerButton": "Je suis un concessionnaire",
-      "usernameLabel": "Nom d'utilisateur *",
-      "loginButton": "Connexion",
-      "forgotPasswordLink": "Mot de passe oublié ?"
-    },
-    "sell": {
-      "main": {
-        "plans": "Plans",
-        "sellYourCar": "Vendez votre voiture avec AutoHeven",
-        "howToSell": "Comment souhaitez-vous vendre votre véhicule ?",
-        "classicAd": "Annonce classique",
-        "sellViaPlatform": "Vendez votre voiture via notre plateforme à d'autres clients",
-        "setYourPrice": "Définissez votre propre prix",
-        "fullAdControl": "Contrôle total de votre annonce",
-        "communicateCustomers": "Communiquez avec d'autres clients",
-        "getStarted": "Commencer",
-        "directPartner": "Partenaire direct",
-        "sellToPartners": "Vendez votre voiture à nos partenaires de confiance",
-        "sellIn3Days": "Vendez en 3 jours",
-        "professionalValuation": "Évaluation professionnelle de votre voiture",
-        "unsubscribeFree": "Désabonnez-vous gratuitement à tout moment",
-        "howItWorks": "Comment ça marche ?",
-        "simple3Step": "3 étapes simples avec n'importe lequel des plans",
-        "classicAdWay": "Méthode de l'annonce classique",
-        "createAd": "Créez une annonce",
-        "receiveRequests": "Recevez des demandes en prenant rendez-vous",
-        "sellBestPrice": "Vendez une voiture au meilleur prix",
-        "directPartnersWay": "Méthode des partenaires directs",
-        "determineCostOnline": "Déterminez le coût du véhicule en ligne",
-        "onsiteAssessment": "Évaluation experte sur place",
-        "easySale": "Vente facile",
-        "letsCompare": "Comparons",
-        "decideNeeds": "Décidez ce qui convient le mieux à vos besoins",
-        "faq": "FAQ",
-        "importantQuestions": "Questions importantes",
-        "happyToKnowMore": "Nous sommes heureux de voir que vous souhaitez en savoir plus",
-        "howToSellVehicle": "Comment vendre mon véhicule ?",
-        "informSetPrice": "Informez et fixez le prix",
-        "vehicleCarePreparation": "Entretien et préparation du véhicule"
+    {
+      "h1": "Group Travel Made Easy",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    }
+  ],
+  "filters": {
+    "brandAndModel": "Marque et modèle",
+    "body": "Type de carrosserie",
+    "fuel": "Type de carburant",
+    "price": "Prix",
+    "mileage": "Kilométrage",
+    "year": "Année",
+    "selectBrand": "Sélectionnez une marque...",
+    "selectBody": "Sélectionnez un type...",
+    "selectFuel": "Sélectionnez un carburant...",
+    "passengerCars": "Voiture particulière",
+    "motorcycles": "Motos",
+    "trucks": "Camions",
+    "busses": "Bus",
+    "offers": "offres",
+    "fromDealer": "de concessionnaire",
+    "accidentFree": "sans accident"
+  },
+  "tipsBlock": {
+    "learnPlatformTitle": "Découvrez notre plateforme",
+    "tips": {
+      "tip1": {
+        "type": "Astuces",
+        "title": "Comment vendre votre voiture en toute sécurité en ligne",
+        "description": "Apprenez des étapes pratiques pour vous protéger contre les escroqueries de voitures en ligne lors de l'achat ou de la vente.",
+        "readMore": "Lire la suite."
       },
-      "classic": {
-        "title": "Je veux vendre",
-        "start": "Commencer",
-        "brand": "Marque",
-        "model": "Modèle",
-        "mod": "Modification",
-        "details": "Détails",
-        "previous": "Précédent",
-        "continue": "Continuer",
-        "searchBrand": "Rechercher une marque",
-        "searchModel": "Rechercher un modèle",
-        "vehiclebody": "Type de véhicule",
-        "selectbody": "Sélectionner le type...",
-        "fuel": "Type de carburant",
-        "selectfuel": "Sélectionner le carburant...",
-        "year": "Année",
-        "drivetrain": "Transmission",
-        "gearbox": "Boîte de vitesses",
-        "price": "Prix",
-        "mileage": "Kilométrage",
-        "phone": "Téléphone",
-        "description": "Description",
-        "accidentFree": "Sans accident",
-        "pictures": "Photos",
-        "create": "Créer une annonce"
+      "tip2": {
+        "type": "Découvrir",
+        "title": "Où trouver la voiture de vos rêves",
+        "description": "Explorez comment trouver la voiture parfaite en utilisant des catégories et sous-catégories simples.",
+        "readMore": "Lire la suite."
+      },
+      "tip3": {
+        "type": "Astuces",
+        "title": "Avantages de l'inscription à Autoheven",
+        "description": "Comprenez les avantages de vous inscrire sur notre plateforme par rapport à l'utilisation en tant qu'invité.",
+        "readMore": "Lire la suite."
+      },
+      "tip4": {
+        "type": "Astuces",
+        "title": "Utiliser efficacement les filtres",
+        "description": "Découvrez comment les filtres peuvent vous aider à trouver la voiture idéale. Apprenez à affiner les options par prix, année, kilométrage, type et carburant pour trouver le véhicule parfait.",
+        "readMore": "Lire la suite."
+      },
+      "tip5": {
+        "type": "Découvrir",
+        "title": "À la découverte des voitures électriques",
+        "description": "Découvrez pourquoi les voitures électriques gagnent en popularité. Explorez les avantages, les options de recharge et comment notre plateforme soutient le mouvement des voitures électriques.",
+        "readMore": "Lire la suite."
+      },
+      "tip6": {
+        "type": "Découvrir",
+        "title": "Véhicules uniques : Camions",
+        "description": "Plongez dans des véhicules spéciaux tels que les tracteurs et les camping-cars. Découvrez des options uniques dans la catégorie 'Véhicules spéciaux' pour répondre à des besoins précis.",
+        "readMore": "Lire la suite."
       }
     }
+  },
+  "popularBrands": "Marques populaires",
+  "auth": {
+    "firstNameLabel": "Prénom *",
+    "lastNameLabel": "Nom de famille *",
+    "phoneLabel": "Téléphone *",
+    "emailLabel": "E-mail *",
+    "passwordLabel": "Mot de passe *",
+    "moreThan8Chars": "Plus de 8 caractères",
+    "letters": "Lettres",
+    "symbols": "Symboles",
+    "acceptTACLabel": "Accepter les conditions générales",
+    "registerButton": "S'inscrire",
+    "dealerButton": "Je suis un concessionnaire",
+    "usernameLabel": "Nom d'utilisateur *",
+    "loginButton": "Connexion",
+    "forgotPasswordLink": "Mot de passe oublié ?"
+  },
+  "sell": {
+    "main": {
+      "plans": "Plans",
+      "sellYourCar": "Vendez votre voiture avec AutoHeven",
+      "howToSell": "Comment souhaitez-vous vendre votre véhicule ?",
+      "classicAd": "Annonce classique",
+      "sellViaPlatform": "Vendez votre voiture via notre plateforme à d'autres clients",
+      "setYourPrice": "Définissez votre propre prix",
+      "fullAdControl": "Contrôle total de votre annonce",
+      "communicateCustomers": "Communiquez avec d'autres clients",
+      "getStarted": "Commencer",
+      "directPartner": "Partenaire direct",
+      "sellToPartners": "Vendez votre voiture à nos partenaires de confiance",
+      "sellIn3Days": "Vendez en 3 jours",
+      "professionalValuation": "Évaluation professionnelle de votre voiture",
+      "unsubscribeFree": "Désabonnez-vous gratuitement à tout moment",
+      "howItWorks": "Comment ça marche ?",
+      "simple3Step": "3 étapes simples avec n'importe lequel des plans",
+      "classicAdWay": "Méthode de l'annonce classique",
+      "createAd": "Créez une annonce",
+      "receiveRequests": "Recevez des demandes en prenant rendez-vous",
+      "sellBestPrice": "Vendez une voiture au meilleur prix",
+      "directPartnersWay": "Méthode des partenaires directs",
+      "determineCostOnline": "Déterminez le coût du véhicule en ligne",
+      "onsiteAssessment": "Évaluation experte sur place",
+      "easySale": "Vente facile",
+      "letsCompare": "Comparons",
+      "decideNeeds": "Décidez ce qui convient le mieux à vos besoins",
+      "faq": "FAQ",
+      "importantQuestions": "Questions importantes",
+      "happyToKnowMore": "Nous sommes heureux de voir que vous souhaitez en savoir plus",
+      "howToSellVehicle": "Comment vendre mon véhicule ?",
+      "informSetPrice": "Informez et fixez le prix",
+      "vehicleCarePreparation": "Entretien et préparation du véhicule"
+    },
+    "classic": {
+      "title": "Je veux vendre",
+      "start": "Commencer",
+      "brand": "Marque",
+      "model": "Modèle",
+      "mod": "Modification",
+      "details": "Détails",
+      "previous": "Précédent",
+      "continue": "Continuer",
+      "searchBrand": "Rechercher une marque",
+      "searchModel": "Rechercher un modèle",
+      "vehiclebody": "Type de véhicule",
+      "selectbody": "Sélectionner le type...",
+      "fuel": "Type de carburant",
+      "selectfuel": "Sélectionner le carburant...",
+      "year": "Année",
+      "drivetrain": "Transmission",
+      "gearbox": "Boîte de vitesses",
+      "price": "Prix",
+      "mileage": "Kilométrage",
+      "phone": "Téléphone",
+      "description": "Description",
+      "accidentFree": "Sans accident",
+      "pictures": "Photos",
+      "create": "Créer une annonce"
+    }
   }
+}

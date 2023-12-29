@@ -1,138 +1,152 @@
 {
   "navbar": {
-      "profile": "Profil",
-      "home": "Domů",
-      "notifications": "Oznámení",
-      "make_ad": "Vytvořit reklamu",
-      "logout": "Odhlásit se",
-      "login": "Přihlásit se",
-      "home_href": "domov",
-      "about_href": "o_nás",
-      "country": "Země",
-      "city": "Vyberte Město",
-      "search": "Hledat",
-      "country_select": "Vyberte Zemi"
+    "profile": "Profil",
+    "home": "Domů",
+    "notifications": "Oznámení",
+    "make_ad": "Vytvořit reklamu",
+    "logout": "Odhlásit se",
+    "login": "Přihlásit se",
+    "home_href": "domov",
+    "about_href": "o_nás",
+    "country": "Země",
+    "city": "Vyberte Město",
+    "search": "Hledat",
+    "country_select": "Vyberte Zemi"
   },
   "profile": {
-      "settings": "Nastavení",
-      "myProfile": "Můj Profil",
-      "editMyProfile": "Upravit můj profil",
-      "darkTheme": "Tmavé Téma",
-      "language": "Jazyk",
-      "privacy": "Soukromí",
-      "privacySubtext": "Rád/a bych dostával/a e-maily od Autoheven o nabídkách, průzkumech a informacích o produktech a službách od",
-      "emailConfirmation": "Potvrzení e-mailu",
-      "emailConfirmationSubtext": "Prosím, potvrďte, že a***@e**.com je váš e-mail kliknutím na odkaz ve vaší doručené poště",
-      "resendActivationLink": "Znovu odeslat aktivační odkaz",
-      "english": "Anglicky",
-      "czech": "Česky",
-      "german": "Německy",
-      "spanish": "Španělsky",
-      "french": "Francouzsky"
+    "settings": "Nastavení",
+    "myProfile": "Můj Profil",
+    "editMyProfile": "Upravit můj profil",
+    "darkTheme": "Tmavé Téma",
+    "language": "Jazyk",
+    "privacy": "Soukromí",
+    "privacySubtext": "Rád/a bych dostával/a e-maily od Autoheven o nabídkách, průzkumech a informacích o produktech a službách od",
+    "emailConfirmation": "Potvrzení e-mailu",
+    "emailConfirmationSubtext": "Prosím, potvrďte, že a***@e**.com je váš e-mail kliknutím na odkaz ve vaší doručené poště",
+    "resendActivationLink": "Znovu odeslat aktivační odkaz",
+    "english": "Anglicky",
+    "czech": "Česky",
+    "german": "Německy",
+    "spanish": "Španělsky",
+    "french": "Francouzsky"
   },
   "profileEdit": {
-      "edit": "Upravit",
-      "save": "Uložit",
-      "cancel": "Zrušit",
-      "publicProfile": "Veřejný profil",
-      "publicProfileSubtext": "Tohle se zobrazí ve vašem profilu",
-      "credentials": "Přihlašovací údaje",
-      "credentialsSubtext": "Vaše přihlašovací informace",
-      "privacy": "Soukromí",
-      "privacyPolicy": "Zobrazit Zásady ochrany osobních údajů (PDF)",
-      "deleteAccount": "Smazat účet",
-      "deleteAccountSubtext": "Jakmile smažete svůj účet, není cesty zpět. Buďte si jisti.",
-      "deleteAccountButton": "Smazat můj účet",
-      "agreeMarketResearch": "Souhlasím s tím, že moje data budou použita pro tržní výzkum"
+    "edit": "Upravit",
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "publicProfile": "Veřejný profil",
+    "publicProfileSubtext": "Tohle se zobrazí ve vašem profilu",
+    "credentials": "Přihlašovací údaje",
+    "credentialsSubtext": "Vaše přihlašovací informace",
+    "privacy": "Soukromí",
+    "privacyPolicy": "Zobrazit Zásady ochrany osobních údajů (PDF)",
+    "deleteAccount": "Smazat účet",
+    "deleteAccountSubtext": "Jakmile smažete svůj účet, není cesty zpět. Buďte si jisti.",
+    "deleteAccountButton": "Smazat můj účet",
+    "agreeMarketResearch": "Souhlasím s tím, že moje data budou použita pro tržní výzkum"
   },
   "overview": {
-      "startNewSearch": "Začít nové hledání",
-      "showActiveAds": "Zobrazit moje aktivní inzeráty",
-      "inbox": "Doručená pošta",
-      "saved": "Uloženo",
-      "vehicles": "Dostupná vozidla"
+    "startNewSearch": "Začít nové hledání",
+    "showActiveAds": "Zobrazit moje aktivní inzeráty",
+    "inbox": "Doručená pošta",
+    "saved": "Uloženo",
+    "vehicles": "Dostupná vozidla"
   },
   "sidebarItems": {
-      "overview": "Přehled",
-      "messages": "Zprávy",
-      "edit": "Upravit můj profil",
-      "cars": "Moje auta",
-      "settings": "Nastavení",
-      "ads": "Oblíbené inzeráty"
+    "overview": "Přehled",
+    "messages": "Zprávy",
+    "edit": "Upravit můj profil",
+    "cars": "Moje auta",
+    "settings": "Nastavení",
+    "ads": "Oblíbené inzeráty"
   },
   "footer": {
-      "company": "Společnost",
-      "aboutUs": "O nás",
-      "careers": "Kariéra",
-      "advertising": "Reklama",
-      "helpContact": "Pomoc & Kontakt",
-      "information": "Informace",
-      "termsConditions": "Podmínky a ujednání",
-      "priceList": "Ceník",
-      "privacyPolicy": "Zásady ochrany osobních údajů"
+    "company": "Společnost",
+    "aboutUs": "O nás",
+    "careers": "Kariéra",
+    "advertising": "Reklama",
+    "helpContact": "Pomoc & Kontakt",
+    "information": "Informace",
+    "termsConditions": "Podmínky a ujednání",
+    "priceList": "Ceník",
+    "privacyPolicy": "Zásady ochrany osobních údajů"
   },
-  "carousel": {
-      "cruise": "Pohodlná plavba",
-      "discover": "Objevte auta přizpůsobená vašemu životnímu stylu"
-  },
+  "carousel": [
+    {
+      "h1": "Cruise in Comfort",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Effortless Urban Travel",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Empowering Your Business",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Group Travel Made Easy",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    }
+  ],
   "filters": {
-      "brandAndModel": "Značka a model",
-      "body": "Karoserie vozidla",
-      "fuel": "Typ paliva",
-      "price": "Cena",
-      "mileage": "Najeté kilometry",
-      "year": "Rok",
-      "selectBrand": "Vyberte značku...",
-      "selectBody": "Vyberte karoserii...",
-      "selectFuel": "Vyberte palivo...",
-      "passengerCars": "Osobní automobily",
-      "motorcycles": "Motocykly",
-      "trucks": "Nákladní automobily",
-      "busses": "Autobusy",
-      "offers": "nabídky",
-      "accidentFree": "Bez nehod",
-      "fromDealer": "Od prodejce"
+    "brandAndModel": "Značka a model",
+    "body": "Karoserie vozidla",
+    "fuel": "Typ paliva",
+    "price": "Cena",
+    "mileage": "Najeté kilometry",
+    "year": "Rok",
+    "selectBrand": "Vyberte značku...",
+    "selectBody": "Vyberte karoserii...",
+    "selectFuel": "Vyberte palivo...",
+    "passengerCars": "Osobní automobily",
+    "motorcycles": "Motocykly",
+    "trucks": "Nákladní automobily",
+    "busses": "Autobusy",
+    "offers": "nabídky",
+    "accidentFree": "Bez nehod",
+    "fromDealer": "Od prodejce"
   },
   "tipsBlock": {
-      "learnPlatformTitle": "Naučte se naší platformu",
-      "tips": {
-          "tip1": {
-              "type": "Tipy",
-              "title": "Jak bezpečně prodat vaše auto online",
-              "description": "Naučte se praktické kroky, jak se chránit před online podvody při koupi nebo prodeji auta.",
-              "readMore": "Číst více"
-          },
-          "tip2": {
-              "type": "Průzkum",
-              "title": "Kde najít vaše vysněné auto",
-              "description": "Objevte, jak najít dokonalé auto pomocí jednoduchých kategorií a podkategorií.",
-              "readMore": "Číst více"
-          },
-          "tip3": {
-              "type": "Tipy",
-              "title": "Výhody registrace na Autoheven",
-              "description": "Pochopit úvahy o registraci na naší platformě oproti používání jako host.",
-              "readMore": "Číst více"
-          },
-          "tip4": {
-              "type": "Tipy",
-              "title": "Efektivní využití filtrů",
-              "description": "Objevte, jak vám filtry pomáhají najít vaše ideální auto. Naučte se zúžit možnosti podle ceny, roku, najetých kilometrů, typu a paliva, abyste našli perfektní shodu.",
-              "readMore": "Číst více"
-          },
-          "tip5": {
-              "type": "Průzkum",
-              "title": "Prozkoumání elektrických aut",
-              "description": "Naučte se, proč elektrická auta získávají na popularitě. Objevte výhody, možnosti nabíjení a jak naše platforma podporuje pohyb elektrických aut.",
-              "readMore": "Číst více"
-          },
-          "tip6": {
-              "type": "Průzkum",
-              "title": "Unikátní vozidla: Nákladní automobily",
-              "description": "Ponořte se do speciálních vozidel jako jsou traktory a obytné vozy. Objevte unikátní možnosti v kategorii 'Speciální vozidla' pro splnění konkrétních potřeb.",
-              "readMore": "Číst více"
-          }
+    "learnPlatformTitle": "Naučte se naší platformu",
+    "tips": {
+      "tip1": {
+        "type": "Tipy",
+        "title": "Jak bezpečně prodat vaše auto online",
+        "description": "Naučte se praktické kroky, jak se chránit před online podvody při koupi nebo prodeji auta.",
+        "readMore": "Číst více"
+      },
+      "tip2": {
+        "type": "Průzkum",
+        "title": "Kde najít vaše vysněné auto",
+        "description": "Objevte, jak najít dokonalé auto pomocí jednoduchých kategorií a podkategorií.",
+        "readMore": "Číst více"
+      },
+      "tip3": {
+        "type": "Tipy",
+        "title": "Výhody registrace na Autoheven",
+        "description": "Pochopit úvahy o registraci na naší platformě oproti používání jako host.",
+        "readMore": "Číst více"
+      },
+      "tip4": {
+        "type": "Tipy",
+        "title": "Efektivní využití filtrů",
+        "description": "Objevte, jak vám filtry pomáhají najít vaše ideální auto. Naučte se zúžit možnosti podle ceny, roku, najetých kilometrů, typu a paliva, abyste našli perfektní shodu.",
+        "readMore": "Číst více"
+      },
+      "tip5": {
+        "type": "Průzkum",
+        "title": "Prozkoumání elektrických aut",
+        "description": "Naučte se, proč elektrická auta získávají na popularitě. Objevte výhody, možnosti nabíjení a jak naše platforma podporuje pohyb elektrických aut.",
+        "readMore": "Číst více"
+      },
+      "tip6": {
+        "type": "Průzkum",
+        "title": "Unikátní vozidla: Nákladní automobily",
+        "description": "Ponořte se do speciálních vozidel jako jsou traktory a obytné vozy. Objevte unikátní možnosti v kategorii 'Speciální vozidla' pro splnění konkrétních potřeb.",
+        "readMore": "Číst více"
       }
+    }
   },
   "popularBrands": "Populární značky",
   "auth": {
@@ -153,38 +167,38 @@
   },
   "sell": {
     "main": {
-        "plans": "Plány",
-        "sellYourCar": "Prodejte své auto s AutoHeven",
-        "howToSell": "Jak byste chtěli prodat své vozidlo?",
-        "classicAd": "Klasická inzerce",
-        "sellViaPlatform": "Prodejte své auto pomocí naší platformy jiným zákazníkům",
-        "setYourPrice": "Nastavte si vlastní cenu",
-        "fullAdControl": "Plná kontrola vaší reklamy",
-        "communicateCustomers": "Komunikujte s ostatními zákazníky",
-        "getStarted": "Začněte",
-        "directPartner": "Přímý partner",
-        "sellToPartners": "Prodejte své auto našim důvěryhodným partnerům",
-        "sellIn3Days": "Prodejte do 3 dnů",
-        "professionalValuation": "Profesionální ocenění vašeho vozu",
-        "unsubscribeFree": "Kdykoli zdarma zrušte",
-        "howItWorks": "Jak to funguje?",
-        "simple3Step": "Jednoduchý 3-krokový plán na obou možnostech",
-        "classicAdWay": "Způsob klasické inzerce",
-        "createAd": "Vytvořte inzerát",
-        "receiveRequests": "Přijímání požadavků na schůzky",
-        "sellBestPrice": "Prodejte auto za nejlepší cenu",
-        "directPartnersWay": "Způsob přímých partnerů",
-        "determineCostOnline": "Stanovení nákladů na vozidlo online",
-        "onsiteAssessment": "Ocenění vozidla na místě od odborníka",
-        "easySale": "Snadný prodej",
-        "letsCompare": "Porovnejme",
-        "decideNeeds": "Rozhodněte, co vám nejlépe vyhovuje",
-        "faq": "Často kladené otázky",
-        "importantQuestions": "Důležité otázky",
-        "happyToKnowMore": "Jsme rádi, že se chcete dozvědět více",
-        "howToSellVehicle": "Jak prodat své vozidlo?",
-        "informSetPrice": "Informujte a nastavte cenu",
-        "vehicleCarePreparation": "Údržba a příprava vozidla"
+      "plans": "Plány",
+      "sellYourCar": "Prodejte své auto s AutoHeven",
+      "howToSell": "Jak byste chtěli prodat své vozidlo?",
+      "classicAd": "Klasická inzerce",
+      "sellViaPlatform": "Prodejte své auto pomocí naší platformy jiným zákazníkům",
+      "setYourPrice": "Nastavte si vlastní cenu",
+      "fullAdControl": "Plná kontrola vaší reklamy",
+      "communicateCustomers": "Komunikujte s ostatními zákazníky",
+      "getStarted": "Začněte",
+      "directPartner": "Přímý partner",
+      "sellToPartners": "Prodejte své auto našim důvěryhodným partnerům",
+      "sellIn3Days": "Prodejte do 3 dnů",
+      "professionalValuation": "Profesionální ocenění vašeho vozu",
+      "unsubscribeFree": "Kdykoli zdarma zrušte",
+      "howItWorks": "Jak to funguje?",
+      "simple3Step": "Jednoduchý 3-krokový plán na obou možnostech",
+      "classicAdWay": "Způsob klasické inzerce",
+      "createAd": "Vytvořte inzerát",
+      "receiveRequests": "Přijímání požadavků na schůzky",
+      "sellBestPrice": "Prodejte auto za nejlepší cenu",
+      "directPartnersWay": "Způsob přímých partnerů",
+      "determineCostOnline": "Stanovení nákladů na vozidlo online",
+      "onsiteAssessment": "Ocenění vozidla na místě od odborníka",
+      "easySale": "Snadný prodej",
+      "letsCompare": "Porovnejme",
+      "decideNeeds": "Rozhodněte, co vám nejlépe vyhovuje",
+      "faq": "Často kladené otázky",
+      "importantQuestions": "Důležité otázky",
+      "happyToKnowMore": "Jsme rádi, že se chcete dozvědět více",
+      "howToSellVehicle": "Jak prodat své vozidlo?",
+      "informSetPrice": "Informujte a nastavte cenu",
+      "vehicleCarePreparation": "Údržba a příprava vozidla"
     },
     "classic": {
       "title": "Chci prodat",

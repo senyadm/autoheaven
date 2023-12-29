@@ -1,41 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectContent,
-  SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../../ui/card";
+import { ChevronRight } from "lucide-react";
 import SvgIcon from "../../SvgIcon";
-import { ChevronRight, Siren } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
 import RangeSlider from "../RangeSlider";
 
-import {
-  FilterStates,
-  Filter,
-  TrucksComponentProps,
-  CarComponentProps,
-  tabsTriggersInfo,
-  PassengerCars,
-  TabKeys,
-  MotoComponentProps,
-  BUS_SUBCATEGORIES,
-  TRUCK_SUBCATEGORIES,
-  Car,
-} from "../types";
+import { TRUCK_SUBCATEGORIES, TrucksComponentProps } from "../types";
 
 const fuelTypes: string[] = [
   "All",
@@ -58,32 +36,40 @@ export function TrucksComponent({
   return (
     <Card className="bg-background border-0">
       <CardHeader>
-
-        <div className="flex items-center justify-center align-items-center ">
+        <div className="flex flex-wrap items-center justify-center align-items-center gap-6">
           {TRUCK_SUBCATEGORIES.map((subcategory, index) => (
-          <div key={index} className="flex flex-col items-center justify-center mr-6">  <button
-
-              onClick={() => setSelectedIcon(index)}
-              onMouseEnter={() => setHoveredIcon(index)}
-              onMouseLeave={() => setHoveredIcon(-1)}
-              className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center"
+            >
+              {" "}
+              <button
+                onClick={() => setSelectedIcon(index)}
+                onMouseEnter={() => setHoveredIcon(index)}
+                onMouseLeave={() => setHoveredIcon(-1)}
+                className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
           ${
             selectedIcon === index
-              ? "border-2 border-gray-600"
-              : "border border-gray-300"
+              ? "border-2 border-primary"
+              : "border border-border"
           } 
-          ${hoveredIcon === index ? "bg-gray-300" : "bg-background"}
+          ${hoveredIcon === index ? "bg-secondary" : "bg-background"}
       `}
-            >
-              <SvgIcon filepath={subcategory.icon} alt={subcategory.value} height={32} width={32}/>
-            </button>
-               <Label className="ml-1.5 text-sm mt-2">{subcategory.label}</Label>
-              </div>
+              >
+                <SvgIcon
+                  filepath={subcategory.icon}
+                  alt={subcategory.value}
+                  height={32}
+                  width={32}
+                />
+              </button>
+              <Label className="ml-1.5 text-sm mt-2">{subcategory.label}</Label>
+            </div>
           ))}
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
-        <div className="grid grid-cols-3 gap-4 mt-4 mb-4">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-4 mb-4">
           <RangeSlider
             value={filter.price}
             fixedLowerText="1000 $"

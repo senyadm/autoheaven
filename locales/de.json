@@ -71,10 +71,24 @@
     "priceList": "Preisliste",
     "privacyPolicy": "Datenschutzerklärung"
   },
-  "carousel": {
-    "cruise": "Komfortabel Reisen",
-    "discover": "Entdecken Sie auf Ihren Lebensstil zugeschnittene Autos"
-  },
+  "carousel": [
+    {
+      "h1": "Cruise in Comfort",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Effortless Urban Travel",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Empowering Your Business",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    },
+    {
+      "h1": "Group Travel Made Easy",
+      "h2": "Discover Cars Tailored to Your Lifestyle"
+    }
+  ],
   "filters": {
     "brandAndModel": "Marke und Modell",
     "body": "Fahrzeugtyp",
@@ -213,4 +227,4 @@
       "create": "Anzeige erstellen"
     }
   }
-  }
+}
