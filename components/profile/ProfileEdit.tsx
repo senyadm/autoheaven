@@ -13,11 +13,14 @@ import flags from "react-phone-number-input/flags";
 import { fetchUserData } from "../../app/GlobalRedux/profile/userSlice";
 import { useAppDispatch, useAppSelector } from "../../app/GlobalRedux/store";
 import EditButton from "./ProfileEditButton";
-import { setCredentials, setPublicProfile } from "../../app/GlobalRedux/profile/profileSlice";
+import {
+  setCredentials,
+  setPublicProfile,
+} from "../../app/GlobalRedux/profile/profileSlice";
 import { Locale } from "@/i18n.config";
 import { getlocales } from "@/app/actions";
 import { ProfileEdit } from "@/types";
-import  './ProfileEdit.css'
+import "./ProfileEdit.css";
 
 const ProfileEdit = ({ lang }: { lang: Locale }) => {
   const dispatch = useAppDispatch();
@@ -34,25 +37,27 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   };
   const [name, setName] = useState(profileInfo.name);
   const [surname, setSurname] = useState(profileInfo.surname);
-  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(profileInfo.name);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(
+    profileInfo.name
+  );
   const [email, setEmail] = useState(profileInfo.email);
-  const [dict, setDict] = useState<ProfileEdit | null>(null)
+  const [dict, setDict] = useState<ProfileEdit | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { profileEdit } = await getlocales(lang)
-        setDict(profileEdit)
+        const { profileEdit } = await getlocales(lang);
+        setDict(profileEdit);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!dict) {
-      fetchData()
+      fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   useEffect(() => {
     console.log("fetching user data");
@@ -65,18 +70,19 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
         surname: userInfo.user_info?.surname || "",
         phoneNumber: userInfo.user_info?.phone_number || "",
       })
-      
     );
-    dispatch(setCredentials({
+    dispatch(
+      setCredentials({
         email: userInfo.email || "",
         password: "",
-      }));
-    
+      })
+    );
+
     setName(userInfo.user_info?.name || "");
     setSurname(userInfo.user_info?.surname || "");
     setPhoneNumber(userInfo.user_info?.phone_number || "");
     setEmail(userInfo.email || "");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleEditPP = () => {
@@ -84,7 +90,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   };
   const handleEditCred = () => {
     toggleDisabledCred();
-  }
+  };
   const handleCancelCred = () => {
     toggleDisabledCred();
     setEmail(profileInfo.email);
@@ -199,6 +205,10 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 type="text"
                 className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 disabled={isDisabledCred}
               />
 
