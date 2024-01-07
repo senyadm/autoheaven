@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '../ui/button'
 import SvgIcon from '../SvgIcon'
 import { Heart } from 'lucide-react'
+import { Label } from '../ui/label';
 
 type PageDisplayed = 'cars' | 'profileCars' | 'profileAds';
 
@@ -12,14 +13,21 @@ interface ResultCarCardButtonsProps {
 }
 
 
+
 const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({pageDisplayed, onButtonClick, isWish = false}) => {
+  const buttonBaseClasses = "flex items-center justify-center w-full md:w-auto"; // w-full on mobile, auto width on larger screens
+  const heartButtonClasses = `${buttonBaseClasses} text-primary hover:text-primary-foreground p-2 md:p-[0.625rem] mb-2 md:mb-0 md:mr-2
+    ${isWish ? 'bg-primary text-background' : 'bg-background'}`;
+  const contactButtonClasses = `${buttonBaseClasses} bg-primary text-secondary px-2 py-2 md:px-2 md:py-3 mb-2 md:mb-0`;
+
+ 
   const pageDisplayedToButtons = {
-    cars: <>
-      <Button className={` text-primary hover:text-primary-foreground p-[0.625rem] mr-2
+    cars: <div className="w-full">
+      <Button className={` text-primary hover:text-primary-foreground md:p-[0.625rem] mr-2
       ${isWish ? 'bg-primary text-background' : 'bg-background'}`} onClick={() => onButtonClick('like')}>
         <Heart width={16} height={16} />
       </Button>
-      <Button className="bg-primary text-secondary px-2 py-3" onClick={() => onButtonClick('contact')}>
+      <Button className="bg-primary text-secondary md:px-2 md:py-3" onClick={() => onButtonClick('contact')}>
         <SvgIcon
           filepath="/icons/cars/envelope-closed.svg"
           width={16}
@@ -27,11 +35,11 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({pageDisplaye
           alt=""
           className="invert mr-2"
         />
-        Contact
+       <Label className="text-xs"> Contact</Label>
       </Button>
-    </>,
+    </div>,
     profileCars: <Button onClick={() => onButtonClick('edit')}>
-      Edit
+     <Label className="text-xs">Edit</Label> 
     </Button>,
     profileAds: <>
       <Button className="bg-primary text-background p-[0.625rem] mr-2" onClick={() => onButtonClick('like')}>
