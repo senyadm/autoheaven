@@ -135,6 +135,7 @@ const ResultCarCard = ({
 
   const [eyeOpen, setEyeOpen] = useState(false);
   const [wishlist, dispatch] = useAppStore((state) => state?.user.wishlist);
+  const [showNumber, setShowNumber] = useState(false);
   const onButtonClick = (type: string) => {
     const item = getToken();
     if (!wishlist) return;
@@ -154,37 +155,35 @@ const ResultCarCard = ({
 
   return (
     <div
-      className={`flex w-full ${
+      className={`flex flex-col md:flex-row text-sm md:text-base overflow-hidden w-full ${
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
-      <img src={imageurl} alt={"Image"} width={256} height={130}></img>
+   <div className="w-full md:w-1/3"><img src={imageurl} alt={"Image"} className="w-full h-auto object-cover"></img></div>   
       <div className="flex flex-col w-full">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
             <Flame width={16} height={16} className="mr-2 ml-6" /> Top
           </div>
         )}
-        <div className="flex flex-col justify-between flex-1  px-6 py-4">
-          <div className="flex text-sm justify-between">
+        <div className="flex flex-col justify-between flex-1 px-6 py-4">
+          <div className="flex justify-between mb-1">
             <p className="font-bold">{title}</p>
             <p className="font-medium whitespace-nowrap">€ {price}</p>
           </div>
-          <div className="flex flex-wrap">
-            {carInfo.map((el) => (
-              <div
-                className="flex mr-6 whitespace-nowrap"
-                key={String(id) + el.label}
-              >
-                <div className="mr-1 flex items-center">{el.icon}</div>
-                {el.label}
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-1">
+          {carInfo.map((info, index) => (
+        <div key={index} className="flex items-center space-x-2">
+          {info.icon}
+          <span>{info.label}</span>
+        </div>
+      ))}
           </div>
-          <div className="flex justify-between items-end">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end">
             <div>
-              <div className="flex items-center">{getAccidentStateIcon()}</div>
-              <TooltipProvider>
+              <div className="flex items-center mt-1 mb-2 md:mb-1">{getAccidentStateIcon()}</div>
+            <div className="hidden md:block">
+                <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
                     <div
@@ -203,8 +202,17 @@ const ResultCarCard = ({
                   <TooltipContent>{phone_number}</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+              </div>
+                            <div className="md:hidden mb-2">
+            <Button
+              className="hover:text-blue-700 transition duration-300"
+              onClick={() => setShowNumber(!showNumber)}
+            >
+             <Label className="text-xs"> {showNumber ? phone_number : 'Show contact'}</Label>
+            </Button>
+          </div>
             </div>
-            <div className="flex items-end text-foreground">
+            <div className="flex justify-between md:items-end text-foreground">
               <ResultCarCardButtons
                 isWish={wishlist?.includes(id)}
                 onButtonClick={onButtonClick}
