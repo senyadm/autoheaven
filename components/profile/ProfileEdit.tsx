@@ -272,9 +272,8 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
               </Label>
             </div>
             <div className="flex items-center space-x-2 justify-end flex-1">
-              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-gray-300 space-x-2 border border-destructive">
-                {" "}
-                <Label className="font-semibold leading-relaxed">
+              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-destructive space-x-2 border border-destructive ">
+                <Label className="font-semibold leading-relaxed cursor-pointer">
                   {dict?.deleteAccountButton}
                 </Label>
                 <Trash2 size={16} />

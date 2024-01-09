@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import { Label } from "@radix-ui/react-label";
 import { Separator } from "@/components/ui/separator";
 import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Send } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
@@ -13,11 +13,12 @@ import { getLanguageLS, setLanguageLS } from "../../utils/preferences";
 import { Language } from "../../interfaces/Language";
 import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";
-import { getlocales } from '@/app/actions'
+import { getlocales } from "@/app/actions";
 import { ProfileSettingsDictionary } from "@/types";
 import { RootState } from "@/app/GlobalRedux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sendEmail } from "@/app/GlobalRedux/profile/profileSlice";
+import { setProfileNavigationMenuItemName } from "../../app/GlobalRedux/profile/profileNavigationMenuSlice";
 const languages: Record<Language, string> = {
   en: "English",
   cz: "Czech",
@@ -28,14 +29,15 @@ const languages: Record<Language, string> = {
   pl: "Polish",
   pt: "Portuguese",
   nl: "Dutch",
-  ro: "Romanian"
+  ro: "Romanian",
 };
 const ProfileSettings = ({ lang }: { lang: Locale }) => {
+  const dispatch = useDispatch();
   const pathName = usePathname();
   const router = useRouter();
   const email = useSelector((state: RootState) => state?.user?.email);
-  const [dict, setDict] = useState<ProfileSettingsDictionary | null>(null)
-  const { toast } = useToast()
+  const [dict, setDict] = useState<ProfileSettingsDictionary | null>(null);
+  const { toast } = useToast();
   const [language, setLanguage] = React.useState(getLanguageLS());
 
   useEffect(() => {
@@ -46,18 +48,18 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const { profile } = await getlocales(language)
-        setDict(profile)
+        const { profile } = await getlocales(language);
+        setDict(profile);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!dict) {
-      fetchData()
+      fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
 
   const { setTheme, theme } = useTheme();
   const isThemeDark = theme === "dark";
@@ -67,43 +69,43 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
   const [authorized, setAuthorized] = useState<boolean>(true);
   const token = localStorage.getItem("access_token");
   const createNewPathWithLanguage = (lang: Language): string => {
-    if (!pathName) return '/';
+    if (!pathName) return "/";
 
-    const segments = pathName.split('/');
+    const segments = pathName.split("/");
     if (segments.length > 1) {
       segments[1] = lang;
     } else {
       segments.unshift(lang);
     }
-    return segments.join('/');
+    return segments.join("/");
   };
 
   const handleLanguageChange = (val: Language) => {
     setLanguageLS(val);
     setLanguage(val);
     const newPath = createNewPathWithLanguage(val);
-    localStorage.setItem('language', val);
-    router.replace(newPath)
+    localStorage.setItem("language", val);
+    router.replace(newPath);
   };
 
   const handleResend = () => {
     sendEmail(email)
-    .then((res) => {
-      toast({
-        description: `The confirmation email has been sent to ${email}`,
+      .then((res) => {
+        toast({
+          description: `The confirmation email has been sent to ${email}`,
+        });
+        setIsTimerActive(true);
+        setTimeout(() => setIsTimerActive(false), 30000);
+      })
+      .catch((err) => {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+          description: "There was a problem with your request.",
+        });
+        console.error(err);
       });
-      setIsTimerActive(true);
-      setTimeout(() => setIsTimerActive(false), 30000);
-    })
-    .catch((err) => {
-      toast({
-        variant: "destructive",
-        title: "Something went wrong.",
-        description: "There was a problem with your request."
-      });
-      console.error(err);
-    })
-  }
+  };
 
   return (
     <div className=" flex flex-col h-full overflow-hidden w-full px-8 py-5">
@@ -120,10 +122,12 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
             </Label>
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
-            <Button className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2">
-              {" "}
+            <Button
+              className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2"
+              onClick={() => dispatch(setProfileNavigationMenuItemName("edit"))}
+            >
               <Trash2 size={16} />
-              <Label className="font-semibold leading-relaxed">
+              <Label className="font-semibold leading-relaxed cursor-pointer">
                 {dict?.editMyProfile}
               </Label>
             </Button>
@@ -175,7 +179,7 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
               {dict?.privacy}
             </Label>
             <Label className="text-muted-foreground font-inter text-xs w-[350px]">
-                  {dict?.privacySubtext}
+              {dict?.privacySubtext}
             </Label>
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
@@ -195,9 +199,13 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
                 </Label>
               </div>
               <div className="flex items-center space-x-2 justify-end flex-1">
-                <Button disabled={isTimerActive} onClick={() => {
-                  handleResend();
-                  }} className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2">
+                <Button
+                  disabled={isTimerActive}
+                  onClick={() => {
+                    handleResend();
+                  }}
+                  className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2"
+                >
                   <Send size={16} />{" "}
                   <Label className="font-semibold text-xs">
                     {dict?.resendActivationLink}
@@ -213,4 +221,3 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
 };
 
 export default ProfileSettings;
-
