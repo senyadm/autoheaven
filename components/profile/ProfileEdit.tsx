@@ -22,6 +22,33 @@ import { getlocales } from "@/app/actions";
 import { ProfileEdit } from "@/types";
 import "./ProfileEdit.css";
 
+interface LeftTextBlockProps {
+  title: string | undefined;
+  subtext?: string | undefined;
+}
+const LeftTextBlock = ({ title, subtext }: LeftTextBlockProps) => {
+  return (
+    <div className="flex flex-col max-w-[160px]">
+      <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
+        {title}
+      </Label>
+      {subtext && (
+        <Label className="text-muted-foreground font-inter text-xs font-normal leading-relaxed">
+          {subtext}
+        </Label>
+      )}
+    </div>
+  );
+};
+
+const ProfileEditBlock = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex items-start flex-col md:flex-row w-full max-w-[650px] min-w-[300px] gap-x-[8vw] mt-5 mb-4">
+      {children}
+    </div>
+  );
+};
+
 const ProfileEdit = ({ lang }: { lang: Locale }) => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user);
@@ -113,7 +140,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
   };
   return (
     <div className="h-full">
-      <Card className="w-full h-full  border-none bg-primary-foreground">
+      <Card className="w-full  border-none bg-primary-foreground">
         <CardHeader className="relative">
           <div className="bg-secondary h-[100px]"></div>
 
@@ -139,15 +166,11 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
 
         <CardContent className="pt-20 flex items-center px-16 space-x-4 flex-col text-large text-foreground">
           <Separator />
-          <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
-            <div className="flex flex-col w-[160px]">
-              <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                {dict?.publicProfile}
-              </Label>
-              <Label className="text-muted-foreground font-inter text-xs font-normal leading-relaxed">
-                {dict?.publicProfileSubtext}
-              </Label>
-            </div>
+          <ProfileEditBlock>
+            <LeftTextBlock
+              title={dict?.publicProfile}
+              subtext={dict?.publicProfileSubtext}
+            />
             <div className="flex flex-col space-y-4 flex-1">
               <div className="flex flex-row space-x-2">
                 <Input
@@ -167,7 +190,6 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                   disabled={isDisabledPP}
                 />
               </div>
-
               <PhoneInput
                 international
                 defaultCountry="US"
@@ -176,7 +198,6 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 style={{ paddingLeft: "5px" }}
                 disabled={isDisabledPP}
               />
-
               <EditButton
                 saveText={dict?.save || "Save"}
                 cancelText={dict?.cancel || "Cancel"}
@@ -187,19 +208,15 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 disabledState={isDisabledPP}
               />
             </div>
-          </div>
+          </ProfileEditBlock>
 
           <Separator />
 
-          <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
-            <div className="flex flex-col w-[160px]">
-              <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                {dict?.credentials}
-              </Label>
-              <Label className="text-muted-foreground font-inter text-xs font-normal leading-3">
-                {dict?.credentialsSubtext}
-              </Label>
-            </div>
+          <ProfileEditBlock>
+            <LeftTextBlock
+              title={dict?.credentials}
+              subtext={dict?.credentialsSubtext}
+            />
             <div className="flex flex-col space-y-4 flex-1">
               <Input
                 type="text"
@@ -231,16 +248,12 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 disabledState={isDisabledCred}
               />
             </div>
-          </div>
+          </ProfileEditBlock>
 
           <Separator />
 
-          <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
-            <div className="flex flex-col w-[160px]">
-              <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                {dict?.privacy}
-              </Label>
-            </div>
+          <ProfileEditBlock>
+            <LeftTextBlock title={dict?.privacy} />
             <div className="">
               <div className="flex items-center space-x-4 justify-end flex-1">
                 <Checkbox className="rounded-full " />
@@ -248,7 +261,6 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                   {dict?.agreeMarketResearch}
                 </Label>
               </div>
-
               <Label>
                 <a
                   href="/documents/privacy_policy.pdf"
@@ -260,17 +272,13 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 </a>
               </Label>
             </div>
-          </div>
+          </ProfileEditBlock>
           <Separator />
-          <div className="flex items-start w-[650px] gap-x-[96px] mt-5 mb-4">
-            <div className="flex flex-col w-[260px]">
-              <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                {dict?.deleteAccount}
-              </Label>
-              <Label className="text-muted-foreground font-inter text-xs font-normal leading-relaxed">
-                {dict?.deleteAccountSubtext}
-              </Label>
-            </div>
+          <ProfileEditBlock>
+            <LeftTextBlock
+              title={dict?.deleteAccount}
+              subtext={dict?.deleteAccountSubtext}
+            />
             <div className="flex items-center space-x-2 justify-end flex-1">
               <Button className="bg-primary-foreground text-secondary-foreground hover:bg-destructive space-x-2 border border-destructive ">
                 <Label className="font-semibold leading-relaxed cursor-pointer">
@@ -279,7 +287,7 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
                 <Trash2 size={16} />
               </Button>
             </div>
-          </div>
+          </ProfileEditBlock>
         </CardContent>
       </Card>
     </div>

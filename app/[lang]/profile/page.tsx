@@ -30,27 +30,27 @@ const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const fullName = `${userName} ${userSurname}`;
   const userEmail = useSelector((state: RootState) => state?.user?.email);
 
-  const [dict, setDict] = useState<SideBarItemsDictionary | null>(null)
+  const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { sidebarItems } = await getlocales(lang)
-        setDict(sidebarItems)
+        const { sidebarItems } = await getlocales(lang);
+        setDict(sidebarItems);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!dict) {
-      fetchData()
+      fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   return (
     <main className="flex justify-center items-start flex-grow py-4 bg-topography-light">
-      <div className="flex space-x-4 max-w-screen-xl">
+      <div className="flex space-x-4 max-w-screen-xl w-full">
         <section className="border rounded-lg h-full p-3 w-[230px] h-[530px] flex flex-col items-start gap-2.5 flex-shrink-0 bg-background">
           <div className="flex items-center mb-4">
             <div className="mr-4 flex-shrink-0">
@@ -73,8 +73,8 @@ const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
             <ProfileNavigationMenu dict={dict} />
           </div>
         </section>
-        <section className="border rounded-lg min-w-[778px] h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background">
-          <ProfileContent lang={lang || 'en'}/>
+        <section className="border rounded-lg w-full h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background">
+          <ProfileContent lang={lang || "en"} />
         </section>
       </div>
     </main>

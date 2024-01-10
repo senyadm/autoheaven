@@ -31,6 +31,25 @@ const languages: Record<Language, string> = {
   nl: "Dutch",
   ro: "Romanian",
 };
+interface SettingsTextBlockProps {
+  mainText: string | undefined;
+  subtext: string | undefined;
+}
+const SettingsTextBlock = ({ mainText, subtext }: SettingsTextBlockProps) => {
+  return (
+    <div className="flex flex-col">
+      <Label className="text-foreground text-lg font-semibold leading-relaxed">
+        {mainText}
+      </Label>
+      <Label className="text-muted-foreground text-xs max-w-[350px]">
+        {subtext}
+      </Label>
+    </div>
+  );
+};
+const styleClasses = {
+  gap: "gap-x-[8vw]",
+};
 const ProfileSettings = ({ lang }: { lang: Locale }) => {
   const dispatch = useDispatch();
   const pathName = usePathname();
@@ -115,7 +134,7 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
 
       <div className=" items-start space-y-5  ">
         <Separator />
-        <div className="flex  gap-x-[96px]">
+        <div className={`flex ${styleClasses.gap}`}>
           <div className="flex flex-col w-[260px]">
             <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
               {dict?.myProfile}
@@ -136,7 +155,7 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
 
         <Separator />
 
-        <div className="flex items-start  gap-x-[96px] ">
+        <div className={`flex ${styleClasses.gap}`}>
           <div className="flex flex-col w-[260px]">
             <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
               {dict?.darkTheme}
@@ -149,13 +168,13 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
 
         <Separator />
 
-        <div className="flex items-start  gap-x-[96px] ">
+        <div className={`flex ${styleClasses.gap}`}>
           <div className="flex flex-col w-[260px] ">
             <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
               {dict?.language}
             </Label>
           </div>
-          <div className="flex items-center space-x-2 justify-end flex-1">
+          <div className="flex items-center space-x-2 justify-end flex-1 max-w-48">
             <Select
               onValueChange={(val: Language) => handleLanguageChange(val)}
             >
@@ -173,15 +192,11 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
           </div>
         </div>
         <Separator />
-        <div className="flex items-start gap-x-[96px] ">
-          <div className="flex flex-col w-[260px]">
-            <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-              {dict?.privacy}
-            </Label>
-            <Label className="text-muted-foreground font-inter text-xs w-[350px]">
-              {dict?.privacySubtext}
-            </Label>
-          </div>
+        <div className={`flex ${styleClasses.gap}`}>
+          <SettingsTextBlock
+            mainText={dict?.privacy}
+            subtext={dict?.privacySubtext}
+          />
           <div className="flex items-center space-x-2 justify-end flex-1">
             <Switch />
           </div>
@@ -189,16 +204,12 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
         {authorized && (
           <>
             <Separator />
-            <div className="flex items-start gap-x-[96px] mt-5 mb-4">
-              <div className="flex flex-col w-[260px]">
-                <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-                  {dict?.emailConfirmation}
-                </Label>
-                <Label className="text-muted-foreground font-inter text-xs w-[350px]">
-                  {dict?.emailConfirmationSubtext}
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2 justify-end flex-1">
+            <div className="flex items-center gap-x-[8vw] mt-5 mb-4">
+              <SettingsTextBlock
+                mainText={dict?.emailConfirmation}
+                subtext={dict?.emailConfirmationSubtext}
+              />
+              <div className="flex items-center space-x-2 justify-end flex-1 min-h-full">
                 <Button
                   disabled={isTimerActive}
                   onClick={() => {
