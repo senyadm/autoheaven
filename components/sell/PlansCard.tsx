@@ -1,18 +1,25 @@
-import { CheckCheck, ChevronRight } from 'lucide-react';
-import React from 'react'
-import { Button } from '../ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
-import { PlansInfo } from '@/interfaces/sell/CardInfo';
-import { TypographyH3, TypographyP } from '../ui/typography';
-interface Props{
+import { CheckCheck, ChevronRight } from "lucide-react";
+import React from "react";
+import { Button } from "../ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "../ui/card";
+import { PlansInfo } from "@/interfaces/sell/CardInfo";
+import { TypographyH3, TypographyP } from "../ui/typography";
+interface Props {
   card: PlansInfo;
-  handleNavigate: (e: any, mode: 'classic' | 'direct' | undefined) => void;
+  handleNavigate: (e: any, mode: "classic" | "direct" | undefined) => void;
 }
-const PlansCard = ({card, handleNavigate}: Props) => {
+const PlansCard = ({ card, handleNavigate }: Props) => {
   return (
     <Card
       key={card.title}
-      className="w-[504px] h-min  bg-primary/10 px-12 py-10 border border-primary text-primary-foreground transform transition-transform hover:scale-105"
+      className="max-w-[504px] w-full h-min  bg-primary/10 px-12 py-10 border border-primary text-primary-foreground transform transition-transform hover:scale-105"
     >
       <CardHeader className="p-0 pb-4">
         <CardTitle className="text-primary text-lg flex flex-row items-center space-x-2">
@@ -39,13 +46,16 @@ const PlansCard = ({card, handleNavigate}: Props) => {
         </ul>
       </CardContent>
       <CardFooter className="p-0">
-        <Button className="w-full border rounded-lg" onClick={(e) => handleNavigate(e, card.plan)}>
+        <Button
+          className="w-full border rounded-lg"
+          onClick={(e) => handleNavigate(e, card.plan)}
+        >
           <div>{card.buttonText}</div>
           <ChevronRight width={16} height={16} />
         </Button>
       </CardFooter>
     </Card>
   );
-}
+};
 
-export default PlansCard
+export default PlansCard;

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   BadgeCheck,
@@ -14,38 +14,47 @@ import SectionHeader from "@/components/sell/SectionHeader";
 import PlansCard from "@/components/sell/PlansCard";
 import ProcessCard from "@/components/sell/ProcessCard";
 import BenefitsBlock from "@/components/sell/BenefitsBlock";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { useRouter } from 'next/navigation';
-import { PlansInfo } from '@/interfaces/sell/CardInfo';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import { useRouter } from "next/navigation";
+import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
 import { SellClassicTranslations, SellLabels } from "@/types";
 
 const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  const [dict, setDict] = useState<SellLabels | null>(null)
-  const [labels, setLabels] = useState<SellClassicTranslations | null>(null)
+  const [dict, setDict] = useState<SellLabels | null>(null);
+  const [labels, setLabels] = useState<SellClassicTranslations | null>(null);
   useEffect(() => {
     async function fetchData() {
       try {
-        const { sell: { main, classic } } = await getlocales(lang);
-        setLabels(classic)
-        setDict(main)
+        const {
+          sell: { main, classic },
+        } = await getlocales(lang);
+        setLabels(classic);
+        setDict(main);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!dict) {
-      fetchData()
+      fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   const cardInfo: PlansInfo[] = [
     {
       plan: "classic",
       title: dict?.classicAdWay || "Classic Ad",
-      description: dict?.sellViaPlatform || "Sell your car using our platform to other client",
+      description:
+        dict?.sellViaPlatform ||
+        "Sell your car using our platform to other client",
       text: [
         dict?.setYourPrice || "Set your own price",
         dict?.fullAdControl || "Full control of your advert",
@@ -57,7 +66,8 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
     {
       plan: "direct",
       title: dict?.directPartner || "Direct Partner",
-      description: dict?.sellToPartners || "Sell your car to our trusted partners",
+      description:
+        dict?.sellToPartners || "Sell your car to our trusted partners",
       text: [
         dict?.sellIn3Days || "Sell within 3 days",
         dict?.professionalValuation || "Professional valuation of your car",
@@ -75,11 +85,11 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
     },
     {
       question: dict?.informSetPrice || "Inform and set the price?",
-      answer: dict?.informSetPrice || "Inform and set the price?"
+      answer: dict?.informSetPrice || "Inform and set the price?",
     },
     {
       question: dict?.vehicleCarePreparation || "Vehicle care and preparation",
-      answer:  dict?.vehicleCarePreparation || "Vehicle care and preparation"
+      answer: dict?.vehicleCarePreparation || "Vehicle care and preparation",
     },
   ];
 
@@ -119,8 +129,8 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
   ];
 
   const router = useRouter();
-  const token = localStorage.getItem('token');
-  const handleNavigate = (e: any, mode: 'classic' | 'direct' | undefined) => {
+  const token = localStorage.getItem("token");
+  const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
     e.preventDefault();
 
     if (!token) {
@@ -129,7 +139,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
     }
 
     router.push(`/${lang}/sell/${mode}`);
-  }
+  };
 
   return (
     <div>
@@ -139,12 +149,18 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
         <SectionHeader
           title={dict?.howToSell || "How to Sell?"}
           text={dict?.sellYourCar || "Sell your car with AutoHeven"}
-          description={dict?.howToSell || "How would you like to sell your vehicle?"}
+          description={
+            dict?.howToSell || "How would you like to sell your vehicle?"
+          }
         />
 
-        <div className="flex space-x-6 mt-8">
+        <div className="flex w-full justify-center space-x-6 mt-8">
           {cardInfo.map((card) => (
-            <PlansCard card={card} key={card.title} handleNavigate={handleNavigate}/>
+            <PlansCard
+              card={card}
+              key={card.title}
+              handleNavigate={handleNavigate}
+            />
           ))}
         </div>
         <div className="text-center mb-6 mt-12 flex flex-col">
@@ -155,7 +171,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
           />
         </div>
 
-        <div className="flex space-x-6 mt-8">
+        <div className="flex w-full justify-center space-x-6 mt-8">
           {howItWorksInfo.map((card) => (
             <ProcessCard card={card} key={card.title} />
           ))}
@@ -164,8 +180,10 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
         <div className="text-center mb-6 mt-12 flex flex-col">
           <SectionHeader
             title="Benefits"
-            text={dict?.letsCompare || 'Let’s compare'}
-            description={dict?.decideNeeds || 'Decide what fits your needs the most'}
+            text={dict?.letsCompare || "Let’s compare"}
+            description={
+              dict?.decideNeeds || "Decide what fits your needs the most"
+            }
           />
         </div>
 
@@ -174,18 +192,19 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
         <div className="text-center mb-6 mt-12 flex flex-col">
           <SectionHeader
             title="FAQ"
-            text={dict?.importantQuestions || 'Important Questions'}
-            description={dict?.happyToKnowMore || 'We are happy to see that you are eager to know more'}
+            text={dict?.importantQuestions || "Important Questions"}
+            description={
+              dict?.happyToKnowMore ||
+              "We are happy to see that you are eager to know more"
+            }
           />
         </div>
-        
+
         <Accordion type="single" collapsible className="w-[406px] mb-12">
           {FAQItems.map((accItem, index) => (
-            <AccordionItem value={""+index} key={accItem.question}>
+            <AccordionItem value={"" + index} key={accItem.question}>
               <AccordionTrigger>{accItem.question}</AccordionTrigger>
-              <AccordionContent>
-                {accItem.answer}
-              </AccordionContent>
+              <AccordionContent>{accItem.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

@@ -18,14 +18,13 @@ const ProcessCard = ({ card }: Props) => {
   return (
     <Card
       key={card.title}
-      className="w-[504px] h-min px-9 py-12 bg-primary-foreground border border-primary text-primary-foreground transform transition-transform hover:scale-105"
+      className="max-w-[504px] w-full h-min px-9 py-12 bg-primary-foreground border border-primary text-primary-foreground transform transition-transform hover:scale-105"
     >
       <CardHeader className="p-0">
         <CardTitle className="text-primary text-lg flex flex-row items-center space-x-2">
           {card.icon}
           <TypographyH3>{card.title}</TypographyH3>
         </CardTitle>
-    
       </CardHeader>
       <CardContent className="px-0 pt-9 pb-0 text-black">
         <ul className="space-y-2">
