@@ -130,7 +130,7 @@ const CarSearchResults = ({
 
   return (
     <section className="mr-8">
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-8 md:mt-8">
         <GradientHeading title={`${offers} offers found`} />
         <AppDropdownMenu setSort={setSort} />
       </div>

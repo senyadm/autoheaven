@@ -35,7 +35,7 @@ import {
   deleteFromWishlistThunk,
 } from "@/app/GlobalRedux/profile/userSlice";
 
-const FuelTypeIcon = (fuelType) => {
+const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
     case "petrol":
       return <Fuel width={16} height={16} />;
@@ -43,7 +43,7 @@ const FuelTypeIcon = (fuelType) => {
       return <Fuel width={16} height={16} />;
   }
 };
-const BodyStyleIcon = (bodyStyle) => {
+const BodyStyleIcon = (bodyStyle: any) => {
   switch (bodyStyle) {
     case "sedan":
       return <Car width={16} height={16} />;
@@ -51,7 +51,7 @@ const BodyStyleIcon = (bodyStyle) => {
       return <Car width={16} height={16} />;
   }
 };
-const GearIcon = (gear) => {
+const GearIcon = (gear: any) => {
   switch (gear) {
     case "automatic":
       return <Sliders width={16} height={16} />;
@@ -59,7 +59,7 @@ const GearIcon = (gear) => {
       return <Sliders width={16} height={16} />;
   }
 };
-const DrivetrainIcon = (drivetrain) => {
+const DrivetrainIcon = (drivetrain: any) => {
   switch (drivetrain) {
     case "fwd":
       return (
@@ -171,7 +171,7 @@ const ResultCarCard = ({
             <p className="font-bold">{title}</p>
             <p className="font-medium whitespace-nowrap">€ {price}</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-1">
+          <div className="grid grid-cols-3 gap-2 mb-1">
           {carInfo.map((info, index) => (
         <div key={index} className="flex items-center space-x-2">
           {info.icon}
@@ -179,9 +179,25 @@ const ResultCarCard = ({
         </div>
       ))}
           </div>
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end">
-            <div>
-              <div className="flex items-center mt-1 mb-2 md:mb-1">{getAccidentStateIcon()}</div>
+          <div className="flex flex-col md:flex-row justify-between items-end">
+            <div className="w-full md:w-auto">
+              <div className="flex justify-start items-center mt-1 mb-2 md:mb-1">{getAccidentStateIcon()}
+              <div className="md:hidden md:mb-2">
+              <Button
+              variant="ghost"
+              className="hover:text-blue-700 transition duration-300"
+              onClick={() => setShowNumber(!showNumber)}
+                >
+                      {showNumber ? (
+                        <Eye width={16} height={16} className="mr-1" />
+                      ) : (
+                        <EyeClosedIcon width={16} height={16} />
+                      )}
+                      <Label className="cursor-pointer ml-2">{showNumber ? phone_number : 'Show contact'}</Label>
+                    </Button>
+          </div>
+              
+              </div>
             <div className="hidden md:block">
                 <TooltipProvider>
                 <Tooltip>
@@ -203,16 +219,8 @@ const ResultCarCard = ({
                 </Tooltip>
               </TooltipProvider>
               </div>
-                            <div className="md:hidden mb-2">
-            <Button
-              className="hover:text-blue-700 transition duration-300"
-              onClick={() => setShowNumber(!showNumber)}
-            >
-             <Label className="text-xs"> {showNumber ? phone_number : 'Show contact'}</Label>
-            </Button>
-          </div>
             </div>
-            <div className="flex justify-between md:items-end text-foreground">
+            <div className="flex justify-between items-end text-foreground">
               <ResultCarCardButtons
                 isWish={wishlist?.includes(id)}
                 onButtonClick={onButtonClick}

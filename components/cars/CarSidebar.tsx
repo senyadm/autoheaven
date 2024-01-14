@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
-import { ChevronRight, PlusCircle, TrashIcon } from "lucide-react";
+import { ChevronRight, PlusCircle, TrashIcon, XIcon } from "lucide-react";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import {
   Filter,

@@ -67,7 +67,7 @@ function FilterComponent({ className, dict, lang }: any) {
         <CardHeader>
           <CardContent>
             <Tabs defaultValue="cars">
-              <TabsList className="grid grid-cols-1 w-full md:grid-cols-4 gap-4">
+              <TabsList className="grid w-full grid-cols-4 gap-4">
                 {tabsTriggersInfo.map((tab, index) => (
                   <TabsTrigger
                     key={tab.value}
