@@ -1,5 +1,6 @@
+import { getToken } from "@/utils/auth";
 import { Divide } from "lucide-react";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
 const chatIdToMessages = {
   0: [
@@ -27,8 +28,35 @@ const chatIdToMessages = {
 };
 const currentChatId = 0;
 const ChatMessagesContent = () => {
+  const token = useMemo(() => getToken(), []);
   let firstMessageYou = true,
     firstMessageResponder = true;
+    useEffect(() => {
+      const ws = new WebSocket(`ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/9`);
+  
+      ws.onopen = () => {
+        ws.send('Hello from client');
+        console.log('WebSocket connected');
+      };
+  
+      ws.onmessage = (event) => {
+        console.log('Received message:', event.data);
+      };
+  
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+  
+      ws.onclose = () => {
+        
+        console.log('WebSocket connection closed');
+      };
+
+      return () => {
+        ws.close();
+      };
+    }, [token]);
+
   return (
     <div className="flex flex-col w-full h-full px-4 py-2">
       {chatIdToMessages[currentChatId].map((message, index) => {

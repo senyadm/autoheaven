@@ -2,10 +2,11 @@ import { getToken } from "@/utils/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const [clientEmail, clientCars, clientUsers] = [
+const [clientEmail, clientCars, clientUsers, clientChats] = [
   "https://autoheven-email.vercel.app",
   "https://autoheven-cars.vercel.app",
   "https://autoheven-users.vercel.app",
+  "https://seashell-app-p3opp.ondigitalocean.app"
 ].map((url) => {
   const client = axios.create({
     baseURL: url,
@@ -48,4 +49,4 @@ const [clientEmail, clientCars, clientUsers] = [
   return client;
 });
 
-export { clientEmail, clientCars, clientUsers };
+export { clientEmail, clientCars, clientUsers, clientChats};

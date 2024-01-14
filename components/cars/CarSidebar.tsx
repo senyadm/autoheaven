@@ -254,7 +254,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch, offerNum
       clearTimeout(debounceTimer);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters])
+  }, [filters, filterBrands])
 
   const handleDelete = (index?: number) => {
     if (!index) return;

@@ -1,6 +1,6 @@
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { clientCars, clientUsers } from "../client";
+import { clientCars, clientChats, clientUsers } from "../client";
 import { get } from "http";
 import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
@@ -30,6 +30,7 @@ interface UserState {
   loadState: LoadState; // for async
   wishlist: number[];
   cars: Car[];
+  chats: any[];
   isLoggedIn: boolean;
 }
 
@@ -41,6 +42,7 @@ const initialState: UserState = {
   user_group: null,
   user_info: null,
   user_info_id: 0,
+  chats: [],
   username: "",
   loadState: "idle",
   wishlist: [],
@@ -52,6 +54,9 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setChats: (state, action: PayloadAction<any>) => {
+      state.chats = action.payload;
+    },
     setUser: (state, action: PayloadAction<UserState>) => {
       for (const key in action.payload) {
         state[key] = action.payload[key];
@@ -165,12 +170,27 @@ export const fetchUserCars = createAsyncThunk(
   }
 );
 
+export const fetchUserChats = createAsyncThunk(
+  "user/fetchUserChats",
+  async (_, { dispatch }) => {
+    try {
+      const response = await clientChats.get("/");
+      dispatch(setChats(response.data));
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user chats:", error);
+      throw error;
+    }
+  }
+);
+
 export const {
   setUser,
   addToWishlist,
   deleteFromWishlist,
   setWishlist,
   setCars,
+  setChats
 } = userSlice.actions;
 
 export default userSlice.reducer;
