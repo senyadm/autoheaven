@@ -5,8 +5,9 @@ import { Providers } from "../GlobalRedux/provider";
 import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
-import { Locale, defaultLocale } from '@/i18n.config'
-import { Toaster } from "@/components/ui/toaster"
+import { Locale, defaultLocale } from "@/i18n.config";
+import { Toaster } from "@/components/ui/toaster";
+import { LoadingProvider } from "../../components/context/LoadingProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,29 +17,30 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: { lang: Locale }
+  params: { lang: Locale };
 }) {
-
   return (
     <html lang={params.lang ?? defaultLocale}>
       <body className={inter.className}>
         <Providers>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="h-screen flex flex-col ">
-              <Navbar lang={params.lang ?? defaultLocale}/>
-              {children}
-              <Toaster />
-              <Footer lang={params.lang ?? defaultLocale}/>
-            </div>
-          </ThemeProvider>
+          <LoadingProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="h-screen flex flex-col ">
+                <Navbar lang={params.lang ?? defaultLocale} />
+                {children}
+                <Toaster />
+                <Footer lang={params.lang ?? defaultLocale} />
+              </div>
+            </ThemeProvider>
+          </LoadingProvider>
         </Providers>
       </body>
     </html>

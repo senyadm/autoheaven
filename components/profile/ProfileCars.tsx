@@ -1,10 +1,12 @@
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ResultCarCard from "../shared/ResultCarCard";
 import { fetchUserCars } from "../../app/GlobalRedux/profile/userSlice";
 import { useDispatch } from "react-redux";
 import { useAppDispatch } from "../../app/GlobalRedux/store";
 import { useAppStore } from "../../app/GlobalRedux/useStore";
+import { LoadingContext } from "../context/LoadingProvider";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 const volkswagenCar4: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
@@ -52,9 +54,26 @@ const volkswagenCar3: ResultCarCardInterface = {
 const ProfileCars = () => {
   const [userCars, dispatch] = useAppStore((state) => state.user.cars);
   const [wishlist] = useAppStore((state) => state.user.wishlist);
+  const { isLoading, setIsLoading } = useContext(LoadingContext);
+
   useEffect(() => {
-    dispatch(fetchUserCars());
-  }, []);
+    const fetchData = async () => {
+      setIsLoading(true);
+      await dispatch(fetchUserCars());
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [dispatch, setIsLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner className="w-[25%] h-[25%]" strokeWidth={1} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col space-y-3">
       {userCars.map((car) => (
