@@ -34,6 +34,7 @@ import {
   deleteFromWishlist,
   deleteFromWishlistThunk,
 } from "@/app/GlobalRedux/profile/userSlice";
+import Image from "next/image";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -152,14 +153,18 @@ const ResultCarCard = ({
       }
     }
   };
-
+  console.log(imageurl);
   return (
     <div
       className={`flex flex-col md:flex-row text-sm md:text-base overflow-hidden w-full ${
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
-   <div className="w-full md:w-1/3"><img src={imageurl} alt={"Image"} className="w-full h-auto object-cover"></img></div>   
+      {imageurl.includes("https") && (
+        <div className="w-full relative w-80">
+          <Image alt="" src={imageurl} fill style={{ objectFit: "cover" }} />
+        </div>
+      )}
       <div className="flex flex-col w-full">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
@@ -172,52 +177,54 @@ const ResultCarCard = ({
             <p className="font-medium whitespace-nowrap">€ {price}</p>
           </div>
           <div className="grid grid-cols-3 gap-2 mb-1">
-          {carInfo.map((info, index) => (
-        <div key={index} className="flex items-center space-x-2">
-          {info.icon}
-          <span>{info.label}</span>
-        </div>
-      ))}
+            {carInfo.map((info, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                {info.icon}
+                <span>{info.label}</span>
+              </div>
+            ))}
           </div>
           <div className="flex flex-col md:flex-row justify-between items-end">
             <div className="w-full md:w-auto">
-              <div className="flex justify-start items-center mt-1 mb-2 md:mb-1">{getAccidentStateIcon()}
-              <div className="md:hidden md:mb-2">
-              <Button
-              variant="ghost"
-              className="hover:text-blue-700 transition duration-300"
-              onClick={() => setShowNumber(!showNumber)}
-                >
-                      {showNumber ? (
-                        <Eye width={16} height={16} className="mr-1" />
-                      ) : (
-                        <EyeClosedIcon width={16} height={16} />
-                      )}
-                      <Label className="cursor-pointer ml-2">{showNumber ? phone_number : 'Show contact'}</Label>
-                    </Button>
-          </div>
-              
+              <div className="flex justify-start items-center mt-1 mb-2 md:mb-1">
+                {getAccidentStateIcon()}
+                <div className="md:hidden md:mb-2">
+                  <Button
+                    variant="ghost"
+                    className="hover:text-blue-700 transition duration-300"
+                    onClick={() => setShowNumber(!showNumber)}
+                  >
+                    {showNumber ? (
+                      <Eye width={16} height={16} className="mr-1" />
+                    ) : (
+                      <EyeClosedIcon width={16} height={16} />
+                    )}
+                    <Label className="cursor-pointer ml-2">
+                      {showNumber ? phone_number : "Show contact"}
+                    </Label>
+                  </Button>
+                </div>
               </div>
-            <div className="hidden md:block">
+              <div className="hidden md:block">
                 <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div
-                      onMouseLeave={() => setEyeOpen(false)}
-                      onMouseEnter={() => setEyeOpen(true)}
-                      className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer"
-                    >
-                      {eyeOpen ? (
-                        <Eye width={16} height={16} className="mr-1" />
-                      ) : (
-                        <EyeClosedIcon width={16} height={16} />
-                      )}
-                      <Label className="cursor-pointer">Show contact</Label>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>{phone_number}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <div
+                        onMouseLeave={() => setEyeOpen(false)}
+                        onMouseEnter={() => setEyeOpen(true)}
+                        className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer"
+                      >
+                        {eyeOpen ? (
+                          <Eye width={16} height={16} className="mr-1" />
+                        ) : (
+                          <EyeClosedIcon width={16} height={16} />
+                        )}
+                        <Label className="cursor-pointer">Show contact</Label>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>{phone_number}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
             <div className="flex justify-between items-end text-foreground">
