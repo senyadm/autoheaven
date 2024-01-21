@@ -14,7 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import SvgIcon from '@/components/SvgIcon';
 import { SellClassicTranslations } from '@/types';
 
-const defaultCarDetails: CarDetails = {
+const defaultCarDetails = {
   type: '',
   body_type: '',
   color: '',
@@ -23,6 +23,13 @@ const defaultCarDetails: CarDetails = {
   gearbox: '',
   price: 0,
   description: '',
+  fuel_consumption: '',
+  horsepower: '',
+  cubic_capacity: '',
+  country_origin: '',
+  interior_color: '',
+  phone: '',
+  vehicle_id: 0,
   title: '',
   fueltype: '',
   accidentfree: false,
@@ -35,13 +42,12 @@ const defaultCarDetails: CarDetails = {
 const VehicleDetails = ({ onNext, onPrevious, dict }: {onPrevious: () => void, onNext: (mode?: string) => void, dict: SellClassicTranslations | null}) => {
   const [store] = useAppStore(
     (state) => state?.createCarProgress
-  )
-
-
-
+  );
   const [fileError, setFileError] = React.useState("");
   const [value, setValue] = useState<string | undefined>("")
   const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+
   const [hidden, setHidden] = React.useState(false),
   toggle = () => setHidden(!hidden);
 
@@ -68,7 +74,10 @@ const VehicleDetails = ({ onNext, onPrevious, dict }: {onPrevious: () => void, o
         }
       }
     }
-  
+    if (!errorMessage && event.target.files) {
+      setSelectedFiles(event.target.files);
+    }
+
     if (errorMessage) {
       setFileError(errorMessage);
       event.target.value = '';
@@ -91,12 +100,12 @@ if (!areDetailsValid()) return;
     accidentfree: detailsData.accidentfree
   };
   
-  const newStore = {
+  const newStore: any = {
     ...store,
     details: newDetails
   };
 
-  createCar(newStore)
+  createCar(newStore, selectedFiles)
   .then(() => {
     window.location.href = '/success';
   })
@@ -200,23 +209,6 @@ const checkIfEmpty = () => {
       <Input className={fileError ? 'border-red-500' : 'border-input'} id="picture" multiple onChange={handleFileSelection}  accept='image/png, image/jpeg'  type="file" />
       </div>
     </div>
-      {/* <Select onValueChange={(selectorValue) => {
-        setDetailsData({...detailsData, color: selectorValue})
-      }} value={detailsData.color}>
-              <SelectTrigger onClick={toggle}  currentValue={detailsData.color}>
-              {detailsData.color || 'Select color...'}
-              </SelectTrigger>
-              <div     className={`relative w-full bg-white border border-gray-200 rounded shadow-md transition-transform transition-opacity duration-300 ease-in-out transform ${
-      hidden ? "translate-y-4 opacity-0" : "translate-y-0 opacity-100"
-    }`} >
-          <SketchPicker
-          className='w-full'
-            color={detailsData.color}
-            onChange={(selectorValue) => setDetailsData({...detailsData, color: selectorValue.hex})}
-          />
-</div>
-       </Select> */}
-
   </CardContent>
   <CardFooter className="flex justify-between">
     <Button onClick={onPrevious} className="mt-4">

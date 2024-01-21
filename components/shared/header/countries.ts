@@ -1,32 +1,37 @@
 export const euCountries = [
-    { code: "AT", name: "Austria" },
-    { code: "BE", name: "Belgium" },
-    { code: "BG", name: "Bulgaria" },
-    { code: "CY", name: "Cyprus" },
-    { code: "CZ", name: "Czech Republic" },
-    { code: "DE", name: "Germany" },
-    { code: "DK", name: "Denmark" },
-    { code: "EE", name: "Estonia" },
-    { code: "ES", name: "Spain" },
-    { code: "FI", name: "Finland" },
-    { code: "FR", name: "France" },
-    { code: "GR", name: "Greece" },
-    { code: "HR", name: "Croatia" },
-    { code: "HU", name: "Hungary" },
-    { code: "IE", name: "Ireland" },
-    { code: "IT", name: "Italy" },
-    { code: "LT", name: "Lithuania" },
-    { code: "LU", name: "Luxembourg" },
-    { code: "LV", name: "Latvia" },
-    { code: "MT", name: "Malta" },
-    { code: "NL", name: "Netherlands" },
-    { code: "PL", name: "Poland" },
-    { code: "PT", name: "Portugal" },
-    { code: "RO", name: "Romania" },
-    { code: "SE", name: "Sweden" },
-    { code: "SI", name: "Slovenia" },
-    { code: "SK", name: "Slovakia" }
-  ];
+  { code: "AT", name: "Austria" },
+  { code: "BE", name: "Belgium" },
+  { code: "BG", name: "Bulgaria" },
+  { code: "HR", name: "Croatia" },
+  { code: "CY", name: "Cyprus" },
+  { code: "CZ", name: "Czech Republic" },
+  { code: "DK", name: "Denmark" },
+  { code: "EE", name: "Estonia" },
+  { code: "FI", name: "Finland" },
+  { code: "FR", name: "France" },
+  { code: "DE", name: "Germany" },
+  { code: "GR", name: "Greece" },
+  { code: "HU", name: "Hungary" },
+  { code: "IS", name: "Iceland" }, // Non-EU Schengen
+  { code: "IE", name: "Ireland" },
+  { code: "IT", name: "Italy" },
+  { code: "LV", name: "Latvia" },
+  { code: "LI", name: "Liechtenstein" }, // Non-EU Schengen
+  { code: "LT", name: "Lithuania" },
+  { code: "LU", name: "Luxembourg" },
+  { code: "MT", name: "Malta" },
+  { code: "NL", name: "Netherlands" },
+  { code: "NO", name: "Norway" }, // Non-EU Schengen
+  { code: "PL", name: "Poland" },
+  { code: "PT", name: "Portugal" },
+  { code: "RO", name: "Romania" },
+  { code: "SK", name: "Slovakia" },
+  { code: "SI", name: "Slovenia" },
+  { code: "ES", name: "Spain" },
+  { code: "SE", name: "Sweden" },
+  { code: "CH", name: "Switzerland" }, // Non-EU Schengen
+  { code: "UA", name: "Ukraine" }
+];
   
   export const euCountriesCities: Record<string, string[]> = {
     "AT": ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach", "Wels", "Sankt Pölten", "Dornbirn",    "Wiener Neustadt", "Steyr", "Feldkirch", "Bregenz", "Wolfsberg", "Baden bei Wien", "Klosterneuburg", "Leoben", "Krems an der Donau", "Traun",    "Amstetten", "Leonding", "Kapfenberg", "Mödling", "Lustenau"], // Austria
@@ -73,7 +78,12 @@ export const euCountries = [
     , // Sweden
     "SI": [    "Ljubljana", "Maribor", "Celje", "Kranj", "Velenje", "Novo Mesto", "Koper", "Nova Gorica", "Ptuj", "Trbovlje",    "Kamnik", "Jesenice", "Domžale", "Izola", "Murska Sobota", "Kočevje", "Postojna", "Logatec", "Sežana", "Kranjska Gora",    "Ravne na Koroškem", "Žalec", "Slovenj Gradec", "Krško", "Slovenska Bistrica", "Ajdovščina", "Bled", "Radovljica", "Idrija", "Gornja Radgona",    "Črnomelj", "Trebnje", "Metlika", "Škofja Loka", "Lenart", "Brezice", "Sevnica", "Vrhnika", "Slovenske Konjice", "Beltinci"]
     , // Slovenia
-    "SK":[    "Bratislava", "Košice", "Prešov", "Žilina", "Nitra", "Banská Bystrica", "Trnava", "Martin", "Trenčín", "Poprad",    "Prievidza", "Zvolen", "Považská Bystrica", "Michalovce", "Spišská Nová Ves", "Levice", "Komárno", "Humenné", "Bardejov", "Piešťany",    "Lučenec", "Nové Zámky", "Senica", "Hlohovec", "Topoľčany", "Rimavská Sobota", "Vranov nad Topľou", "Kysucké Nové Mesto", "Púchov", "Dunajská Streda", "Brezno",    "Snina", "Detva", "Stará Ľubovňa", "Turčianske Teplice", "Stropkov", "Gelnica", "Šaľa", "Vrútky", "Štúrovo", "Liptovský Mikuláš"]
-    // Slovakia
+    "SK":[    "Bratislava", "Košice", "Prešov", "Žilina", "Nitra", "Banská Bystrica", "Trnava", "Martin", "Trenčín", "Poprad",    "Prievidza", "Zvolen", "Považská Bystrica", "Michalovce", "Spišská Nová Ves", "Levice", "Komárno", "Humenné", "Bardejov", "Piešťany",    "Lučenec", "Nové Zámky", "Senica", "Hlohovec", "Topoľčany", "Rimavská Sobota", "Vranov nad Topľou", "Kysucké Nové Mesto", "Púchov", "Dunajská Streda", "Brezno",    "Snina", "Detva", "Stará Ľubovňa", "Turčianske Teplice", "Stropkov", "Gelnica", "Šaľa", "Vrútky", "Štúrovo", "Liptovský Mikuláš"],
+    // Slovaki
+    "LI": ["Vaduz", "Schaan", "Triesen", "Balzers", "Eschen", "Mauren", "Triesenberg", "Ruggell", "Gamprin", "Schellenberg", "Planken", "Malbun", "Steg"], // Liechtenstein
+    "NO": ["Oslo", "Bergen", "Stavanger", "Trondheim", "Drammen", "Fredrikstad", "Kristiansand", "Sandnes", "Tromsø", "Sarpsborg", "Skien", "Ålesund", "Sandefjord", "Haugesund", "Tønsberg", "Moss", "Porsgrunn", "Bodø", "Arendal", "Hamar", "Ytrebygda", "Larvik", "Halden", "Steinkjer", "Harstad"], // Norway
+    "CH": ["Zurich", "Geneva", "Basel", "Lausanne", "Bern", "Winterthur", "Lucerne", "St. Gallen", "Lugano", "Biel/Bienne", "Thun", "Köniz", "La Chaux-de-Fonds", "Schaffhausen", "Fribourg", "Chur", "Neuchâtel", "Vernier", "Sion", "Uster", "Emmen", "Lancy", "Yverdon-les-Bains", "Zug", "Dübendorf"], // Switzerland
+    "UA": ["Kyiv", "Kharkiv", "Odesa", "Dnipro", "Donetsk", "Zaporizhzhia", "Lviv", "Kryvyi Rih", "Mykolaiv", "Mariupol", "Luhansk", "Vinnytsia", "Makiivka", "Sevastopol", "Simferopol", "Kherson", "Poltava", "Chernihiv", "Cherkasy", "Sumy", "Zhytomyr", "Khmelnytskyi", "Chernivtsi", "Gorlovka", "Rivne"] // Ukraine
+
   };
   

@@ -1,53 +1,34 @@
 import { setDetails } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { useAppStore } from '@/app/GlobalRedux/useStore';
-import { SketchPicker } from 'react-color';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { InputField } from '@/components/ui/input-field';
 import { Label } from '@/components/ui/label';
-import { ChevronRight, PenSquare, SearchIcon } from 'lucide-react';
 import React, { useMemo, useState } from 'react'
-import { CarDetails } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { Input } from '@/components/ui/input';
-import PhoneInput from 'react-phone-number-input'
-import { Separator } from '@/components/ui/separator';
 import 'react-phone-number-input/style.css'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import SvgIcon from '@/components/SvgIcon';
 import { SellClassicTranslations } from '@/types';
+import { Settings, ShipWheel } from 'lucide-react';
 
-const defaultCarDetails: CarDetails = {
-  type: '',
-  body_type: '',
-  color: '',
-  year: new Date().getFullYear(),
-  mileage: 0,
-  gearbox: '',
-  price: 0,
-  description: '',
-  title: '',
-  fueltype: '',
-  accidentfree: false,
-  imageurl: '',
-  drivetrain: '',
-  istop: false
-};
+// const defaultCarDetails: CarDetails = {
+//   type: '',
+//   body_type: '',
+//   color: '',
+//   year: new Date().getFullYear(),
+//   mileage: 0,
+//   gearbox: '',
+//   price: 0,
+//   description: '',
+//   title: '',
+//   fueltype: '',
+//   accidentfree: false,
+//   imageurl: '',
+//   drivetrain: '',
+//   istop: false
+// };
 
 const bodyTypes: string[] = [
   "Sedan",
@@ -114,6 +95,10 @@ const VehicleModification = ({ onNext, onPrevious, dict }: {onPrevious: () => vo
    if (Number(year) > new Date().getFullYear()) return;
     dispatch(setDetails({...store, year: parseInt(year)}));
   }
+
+  const isDisabled = useMemo(() => {
+    return !store?.body_type || !store?.fueltype || !store?.year || !store?.drivetrain || !store?.gearbox
+  }, [store])
 
   return (
 <Card className="w-full mx-auto bg-white border-none shadow-none">
@@ -183,7 +168,7 @@ const VehicleModification = ({ onNext, onPrevious, dict }: {onPrevious: () => vo
       <div className="space-y-4">
     <div className="flex items-center space-x-2">
               <Label className='text-lg text-foreground' htmlFor="filter2">{dict?.drivetrain || 'Drive Train'}</Label>
-              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+              <ShipWheel width={16} height={16} />
             </div>
             <div className='flex flex-row justify-between'>
     {driveTrain.map((item, index) => (
@@ -202,7 +187,7 @@ const VehicleModification = ({ onNext, onPrevious, dict }: {onPrevious: () => vo
       <div className="space-y-4">
     <div className="flex items-center space-x-2">
               <Label className='text-lg text-foreground' htmlFor="filter2">{dict?.gearbox || 'Gearbox'}</Label>
-              <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+              <Settings  width={16} height={16} />
             </div>
             <div className='flex flex-row space-x-8 items-center'>
     {gearbox.map((item, index) => (
@@ -224,7 +209,7 @@ const VehicleModification = ({ onNext, onPrevious, dict }: {onPrevious: () => vo
     <Button onClick={onPrevious} className="mt-4">
     {dict?.previous || 'Previous'}
     </Button>
-    <Button onClick={handleNext} className="mt-4">
+    <Button disabled={isDisabled} onClick={handleNext} className="mt-4">
     {dict?.continue || 'Continue'}
     </Button>
   </CardFooter>

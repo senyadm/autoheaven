@@ -18,6 +18,12 @@ export interface CarDetails {
     imageurl: string;
     drivetrain: string;
     istop: boolean;
+    vehicle_id: number;
+    country_origin: string;
+    cubic_capacity: string;
+    horsepower: string;
+    fuel_consumption: string;
+    interior_color: string;
   }
   
   enum RequestStatus {
@@ -35,6 +41,13 @@ export interface CarDetails {
     gearbox: '',
     price: 0,
     description: '',
+    fuel_consumption: '',
+    horsepower: '',
+    cubic_capacity: '',
+    country_origin: '',
+    interior_color: '',
+    phone: '',
+    vehicle_id: 0,
     title: '',
     fueltype: '',
     accidentfree: false,
@@ -61,41 +74,46 @@ const initialState: CarCreationState = {
   wishlist: []
 };
 
-// export const fetchWishlistCars = createAsyncThunk(
-//   'carCreation/fetchWishlistCars',
-//   async (): Promise<number[]> => {
-//     const token = localStorage.getItem("token");
-//     const headers = {
-//       Authorization: `Bearer ${token}`
-//     };
-//     const response = await clientCars.get("/api/cars/wishlist/", { headers });
-//     return response.data; // Assuming the API returns an array of cars
-//   }
-// );
+  export async function createCar(params: CarCreationState, selectedFiles: FileList | null): Promise<string> {
 
-
-  export async function createCar(params: CarCreationState): Promise<string> {
-
-    const payload = {
-      type: params.carType,
-      body_type: params.details?.body_type,
-      make: params.brand,
-      model: params.model,
-      color: params.details?.color,
-      year: params.details?.year,
-      mileage: params.details?.mileage,
-      gearbox: params.details?.gearbox,
-      price: params.details?.price,
-      description: params.details?.description,
-      phone: params.details?.phone,
-      title: params.details?.title,
-      fueltype: params.details?.fueltype,
-      accidentfree: params.details?.accidentfree,
-      imageurl: params.details?.imageurl,
-      drivetrain: params.details?.drivetrain,
-      istop: params.details?.istop,
-    }
+    const payload: Record<string, string | Blob> = {
+      type: params.carType || '',
+      body_type: params.details?.body_type || '',
+      make: params.brand || '',
+      model: params.model || '',
+      color: params.details?.color || '',
+      year: params.details?.year.toString(),
+      mileage: params.details?.mileage.toString(),
+      gearbox: params.details?.gearbox || '',
+      price: params.details?.price.toString(),
+      description: params.details?.description || '',
+      phone: params.details?.phone || '',
+      title: params.details?.title || '',
+      fueltype: params.details?.fueltype || '',
+      accidentfree: params.details?.accidentfree.toString(),
+      imageurl: params.details?.imageurl || '',
+      drivetrain: params.details?.drivetrain || '',
+      istop: params.details?.istop.toString(),
+      vehicle_id: params.details?.vehicle_id.toString(),
+      country_origin: params.details?.country_origin || '',
+      cubic_capacity: params.details?.cubic_capacity || '',
+      horsepower: params.details?.horsepower || '',
+      fuel_consumption: params.details?.fuel_consumption || '',
+      interior_color: params.details?.interior_color || ''
+    };
     const token = getToken();
+
+    const formData = new FormData();
+
+    Object.keys(payload).forEach((key: any) => {
+      formData.append(key, payload[key]);
+    });
+  
+    if (selectedFiles) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append('images', selectedFiles[i], selectedFiles[i].name);
+      }
+    }
 
     const headers = {
       Authorization: `Bearer ${token}`

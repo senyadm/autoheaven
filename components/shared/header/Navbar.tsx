@@ -17,6 +17,7 @@ import {
   AT,
   BE,
   BG,
+  CH,
   CY,
   CZ,
   DE,
@@ -29,18 +30,22 @@ import {
   HR,
   HU,
   IE,
+  IS,
   IT,
+  LI,
   LT,
   LU,
   LV,
   MT,
   NL,
+  NO,
   PL,
   PT,
   RO,
   SE,
   SI,
   SK,
+  UA,
 } from "country-flag-icons/react/3x2";
 import {
   Bell,
@@ -89,6 +94,11 @@ const flagComponents: Record<string, any> = {
   SE: SE,
   SI: SI,
   SK: SK,
+  IS: IS,
+  LI: LI,
+  NO: NO,
+  CH: CH,
+  UA: UA
 };
 
 export function Navbar({ lang }: { lang: Locale }) {
@@ -240,7 +250,16 @@ export function Navbar({ lang }: { lang: Locale }) {
               </DialogContent>
             ) : (
               <DialogContent className="overflow-y-auto max-h-[80vh]">
-                <DialogTitle>{menu?.city}</DialogTitle>
+  <DialogTitle className="flex justify-between items-center p-4">
+    <Label className="text-lg font-bold">{menu?.city}</Label>
+    <Button
+      variant="default"
+      onClick={() => setModalState("country")}
+      className="p-2 border rounded"
+    >
+      {menu?.country_select}
+    </Button>
+  </DialogTitle>
                 <div className="grid grid-cols-3 gap-4">
                   {cityList?.map((city) => (
                     <button
@@ -251,15 +270,6 @@ export function Navbar({ lang }: { lang: Locale }) {
                       {city}
                     </button>
                   ))}
-                </div>
-                <div className="mt-4">
-                  <Button
-                    variant="default"
-                    onClick={() => setModalState("country")}
-                    className="p-2 border rounded"
-                  >
-                    {menu?.country_select}
-                  </Button>
                 </div>
               </DialogContent>
             )}
