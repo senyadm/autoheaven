@@ -422,26 +422,6 @@ export const CarComponent = React.memo(function CarComponent({
     }
   }, [carStore]);
 
-  const [typedChars, setTypedChars] = useState("");
-
-  // useEffect(() => {
-  //   if (!typedChars || !carBrands) return;
-
-  //   const matchedBrand = entries.find((brand) =>
-  //     brand.toLowerCase().startsWith(typedChars.toLowerCase())
-  //   );
-
-  //   if (matchedBrand) {
-  //     handleSelectorChange("cars", "brandAndModel", matchedBrand);
-  //   }
-
-  //   const timer = setTimeout(() => {
-  //     setTypedChars("");
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // }, [typedChars, entries]);
-
   return (
     <Card className="border-0 bg-background">
       <CardContent className="space-y-2 mt-8">
@@ -493,7 +473,7 @@ export const CarComponent = React.memo(function CarComponent({
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <Label htmlFor="filter1">
-                {dict?.brandAndModel || "Brand and model"}
+                {dict?.brandAndModel || "Model"}
               </Label>
               <SvgIcon
                 filepath="icons/tick.svg"

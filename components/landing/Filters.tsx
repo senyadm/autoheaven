@@ -62,8 +62,8 @@ function FilterComponent({ className, dict, lang }: any) {
   };
 
   return (
-    <div className={`max-w-[1140px] w-full mb-9 md:mb-36px ${className}`}>
-      <Card className="bg-background">
+    <div className={`md:max-w-[1140px] w-full mb-9 md:mb-36px ${className}`}>
+      <Card  className="bg-background">
         <CardHeader>
           <CardContent>
             <Tabs defaultValue="cars">

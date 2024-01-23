@@ -432,7 +432,7 @@ const CarSidebar:React.FC<CarSidebarProps> = ({ paramFilters, dispatch, offerNum
       <Separator />
 
       <div>
-        <h2 className="text-l font-semibold mt-2 mb-2">{menu?.brandAndModel || "Brand and model"}</h2>
+        <h2 className="text-l font-semibold mt-2 mb-2">{menu?.brandAndModel || "Model"}</h2>
       </div>
 
       <Accordion type="multiple" className="w-full">

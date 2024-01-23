@@ -223,15 +223,18 @@ export function Navbar({ lang }: { lang: Locale }) {
                 className="w-full p-2 items-center space-x-3 border-none shadow-none"
               >
                 <MapPin width={16} height={16} />
-                <Label className="text-foreground text-l">
+                <Label className="hidden md:block text-foreground text-l">
                   {location.city}
                 </Label>
               </Button>
             </DialogTrigger>
             {modalState === "country" ? (
-              <DialogContent className="overflow-y-auto max-h-[80vh]">
-                <DialogTitle>{menu?.country}</DialogTitle>
-                <div className="grid grid-cols-3 gap-4">
+              <DialogContent className="overflow-y-auto">
+                <DialogTitle className="flex justify-between items-center p-4">  <Label className="text-lg font-bold">{menu?.country}</Label> 
+    <Label className="md:hidden text-foreground text-l">
+                Current location - {location.city}
+                </Label></DialogTitle>
+                <div className="grid grid-cols-2 h-[500px] pb-5 md:h-full md:grid-cols-3 gap-4">
                   {euCountries.map((country) => {
                     const FlagIcon = flagComponents[country.code];
 
