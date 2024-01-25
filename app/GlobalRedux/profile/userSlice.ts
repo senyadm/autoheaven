@@ -50,6 +50,7 @@ const initialState: UserState = {
   isLoggedIn: false,
 };
 
+
 export const userSlice = createSlice({
   name: "user",
   initialState,

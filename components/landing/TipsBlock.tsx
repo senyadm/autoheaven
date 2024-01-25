@@ -69,8 +69,6 @@ interface Props {
 }
 
 const TipsBlock = ({ tipsBlock }: Props) => {
-  console.log(tipsBlock);
-
   return (
     <section className="flex flex-col items-center px-17.5 py-10 mt-9 bg-background mx-20 border-border border rounded-md max-w-full w-full md:max-w-6xl">
       <GradientHeading

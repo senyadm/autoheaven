@@ -1,5 +1,5 @@
 import { getToken } from "@/utils/auth";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clientCars, clientEmail } from "../client";
 interface PPState {
   name: string;
@@ -44,6 +44,7 @@ export async function sendEmail(email: unknown): Promise<string> {
     return err?.response?.data;
   }
 }
+
 
 export const profileSlice = createSlice({
   name: "profile",

@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 import { Locale } from "@/i18n.config";
+import { validateToken } from "@/utils/auth";
 
 const Login = ({
   children,
@@ -12,7 +13,7 @@ const Login = ({
   children: React.ReactNode;
   params: { lang: Locale }
 }) => {
-  return (
+   return (
     <section className="flex justify-center items-center  h-full w-full">
       <Tabs defaultValue="account" className="w-full  max-w-[700px]">
         <TabsList className="grid w-full grid-cols-2">

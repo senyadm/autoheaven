@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   )
-
+    console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request)
@@ -52,7 +52,6 @@ export async function middleware(request: NextRequest) {
       "Access-Control-Allow-Headers",
       "Content-Type, Authorization"
     );
-    console.log("cors added");
   }
   //...
   return response;

@@ -65,6 +65,7 @@ import logo from "../../../public/autoheven_logo.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";
+import { validateToken } from "@/utils/auth";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -103,6 +104,14 @@ const flagComponents: Record<string, any> = {
 
 export function Navbar({ lang }: { lang: Locale }) {
   const [menu, setMenu] = useState<NavbarData | null>(null);
+
+  useEffect(() => {
+    const validate = async () => {
+     return await validateToken();
+    }
+
+    validate();
+  }, [])
 
   useEffect(() => {
     async function fetchData() {
