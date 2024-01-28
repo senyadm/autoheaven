@@ -41,6 +41,8 @@ const [clientEmail, clientCars, clientUsers, clientChats] = [
       if (error.response && error.response.status === 401) {
         // Handle 401 errors globally, for example, redirect to login
         window.location.replace("/login");
+        localStorage.removeItem("token");
+        console.log("401");
       }
       return Promise.reject(error);
     }

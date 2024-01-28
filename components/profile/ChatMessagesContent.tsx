@@ -32,7 +32,7 @@ const ChatMessagesContent = () => {
   let firstMessageYou = true,
     firstMessageResponder = true;
     useEffect(() => {
-      const ws = new WebSocket(`ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/9`);
+      const ws = new WebSocket(`ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/receiverid`);
   
       ws.onopen = () => {
         ws.send('Hello from client');

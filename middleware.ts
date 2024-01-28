@@ -33,6 +33,7 @@ export async function middleware(request: NextRequest) {
     console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
+    console.log("asd")
     const locale = getLocale(request)
     return NextResponse.redirect(
       new URL(
