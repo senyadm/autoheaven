@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ChatComponent from "./ChatComponent";
 import { ChatComponentProps } from "../../interfaces/profile/ChatComponent";
+import { ChatList, setCurrentChatID } from "@/app/GlobalRedux/profile/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/GlobalRedux/store";
 
 const chatsData: ChatComponentProps[] = [
   {
@@ -34,11 +37,39 @@ const chatsData: ChatComponentProps[] = [
     id: 0,
   },
 ];
-const Chats = () => {
+
+interface ChatsProps {
+  userChats: ChatList;
+}
+
+const Chats = ({ userChats }: ChatsProps) => {
+  const [chats, setChats] = useState<ChatComponentProps[]>([]);
+  const dispatch = useDispatch();
+  const activeChatID = useSelector((state: RootState) => state.user.currentChatID)
+  
+  useEffect(() => {
+    if (!userChats.recipients.length) return;
+
+    const chats = userChats.recipients.map((id, index) => {
+      return {
+        name: chatsData[index].name,
+        lastMessage: userChats.last_messages[id.toString()],
+        bg: chatsData[index].bg,
+        id,
+      };
+    });
+
+    setChats(chats);
+  }, [userChats])
+
+  const onChatClick = (id: number) => {
+    dispatch(setCurrentChatID(id))
+  }
+
   return (
     <div className="min-w-[256px] h-25">
-      {chatsData.map((chatsElement) => (
-        <ChatComponent {...chatsElement} key={chatsElement.id} />
+      {chats.map((chatsElement) => (
+        <ChatComponent {...chatsElement} onChatClick={onChatClick} key={chatsElement.id} activeChatID={activeChatID} />
       ))}
     </div>
   );

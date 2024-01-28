@@ -6,6 +6,19 @@ import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
 import { Car } from "../../../interfaces/shared/Car";
 
+export interface ChatList {
+  recipients: number[]
+  last_messages: Record<string, string>
+}
+
+export interface ChatMessage {
+  id: number
+  sender_id: number
+  receiver_id: number
+  content: string
+  timestamp: string
+}
+
 interface UserInfo {
   address: string;
   city: string;
@@ -29,8 +42,10 @@ interface UserState {
   username: string;
   loadState: LoadState; // for async
   wishlist: number[];
+  currentChatMessages: ChatMessage[];
   cars: Car[];
-  chats: any[];
+  currentChatID: number;
+  chats: ChatList;
   isLoggedIn: boolean;
 }
 
@@ -42,7 +57,14 @@ const initialState: UserState = {
   user_group: null,
   user_info: null,
   user_info_id: 0,
-  chats: [],
+  currentChatID: 0,
+  currentChatMessages: [],
+  chats: {
+    recipients: [],
+    last_messages: {
+      "0": "Hello"
+    }
+  },
   username: "",
   loadState: "idle",
   wishlist: [],
@@ -55,7 +77,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setChats: (state, action: PayloadAction<any>) => {
+    setCurrentChathistory: (state, action: PayloadAction<ChatMessage[]>) => {
+      state.currentChatMessages = action.payload;
+    },
+    setCurrentChatID: (state, action: PayloadAction<number>) => {
+      state.currentChatID = action.payload;
+    },
+    setChats: (state, action: PayloadAction<ChatList>) => {
       state.chats = action.payload;
     },
     setUser: (state, action: PayloadAction<UserState>) => {
@@ -175,8 +203,32 @@ export const fetchUserChats = createAsyncThunk(
   "user/fetchUserChats",
   async (_, { dispatch }) => {
     try {
-      const response = await clientChats.get("/");
+      const token = getToken();
+      const response = await clientChats.get(`/chat_list`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch(setChats(response.data));
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user chats:", error);
+      throw error;
+    }
+  }
+);
+
+export const fetchChatMessages = createAsyncThunk(
+  "user/fetchUserChats",
+  async (receiver_id: string, { dispatch }) => {
+    try {
+      const token = getToken();
+      const response = await clientChats.get(`/chat_history/${receiver_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(setCurrentChathistory(response.data));
       return response.data;
     } catch (error) {
       console.error("Error fetching user chats:", error);
@@ -191,7 +243,9 @@ export const {
   deleteFromWishlist,
   setWishlist,
   setCars,
-  setChats
+  setChats,
+  setCurrentChathistory,
+  setCurrentChatID
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -10,7 +10,7 @@ import SvgIcon from "@/components/SvgIcon";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../GlobalRedux/store";
-import { fetchUserData } from "../../GlobalRedux/profile/userSlice";
+import { fetchUserChats, fetchUserData } from "../../GlobalRedux/profile/userSlice";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
@@ -29,10 +29,12 @@ const Profile = ({ params: { lang } }: { params: { lang: Locale } }) => {
   );
   const fullName = `${userName} ${userSurname}`;
   const userEmail = useSelector((state: RootState) => state?.user?.email);
-
+  
   const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);
 
   useEffect(() => {
+    dispatch(fetchUserChats());
+
     async function fetchData() {
       try {
         const { sidebarItems } = await getlocales(lang);

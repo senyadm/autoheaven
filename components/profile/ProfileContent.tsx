@@ -17,8 +17,11 @@ const ProfileContent = ({ lang }: { lang: Locale }) => {
   );
   const [dict, setDict] = useState<OverviewDictionary | null>(null);
 
+  const userChats = useSelector(
+    (state: RootState) => state?.user?.chats
+  )
+
   useEffect(() => {
-    console.log("lang", lang);
     async function fetchData() {
       try {
         const { overview } = await getlocales(lang);
@@ -42,7 +45,7 @@ const ProfileContent = ({ lang }: { lang: Locale }) => {
     case "ads":
       return <ProfileAds />;
     case "messages":
-      return <ProfileMessages />;
+      return <ProfileMessages userChats={userChats}/>;
     case "cars":
       return <ProfileCars />;
     default:

@@ -4,12 +4,18 @@ import Chats from "./Chats";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import TypingComponent from "./TypingComponent";
+import { ChatList } from '@/app/GlobalRedux/profile/userSlice'
+interface ProfileMessagesProps {
+  userChats: ChatList
+}
 
-const ProfileMessages = () => {
+const ProfileMessages = ({userChats} : ProfileMessagesProps) => {
+  
+
   return (
     <div className="h-full grid grid-cols-3 grid-rows-13 gap-px bg-border">
       <div className="row-span-12 col-span-1 bg-background">
-        <Chats />
+        <Chats userChats={userChats}/>
       </div>
       <div className="row-span-12 bg-background col-span-2">
         <ChatMessagesContent />

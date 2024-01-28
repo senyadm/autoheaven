@@ -3,4 +3,6 @@ export interface ChatComponentProps {
   lastMessage: string;
   bg: string;
   id: number;
+  onChatClick?: (id: number) => void;
+  activeChatID?: number;
 }
