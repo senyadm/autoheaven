@@ -99,7 +99,7 @@ const flagComponents: Record<string, any> = {
   LI: LI,
   NO: NO,
   CH: CH,
-  UA: UA
+  UA: UA,
 };
 
 export function Navbar({ lang }: { lang: Locale }) {
@@ -107,11 +107,11 @@ export function Navbar({ lang }: { lang: Locale }) {
 
   useEffect(() => {
     const validate = async () => {
-     return await validateToken();
-    }
+      return await validateToken();
+    };
 
     validate();
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -210,10 +210,10 @@ export function Navbar({ lang }: { lang: Locale }) {
               <Image src={logo} height={30} width={64} alt="" />
             </Link>
 
-            <div className="flex items-center border rounded-md pl-2 h-10 w-full">
+            <div className="flex items-center border rounded-md pl-2 h-10">
               <SearchIcon className="w-5 h-5 text-gray-500" />
               <InputField
-                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
+                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
                 placeholder={menu?.search}
               />
             </div>
@@ -239,10 +239,13 @@ export function Navbar({ lang }: { lang: Locale }) {
             </DialogTrigger>
             {modalState === "country" ? (
               <DialogContent className="overflow-y-auto">
-                <DialogTitle className="flex justify-between items-center p-4">  <Label className="text-lg font-bold">{menu?.country}</Label> 
-    <Label className="md:hidden text-foreground text-l">
-                Current location - {location.city}
-                </Label></DialogTitle>
+                <DialogTitle className="flex justify-between items-center p-4">
+                  {" "}
+                  <Label className="text-lg font-bold">{menu?.country}</Label>
+                  <Label className="md:hidden text-foreground text-l">
+                    Current location - {location.city}
+                  </Label>
+                </DialogTitle>
                 <div className="grid grid-cols-2 h-[500px] pb-5 md:h-full md:grid-cols-3 gap-4">
                   {euCountries.map((country) => {
                     const FlagIcon = flagComponents[country.code];
@@ -262,16 +265,16 @@ export function Navbar({ lang }: { lang: Locale }) {
               </DialogContent>
             ) : (
               <DialogContent className="overflow-y-auto max-h-[80vh]">
-  <DialogTitle className="flex justify-between items-center p-4">
-    <Label className="text-lg font-bold">{menu?.city}</Label>
-    <Button
-      variant="default"
-      onClick={() => setModalState("country")}
-      className="p-2 border rounded"
-    >
-      {menu?.country_select}
-    </Button>
-  </DialogTitle>
+                <DialogTitle className="flex justify-between items-center p-4">
+                  <Label className="text-lg font-bold">{menu?.city}</Label>
+                  <Button
+                    variant="default"
+                    onClick={() => setModalState("country")}
+                    className="p-2 border rounded"
+                  >
+                    {menu?.country_select}
+                  </Button>
+                </DialogTitle>
                 <div className="grid grid-cols-3 gap-4">
                   {cityList?.map((city) => (
                     <button
