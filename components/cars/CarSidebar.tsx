@@ -3,7 +3,13 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 
 import { CarSearchFilter } from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
-import { ChevronRight, PlusCircle, TrashIcon, XIcon } from "lucide-react";
+import {
+  ChevronRight,
+  HelpCircle,
+  PlusCircle,
+  TrashIcon,
+  XIcon,
+} from "lucide-react";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import {
   Filter,
@@ -326,7 +332,6 @@ const CarSidebar: React.FC<CarSidebarProps> = ({
         </>
       ) : filters.type === "Busses" ? (
         <>
-          {" "}
           <Label htmlFor="filter1" className="font-bold">
             Body Type
           </Label>
@@ -386,13 +391,10 @@ const CarSidebar: React.FC<CarSidebarProps> = ({
           <Label className="text-l font-semibold flex flex-row">
             {menu?.fromDealer || "From Dealer"}
             <div className="group inline-block ml-2 relative">
-              <SvgIcon
-                alt="?"
-                filepath="/icons/question-mark.svg"
+              <HelpCircle
                 width={16}
                 height={16}
-                name="question-mark-circle"
-                className="text-primary-foreground shadow-md hover:cursor-pointer"
+                className="hover:cursor-pointer"
               />
               <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
                 This is some info about the From Dealer option.
@@ -417,13 +419,10 @@ const CarSidebar: React.FC<CarSidebarProps> = ({
           <Label className="text-l font-semibold flex flex-row">
             {menu?.accidentFree || "Accident Free"}
             <div className="group inline-block ml-2 relative">
-              <SvgIcon
-                alt="?"
-                filepath="/icons/question-mark.svg"
+              <HelpCircle
                 width={16}
                 height={16}
-                name="question-mark-circle"
-                className="text-primary-foreground shadow-md hover:cursor-pointer"
+                className="hover:cursor-pointer"
               />
               <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
                 This is some info about the Accident free option.
