@@ -1,48 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
-import Negotiator from 'negotiator'
-import { i18n } from './i18n.config'
-import { match } from '@formatjs/intl-localematcher'
+import Negotiator from "negotiator";
+import { i18n } from "./i18n.config";
+import { match } from "@formatjs/intl-localematcher";
 
-const defaultLocale = i18n.defaultLocale
-const locales: string[] = [...i18n.locales]
+const defaultLocale = i18n.defaultLocale;
+const locales: string[] = [...i18n.locales];
 
 const getLocale = (request: NextRequest): string => {
-  const headers = new Headers(request.headers)
-  const acceptLanguage = headers.get('accept-language')
+  const headers = new Headers(request.headers);
+  const acceptLanguage = headers.get("accept-language");
 
   if (acceptLanguage) {
-    headers.set('accept-language', acceptLanguage.replaceAll('_', '-'))
+    headers.set("accept-language", acceptLanguage.replaceAll("_", "-"));
   }
 
-  const headersObject = Object.fromEntries(headers.entries())
-  const languages = new Negotiator({ headers: headersObject }).languages()
+  const headersObject = Object.fromEntries(headers.entries());
+  const languages = new Negotiator({ headers: headersObject }).languages();
 
-  if (languages.includes('*')) {
-    return defaultLocale
+  if (languages.includes("*")) {
+    return defaultLocale;
   }
 
-  return match(languages, locales, defaultLocale)
-}
+  return match(languages, locales, defaultLocale);
+};
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  const pathname = request.nextUrl.pathname
+  const pathname = request.nextUrl.pathname;
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  )
-    console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
+  );
+  // console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
-    console.log("asd")
-    const locale = getLocale(request)
+    // console.log("asd");
+    const locale = getLocale(request);
     return NextResponse.redirect(
       new URL(
-        `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
+        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
         request.url
       )
-    )
+    );
   }
-  
+
   if (request.nextUrl.pathname.startsWith("/api")) {
     response.headers.append("Access-Control-Allow-Origin", "*");
     response.headers.append(
@@ -59,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};

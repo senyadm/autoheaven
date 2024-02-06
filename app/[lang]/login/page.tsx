@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/login/LoginForm";
@@ -8,12 +7,12 @@ import { validateToken } from "@/utils/auth";
 
 const Login = ({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: { lang: Locale }
+  params: { lang: Locale };
 }) => {
-   return (
+  return (
     <section className="flex justify-center items-center  h-full w-full">
       <Tabs defaultValue="account" className="w-full  max-w-[700px]">
         <TabsList className="grid w-full grid-cols-2">
@@ -21,10 +20,10 @@ const Login = ({
           <TabsTrigger value="password">Register</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <LoginForm lang={params?.lang || 'en'}/>
+          <LoginForm lang={params?.lang || "en"} />
         </TabsContent>
         <TabsContent value="password">
-          <RegisterForm lang={params?.lang || 'en'}/>
+          <RegisterForm lang={params?.lang || "en"} />
         </TabsContent>
       </Tabs>
     </section>

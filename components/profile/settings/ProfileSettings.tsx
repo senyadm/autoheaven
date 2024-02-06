@@ -5,12 +5,17 @@ import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Send } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "../ui/button";
-import { Switch } from "../ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
+import { Button } from "../../ui/button";
+import { Switch } from "../../ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "../../ui/select";
 import { useTheme } from "next-themes";
-import { getLanguageLS, setLanguageLS } from "../../utils/preferences";
-import { Language } from "../../interfaces/Language";
+import { getLanguageLS, setLanguageLS } from "../../../utils/preferences";
+import { Language } from "../../../interfaces/Language";
 import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { getlocales } from "@/app/actions";
@@ -18,7 +23,7 @@ import { ProfileSettingsDictionary } from "@/types";
 import { RootState } from "@/app/GlobalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { sendEmail } from "@/app/GlobalRedux/profile/profileSlice";
-import { setProfileNavigationMenuItemName } from "../../app/GlobalRedux/profile/profileNavigationMenuSlice";
+import { setProfileNavigationMenuItemName } from "../../../app/GlobalRedux/profile/profileNavigationMenuSlice";
 const languages: Record<Language, string> = {
   en: "English",
   cz: "Czech",

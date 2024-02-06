@@ -66,7 +66,7 @@ const navigationMenuVehiclesItemsInfo: itemInfoModel[] = [
 ];
 
 interface ProfileNavigationMenuProps {
-  dict: SideBarItemsDictionary | null
+  dict: SideBarItemsDictionary | null;
 }
 
 const ProfileNavigationMenu = ({ dict }: ProfileNavigationMenuProps) => {

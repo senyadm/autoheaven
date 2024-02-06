@@ -1,7 +1,8 @@
+"use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React, { useEffect, useState } from "react";
-import ResultCarCard from "../shared/ResultCarCard";
-import AppDropdownMenu from "../shared/AppDropdownMenu";
+import ResultCarCard from "../../shared/ResultCarCard";
+import AppDropdownMenu from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
 import { clientCars } from "@/app/GlobalRedux/client";
 import { getToken } from "@/utils/auth";
@@ -65,7 +66,7 @@ const results = [volkswagenCar2, volkswagenCar3, volkswagenCar4].map((car) => (
     key={car.title + car.id}
   />
 ));
-const ProfileCars = () => {
+const ProfileAds = () => {
   const [results, setResults] = useState<ResultCarCardInterface[]>([]);
   useEffect(() => {
     // fetch results
@@ -102,4 +103,4 @@ const ProfileCars = () => {
   );
 };
 
-export default ProfileCars;
+export default ProfileAds;

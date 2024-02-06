@@ -17,10 +17,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
-import {
-  getOriginalUrl,
-  saveToken,
-} from "@/utils/auth";
+import { getOriginalUrl, saveToken } from "@/utils/auth";
 import useLoginRedirect from "@/hooks/useLoginRedirect";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/app/GlobalRedux/profile/userSlice";
@@ -28,8 +25,7 @@ import { useEffect, useState } from "react";
 import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
-import qs from 'qs';
-
+import qs from "qs";
 
 const formSchema = zod.object({
   email: zod.string().email(),
@@ -43,24 +39,23 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
-
-  const [dict, setDict] = useState<AuthTranslations | null>(null)
+  const [dict, setDict] = useState<AuthTranslations | null>(null);
   useEffect(() => {
     async function fetchData() {
       try {
-        const { auth } = await getlocales(lang)
-        setDict(auth)
+        const { auth } = await getlocales(lang);
+        setDict(auth);
       } catch (error) {
-        console.error('Error fetching tools data:', error)
+        console.error("Error fetching tools data:", error);
       }
     }
 
     if (!dict) {
-      fetchData()
+      fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang])
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -71,41 +66,40 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
     },
   });
 
-   function onSubmit(values: zod.infer<typeof formSchema>) {
+  function onSubmit(values: zod.infer<typeof formSchema>) {
+    clientUsers
+      .post(
+        "/api/users/token/",
+        new URLSearchParams({
+          username: values.email,
+          password: values.password,
+        }),
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((response) => {
+        saveToken(response.data.access_token);
+        dispatch(setUser(response.data));
+        const prevUrl = getOriginalUrl();
+        if (prevUrl) {
+          router.push(prevUrl);
+        } else {
+          router.push(`/${lang}`);
+        }
+      })
+      .catch((error) => {
+        form.resetField("password");
+        form.setError("password", {
+          type: "manual",
+          message: "Password or email not found",
+        });
 
-  clientUsers
-    .post(
-      "/api/users/token/",
-      new URLSearchParams({
-        username: values.email,
-        password: values.password,
-      }),
-      {
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    )
-    .then((response) => {
-      saveToken(response.data.access_token);
-      dispatch(setUser(response.data));
-      const prevUrl = getOriginalUrl();
-      if (prevUrl) {
-        router.push(prevUrl);
-      } else {
-        router.push(`/${lang}`);
-      }
-    })
-    .catch((error) => {
-      form.resetField("password");
-      form.setError("password", {
-        type: "manual",
-        message: "Password or email not found",
+        console.log(error);
       });
-
-      console.log(error);
-    });
   }
 
   return (
@@ -123,7 +117,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-              {dict?.emailLabel || 'Username'} <span className="text-red-500">*</span>
+                {dict?.emailLabel || "Username"}{" "}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -146,7 +141,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-              {dict?.passwordLabel || 'Password'} <span className="text-red-500">*</span>
+                {dict?.passwordLabel || "Password"}{" "}
+                <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -165,7 +161,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
         />
 
         <Button type="submit" className="bg-primary">
-        {dict?.loginButton || 'Login'}
+          {dict?.loginButton || "Login"}
           <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
         <Button
@@ -176,7 +172,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           <ArrowRight width={16} height={16} className="ml-2" />
         </Button>
         <Link href="/" passHref>
-        {dict?.forgotPasswordLink || 'Forgot your password?'}
+          {dict?.forgotPasswordLink || "Forgot your password?"}
         </Link>
       </form>
     </Form>

@@ -1,21 +1,21 @@
+"use client";
+
 import React from "react";
 import ChatMessagesContent from "./ChatMessagesContent";
 import Chats from "./Chats";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Trash } from "lucide-react";
-import TypingComponent from "./TypingComponent";
-import { ChatList } from '@/app/GlobalRedux/profile/userSlice'
+import TypingComponent from "../TypingComponent";
+import { ChatList } from "@/app/GlobalRedux/profile/userSlice";
 interface ProfileMessagesProps {
-  userChats: ChatList
+  userChats: ChatList;
 }
 
-const ProfileMessages = ({userChats} : ProfileMessagesProps) => {
-  
-
+const ProfileMessages = ({ userChats }: ProfileMessagesProps) => {
   return (
     <div className="h-full grid grid-cols-3 grid-rows-13 gap-px bg-border">
       <div className="row-span-12 col-span-1 bg-background">
-        <Chats userChats={userChats}/>
+        <Chats userChats={userChats} />
       </div>
       <div className="row-span-12 bg-background col-span-2">
         <ChatMessagesContent />

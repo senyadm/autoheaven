@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -30,11 +31,11 @@ const formSchema = zod.object({
     message: "Name must be at least 2 characters",
   }),
   phone: zod
-  .string()
-  .min(1, { message: "Phone number is required" })
-  .regex(/^(\+\d{1,3}[- ]?)?\d{10}$/, {
-    message: "Invalid phone number. Please enter a valid phone number.",
-  }),
+    .string()
+    .min(1, { message: "Phone number is required" })
+    .regex(/^(\+\d{1,3}[- ]?)?\d{10}$/, {
+      message: "Invalid phone number. Please enter a valid phone number.",
+    }),
   email: zod
     .string()
     .min(2, {
@@ -65,7 +66,7 @@ interface LoginFormProps {
   lang: string;
 }
 
-const RegisterForm: React.FC<LoginFormProps> = ({lang}) => {
+const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -189,20 +190,20 @@ const RegisterForm: React.FC<LoginFormProps> = ({lang}) => {
         </div>
 
         <FormField
-  control={form.control}
-  name="phone"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>
-        Phone <span className="text-red-500">*</span>
-      </FormLabel>
-      <FormControl>
-        <Input placeholder="+1234567890" {...field} />
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Phone <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="+1234567890" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

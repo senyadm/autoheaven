@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { Car, ChevronRight } from "lucide-react";
 
 const ProfileAdsWillAppear = () => {

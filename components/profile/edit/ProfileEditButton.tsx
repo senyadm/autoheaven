@@ -1,10 +1,10 @@
 import { PenSquare } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 interface EditButtonProps {
   saveText: string;
   cancelText: string;
-  editText: string
+  editText: string;
   disabledState: boolean;
   onEdit: () => void;
   onCancel: () => void;

@@ -1,3 +1,4 @@
+"use client";
 import { getToken } from "@/utils/auth";
 import { Divide } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
@@ -28,34 +29,36 @@ const chatIdToMessages = {
 };
 const currentChatId = 0;
 const ChatMessagesContent = () => {
-  const token = useMemo(() => getToken(), []);
   let firstMessageYou = true,
     firstMessageResponder = true;
-    useEffect(() => {
-      const ws = new WebSocket(`ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/receiverid`);
-  
-      ws.onopen = () => {
-        ws.send('Hello from client');
-        console.log('WebSocket connected');
-      };
-  
-      ws.onmessage = (event) => {
-        console.log('Received message:', event.data);
-      };
-  
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-  
-      ws.onclose = () => {
-        
-        console.log('WebSocket connection closed');
-      };
+  useEffect(() => {
+    console.log(localStorage);
+    const token = () => getToken();
+    const ws = new WebSocket(
+      `ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/receiverid`
+    );
 
-      return () => {
-        ws.close();
-      };
-    }, [token]);
+    ws.onopen = () => {
+      ws.send("Hello from client");
+      console.log("WebSocket connected");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("Received message:", event.data);
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col w-full h-full px-4 py-2">
