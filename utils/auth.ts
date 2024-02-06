@@ -1,15 +1,15 @@
-"use client"
+"use client";
 import { clientUsers } from "@/app/GlobalRedux/client";
-
+export const getToken = () => {
+  return localStorage.getItem("token");
+};
 export const validateToken = async () => {
   const token = getToken();
   if (!token) return false;
 
   try {
     const resp = await clientUsers.get("/api/users/me/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
     console.log("user info ", resp);
     return true;
@@ -18,9 +18,6 @@ export const validateToken = async () => {
   }
 };
 
-export const getToken = () => {
-  return localStorage.getItem("token");
-};
 export const saveToken = (token: string) => {
   // document.cookie = `access_token=${token}; path=/`;
   localStorage.setItem("token", token);

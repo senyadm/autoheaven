@@ -6,7 +6,7 @@ const [clientEmail, clientCars, clientUsers, clientChats] = [
   "https://autoheven-email.vercel.app",
   "https://autoheven-cars.vercel.app",
   "https://autoheven-users.vercel.app",
-  "https://seashell-app-p3opp.ondigitalocean.app"
+  "https://seashell-app-p3opp.ondigitalocean.app",
 ].map((url) => {
   const client = axios.create({
     baseURL: url,
@@ -21,7 +21,9 @@ const [clientEmail, clientCars, clientUsers, clientChats] = [
     (config) => {
       // Do something before the request is sent
       // For example, set authentication tokens
-      config.headers["Authorization"] = "Bearer " + getToken();
+      if (typeof window !== "undefined") {
+        config.headers["Authorization"] = "Bearer " + getToken();
+      }
       return config;
     },
     (error) => {
@@ -51,4 +53,4 @@ const [clientEmail, clientCars, clientUsers, clientChats] = [
   return client;
 });
 
-export { clientEmail, clientCars, clientUsers, clientChats};
+export { clientEmail, clientCars, clientUsers, clientChats };
