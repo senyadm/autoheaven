@@ -1,4 +1,5 @@
 "use client";
+
 import { RootState } from "@/app/GlobalRedux/store";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
@@ -34,27 +35,16 @@ const copywrite = [
   },
 ];
 
-const Carousel = ({ lang }: { lang: Locale }) => {
+const Carousel = ({
+  lang,
+  menu,
+}: {
+  lang: Locale;
+  menu: CarouselDictionaryItem[];
+}) => {
   const activeTransportCategory = useSelector(
     (state: RootState) => state.transportCategory.activeCategory
   );
-
-  const [menu, setMenu] = useState<CarouselDictionaryItem[] | null>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { carousel } = await getlocales(lang);
-        setMenu(carousel);
-      } catch (error) {
-        console.error("Error fetching tools data:", error);
-      }
-    }
-
-    if (!menu) {
-      fetchData();
-    }
-  }, [lang, menu]);
 
   return (
     <div
@@ -66,9 +56,6 @@ const Carousel = ({ lang }: { lang: Locale }) => {
             src={`/img/landing/${carouselBg}`}
             alt="Picture of the author"
             fill
-            // layout="fill"
-            // objectFit="cover"
-            // objectPosition="center"
             key={carouselBg}
             className={`transition-opacity duration-700 object-cover object-center ${
               activeTransportCategory !== index ? "opacity-0" : "opacity-100"
@@ -90,21 +77,6 @@ const Carousel = ({ lang }: { lang: Locale }) => {
           {(menu && menu[activeTransportCategory].h2) ||
             "Discover Cars Tailored to Your Lifestyle"}
         </TypographyH4>
-        {/* <div className="mb-[4.2rem] mt-[1.25rem] flex">
-          {
-            // get an array of 4 elements to draw the dots
-            Array.from({ length: 4 }, (_, i) => i).map((index) => (
-              <div
-                className={`h-2 rounded-full mr-2 ${
-                  activeTransportCategory === index
-                    ? "w-6 bg-gray-50"
-                    : "w-2 bg-gray-300"
-                }`}
-                key={index}
-              ></div>
-            ))
-          }
-        </div> */}
       </div>
     </div>
   );

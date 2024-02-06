@@ -22,11 +22,11 @@ import {
 interface ArticleCardProps {
   tipsInfo: tipsInfo;
   tipsDict: {
-    type: string
-    title: string
-    description: string
-    readMore: string
-  } | null
+    type: string;
+    title: string;
+    description: string;
+    readMore: string;
+  } | null;
 }
 
 const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
@@ -37,18 +37,14 @@ const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
   return (
     <>
       <Card
-        className={`w-[350px] w-full bg-background shadow transform transition-transform duration-300 ${
-         "hover:scale-105"
-        }`}
-        onClick={()=>setIsHovered(true)}
+        className={`w-[350px] w-full bg-background shadow transform transition-transform duration-300 cursor-pointer ${"hover:scale-105"}`}
+        onClick={() => setIsHovered(true)}
       >
         <CardHeader>
           <CardDescription className="text-xs text-primary">
             {tipsDict?.type || tipType}
           </CardDescription>
-          <CardTitle className="text-xl">
-            {tipsDict?.title || title}
-          </CardTitle>
+          <CardTitle className="text-xl">{tipsDict?.title || title}</CardTitle>
         </CardHeader>
       </Card>
       <Dialog
