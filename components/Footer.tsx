@@ -18,7 +18,7 @@ const Footer = async ({ lang }: { lang: Locale }) => {
       <div className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto px-4 lg:px-0">
         <div className="flex items-start flex-col">
           <SvgIcon
-            filepath="/autoheven_logo.svg"
+            filepath="/img/logo/AutoHeaven.svg"
             width={132}
             height={61}
             alt=""

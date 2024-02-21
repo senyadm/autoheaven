@@ -20,7 +20,7 @@
     "darkTheme": "Donker Thema",
     "language": "Taal",
     "privacy": "Privacy",
-    "privacySubtext": "Ik wil graag e-mails van Autoheven ontvangen over aanbiedingen, enquêtes en informatie over producten en diensten van",
+    "privacySubtext": "Ik wil graag e-mails van AutoHeaven ontvangen over aanbiedingen, enquêtes en informatie over producten en diensten van",
     "emailConfirmation": "E-mailbevestiging",
     "emailConfirmationSubtext": "Bevestig dat a***@e**.com uw e-mail is door op de link in uw inbox te klikken",
     "resendActivationLink": "Activeringslink opnieuw verzenden",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Tips",
-        "title": "Voordelen van registratie bij Autoheven",
+        "title": "Voordelen van registratie bij AutoHeaven",
         "description": "Begrijp de overwegingen van registratie op ons platform versus het gebruik als gast.",
         "readMore": "Lees meer"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Plannen",
-      "sellYourCar": "Verkoop uw auto met AutoHeven",
+      "sellYourCar": "Verkoop uw auto met AutoHeaven",
       "howToSell": "Hoe wilt u uw voertuig verkopen?",
       "classicAd": "Klassieke Advertentie",
       "sellViaPlatform": "Verkoop uw auto via ons platform aan andere klanten",

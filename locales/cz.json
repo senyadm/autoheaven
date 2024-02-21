@@ -20,7 +20,7 @@
     "darkTheme": "Tmavé Téma",
     "language": "Jazyk",
     "privacy": "Soukromí",
-    "privacySubtext": "Rád/a bych dostával/a e-maily od Autoheven o nabídkách, průzkumech a informacích o produktech a službách od",
+    "privacySubtext": "Rád/a bych dostával/a e-maily od Autoheaven o nabídkách, průzkumech a informacích o produktech a službách od",
     "emailConfirmation": "Potvrzení e-mailu",
     "emailConfirmationSubtext": "Prosím, potvrďte, že a***@e**.com je váš e-mail kliknutím na odkaz ve vaší doručené poště",
     "resendActivationLink": "Znovu odeslat aktivační odkaz",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Tipy",
-        "title": "Výhody registrace na Autoheven",
+        "title": "Výhody registrace na Autoheaven",
         "description": "Pochopit úvahy o registraci na naší platformě oproti používání jako host.",
         "readMore": "Číst více"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Plány",
-      "sellYourCar": "Prodejte své auto s AutoHeven",
+      "sellYourCar": "Prodejte své auto s AutoHeaven",
       "howToSell": "Jak byste chtěli prodat své vozidlo?",
       "classicAd": "Klasická inzerce",
       "sellViaPlatform": "Prodejte své auto pomocí naší platformy jiným zákazníkům",

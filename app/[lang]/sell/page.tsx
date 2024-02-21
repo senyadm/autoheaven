@@ -148,7 +148,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
       >
         <SectionHeader
           title={dict?.howToSell || "How to Sell?"}
-          text={dict?.sellYourCar || "Sell your car with AutoHeven"}
+          text={dict?.sellYourCar || "Sell your car with AutoHeaven"}
           description={
             dict?.howToSell || "How would you like to sell your vehicle?"
           }

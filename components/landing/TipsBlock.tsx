@@ -25,7 +25,7 @@ const tipsData: tipsInfo[] = [
   },
   {
     tipType: "Tips",
-    title: "Benefits of registering to Autoheven",
+    title: "Benefits of registering to AutoHeaven",
     description:
       "Understand the considerations of registering on our platform versus using it as a guest.",
     icon: <LogIn width={36} height={36} />,

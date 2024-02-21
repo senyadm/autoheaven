@@ -20,7 +20,7 @@
     "darkTheme": "Tema Întunecată",
     "language": "Limbă",
     "privacy": "Confidențialitate",
-    "privacySubtext": "Aș dori să primesc email-uri de la Autoheven despre oferte, sondaje și informații despre produse și servicii de la",
+    "privacySubtext": "Aș dori să primesc email-uri de la AutoHeaven despre oferte, sondaje și informații despre produse și servicii de la",
     "emailConfirmation": "Confirmare Email",
     "emailConfirmationSubtext": "Vă rugăm să confirmați că a***@e**.com este email-ul dumneavoastră făcând clic pe link-ul din inbox",
     "resendActivationLink": "Retrimiteți Link-ul de Activare",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Sfaturi",
-        "title": "Beneficiile Înregistrării la Autoheven",
+        "title": "Beneficiile Înregistrării la AutoHeaven",
         "description": "Înțelege considerentele înregistrării pe platforma noastră versus utilizarea acesteia ca oaspete.",
         "readMore": "Citește mai mult"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Planuri",
-      "sellYourCar": "Vinde-ți mașina cu AutoHeven",
+      "sellYourCar": "Vinde-ți mașina cu AutoHeaven",
       "howToSell": "Cum doriți să vindeți vehiculul?",
       "classicAd": "Anunț Clasic",
       "sellViaPlatform": "Vinde-ți mașina folosind platforma noastră către alți clienți",

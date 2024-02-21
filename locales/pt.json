@@ -20,7 +20,7 @@
     "darkTheme": "Tema Escuro",
     "language": "Língua",
     "privacy": "Privacidade",
-    "privacySubtext": "Gostaria de receber e-mails da Autoheven sobre ofertas, inquéritos e informações sobre produtos e serviços de",
+    "privacySubtext": "Gostaria de receber e-mails da AutoHeaven sobre ofertas, inquéritos e informações sobre produtos e serviços de",
     "emailConfirmation": "Confirmação de E-mail",
     "emailConfirmationSubtext": "Por favor, confirme que a***@e**.com é o seu e-mail clicando no link na sua caixa de entrada",
     "resendActivationLink": "Reenviar Link de Ativação",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Dicas",
-        "title": "Benefícios de se registar na Autoheven",
+        "title": "Benefícios de se registar na AutoHeaven",
         "description": "Entenda as considerações de se registar na nossa plataforma em vez de usá-la como convidado.",
         "readMore": "Ler mais"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Planos",
-      "sellYourCar": "Venda o seu carro com a AutoHeven",
+      "sellYourCar": "Venda o seu carro com a AutoHeaven",
       "howToSell": "Como gostaria de vender o seu veículo?",
       "classicAd": "Anúncio Clássico",
       "sellViaPlatform": "Venda o seu carro através da nossa plataforma a outros clientes",

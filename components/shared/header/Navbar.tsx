@@ -61,7 +61,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import logo from "../../../public/autoheven_logo.svg";
+import logo from "../../../public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";

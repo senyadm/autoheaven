@@ -148,7 +148,7 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
       >
         <div className="mx-auto mb-4 w-16 h-[30px] relative">
           <Image
-            src={"/autoheven_logo.svg"}
+            src={"/img/logo/AutoHeaven.svg"}
             alt=""
             fill
             className="object-contain"

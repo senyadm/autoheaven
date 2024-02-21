@@ -20,7 +20,7 @@
     "darkTheme": "Dunkles Thema",
     "language": "Sprache",
     "privacy": "Datenschutz",
-    "privacySubtext": "Ich möchte E-Mails von Autoheven über Angebote, Umfragen und Informationen zu Produkten und Dienstleistungen erhalten",
+    "privacySubtext": "Ich möchte E-Mails von Autoheaven über Angebote, Umfragen und Informationen zu Produkten und Dienstleistungen erhalten",
     "emailConfirmation": "E-Mail Bestätigung",
     "emailConfirmationSubtext": "Bitte bestätigen Sie, dass a***@e**.com Ihre E-Mail ist, indem Sie auf den Link in Ihrem Posteingang klicken",
     "resendActivationLink": "Aktivierungslink erneut senden",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Tipps",
-        "title": "Vorteile der Registrierung bei Autoheven",
+        "title": "Vorteile der Registrierung bei Autoheaven",
         "description": "Verstehen Sie die Überlegungen zur Registrierung auf unserer Plattform im Vergleich zur Nutzung als Gast.",
         "readMore": "Mehr lesen"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Pläne",
-      "sellYourCar": "Verkaufen Sie Ihr Auto mit AutoHeven",
+      "sellYourCar": "Verkaufen Sie Ihr Auto mit AutoHeaven",
       "howToSell": "Wie möchten Sie Ihr Fahrzeug verkaufen?",
       "classicAd": "Klassische Anzeige",
       "sellViaPlatform": "Verkaufen Sie Ihr Auto über unsere Plattform an andere Kunden",

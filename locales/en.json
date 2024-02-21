@@ -20,7 +20,7 @@
     "darkTheme": "Dark Theme",
     "language": "Language",
     "privacy": "Privacy",
-    "privacySubtext": "I would like to receive emails from Autoheven about offers, surveys and information on products and services from",
+    "privacySubtext": "I would like to receive emails from Autoheaven about offers, surveys and information on products and services from",
     "emailConfirmation": "Email confirmation",
     "emailConfirmationSubtext": "Please confirm that a***@e**.com is your email by clicking the link in your inbox",
     "resendActivationLink": "Resend Activation link",
@@ -124,7 +124,7 @@
       },
       "tip3": {
         "type": "Tips",
-        "title": "Benefits of registering to Autoheven",
+        "title": "Benefits of registering to Autoheaven",
         "description": "Understand the considerations of registering on our platform versus using it as a guest.",
         "readMore": "Read more"
       },
@@ -168,7 +168,7 @@
   "sell": {
     "main": {
       "plans": "Plans",
-      "sellYourCar": "Sell your car with AutoHeven",
+      "sellYourCar": "Sell your car with AutoHeaven",
       "howToSell": "How would you like to sell your vehicle?",
       "classicAd": "Classic Ad",
       "sellViaPlatform": "Sell your car using our platform to other client",

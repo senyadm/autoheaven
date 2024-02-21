@@ -109,7 +109,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
         className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background"
       >
         <div className="mx-auto mb-4 ">
-          <Image src="/autoheven_logo.svg" height={30} width={64} alt="" />
+          <Image src="/img/logo/AutoHeaven.svg" height={30} width={64} alt="" />
         </div>
         <FormField
           control={form.control}
