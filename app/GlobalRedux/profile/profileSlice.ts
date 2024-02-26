@@ -1,4 +1,3 @@
-import { getToken } from "@/utils/auth";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clientCars, clientEmail } from "../client";
 interface PPState {
@@ -31,14 +30,8 @@ export async function sendEmail(email: unknown): Promise<string> {
     "subject": "string",
     "body": "string"
   }
-  const token = getToken();
-
-  const headers = {
-    Authorization: `Bearer ${token}`
-  };
-
   try {
-    const response = await clientEmail.post("/send_mail", payload, { headers });
+    const response = await clientEmail.post("/send_mail", payload,);
     return response.data;
   } catch (err: any) {
     return err?.response?.data;

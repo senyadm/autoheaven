@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import { clientCars } from "../client";
-import { getToken } from '@/utils/auth';
+import { getToken } from '../../../utils/auth';
 
 export interface CarDetails {
     type: string;
@@ -115,12 +115,8 @@ const initialState: CarCreationState = {
       }
     }
 
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
-
     try {
-      const response = await clientCars.post("/api/cars", payload, { headers });
+      const response = await clientCars.post("/api/cars", payload);
       return response.data;
     } catch (err: any) {
       return err.response.data;

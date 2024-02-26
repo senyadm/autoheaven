@@ -1,6 +1,6 @@
-import { getToken } from "@/utils/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { getToken } from "../../utils/auth";
 
 const [clientEmail, clientCars, clientUsers, clientChats] = [
   "https://autoheven-email.vercel.app",
