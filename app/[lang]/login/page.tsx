@@ -14,7 +14,7 @@ const Login = ({
 }) => {
   return (
     <section className="flex justify-center items-center  h-full w-full">
-      <Tabs defaultValue="account" className="w-full  max-w-[700px]">
+      <Tabs defaultValue="account" className="w-full max-w-[700px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
           <TabsTrigger value="password">Register</TabsTrigger>

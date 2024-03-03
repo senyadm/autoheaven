@@ -25,7 +25,6 @@ import { useEffect, useState } from "react";
 import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
-import qs from "qs";
 import { fetchAndSetUser } from "../../utils/user";
 
 const formSchema = zod.object({
@@ -109,7 +108,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-52  bg-background"
+        className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-12 md:px-32  bg-background"
       >
         <div className="mx-auto mb-4 ">
           <Image src="/img/logo/AutoHeaven.svg" height={30} width={64} alt="" />

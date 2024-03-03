@@ -21,7 +21,7 @@ export const fetchAllCars = cache(async (filters: FilterPayload) => {
     });
     return response.data;
   } catch (err: any) {
-    throw err.response.data;
+    throw err.response?.data || "Something went wrong";
   }
 });
 
@@ -38,7 +38,7 @@ export const countBrands = async (brands: {}) => {
 
   const brandsData = {};
   for (const brand of Object.keys(brands)) {
-    brandsData[brand] = {
+    brandsData[brand as any] = {
       resultsCount: 0,
       models: new Set(),
     };

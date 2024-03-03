@@ -146,7 +146,7 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-32 bg-background"
+        className="space-y-4 flex flex-col text-sm rounded-lg border py-12 px-12 md:px-32 bg-background"
       >
         <div className="mx-auto mb-4 w-16 h-[30px] relative">
           <Image
