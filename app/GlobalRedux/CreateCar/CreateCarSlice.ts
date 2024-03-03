@@ -1,60 +1,59 @@
-import { createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../client";
-import { getToken } from '../../../utils/auth';
 
 export interface CarDetails {
-    type: string;
-    body_type: string;
-    color: string;
-    year: number;
-    mileage: number;
-    gearbox: string;
-    price: number;
-    description: string;
-    phone?: string
-    title: string;
-    fueltype: string;
-    accidentfree: boolean;
-    imageurl: string;
-    drivetrain: string;
-    istop: boolean;
-    vehicle_id: number;
-    country_origin: string;
-    cubic_capacity: string;
-    horsepower: string;
-    fuel_consumption: string;
-    interior_color: string;
-  }
-  
-  enum RequestStatus {
-    Idle = "idle",
-    Loading = "loading",
-    Failed = "failed",
-  }
-  
-  const defaultCarDetails = {
-    type: '',
-    body_type: '',
-    color: '',
-    year: new Date().getFullYear(),
-    mileage: 0,
-    gearbox: '',
-    price: 0,
-    description: '',
-    fuel_consumption: '',
-    horsepower: '',
-    cubic_capacity: '',
-    country_origin: '',
-    interior_color: '',
-    phone: '',
-    vehicle_id: 0,
-    title: '',
-    fueltype: '',
-    accidentfree: false,
-    imageurl: '',
-    drivetrain: '',
-    istop: false
-  };
+  type: string;
+  body_type: string;
+  color: string;
+  year: number;
+  mileage: number;
+  gearbox: string;
+  price: number;
+  description: string;
+  phone?: string;
+  title: string;
+  fueltype: string;
+  accidentfree: boolean;
+  imageurl: string;
+  drivetrain: string;
+  istop: boolean;
+  vehicle_id: number;
+  country_origin: string;
+  cubic_capacity: string;
+  horsepower: string;
+  fuel_consumption: string;
+  interior_color: string;
+}
+
+enum RequestStatus {
+  Idle = "idle",
+  Loading = "loading",
+  Failed = "failed",
+}
+
+const defaultCarDetails = {
+  type: "",
+  body_type: "",
+  color: "",
+  year: new Date().getFullYear(),
+  mileage: 0,
+  gearbox: "",
+  price: 0,
+  description: "",
+  fuel_consumption: "",
+  horsepower: "",
+  cubic_capacity: "",
+  country_origin: "",
+  interior_color: "",
+  phone: "",
+  vehicle_id: 0,
+  title: "",
+  fueltype: "",
+  accidentfree: false,
+  imageurl: "",
+  drivetrain: "",
+  istop: false,
+};
 
 interface CarCreationState {
   carType: string | null;
@@ -71,80 +70,80 @@ const initialState: CarCreationState = {
   model: null,
   details: defaultCarDetails,
   models: [],
-  wishlist: []
+  wishlist: [],
 };
 
-  export async function createCar(params: CarCreationState, selectedFiles: FileList | null): Promise<string> {
+export async function createCar(
+  params: CarCreationState,
+  selectedFiles: FileList | null
+): Promise<string> {
+  const payload: Record<string, string | Blob> = {
+    type: params.carType || "",
+    body_type: params.details?.body_type || "",
+    make: params.brand || "",
+    model: params.model || "",
+    color: params.details?.color || "",
+    year: params.details?.year.toString(),
+    mileage: params.details?.mileage.toString(),
+    gearbox: params.details?.gearbox || "",
+    price: params.details?.price.toString(),
+    description: params.details?.description || "",
+    phone: params.details?.phone || "",
+    title: params.details?.title || "",
+    fueltype: params.details?.fueltype || "",
+    accidentfree: params.details?.accidentfree.toString(),
+    imageurl: params.details?.imageurl || "",
+    drivetrain: params.details?.drivetrain || "",
+    istop: params.details?.istop.toString(),
+    vehicle_id: params.details?.vehicle_id.toString(),
+    country_origin: params.details?.country_origin || "",
+    cubic_capacity: params.details?.cubic_capacity || "",
+    horsepower: params.details?.horsepower || "",
+    fuel_consumption: params.details?.fuel_consumption || "",
+    interior_color: params.details?.interior_color || "",
+  };
 
-    const payload: Record<string, string | Blob> = {
-      type: params.carType || '',
-      body_type: params.details?.body_type || '',
-      make: params.brand || '',
-      model: params.model || '',
-      color: params.details?.color || '',
-      year: params.details?.year.toString(),
-      mileage: params.details?.mileage.toString(),
-      gearbox: params.details?.gearbox || '',
-      price: params.details?.price.toString(),
-      description: params.details?.description || '',
-      phone: params.details?.phone || '',
-      title: params.details?.title || '',
-      fueltype: params.details?.fueltype || '',
-      accidentfree: params.details?.accidentfree.toString(),
-      imageurl: params.details?.imageurl || '',
-      drivetrain: params.details?.drivetrain || '',
-      istop: params.details?.istop.toString(),
-      vehicle_id: params.details?.vehicle_id.toString(),
-      country_origin: params.details?.country_origin || '',
-      cubic_capacity: params.details?.cubic_capacity || '',
-      horsepower: params.details?.horsepower || '',
-      fuel_consumption: params.details?.fuel_consumption || '',
-      interior_color: params.details?.interior_color || ''
-    };
-    const token = getToken();
+  const formData = new FormData();
 
-    const formData = new FormData();
+  Object.keys(payload).forEach((key: any) => {
+    formData.append(key, payload[key]);
+  });
 
-    Object.keys(payload).forEach((key: any) => {
-      formData.append(key, payload[key]);
-    });
-  
-    if (selectedFiles) {
-      for (let i = 0; i < selectedFiles.length; i++) {
-        formData.append('images', selectedFiles[i], selectedFiles[i].name);
-      }
-    }
-
-    try {
-      const response = await clientCars.post("/api/cars", payload);
-      return response.data;
-    } catch (err: any) {
-      return err.response.data;
+  if (selectedFiles) {
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("images", selectedFiles[i], selectedFiles[i].name);
     }
   }
 
-  // export const addToWishListThunk = createAsyncThunk(
-  //   'carCreation/addToWishList',
-  //   async (id: number, { dispatch, getState }) => {
-  //     const token = getToken();
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`
-  //     };
-  
-  //     try {
-  //       const response = await clientCars.post(`/api/cars/wishlist?car_id=${id}`, { headers });
-               
-  //       return response.data;
-  //     } catch (err: any) {
-  //       // You can also dispatch error handling actions here if needed
-  //       return err.response.data;
-  //     }
-  //   }
-  // );
+  try {
+    const response = await clientCars.post("/api/cars", payload);
+    return response.data;
+  } catch (err: any) {
+    return err.response.data;
+  }
+}
 
+// export const addToWishListThunk = createAsyncThunk(
+//   'carCreation/addToWishList',
+//   async (id: number, { dispatch, getState }) => {
+//     const token = getToken();
+//     const headers = {
+//       Authorization: `Bearer ${token}`
+//     };
+
+//     try {
+//       const response = await clientCars.post(`/api/cars/wishlist?car_id=${id}`, { headers });
+
+//       return response.data;
+//     } catch (err: any) {
+//       // You can also dispatch error handling actions here if needed
+//       return err.response.data;
+//     }
+//   }
+// );
 
 export const carCreationSlice = createSlice({
-  name: 'carCreation',
+  name: "carCreation",
   initialState,
   reducers: {
     setCarType: (state, action: PayloadAction<string>) => {
@@ -158,8 +157,8 @@ export const carCreationSlice = createSlice({
       state.model = action.payload;
     },
     setModels: (state, action: PayloadAction<string[]>) => {
-        state.models = action.payload;
-      },
+      state.models = action.payload;
+    },
     setDetails: (state, action: PayloadAction<any>) => {
       state.details = action.payload;
     },
@@ -184,10 +183,17 @@ export const carCreationSlice = createSlice({
     //     state.wishlist = action.payload;
     //   }
     // });
-  }
+  },
 });
 
 // Export actions
-export const { setCarType, setBrand, setModel, setModels, setDetails, resetSelections } = carCreationSlice.actions;
+export const {
+  setCarType,
+  setBrand,
+  setModel,
+  setModels,
+  setDetails,
+  resetSelections,
+} = carCreationSlice.actions;
 // Export reducer
 export default carCreationSlice.reducer;

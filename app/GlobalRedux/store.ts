@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import carMakesReducer from "./Features/carMakesSlice";
 import carFiltersAndResultsReducer from "./Features/carFiltersAndResultsSlice";
 import transportCategoryReducer from "./Features/transportCategorySlice";
@@ -7,7 +8,7 @@ import userReducer from "./profile/userSlice";
 import profileReducer from "./profile/profileSlice";
 import carCreationSlice from "./CreateCar/CreateCarSlice";
 
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { chatSlice } from "./profile/chatSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     user: userReducer,
     profile: profileReducer,
     createCarProgress: carCreationSlice,
+    chats: chatSlice.reducer,
   },
 });
 

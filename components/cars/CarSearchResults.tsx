@@ -37,7 +37,7 @@ const CarSearchResults = ({
       | "mileageHighestFirst"
       | "mileageLowestFirst"
   ) => void;
-  lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro"
+  lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro";
 }) => {
   const [, wishlistDispatch] = useAppStore((state) => state?.user.wishlist);
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
@@ -125,11 +125,12 @@ const CarSearchResults = ({
       .filter((car) => Object.keys(car).length) as ResultCarCardInterface[];
     setTopCars(topcars);
     setResultsCardData(allCars);
+    console.log("allCars", allCars);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentData]);
 
   return (
-    <section className="mr-8">
+    <section className="mx-8">
       <div className="flex justify-between mt-8 md:mt-8">
         <GradientHeading title={`${offers} offers found`} />
         <AppDropdownMenu setSort={setSort} />
@@ -141,7 +142,7 @@ const CarSearchResults = ({
             {topCars.length ? (
               topCars.map((carInfo, index) => (
                 <ResultCarCard
-                  {...carInfo}
+                  carDetails={carInfo}
                   key={`${index}${carInfo.imageurl}`}
                 />
               ))
@@ -154,7 +155,7 @@ const CarSearchResults = ({
             {resultsCardData ? (
               resultsCardData.map((carInfo, index) => (
                 <ResultCarCard
-                  {...carInfo}
+                  carDetails={carInfo}
                   key={`${index}${carInfo.imageurl}`}
                 />
               ))

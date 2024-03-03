@@ -1,84 +1,46 @@
 import React, { useEffect, useState } from "react";
-import ChatComponent from "./ChatComponent";
 import { ChatComponentProps } from "../../../interfaces/profile/ChatComponent";
-import {
-  ChatList,
-  setCurrentChatID,
-} from "@/app/GlobalRedux/profile/userSlice";
+
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/GlobalRedux/store";
+import { RootState, useAppDispatch } from "@/app/GlobalRedux/store";
+import {
+  fetchChatMessages,
+  setCurrentChat,
+} from "../../../app/GlobalRedux/profile/chatSlice";
+import ChatComponent from "./ChatComponent";
 
-const chatsData: ChatComponentProps[] = [
-  {
-    name: "Audi A8",
-    lastMessage: "Hey! we are finalizing some deals",
-    bg: "/img/cars/Preview-1.png",
-    id: 0,
-  },
-  {
-    name: "Bentley A",
-    lastMessage: "Hey! we are finalizing some deals",
-    bg: "/img/cars/Preview-2.png",
-    id: 0,
-  },
-  {
-    name: "BMW x2",
-    lastMessage: "Hey! we are finalizing some deals",
-    bg: "/img/cars/Preview-3.png",
-    id: 0,
-  },
-  {
-    name: "Porsche",
-    lastMessage: "Hey! we are finalizing some deals",
-    bg: "/img/cars/Preview-4.png",
-    id: 0,
-  },
-  {
-    name: "Audi",
-    lastMessage: "Hey! we are finalizing some deals",
-    bg: "/img/cars/Preview-5.png",
-    id: 0,
-  },
-];
+const Chats = () => {
+  // const [chats, setChats] = useState<ChatComponentProps[]>([]);
+  const dispatch = useAppDispatch();
+  const userChats = useSelector((state: RootState) => state.chats.chats);
 
-interface ChatsProps {
-  userChats: ChatList;
-}
+  // useEffect(() => {
+  //   if (!userChats?.length) return;
 
-const Chats = ({ userChats }: ChatsProps) => {
-  const [chats, setChats] = useState<ChatComponentProps[]>([]);
-  const dispatch = useDispatch();
-  const activeChatID = useSelector(
-    (state: RootState) => state.user.currentChatID
-  );
+  //   const newChats = userChats.map((chat, index) => {
+  //     const { chatter_id, product_id, last_message, imageURL, chat_id } = chat;
+  //     return {
+  //       name: chatter_id,
+  //       lastMessage: last_message,
+  //       bg: imageURL,
+  //       id: product_id,
+  //       chat_id: chat_id,
+  //     };
+  //   });
 
-  useEffect(() => {
-    if (!userChats?.recipients?.length) return;
-
-    const chats = userChats.recipients.map((id, index) => {
-      return {
-        name: chatsData[index].name,
-        lastMessage: userChats.last_messages[id.toString()],
-        bg: chatsData[index].bg,
-        id,
-      };
-    });
-
-    setChats(chats);
-  }, [userChats]);
-
-  const onChatClick = (id: number) => {
-    dispatch(setCurrentChatID(id));
-  };
+  //   setChats(newChats);
+  // }, [userChats]);
 
   return (
-    <div className="min-w-[256px] h-25">
-      {chats.map((chatsElement) => (
+    <div className="min-w-[256px] h-full overflow-y-auto">
+      {userChats?.map((chat, index) => (
         <ChatComponent
-          {...chatsElement}
-          onChatClick={onChatClick}
-          key={chatsElement.id}
-          activeChatID={activeChatID}
+          chat={chat}
+          key={`message ${chat.chat_id}`}
+          onChatClick={() => {
+            dispatch(setCurrentChat(userChats[index]));
+            dispatch(fetchChatMessages(userChats[index].chat_id));
+          }}
         />
       ))}
     </div>

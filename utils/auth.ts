@@ -24,5 +24,11 @@ export const saveToken = (token: string) => {
 };
 // before redirecting to login page, save the original url
 export const getOriginalUrl = () => {
-  return localStorage.getItem("originalUrl");
+  return sessionStorage.getItem("originalUrl");
+};
+export const saveOriginalUrl = (url: string) => {
+  sessionStorage.setItem("originalUrl", url);
+};
+export const deleteOriginalUrl = () => {
+  sessionStorage.removeItem("originalUrl");
 };

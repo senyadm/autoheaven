@@ -6,19 +6,6 @@ import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
 import { Car } from "../../../interfaces/shared/Car";
 
-export interface ChatList {
-  recipients: number[]
-  last_messages: Record<string, string>
-}
-
-export interface ChatMessage {
-  id: number
-  sender_id: number
-  receiver_id: number
-  content: string
-  timestamp: string
-}
-
 interface UserInfo {
   address: string;
   city: string;
@@ -30,8 +17,7 @@ interface UserInfo {
   surname: string;
 }
 type LoadState = "idle" | "loading" | "succeeded" | "failed";
-
-interface UserState {
+interface UserAPI {
   email: string;
   id: number;
   is_active: boolean;
@@ -40,12 +26,12 @@ interface UserState {
   user_info: UserInfo | null;
   user_info_id: number;
   username: string;
+}
+interface UserState extends UserAPI {
   loadState: LoadState; // for async
   wishlist: number[];
-  currentChatMessages: ChatMessage[];
   cars: Car[];
-  currentChatID: number;
-  chats: ChatList;
+
   isLoggedIn: boolean;
 }
 
@@ -57,14 +43,6 @@ const initialState: UserState = {
   user_group: null,
   user_info: null,
   user_info_id: 0,
-  currentChatID: 0,
-  currentChatMessages: [],
-  chats: {
-    recipients: [],
-    last_messages: {
-      "0": "Hello"
-    }
-  },
   username: "",
   loadState: "idle",
   wishlist: [],
@@ -72,21 +50,11 @@ const initialState: UserState = {
   isLoggedIn: false,
 };
 
-
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setCurrentChathistory: (state, action: PayloadAction<ChatMessage[]>) => {
-      state.currentChatMessages = action.payload;
-    },
-    setCurrentChatID: (state, action: PayloadAction<number>) => {
-      state.currentChatID = action.payload;
-    },
-    setChats: (state, action: PayloadAction<ChatList>) => {
-      state.chats = action.payload;
-    },
-    setUser: (state, action: PayloadAction<UserState>) => {
+    setUser: (state, action: PayloadAction<UserAPI>) => {
       for (const key in action.payload) {
         state[key] = action.payload[key];
       }
@@ -111,13 +79,8 @@ export const fetchUserData = createAsyncThunk(
   "user/fetchUserData",
   async (_, { dispatch }) => {
     try {
-      const token = getToken();
       // Assume that the token is valid
-      const response = await clientUsers.get("/api/users/me/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await clientUsers.get("/api/users/me/");
 
       dispatch(setUser(response.data));
 
@@ -199,53 +162,12 @@ export const fetchUserCars = createAsyncThunk(
   }
 );
 
-export const fetchUserChats = createAsyncThunk(
-  "user/fetchUserChats",
-  async (_, { dispatch }) => {
-    try {
-      const token = getToken();
-      const response = await clientChats.get(`/chat_list`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatch(setChats(response.data));
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching user chats:", error);
-      throw error;
-    }
-  }
-);
-
-export const fetchChatMessages = createAsyncThunk(
-  "user/fetchUserChats",
-  async (receiver_id: string, { dispatch }) => {
-    try {
-      const token = getToken();
-      const response = await clientChats.get(`/chat_history/${receiver_id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatch(setCurrentChathistory(response.data));
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching user chats:", error);
-      throw error;
-    }
-  }
-);
-
 export const {
   setUser,
   addToWishlist,
   deleteFromWishlist,
   setWishlist,
   setCars,
-  setChats,
-  setCurrentChathistory,
-  setCurrentChatID
 } = userSlice.actions;
 
 export default userSlice.reducer;

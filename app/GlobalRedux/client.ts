@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getToken } from "../../utils/auth";
+import { getToken, saveOriginalUrl, saveToken } from "../../utils/auth";
 
 const [clientEmail, clientCars, clientUsers, clientChats] = [
   "https://autoheven-email.vercel.app",
@@ -41,10 +41,17 @@ const [clientEmail, clientCars, clientUsers, clientChats] = [
     (error) => {
       // Any status code outside the range of 2xx causes this function to trigger
       if (error.response && error.response.status === 401) {
-        // Handle 401 errors globally, for example, redirect to login
-        window.location.replace("/login");
-        localStorage.removeItem("token");
-        console.log("401");
+        client
+          .post("/api/users/token/refresh")
+          .then((response) => {
+            console.log(response);
+            saveToken(response.data.access_type);
+          })
+          .catch((error) => {
+            saveOriginalUrl(window.location.pathname);
+            window.location.replace("/login");
+            localStorage.removeItem("token");
+          });
       }
       return Promise.reject(error);
     }

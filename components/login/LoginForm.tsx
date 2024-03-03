@@ -17,7 +17,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
-import { getOriginalUrl, saveToken } from "@/utils/auth";
+import { deleteOriginalUrl, getOriginalUrl, saveToken } from "@/utils/auth";
 import useLoginRedirect from "@/hooks/useLoginRedirect";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/app/GlobalRedux/profile/userSlice";
@@ -26,6 +26,7 @@ import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
 import qs from "qs";
+import { fetchAndSetUser } from "../../utils/user";
 
 const formSchema = zod.object({
   email: zod.string().email(),
@@ -81,15 +82,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           },
         }
       )
-      .then((response) => {
-        saveToken(response.data.access_token);
-        dispatch(setUser(response.data));
+      .then((tokenResponse) => {
+        const token = tokenResponse.data.access_token;
+        saveToken(token);
+        fetchAndSetUser(dispatch);
         const prevUrl = getOriginalUrl();
         if (prevUrl) {
           router.push(prevUrl);
         } else {
           router.push(`/${lang}`);
         }
+        deleteOriginalUrl();
       })
       .catch((error) => {
         form.resetField("password");

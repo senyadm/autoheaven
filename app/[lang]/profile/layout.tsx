@@ -5,14 +5,11 @@ import { Separator } from "@/components/ui/separator";
 import SvgIcon from "@/components/SvgIcon";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../GlobalRedux/store";
-import {
-  fetchUserChats,
-  fetchUserData,
-} from "../../GlobalRedux/profile/userSlice";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
 import Loading from "./loading";
+import { fetchUserData } from "../../GlobalRedux/profile/userSlice";
 
 const Layout = ({
   params: { lang },
@@ -37,8 +34,6 @@ const Layout = ({
   const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);
 
   useEffect(() => {
-    dispatch(fetchUserChats());
-
     async function fetchData() {
       try {
         const { sidebarItems } = await getlocales(lang);

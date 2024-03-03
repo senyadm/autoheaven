@@ -23,7 +23,7 @@ export default function RootLayout({
   params: { lang: Locale };
 }) {
   return (
-    <html lang={params.lang ?? defaultLocale}>
+    <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
           <LoadingProvider>

@@ -97,7 +97,7 @@ const Cars = ({ params, isPremium = false }: CarsProps) => {
 
   return (
     <main className="flex flex-1 items-start bg-primary-foreground py-6">
-      <div className="flex flex-col lg:flex-row mt-10 lg:space-x-10 max-w-screen-2xl w-full mx-auto">
+      <div className="flex flex-col lg:flex-row mt-10 max-w-screen-2xl w-full mx-auto">
         <div className="w-full lg:w-1/4">
           <CarSidebar
             lang={params.lang}

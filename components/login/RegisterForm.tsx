@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { Badge } from "../ui/badge";
 import { clientUsers } from "../../app/GlobalRedux/client";
+import { useRouter } from "next/navigation";
 
 clientUsers.get("/api/users").then((response) => {
   console.log("GET request successful:", response.data);
@@ -67,6 +68,7 @@ interface LoginFormProps {
 }
 
 const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
+  const router = useRouter();
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -95,7 +97,7 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
     clientUsers
       .post("/api/users/register", requestBody)
       .then((response) => {
-        // Handle success, e.g., response.data contains the response data
+        router.push("/login");
         console.log("POST request successful:", response.data);
       })
       .catch((error) => {

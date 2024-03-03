@@ -1,7 +1,7 @@
 "use client";
-import { getToken } from "@/utils/auth";
 import { Divide } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
+import { useAppSelector } from "../../../app/GlobalRedux/store";
 
 const chatIdToMessages = {
   0: [
@@ -28,18 +28,20 @@ const chatIdToMessages = {
   ],
 };
 const currentChatId = 0;
-const ChatMessagesContent = () => {
+
+const ChatMessagesContent = ({ ws }) => {
+  const currentChat = useAppSelector((state) => state.chats.currentChat);
+  const currentMessages = useAppSelector(
+    (state) => state.chats.currentChatMessages
+  );
+  const userId = useAppSelector((state) => state.user.id);
   let firstMessageYou = true,
     firstMessageResponder = true;
   useEffect(() => {
+    if (!currentChat) return;
     console.log(localStorage);
-    const token = () => getToken();
-    const ws = new WebSocket(
-      `ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/receiverid`
-    );
-
+    if (!ws) return;
     ws.onopen = () => {
-      ws.send("Hello from client");
       console.log("WebSocket connected");
     };
 
@@ -58,15 +60,15 @@ const ChatMessagesContent = () => {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [currentChat, ws]);
 
   return (
     <div className="flex flex-col w-full h-full px-4 py-2">
-      {chatIdToMessages[currentChatId].map((message, index) => {
+      {currentMessages.map((message, index) => {
         const shouldPutMarkerYou = () =>
-          message.sender === "You" && firstMessageYou;
+          userId !== message.receiver_id && firstMessageYou;
         const shouldPutMarkerResponder = () =>
-          message.sender !== "You" && firstMessageResponder;
+          userId !== message.receiver_id && firstMessageResponder;
         let firstStr = "",
           secondStr = "";
         if (shouldPutMarkerYou()) {
@@ -76,9 +78,9 @@ const ChatMessagesContent = () => {
 
         if (shouldPutMarkerResponder()) {
           firstMessageResponder = false;
-          secondStr = message.sender;
+          secondStr = message.receiver_id;
         }
-        const areYouSender = message.sender === "You";
+        const areYouSender = userId !== message.receiver_id;
         return (
           <>
             <div className="text-sm text-muted-foreground mb-1">
@@ -97,14 +99,14 @@ const ChatMessagesContent = () => {
                   areYouSender ? "text-foreground" : "text-primary-foreground"
                 }`}
               >
-                {message.text}
+                {message.message_content}
               </div>
               <div
                 className={`flex justify-end text-[10px] ${
                   areYouSender ? "text-muted-foreground" : "text-muted"
                 }`}
               >
-                {message.time}
+                {/* {message.timestamp.toISOString()} */}
               </div>
             </div>
           </>

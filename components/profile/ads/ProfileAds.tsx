@@ -57,28 +57,14 @@ const sortingAdsOptions = [
   "Milage (Highest first)",
   "Milage (Lowest first)",
 ];
-// const results = [];
-const results = [volkswagenCar2, volkswagenCar3, volkswagenCar4].map((car) => (
-  <ResultCarCard
-    {...car}
-    pageDisplayed="profileAds"
-    isFavorite={true}
-    key={car.title + car.id}
-  />
-));
+
 const ProfileAds = () => {
   const [results, setResults] = useState<ResultCarCardInterface[]>([]);
   useEffect(() => {
     // fetch results
-    clientCars
-      .get("api/cars/wishlist/", {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      })
-      .then((response) => {
-        setResults(response.data);
-      });
+    clientCars.get("api/cars/wishlist/").then((response) => {
+      setResults(response.data);
+    });
   }, []);
 
   if (results.length === 0) {
@@ -92,9 +78,8 @@ const ProfileAds = () => {
       <div className="flex flex-col space-y-3">
         {results?.map((car) => (
           <ResultCarCard
-            {...car}
+            carDetails={car}
             pageDisplayed="profileAds"
-            isFavorite={true}
             key={car.title + car.id}
           />
         ))}

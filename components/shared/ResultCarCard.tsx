@@ -35,6 +35,15 @@ import {
   deleteFromWishlistThunk,
 } from "@/app/GlobalRedux/profile/userSlice";
 import Image from "next/image";
+import {
+  addChat,
+  setCurrentChat,
+} from "../../app/GlobalRedux/profile/chatSlice";
+import { useRouter } from "next/navigation";
+import { set } from "zod";
+import { Chat, ChatListAPI } from "../../interfaces/profile/messages";
+import { useAppSelector } from "../../app/GlobalRedux/store";
+import { fetchAndSetUser } from "../../utils/user";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -73,23 +82,27 @@ const DrivetrainIcon = (drivetrain: any) => {
   }
 };
 const ResultCarCard = ({
-  title,
-  price,
-  year,
-  mileage,
-  fueltype,
-  drivetrain,
-  body_type,
-  gearbox,
-  phone_number,
-  accidentfree,
-  imageurl,
-  id,
+  carDetails,
   isTop,
   pageDisplayed,
 }: ResultCarCardInterface) => {
+  const {
+    title,
+    price,
+    year,
+    mileage,
+    fueltype,
+    drivetrain,
+    body_type,
+    gearbox,
+    phone_number,
+    accidentfree,
+    imageurl,
+    id,
+    seller_id,
+  } = carDetails;
   const { isPremium } = usePremiumStatus();
-
+  const router = useRouter();
   const carInfo = [
     {
       icon: <Calendar width={16} height={16} />, // Replace with the actual CalendarIcon component
@@ -133,15 +146,16 @@ const ResultCarCard = ({
       </>
     );
   };
-
+  const userId = useAppSelector((state) => state.user.id);
   const [eyeOpen, setEyeOpen] = useState(false);
   const [wishlist, dispatch] = useAppStore((state) => state?.user.wishlist);
   const [showNumber, setShowNumber] = useState(false);
   const onButtonClick = (type: string) => {
-    const item = getToken();
+    // const item = getToken();
     if (!wishlist) return;
-    if (!item) {
-      console.error("no token");
+    if (!userId) {
+      console.log("No user id");
+      fetchAndSetUser(dispatch);
       return;
     }
 
@@ -152,20 +166,42 @@ const ResultCarCard = ({
         dispatch(addToWishlistThunk(id));
       }
     }
+    if (type === "contact") {
+      const newChat: Chat = {
+        product_id: id,
+        chat_id: 0,
+        last_message_timestamp: "",
+        buyer_id: userId,
+        seller_id: seller_id,
+        chatter_id: seller_id,
+        carInfo: carDetails,
+      };
+
+      dispatch(addChat(newChat));
+      dispatch(setCurrentChat(newChat));
+      router.push("/profile/messages");
+    }
   };
-  console.log(imageurl);
   return (
     <div
-      className={`flex flex-col md:flex-row text-sm md:text-base overflow-hidden w-full ${
+      className={`flex text-sm md:text-base overflow-hidden w-full ${
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
       {imageurl.includes("https") && (
-        <div className="w-full relative w-80">
-          <Image alt="" src={imageurl} fill style={{ objectFit: "cover" }} />
+        <div className="block relative w-full max-w-[312px]">
+          <Image
+            alt=""
+            src={imageurl}
+            fill={true}
+            sizes={"100%"}
+            style={{
+              objectFit: "cover",
+            }}
+          />
         </div>
       )}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full ">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
             <Flame width={16} height={16} className="mr-2 ml-6" /> Top
@@ -176,7 +212,7 @@ const ResultCarCard = ({
             <p className="font-bold">{title}</p>
             <p className="font-medium whitespace-nowrap">€ {price}</p>
           </div>
-          <div className="grid grid-cols-3 gap-2 mb-1">
+          <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1">
             {carInfo.map((info, index) => (
               <div key={index} className="flex items-center space-x-2">
                 {info.icon}

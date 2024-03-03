@@ -6,8 +6,8 @@ type BodyStyle = "sedan" | "suv";
 type Gear = "automatic" | "manual";
 type PageDisplayed = "cars" | "profileCars" | "profileAds";
 
-export interface ResultCarCardInterface extends Car {
+export interface ResultCarCardInterface {
+  carDetails: Car;
   isTop?: boolean;
   pageDisplayed?: PageDisplayed;
-  isFavorite?: boolean;
 }
