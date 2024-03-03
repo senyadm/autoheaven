@@ -471,7 +471,9 @@ export const CarComponent = React.memo(function CarComponent({
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" style={{
+              minHeight: "2rem"
+            }}>
               <Label htmlFor="filter1">
                 {dict?.brandAndModel || "Model"}
               </Label>
@@ -511,7 +513,9 @@ export const CarComponent = React.memo(function CarComponent({
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" style={{
+              minHeight: "2rem"
+            }}>
               <Label htmlFor="filter2">{dict?.body || "Vehicle body"}</Label>
               <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
             </div>
@@ -535,7 +539,9 @@ export const CarComponent = React.memo(function CarComponent({
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2" style={{
+              minHeight: "2rem"
+            }}>
               <Label htmlFor="filter3">{dict?.fuel || "Fuel type"}</Label>
               <SvgIcon
                 filepath="icons/fuel.svg"

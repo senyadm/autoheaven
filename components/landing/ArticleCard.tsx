@@ -37,7 +37,7 @@ const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
   return (
     <>
       <Card
-        className={`w-[350px] w-full bg-background shadow transform transition-transform duration-300 cursor-pointer ${"hover:scale-105"}`}
+        className={`w-[350px] w-full bg-background shadow transform transition-transform duration-300 cursor-pointer ${"hover:scale-105"} p-2 md:p-0`}
         onClick={() => setIsHovered(true)}
       >
         <CardHeader>
@@ -53,7 +53,7 @@ const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
           setIsHovered(false);
         }}
       >
-        <DialogContent className="!w-80">
+        <DialogContent className="!w-80 p-2 md:p-0">
           <DialogHeader>
             <DialogDescription className="text-xs text-primary">
               {tipsDict?.type || tipType}
