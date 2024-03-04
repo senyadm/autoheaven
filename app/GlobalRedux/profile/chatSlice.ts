@@ -80,21 +80,13 @@ export const chatSlice = createSlice({
     addChat: (state, action: PayloadAction<Chat>) => {
       state.chats = [...state.chats, action.payload];
     },
-    addMessage: (state, action: PayloadAction<MessagePayload>) => {
+    addMessage: (state, action: PayloadAction<ChatMessageAPI>) => {
       if (!state.currentChat) return;
-      const { messageContent, userId, timestamp } = action.payload;
-      const receiverId =
-        userId === state.currentChat?.buyer_id
-          ? state.currentChat?.seller_id
-          : state.currentChat?.buyer_id;
-      const newMessage: ChatMessageAPI = {
-        product_id: state.currentChat.product_id,
-        sender_id: userId,
-        receiver_id: receiverId,
-        content: messageContent,
-        timestamp: timestamp,
-      };
-      state.currentChatMessages = [...state.currentChatMessages, newMessage];
+
+      state.currentChatMessages = [
+        ...state.currentChatMessages,
+        action.payload,
+      ];
     },
   },
 });

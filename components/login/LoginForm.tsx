@@ -81,10 +81,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           },
         }
       )
-      .then((tokenResponse) => {
+      .then(async (tokenResponse) => {
         const token = tokenResponse.data.access_token;
         saveToken(token);
-        fetchAndSetUser(dispatch);
+        await fetchAndSetUser(dispatch);
         const prevUrl = getOriginalUrl();
         if (prevUrl) {
           router.push(prevUrl);

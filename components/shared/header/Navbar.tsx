@@ -65,7 +65,7 @@ import logo from "../../../public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";
-import { validateToken } from "@/utils/auth";
+import { getToken, validateToken } from "@/utils/auth";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -145,14 +145,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   const [regionModalOpen, setRegionModalOpen] = useState(false),
     toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
   const [location, setLocation] = useState({ country: "", city: "" });
-  const [token, setToken] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState("");
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-    console.log(storedToken);
-  }, []);
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -180,8 +173,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   };
 
   const pathname = usePathname();
-  const isNavbarV2 = pathname === "/login" || pathname === "/profile";
-
+  const backHomeShown = pathname === "/login" || pathname === "/profile";
   const handleClose = () => {
     setRegionModalOpen(!regionModalOpen);
   };
@@ -192,7 +184,7 @@ export function Navbar({ lang }: { lang: Locale }) {
         className="container mx-auto px-4 flex items-center justify-between"
         style={{ maxWidth: "1140px" }}
       >
-        {isNavbarV2 ? (
+        {backHomeShown ? (
           <Link
             href={`/${lang}`}
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
@@ -200,7 +192,6 @@ export function Navbar({ lang }: { lang: Locale }) {
           >
             <ChevronLeft width={20} height={20} />
             <Label className="text-bold text-lg cursor-pointer">
-              {" "}
               {menu?.home}
             </Label>
           </Link>
@@ -289,7 +280,7 @@ export function Navbar({ lang }: { lang: Locale }) {
               </DialogContent>
             )}
           </Dialog>
-          {token ? (
+          {getToken() ? (
             <>
               <Button
                 className="flex flex-row justify-between items-center p-2 space-x-2"

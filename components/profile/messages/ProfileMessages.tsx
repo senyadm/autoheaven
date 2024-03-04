@@ -13,6 +13,7 @@ import {
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { getToken } from "../../../utils/auth";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
+import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 const token = getToken();
 
 const ProfileMessages = () => {
@@ -25,7 +26,10 @@ const ProfileMessages = () => {
     dispatch(fetchUserChats(userId));
   }, [dispatch, userId]);
   useEffect(() => {
-    if (!currentChat) return;
+    if (!currentChat) {
+      console.error("No chat selected");
+      return;
+    }
     const ws = new WebSocket(
       `ws://seashell-app-p3opp.ondigitalocean.app/ws/${token}/${currentChat?.chatter_id}/${currentChat?.product_id}`
     );
@@ -33,10 +37,21 @@ const ProfileMessages = () => {
   }, [currentChat]);
   function handleSendClick(inputValue: string) {
     if (!webSckt) return;
-    const messagePayload = {
-      messageContent: inputValue,
-      userId: userId,
-      timestamp: new Date(),
+    if (!userId) {
+      console.error("User not found");
+      return;
+    }
+    if (!currentChat) {
+      console.error("No chat selected");
+      return;
+    }
+    const messagePayload: ChatMessageAPI = {
+      message_content: inputValue,
+      sender_id: userId,
+      chat_id: currentChat.chat_id,
+      timestamp: new Date().toISOString(),
+      read_status: false,
+      message_id: -1, // local messages do no have message_id, they come from the server
     };
 
     dispatch(addMessage(messagePayload));

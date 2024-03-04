@@ -7,7 +7,6 @@ import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
 import { Locale, defaultLocale } from "@/i18n.config";
 import { Toaster } from "@/components/ui/toaster";
-import { LoadingProvider } from "../../components/context/LoadingProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,21 +25,19 @@ export default function RootLayout({
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <LoadingProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <div className="h-screen flex flex-col ">
-                <Navbar lang={params.lang ?? defaultLocale} />
-                {children}
-                <Toaster />
-                <Footer lang={params.lang ?? defaultLocale} />
-              </div>
-            </ThemeProvider>
-          </LoadingProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="h-screen flex flex-col ">
+              <Navbar lang={params.lang ?? defaultLocale} />
+              {children}
+              <Toaster />
+              <Footer lang={params.lang ?? defaultLocale} />
+            </div>
+          </ThemeProvider>
         </Providers>
       </body>
     </html>

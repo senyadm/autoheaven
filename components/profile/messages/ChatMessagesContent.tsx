@@ -3,32 +3,6 @@ import { Divide } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 
-const chatIdToMessages = {
-  0: [
-    {
-      text: "Hi!",
-      time: "19:01",
-      sender: "Buyer - Austin",
-    },
-    {
-      text: "Hey",
-      time: "19:01",
-      sender: "You",
-    },
-    {
-      text: "I was wondering about this Audi R8",
-      time: "19:01",
-      sender: "Buyer - Austin",
-    },
-    {
-      text: "Yeah, what's that",
-      time: "19:01",
-      sender: "You",
-    },
-  ],
-};
-const currentChatId = 0;
-
 const ChatMessagesContent = ({ ws }) => {
   const currentChat = useAppSelector((state) => state.chats.currentChat);
   const currentMessages = useAppSelector(
