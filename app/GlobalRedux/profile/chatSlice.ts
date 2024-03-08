@@ -60,7 +60,7 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     setCurrentChathistory: (state, action: PayloadAction<ChatMessageAPI[]>) => {
-      state.currentChatMessages = action.payload;
+      state.currentChatMessages = action.payload.reverse();
     },
     setCurrentChat: (state, action: PayloadAction<Chat>) => {
       state.currentChat = action.payload;

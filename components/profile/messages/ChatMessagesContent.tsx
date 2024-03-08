@@ -2,10 +2,13 @@
 import { Divide } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
-
-const ChatMessagesContent = ({ ws }) => {
+import { ChatMessageAPI } from "../../../interfaces/profile/messages";
+interface ChatMessagesContentProps {
+  ws: WebSocket | null;
+}
+const ChatMessagesContent = ({ ws }: ChatMessagesContentProps) => {
   const currentChat = useAppSelector((state) => state.chats.currentChat);
-  const currentMessages = useAppSelector(
+  const currentMessages: ChatMessageAPI[] = useAppSelector(
     (state) => state.chats.currentChatMessages
   );
   const userId = useAppSelector((state) => state.user.id);
@@ -19,11 +22,19 @@ const ChatMessagesContent = ({ ws }) => {
       console.log("WebSocket connected");
     };
 
-    ws.onmessage = (event) => {
-      console.log("Received message:", event.data);
+    ws.onmessage = (event: MessageEvent) => {
+      const newMessage = {
+        chat_id: new Date().getTime(),
+        message_content: event.data,
+        message_id: new Date().getTime(),
+        read_status: true,
+        sender_id: currentChat.chatter_id,
+        timestamp: new Date().toISOString(),
+      };
+      console.log("Received message:", newMessage);
     };
 
-    ws.onerror = (error) => {
+    ws.onerror = (error: Event) => {
       console.error("WebSocket error:", error);
     };
 
@@ -40,9 +51,9 @@ const ChatMessagesContent = ({ ws }) => {
     <div className="flex flex-col w-full h-full px-4 py-2">
       {currentMessages.map((message, index) => {
         const shouldPutMarkerYou = () =>
-          userId !== message.receiver_id && firstMessageYou;
+          userId === message.sender_id && firstMessageYou;
         const shouldPutMarkerResponder = () =>
-          userId !== message.receiver_id && firstMessageResponder;
+          userId === message.sender_id && firstMessageResponder;
         let firstStr = "",
           secondStr = "";
         if (shouldPutMarkerYou()) {
@@ -52,9 +63,9 @@ const ChatMessagesContent = ({ ws }) => {
 
         if (shouldPutMarkerResponder()) {
           firstMessageResponder = false;
-          secondStr = message.receiver_id;
+          secondStr = "" + message.sender_id;
         }
-        const areYouSender = userId !== message.receiver_id;
+        const areYouSender = userId === message.sender_id;
         return (
           <>
             <div className="text-sm text-muted-foreground mb-1">
