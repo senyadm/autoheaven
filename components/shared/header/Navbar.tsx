@@ -65,7 +65,7 @@ import logo from "../../../public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";
-import { getToken, validateToken } from "@/utils/auth";
+import { useAppSelector } from "../../../app/GlobalRedux/store";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -104,14 +104,14 @@ const flagComponents: Record<string, any> = {
 
 export function Navbar({ lang }: { lang: Locale }) {
   const [menu, setMenu] = useState<NavbarData | null>(null);
+  const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  // useEffect(() => {
+  //   const validate = async () => {
+  //     return await validateToken();
+  //   };
 
-  useEffect(() => {
-    const validate = async () => {
-      return await validateToken();
-    };
-
-    validate();
-  }, []);
+  //   validate();
+  // }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -280,7 +280,7 @@ export function Navbar({ lang }: { lang: Locale }) {
               </DialogContent>
             )}
           </Dialog>
-          {getToken() ? (
+          {userLoggedIn ? (
             <>
               <Button
                 className="flex flex-row justify-between items-center p-2 space-x-2"
