@@ -159,6 +159,12 @@ const ResultCarCard = ({
       return;
     }
 
+    if (type === "advertise") {
+      router.push("/payment");
+
+      return;
+    }
+
     if (type === "like") {
       if (wishlist?.includes(id)) {
         dispatch(deleteFromWishlistThunk(id));

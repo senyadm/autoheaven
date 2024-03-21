@@ -19,7 +19,7 @@ const ProfileCars = () => {
 
   return (
     <div className="flex flex-col space-y-3">
-      {userCars.map((car) => (
+      {userCars?.map((car) => (
         <ResultCarCard
           carDetails={car}
           pageDisplayed="profileCars"

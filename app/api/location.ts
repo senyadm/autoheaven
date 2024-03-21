@@ -19,7 +19,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<HandlerResponse>
 ) {
-  console.log(" ASDASDASDASD")
+
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const response = await fetch(`https://ipapi.co/${ip}/json/`);
   const location: GeoLocationResponse = await response.json();
