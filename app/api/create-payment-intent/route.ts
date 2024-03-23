@@ -11,7 +11,6 @@ const stripe = new Stripe("sk_test_51OvY7V04EX91HcTe8vvPZtXDohTrRw43SMTVitYDEyLA
   if (req.method === 'POST') {
     const { amount } = await req.json();
 
-    console.log('REQ BODY', amount)
 
     try {
       // Create a PaymentIntent with the order amount and currency

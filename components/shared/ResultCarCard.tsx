@@ -188,17 +188,18 @@ const ResultCarCard = ({
       router.push("/profile/messages");
     }
   };
+console.log(id)
+
   return (
     <div
       className={`flex text-sm md:text-base overflow-hidden w-full ${
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
-      {imageurl.includes("https") && (
         <div className="block relative w-full max-w-[312px]">
           <Image
             alt=""
-            src={imageurl}
+            src={`https://autoheven-cars.vercel.app/cars/download/${id}`}
             fill={true}
             sizes={"100%"}
             style={{
@@ -206,7 +207,7 @@ const ResultCarCard = ({
             }}
           />
         </div>
-      )}
+
       <div className="flex flex-col w-full ">
         {isTop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
