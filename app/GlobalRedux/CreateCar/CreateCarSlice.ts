@@ -140,6 +140,17 @@ export async function uploadImage(id: string, file: File) {
   }
 }
 
+export async function getIntent(id: string, option: string) {
+  const url = `/create-payment-intent/${option}/${id}`
+  try {
+    const response = await clientCars.post(url);
+    return response.data.client_secret;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}
+
 // export const addToWishListThunk = createAsyncThunk(
 //   'carCreation/addToWishList',
 //   async (id: number, { dispatch, getState }) => {

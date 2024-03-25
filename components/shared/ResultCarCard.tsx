@@ -160,7 +160,7 @@ const ResultCarCard = ({
     }
 
     if (type === "advertise") {
-      router.push("/payment");
+      router.push(`/payment?id=${id}`);
 
       return;
     }

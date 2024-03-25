@@ -1,10 +1,11 @@
 'use client'
 import PaymentConfirm from '@/components/profile/cars/PaymentConfirm'
 import React, { useState } from 'react'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
 import { Label } from '@/components/ui/label';
-import Loading from '../profile/loading';
+
+import { useSearchParams } from 'next/navigation'
 
 const PAYMENT_OPTIONS = [
     {
@@ -24,20 +25,16 @@ const PAYMENT_OPTIONS = [
     }
     
 ]
-const amountInCents = {
-    days: 99,
-    week: 199,
-    month: 399,
-    null: 0
-}
 
 const Payment = () => {
+  const searchParams = useSearchParams()
+ 
+  const id = searchParams?.get('id') || '';
+
   const [option, setOption] = useState<'days' | 'week' | 'month'>('days');
   const [hoveredIcon, setHoveredIcon] = useState(-1);
   const [loading, setLoading] = useState(true);
   const toggleLoading = () => setLoading(!loading);
- const amount = amountInCents[option];
-    console.log(amount)
   return (
     <Card className="flex justify-center flex-col mx-auto bg-white border-none shadow-none h-full">
     <CardHeader>
@@ -77,11 +74,8 @@ const Payment = () => {
         }
         </div>
         <div className="block bottom 10 mt-10">
-
-                    <PaymentConfirm loading={loading} toggleLoading={toggleLoading} amount={amount}/>
-
-    
-    </div>
+          <PaymentConfirm loading={loading} toggleLoading={toggleLoading} option={option} id={id}/>    
+        </div>
     </div>
     </CardContent>
   </Card>

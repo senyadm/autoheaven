@@ -398,8 +398,8 @@ export const CarComponent = React.memo(function CarComponent({
             `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
         )
         .join("&");
+        
       setPayloadFilters(queryParam);
-      console.log(payloadFilter);
       dispatch(fetchAllCars(payloadFilter));
     };
 
