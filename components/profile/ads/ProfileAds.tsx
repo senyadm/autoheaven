@@ -2,7 +2,7 @@
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
 import React, { useEffect, useState } from "react";
 import ResultCarCard from "../../shared/ResultCarCard";
-import AppDropdownMenu from "../../shared/AppDropdownMenu";
+import AppCarDropdown from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
 import { clientCars } from "@/app/GlobalRedux/client";
 import { getToken } from "@/utils/auth";
@@ -73,7 +73,7 @@ const ProfileAds = () => {
   return (
     <div className="space-y-2">
       <div className="flex justify-end">
-        <AppDropdownMenu options={sortingAdsOptions} />
+        <AppCarDropdown options={sortingAdsOptions} />
       </div>
       <div className="flex flex-col space-y-3">
         {results?.map((car) => (
