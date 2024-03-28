@@ -1,31 +1,68 @@
+import { ChevronLeft, ChevronRight, ChevronsLeft } from "lucide-react";
 import React from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { ReadonlyURLSearchParams } from "next/navigation";
+import { FilterParams } from "../../interfaces/cars/cars";
 
-const CarPagination = () => {
-  const handlePrevious = () => {
-    setCurrentPage((prev) => Math.max(0, prev - 1));
+const paginationIconProps = {
+  width: 16,
+  height: 16,
+};
+interface CarPaginationProps {
+  searchParams: FilterParams;
+  pageCount: number;
+}
+const CarPagination = ({ searchParams, pageCount }: CarPaginationProps) => {
+  const currentPage = Number(searchParams.page) || 0;
+  const newURLSearchParams = new URLSearchParams(searchParams);
+  const prepareHref = (nextPage) => {
+    newURLSearchParams.set("page", nextPage);
+    return `cars?${newURLSearchParams.toString()}`;
   };
-
-  const handleNext = () => {
-    if (!store) return;
-    if (currentPage < store.length) {
-      setCurrentPage((prev) => prev + 1);
-    }
+  const disabledLinkProps = {
+    className: "pointer-events-none text-gray-400",
+    ariaDisabled: true,
+    tabIndex: -1,
   };
-
-  const goToFirstPage = () => {
-    setCurrentPage(0);
+  const previousPageProps = currentPage === 0 ? disabledLinkProps : {};
+  const nextPageProps = currentPage + 1 >= pageCount ? disabledLinkProps : {};
+  const paginationData = {
+    previous: {
+      href: prepareHref(currentPage - 1),
+      ...previousPageProps,
+    },
+    next: {
+      href: prepareHref(currentPage + 1),
+      ...nextPageProps,
+    },
   };
+  // TODO: finish pagination to deal with multiple pages when there are more cars in db
   return (
     <div className="flex w-full justify-center space-x-2">
-      <Button onClick={goToFirstPage} disabled={!currentPage}>
-        <ChevronsLeft key={"csl"} {...paginationIconProps} />
-      </Button>
-      <Button onClick={handlePrevious} disabled={!currentPage}>
-        <ChevronLeft key={"cl"} {...paginationIconProps} />
-      </Button>
-      <Button onClick={handleNext} disabled={currentPage + 1 === store?.length}>
-        <ChevronRight key={"cr"} {...paginationIconProps} />
-      </Button>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious {...paginationData.previous} />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext {...paginationData.next} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };

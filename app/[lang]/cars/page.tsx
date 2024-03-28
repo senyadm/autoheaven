@@ -37,7 +37,6 @@ async function getCarResults(searchParams: FilterParams) {
       })
     )?.data;
     const carResultsForPage = carResults[currentPage];
-    console.log("🚀 ~ getCarResults ~ carResultsForPage:", carResultsForPage);
     const pageCount = Object.keys(carResults).length;
     const offerCount = Object.values(carResults).reduce(
       (acc, curr) => acc + curr.length,
@@ -134,7 +133,6 @@ const page = async ({ params, searchParams }) => {
   const filtersText = (await getlocales(params.lang)).filters;
   // maps car make to car models array
   const carModels: Record<string, string[]> = await getCars("/api/car_models");
-  console.log("🚀 ~ page ~ carModels:", carModels);
   const carResults = await getCarResults(searchParams);
   const { topCars, nonTopCars, offerCount, pageCount } = carResults;
   return (
@@ -157,6 +155,7 @@ const page = async ({ params, searchParams }) => {
               lang={params.lang}
               searchParams={searchParams}
               carResultsData={carResults}
+              pageCount={pageCount}
             />
           </section>
         </div>

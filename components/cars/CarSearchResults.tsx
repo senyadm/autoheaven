@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 
 import { FilterParams } from "../../interfaces/cars/cars";
+import CarPagination from "./CarPagination";
 interface CarSearchResultsProps {
   lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro";
   searchParams: FilterParams;
@@ -20,6 +21,7 @@ const CarSearchResults = async ({
   lang,
   searchParams,
   carResultsData,
+  pageCount,
 }: CarSearchResultsProps) => {
   const { topCars, nonTopCars } = carResultsData;
   try {
@@ -49,6 +51,7 @@ const CarSearchResults = async ({
             See more <ChevronRight width={16} height={16} />
           </Button>
         </div>
+        <CarPagination searchParams={searchParams} pageCount={pageCount} />
       </div>
     );
   } catch (e) {
