@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Paths to be crawled -->
+  <url>
+    <loc>https://auto-heaven.com/en/cars</loc>
+  </url>
+  <url>
+    <loc>https://auto-heaven.com/en/cars/premium</loc>
+  </url>
+  <url>
+    <loc>https://auto-heaven.com/en/sell</loc>
+  </url>
+  <url>
+    <loc>https://auto-heaven.com/en/sell/classic</loc>
+  </url>
+  <url>
+    <loc>https://auto-heaven.com/en/</loc>
+  </url>
+
+  <!-- Paths not to be crawled -->
+  <url>
+    <loc>https://auto-heaven.com/en/login</loc>
+    <xhtml:link rel="nofollow"/>
+  </url>
+  <url>
+    <loc>https://auto-heaven.com/en/profile</loc>
+    <xhtml:link rel="nofollow"/>
+  </url>
+
+</urlset>
