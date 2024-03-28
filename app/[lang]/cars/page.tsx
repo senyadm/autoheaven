@@ -8,6 +8,7 @@ import { clientCars, fetchCars, getCars } from "../../GlobalRedux/client";
 import { FilterParams } from "../../../interfaces/cars/cars";
 import { getNormalizedParams } from "../../../utils/cars";
 import { Car } from "../../../interfaces/shared/Car";
+import { Metadata } from "next/types";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
@@ -17,6 +18,11 @@ interface CarsProps {
   isPremium?: boolean;
   children?: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  title: "Cars on AutoHeaven",
+  description: "Find your dream car today on AutoHeaven",
+};
 
 async function getCarResults(searchParams: FilterParams) {
   const normalizedParams = getNormalizedParams(searchParams);
@@ -56,80 +62,6 @@ async function getCarResults(searchParams: FilterParams) {
   }
 }
 const page = async ({ params, searchParams }) => {
-  // const [sort, setSort] = useState<
-  //   | "newestFirst"
-  //   | "oldestFirst"
-  //   | "priceHighestFirst"
-  //   | "priceLowestFirst"
-  //   | "mileageHighestFirst"
-  //   | "mileageLowestFirst"
-  // >("newestFirst");
-  // const [store, dispatch] = useAppStore(
-  //   (state) => state?.carFiltersAndResults.filteredCars
-  // );
-  // const storeIsEmpty = !store || store.length === 0;
-  // const [filters, setFilters] = useState<FilterPayload>({} as FilterPayload);
-
-  // useEffect(() => {
-  //   const defaultQueryParams: FilterPayload = {
-  //     max_results: 0,
-  //     type: "",
-  //     make: "",
-  //     model: "",
-  //     fueltype: "",
-  //     body_type: "",
-  //     price_max: 1000000,
-  //     price_min: isPremium ? premiumThreshold : 1000,
-  //     min_year: 1975,
-  //     max_year: 2023,
-  //     mileage_min: 0,
-  //     mileage_max: 500000,
-  //     sortBy: "newestFirst",
-  //     drivetrain: "",
-  //   };
-  //   const queryParamsObj: Partial<FilterPayload> = {};
-  //   if (!query) return;
-
-  //   query.forEach((value, key) => {
-  //     (queryParamsObj as any)[key] = value;
-  //   });
-  //   queryParamsObj.max_results = Number(queryParamsObj.max_results);
-  //   queryParamsObj.price_max = Number(queryParamsObj.price_max);
-  //   queryParamsObj.price_min = Number(queryParamsObj.price_min);
-  //   queryParamsObj.min_year = Number(queryParamsObj.min_year) || 1975;
-  //   queryParamsObj.max_year = Number(queryParamsObj.max_year) || 2023;
-  //   queryParamsObj.mileage_min = Number(queryParamsObj.mileage_min);
-  //   queryParamsObj.mileage_max = Number(queryParamsObj.mileage_max);
-  //   queryParamsObj.sortBy = sort;
-  //   const finalQueryParams = {
-  //     ...defaultQueryParams,
-  //     ...queryParamsObj,
-  //   };
-
-  //   setFilters(finalQueryParams);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [query, sort]);
-
-  // useEffect(() => {
-  //   if (store && store.length === 0) {
-  //     dispatch(fetchAllCars(filters));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filters, storeIsEmpty]);
-
-  // const [offers, setOffers] = useState<number>(0);
-
-  // useEffect(() => {
-  //   if (!store) return;
-
-  //   let totalElements = 0;
-
-  //   store.forEach((list) => {
-  //     totalElements += list.length;
-  //   });
-
-  //   setOffers(totalElements);
-  // }, [store]);
   const filtersText = (await getlocales(params.lang)).filters;
   // maps car make to car models array
   const carModels: Record<string, string[]> = await getCars("/api/car_models");

@@ -25,6 +25,12 @@ import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
 import { SellClassicTranslations, SellLabels } from "@/types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sell your car on AutoHeaven",
+  description: "Sell your car on AutoHeaven and get the best price",
+};
 
 const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
   const [dict, setDict] = useState<SellLabels | null>(null);
