@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FiltersDictionary } from "../../../types";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "../../ui/dropdown-menu";
 import { Checkbox } from "../../ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -14,18 +15,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 
 import { Label } from "../../ui/label";
 import { TrashIcon, PlusCircle, ChevronRight } from "lucide-react";
+import { Make, Model } from "../../../interfaces/cars/models";
+import { useSearchParams } from "next/navigation";
+import { set } from "zod";
+import { useRedirectParams } from "../../../hooks/useRedirectParams";
 
 const userWarningsDefault = {
   exists: {
-    warningText: "You ve already selected this brand",
+    warningText: "You ve already selected this make",
     show: false,
   },
   maximumFilters: {
-    warningText: "You cannot select more than 5 car brands",
+    warningText: "You cannot select more than 5 car makes",
     show: false,
   },
 };
@@ -33,15 +37,23 @@ type modelType = {
   name: string;
   checked: boolean;
 };
-type brandsWithModelsData = {
-  brand: string;
+type makesWithModelsData = {
+  make: string;
   checkedAll: boolean;
   models: modelType[];
 };
 
 interface ModelSelectorProps {
   pageText: FiltersDictionary;
-  carModels: Record<string, string[]>;
+  carModels: Record<string, Make>;
+}
+interface FilterModel extends Model {
+  checked: boolean;
+}
+interface FilterMake extends Make {
+  checked: boolean;
+  models: FilterModel[];
+  id: number;
 }
 const ModelSelector = ({
   pageText,
@@ -49,8 +61,13 @@ const ModelSelector = ({
   addModel,
   offerNumber,
 }: ModelSelectorProps) => {
-  const [filterBrands, setFilterBrands] = useState([]);
+  const searchParams = useSearchParams();
+  const redirectParams = useRedirectParams();
+  const [filterMakes, setFilterMakes] = useState<Record<string, FilterMake>>(
+    {}
+  );
   const [userWarnings, setUserWarnings] = useState(userWarningsDefault);
+  // we count how many models we are showing
   const setMaximumFilters = (val: boolean) =>
     setUserWarnings((prev) => ({
       ...prev,
@@ -63,58 +80,101 @@ const ModelSelector = ({
     }));
   const handleDelete = (index?: number) => {
     if (!index) return;
-    const temp = [...filterBrands];
+    const temp = [...filterMakes];
     temp.splice(index, 1);
     setFilterBrands(temp);
   };
-  const handleBrandCheckboxChange = (brand: brandsWithModelsData) => {
-    const updatedBrands = filterBrands.map((b) => {
-      if (b.brand === brand.brand) {
-        return {
-          ...b,
-          checkedAll: !b.checkedAll,
-          models: b.models.map((m) => ({ ...m, checked: !b.checkedAll })),
-        };
-      }
-      return b;
+  const handleBrandDropdown = (make: string) => {
+    // add 10 models
+    setFilterMakes((prev) => {
+      const newMakes = { ...prev };
+      newMakes[make] = {
+        ...newMakes[make],
+        models: carModels[make].models
+          .slice(0, 10)
+          .map((m) => ({ ...m, checked: true })),
+        checked: true,
+      };
+      return newMakes;
     });
-    setFilterBrands(updatedBrands);
   };
-  const handleModelCheckboxChange = (
-    brand: brandsWithModelsData,
-    model: modelType
-  ) => {
-    const updatedBrands = filterBrands.map((b) => {
-      if (b.brand === brand.brand) {
-        const updatedModels = b.models.map((m) => {
-          if (m.name === model.name) {
-            return { ...m, checked: !m.checked };
-          }
-          return m;
-        });
-        const areAllModelsChecked = updatedModels.every((m) => m.checked);
-        return { ...b, models: updatedModels, checkedAll: areAllModelsChecked };
-      }
-      return b;
+  const handleBrandCheckboxChange = (make: string) => {
+    // if all models are unchecked, check all
+    // else uncheck all
+    setFilterMakes((prev) => {
+      const newMakes = { ...prev };
+      newMakes[make] = {
+        ...newMakes[make],
+        models: newMakes[make].models.map((m) => ({
+          ...m,
+          checked: !newMakes[make].checked,
+        })),
+        checked: !newMakes[make].checked,
+      };
+      return newMakes;
     });
-    setFilterBrands(updatedBrands);
-    addModel(brand, model);
   };
-  const [currentModels, setCurrentModels] = useState<number>(10);
-  const showMore = () => {
-    setCurrentModels((prev) => prev + 10);
+
+  const handleModelCheckboxChange = (make: string, model: FilterModel) => {
+    let noneChecked = true;
+    let allChecked = true;
+    const newModels = filterMakes[make].models.map((m) => {
+      if (m.name === model.name) {
+        if (m.checked) noneChecked = false;
+        return { ...m, checked: !m.checked };
+      }
+      if (!m.checked) allChecked = false;
+      return m;
+    });
+    setFilterMakes((prev) => ({
+      ...prev,
+      [make]: {
+        ...prev[make],
+        models: newModels,
+        checked: newModels.some((m) => m.checked),
+      },
+    }));
   };
+  const showMore = (make) => {
+    const shownModelsCount = filterMakes[make].models.length;
+    const allModelsCount = carModels[make].models.length;
+    setFilterMakes((prev) => {
+      const newMakes = { ...prev };
+      newMakes[make] = {
+        ...newMakes[make],
+        models: [
+          ...newMakes[make].models,
+          ...carModels[make].models
+            .slice(shownModelsCount, shownModelsCount + 10)
+            .map((m) => ({ ...m, checked: true })),
+        ],
+      };
+      return newMakes;
+    });
+  };
+  const showLess = (make) => {
+    setFilterMakes((prev) => {
+      const newMakes = { ...prev };
+      newMakes[make] = {
+        ...newMakes[make],
+        models: newMakes[make].models.slice(0, 10),
+      };
+      return newMakes;
+    });
+  };
+
+  console.log(filterMakes, "filterMakes");
   return (
     <div>
       <div>
         <h2 className="text-l font-semibold mt-2 mb-2">
-          {pageText?.brandAndModel || "Model"}
+          {pageText?.makeAndModel || "Model"}
         </h2>
       </div>
 
       <Accordion type="multiple" className="w-full">
-        {filterBrands.map((brand, index) => (
-          <div className="flex" key={"accordion" + brand.brand}>
+        {Object.keys(filterMakes).map((make, index) => (
+          <div className="flex" key={"accordion" + make}>
             <AccordionItem
               className=" border-none"
               key={index}
@@ -124,8 +184,8 @@ const ModelSelector = ({
                 <div className="flex items-center">
                   <Checkbox
                     className="mr-2"
-                    checked={brand.checkedAll}
-                    onCheckedChange={() => handleBrandCheckboxChange(brand)}
+                    checked={filterMakes[make].checked}
+                    onCheckedChange={() => handleBrandCheckboxChange(make)}
                   />
                   <AccordionTrigger
                     isSideBar={true}
@@ -134,7 +194,7 @@ const ModelSelector = ({
                     className="p-0 flex flex-grow flex justify-between items-center"
                   >
                     <Label className="text-l text-foreground leading-none ml-2">
-                      {brand.brand}
+                      {make}
                     </Label>
                   </AccordionTrigger>
                 </div>
@@ -147,47 +207,46 @@ const ModelSelector = ({
               </div>
               <AccordionContent
                 className={`${
-                  brand.checkedAll
+                  filterMakes[make]
                     ? "animate-accordion-down"
                     : "animate-accordion-up"
                 }`}
               >
-                {brand.models
-                  .slice(0, currentModels)
-                  .map((model, modelIndex) => (
-                    <div
-                      key={modelIndex}
-                      className="flex items-center space-x-2 my-2 pl-4 text-foreground"
-                    >
-                      <Checkbox
-                        id={`${brand.brand}-${model.name}`}
-                        checked={model.checked}
-                        onCheckedChange={() =>
-                          handleModelCheckboxChange(brand, model)
-                        }
-                      />
-                      <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        {model.name}
-                      </label>
-                    </div>
-                  ))}
+                {filterMakes[make].models.map((model, modelIndex) => (
+                  <div
+                    key={modelIndex}
+                    className="flex items-center space-x-2 my-2 pl-4 text-foreground"
+                  >
+                    <Checkbox
+                      id={`${make}-${model.name}`}
+                      checked={model.checked}
+                      onCheckedChange={() =>
+                        handleModelCheckboxChange(make, model)
+                      }
+                    />
+                    <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      {model.name}
+                    </label>
+                  </div>
+                ))}
 
                 <div
                   className="flex justify-b
                 etween items-center"
                 >
-                  {brand.models.length > currentModels && (
+                  {filterMakes[make].models.length <
+                    carModels[make].models.length && (
                     <Label
-                      onClick={() => setCurrentModels((prev) => prev + 10)}
+                      onClick={() => showMore(make)}
                       className="cursor-pointer text-blue-500 hover:underline"
                     >
                       Show More Models
                     </Label>
                   )}
 
-                  {currentModels > brand.models.length && (
+                  {filterMakes[make].models.length > 10 && (
                     <Label
-                      onClick={() => setCurrentModels(10)}
+                      onClick={() => showLess(make)}
                       className="cursor-pointer text-blue-500 hover:underline"
                     >
                       Show Less Models
@@ -213,43 +272,26 @@ const ModelSelector = ({
                     : ""
                 }
               >
-                Add more brands
+                Add more makes
               </span>
             </Label>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-64 h-[200px] overflow-y-auto">
             <DropdownMenuGroup>
               {carModels &&
-                Object.keys(carModels).map((brand, index) => (
-                  <DropdownMenuItem
-                    key={index}
-                    className="flex items-center space-x-2 my-2 pl-4 text-foreground"
-                    onClick={() => {
-                      const newBrands = [...filterBrands];
-                      if (newBrands.find((b) => b.brand === brand)) {
-                        setExists(true);
-                        return;
-                      }
-                      newBrands.push({
-                        brand,
-                        checkedAll: false,
-                        models: carModels[brand].map((model) => ({
-                          name: model,
-                          checked: false,
-                        })),
-                      });
-                      if (newBrands.length > 5) {
-                        setMaximumFilters(true);
-                        return;
-                      }
-                      setFilterBrands(newBrands);
-                    }}
-                  >
-                    <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      {brand}
-                    </label>
-                  </DropdownMenuItem>
-                ))}
+                Object.keys(carModels)
+                  .filter((make) => !Object.keys(filterMakes).includes(make))
+                  .map((make, index) => (
+                    <DropdownMenuItem
+                      key={index}
+                      className="flex items-center space-x-2 my-2 pl-4 text-foreground"
+                      onClick={() => handleBrandDropdown(make)}
+                    >
+                      <label className="text-l font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        {make}
+                      </label>
+                    </DropdownMenuItem>
+                  ))}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -261,12 +303,12 @@ const ModelSelector = ({
       </div>
       {userWarnings.exists.show && (
         <span className="text-xs text-red-500 block transition-opacity">
-          You ve already selected this brand
+          You ve already selected this make
         </span>
       )}
       {userWarnings.maximumFilters.show && (
         <span className="text-xs text-red-500 block transition-opacity">
-          You cannot select more than 5 car brands
+          You cannot select more than 5 car makes
         </span>
       )}
     </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSortDropdown from "../../../components/cars/CarSortDropdown";
 import GradientHeading from "../../../components/landing/GradientHeading";
@@ -26,7 +25,6 @@ export const metadata: Metadata = {
 
 async function getCarResults(searchParams: FilterParams) {
   const normalizedParams = getNormalizedParams(searchParams);
-  const currentPage = normalizedParams.page;
   const topCars = {
       title: "Top offers",
       data: [] as Car[],
@@ -42,8 +40,11 @@ async function getCarResults(searchParams: FilterParams) {
         params: normalizedParams,
       })
     )?.data;
-    const carResultsForPage = carResults[currentPage];
     const pageCount = Object.keys(carResults).length;
+    // if page is greater or equal (starts with 0) than pageCount, return first page
+    const currentPage =
+      normalizedParams.page >= pageCount ? 0 : normalizedParams.page;
+    const carResultsForPage = carResults[currentPage];
     const offerCount = Object.values(carResults).reduce(
       (acc, curr) => acc + curr.length,
       0

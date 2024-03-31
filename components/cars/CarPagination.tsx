@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight, ChevronsLeft } from "lucide-react";
-import React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +7,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { ReadonlyURLSearchParams } from "next/navigation";
 import { FilterParams } from "../../interfaces/cars/cars";
 
 const paginationIconProps = {

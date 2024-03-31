@@ -1,31 +1,10 @@
 "use client";
-import {
-  FC,
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  SetStateAction,
-  Dispatch,
-} from "react";
+import { FC, useState } from "react";
 import { Label } from "../../ui/label";
 import CarSearchFilter from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
-import {
-  ChevronRight,
-  HelpCircle,
-  PlusCircle,
-  TrashIcon,
-  XIcon,
-} from "lucide-react";
-import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import {
-  types,
-  typeProps,
-  bodyTypes,
-  Trucks,
-  Busses,
-} from "../../landing/types";
+import { HelpCircle } from "lucide-react";
+import { types, typeProps } from "../../landing/types";
 import {
   Select,
   SelectItem,
@@ -51,203 +30,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
   pageText,
   carModels,
 }) => {
-  // const [pageText, setMenu] = useState<FiltersDictionary | null>(null);
-  // const searchParams = useSearchParams();
-  // const paramFilters = getNormalizedParams(searchParams);
-  // const dispatch = useAppDispatch();
-  // const { replace } = useRouter();
-  // const pathname = usePathname();
-
-  // useEffect(() => {
-  //   console.log(lang);
-  //   async function fetchData() {
-  //     try {
-  //       const { filters } = await getlocales(lang);
-  //       setMenu(filters);
-  //     } catch (error) {
-  //       console.error("Error fetching tools data:", error);
-  //     }
-  //   }
-
-  //   if (!pageText) {
-  //     fetchData();
-  //   }
-  // }, [lang, pageText]);
-
-  // const { isPremium, premiumThreshold } = usePremiumStatus();
-  // const variablePriceMin = isPremium ? premiumThreshold : 1000;
-
-  // const [offers, setOffers] = useState<number>(0);
-  // const [filterBrands, setFilterBrands] = useState<brandsWithModelsData[]>([]);
-  // const [filters, setFilters] = useState<Filter>(paramFilters);
-  // const [maximumFilters, setMaximumFilters] = useState<boolean>(false);
-  // const [exists, setExists] = useState<boolean>(false);
-  // const [carBrands] = useAppStore(
-  //   (state) => state?.carFiltersAndResults.brandsWithModels
-  // );
-
-  // useEffect(() => {
-  //   if (!carBrands) return;
-  //   Object.entries(carBrands).map(([key, value]) => {
-  //     if (key === paramFilters?.make) {
-  //       setFilterBrands((prev) => {
-  //         const newBrands = [...prev];
-  //         newBrands.push({
-  //           brand: key,
-  //           checkedAll: false,
-  //           models: value.map((model) => ({
-  //             name: model,
-  //             checked: false,
-  //           })),
-  //         });
-  //         return newBrands;
-  //       });
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [carBrands]);
-
-  // useEffect(() => {
-  //   dispatch(fetchBrands());
-
-  //   const tempFilters = { ...filters };
-  //   tempFilters["brandAndModel"] =
-  //     paramFilters?.make + " - " + paramFilters.model;
-  //   tempFilters["type"] = paramFilters.type;
-  //   tempFilters["vehicleBody"] = paramFilters.body_type || "";
-  //   tempFilters["fuelType"] = paramFilters.fueltype || "";
-  //   tempFilters["price"] = [
-  //     paramFilters.price_min || 1000,
-  //     paramFilters.price_max || 1000000,
-  //   ];
-  //   tempFilters["milage"] = [
-  //     paramFilters.mileage_min || 0,
-  //     paramFilters.mileage_max || 500000,
-  //   ];
-  //   tempFilters["year"] = [paramFilters.min_year, paramFilters.max_year];
-  //   tempFilters["accidentFree"] = paramFilters.accidentfree || false;
-  //   tempFilters["sortBy"] = paramFilters.sortBy || "newestFirst";
-  //   console.log(tempFilters);
-  //   setFilters(tempFilters);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [paramFilters]);
-
-  // const handleOfferNumbers = (offerNumber: number) => {
-  //   setOffers(offerNumber);
-  // };
-  // const handleSliderChange = (id: string, values: [number, number]) => {
-  //   setFilters((prev) => ({ ...prev, [id]: values }));
-  // };
-
-  // const handleSelectorChange = (id: string, selectorValue: string) => {
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [id]: selectorValue,
-  //   }));
-  // };
-  // const handleBrandCheckboxChange = (brand: brandsWithModelsData) => {
-  //   const updatedBrands = filterBrands.map((b) => {
-  //     if (b.brand === brand.brand) {
-  //       return {
-  //         ...b,
-  //         checkedAll: !b.checkedAll,
-  //         models: b.models.map((m) => ({ ...m, checked: !b.checkedAll })),
-  //       };
-  //     }
-  //     return b;
-  //   });
-  //   setFilterBrands(updatedBrands);
-  // };
-
-  // const handleModelCheckboxChange = (
-  //   brand: brandsWithModelsData,
-  //   model: modelType
-  // ) => {
-  //   const updatedBrands = filterBrands.map((b) => {
-  //     if (b.brand === brand.brand) {
-  //       const updatedModels = b.models.map((m) => {
-  //         if (m.name === model.name) {
-  //           return { ...m, checked: !m.checked };
-  //         }
-  //         return m;
-  //       });
-  //       const areAllModelsChecked = updatedModels.every((m) => m.checked);
-  //       return { ...b, models: updatedModels, checkedAll: areAllModelsChecked };
-  //     }
-  //     return b;
-  //   });
-  //   setFilterBrands(updatedBrands);
-  // };
-
-  // useEffect(() => {
-  //   if (exists) {
-  //     setTimeout(() => {
-  //       setExists(false);
-  //     }, 3000);
-  //   }
-  // }, [exists]);
-
-  // useEffect(() => {
-  //   if (maximumFilters) {
-  //     setTimeout(() => {
-  //       setMaximumFilters(false);
-  //     }, 3000);
-  //   }
-  // }, [maximumFilters]);
-
-  // // const [payloadFilters, setPayloadFilters] = useState<string>("");
-  // useEffect(() => {
-  //   let debounceTimer: ReturnType<typeof setTimeout> | undefined;
-
-  //   const sendRequest = () => {
-  // const splitData = filters.brandAndModel?.split(" - ") || [];
-  // console.log("🚀 ~ sendRequest ~ filters:", filters);
-  // const make = splitData[0];
-  // const model = splitData[1];
-  //     const payloadFilter = {
-  //       from_dealer: filters.fromDealer || false,
-  //       max_results: 100000,
-  //       body_type: filters.vehicleBody || "",
-  //       make: "",
-  //       model: "",
-  //       fueltype: filters.fuelType || "",
-  //       price_min: filters.price[0] || variablePriceMin,
-  //       price_max: filters.price[1] || 1000000,
-  //       mileage_min: filters.milage[0] || 0,
-  //       mileage_max: filters.milage[1] || 500000,
-  //       min_year: filters.year[0] || 1975,
-  //       max_year: filters.year[1] || 2023,
-  //       accident_free: filters.accidentFree || false,
-  //       sortBy: filters.sortBy || "newestFirst",
-  //     };
-  //     const newSearchParams = new URLSearchParams(payloadFilter);
-  //     console.log("🚀 ~ sendRequest ~ newSearchParams:", newSearchParams);
-  //     replace(`${pathname}?${newSearchParams.toString()}`);
-  // const queryParam = Object.keys(payloadFilter)
-  //   .map(
-  //     (key) =>
-  //       `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
-  //   )
-  //   .join("&");
-  // setPayloadFilters(queryParam);
-  // dispatch(fetchAllCars(payloadFilter));
-  //   };
-
-  //   if (filters) {
-  //     clearTimeout(debounceTimer);
-  //     debounceTimer = setTimeout(sendRequest, 1000);
-  //   }
-
-  //   return () => {
-  //     clearTimeout(debounceTimer);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filters, filterBrands]);
-
-  // const [currentModels, setCurrentModels] = useState<number>(10);
-  // const showMore = () => {
-  //   setCurrentModels((prev) => prev + 10);
-  // };
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
   const paramFilters = getNormalizedParams(
@@ -258,9 +40,8 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const setFiltersAndRedirect = (newFilters: Filter) => {
     setFilters(newFilters);
     const normalizedFilters = getNormalizedParams(newFilters);
-    normalizedFilters.makeModels = ["M5", "M6"];
+    // normalizedFilters.makeModels = ["M5", "M6"];
     const newURLParams = new URLSearchParams(normalizedFilters);
-    console.log("🚀 ~ setFiltersAndRedirect ~ newURLParams:", newURLParams);
     replace(`cars?${newURLParams.toString()}`);
   };
   const handleSliderChange = (
