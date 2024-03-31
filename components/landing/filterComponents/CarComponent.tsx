@@ -42,7 +42,7 @@ const fuelTypes: string[] = [
   "Hybrid",
 ];
 export type TabKeys = "cars" | "moto" | "trucks" | "busses";
-type BrandEntry = [string, string[]];
+type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
 
 type VirtualizedListProps = {
   dict: FiltersDictionary;
@@ -60,7 +60,7 @@ type VirtualizedListProps = {
 };
 
 interface GroupedEntries {
-  [key: string]: [string, string[]][];
+  [key: string]: BrandEntry[];
 }
 
 const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
@@ -174,12 +174,13 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
         if (!acc[letter]) {
           acc[letter] = [];
         }
+
         acc[letter].push(entry);
         return acc;
       },
       {}
     );
-
+      console.log(groupedByLetter)
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
         if (
@@ -276,16 +277,17 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
           >
             {entries.map(([brand, models]) => {
               if (brand === hoveredBrand) {
-                return models.map((model, modelIndex) => (
+                console.log("models", models.models[0]);
+                return models.models.map((model, modelIndex) => (
                   <div
                     key={modelIndex}
                     className="p-2 cursor-pointer hover:bg-gray-300"
                     onClick={() =>
                       handleModelClick &&
-                      handleModelClick(`${brand} - ${model}`)
+                      handleModelClick(`${brand} - ${model.name}`)
                     }
                   >
-                    {model}
+                    {model.name}
                   </div>
                 ));
               }
@@ -317,7 +319,7 @@ export const CarComponent = React.memo(function CarComponent({
     (state) => state?.carFiltersAndResults.filteredCars
   );
 
-  const [entries, setEntries] = useState<[string, string[]][]>([]);
+  const [entries, setEntries] = useState<BrandEntry[]>([]);
   const [brandsOpen, setBrandsOpen] = React.useState(false);
   const toggleBrandsOpen = useCallback(() => {
     setBrandsOpen((prevState) => !prevState);
