@@ -117,9 +117,37 @@ export async function createCar(
 
   try {
     const response = await clientCars.post("/api/cars", payload);
-    return response.data;
+    return response.data.id;
   } catch (err: any) {
     return err.response.data;
+  }
+}
+
+export async function uploadImage(id: string, file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    const response = await clientCars.post(`/cars/upload/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}
+
+export async function getIntent(id: string, option: string) {
+  const url = `/create-payment-intent/${option}/${id}`
+  try {
+    const response = await clientCars.post(url);
+    return response.data.client_secret;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
   }
 }
 

@@ -45,7 +45,10 @@ type CarState = {
 };
 
 export type brandsWithModels = {
-  [brand: string]: string[];
+  [brand: string]: {
+    id: number,
+    models: {id: number, name: string}[];
+  };
 };
 
 type FilterState = {

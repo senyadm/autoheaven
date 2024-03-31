@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import React, { useEffect, useMemo, useState } from 'react'
-import { CarDetails, createCar } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
+import { CarDetails, createCar, uploadImage } from '@/app/GlobalRedux/CreateCar/CreateCarSlice';
 import { Input } from '@/components/ui/input';
 import PhoneInput from 'react-phone-number-input'
 import { Separator } from '@/components/ui/separator';
@@ -88,7 +88,7 @@ const VehicleDetails = ({ onNext, onPrevious, dict }: {onPrevious: () => void, o
   
 const handleCreateCar = () => {
 if (!areDetailsValid()) return;
-  if (!store) return;
+  if (!store || !selectedFiles) return;
   const prev = {...store};
 
   const newDetails = {
@@ -106,11 +106,13 @@ if (!areDetailsValid()) return;
   };
 
   createCar(newStore, selectedFiles)
-  .then(() => {
-    window.location.href = '/success';
+  .then((res) => {
+    console.log(res)
+    uploadImage(res, selectedFiles[0])
+    // window.location.href = '/success';
   })
-  .catch(() => {
-    
+  .catch((err) => {
+    console.error(err);
   })
   onNext('final');
 }

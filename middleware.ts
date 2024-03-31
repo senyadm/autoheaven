@@ -27,17 +27,25 @@ const getLocale = (request: NextRequest): string => {
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
+  if (pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
   // console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
-    // console.log("asd");
     const locale = getLocale(request);
+    const url = new URL(request.url);
+    
+    // Preserving the original query parameters
+    const searchParams = url.searchParams.toString();
+    console.log(searchParams)
     return NextResponse.redirect(
       new URL(
-        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
+        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${searchParams ? "?" + searchParams : ""}`,
         request.url
       )
     );

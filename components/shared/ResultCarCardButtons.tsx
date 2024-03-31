@@ -38,9 +38,14 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({pageDisplaye
        <Label className="text-xs"> Contact</Label>
       </Button>
     </div>,
-    profileCars: <Button onClick={() => onButtonClick('edit')}>
+    profileCars: <div className="flex flex-row space-x-2">
+      <Button onClick={() => onButtonClick('advertise')}>
+     <Label className="text-xs">Advertise</Label> 
+    </Button>
+      <Button onClick={() => onButtonClick('edit')}>
      <Label className="text-xs">Edit</Label> 
-    </Button>,
+    </Button>
+    </div>,
     profileAds: <>
       <Button className="bg-primary text-background p-[0.625rem] mr-2" onClick={() => onButtonClick('like')}>
         <Heart width={16} height={16} fill='#fff'/>
