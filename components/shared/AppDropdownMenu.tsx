@@ -8,7 +8,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-type SortValue = "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst";
+export type SortValue =
+  | "newestFirst"
+  | "oldestFirst"
+  | "priceHighestFirst"
+  | "priceLowestFirst"
+  | "mileageHighestFirst"
+  | "mileageLowestFirst";
 
 const sortingMenuDisplayMap: Record<string, SortValue> = {
   "Listing (Newest first)": "newestFirst",
@@ -20,29 +26,39 @@ const sortingMenuDisplayMap: Record<string, SortValue> = {
 };
 
 type AppDropdownMenuProps = {
+  sort: SortValue;
   setSort: (value: SortValue) => void;
 };
 
-const AppDropdownMenu = ({ setSort }: AppDropdownMenuProps) => {
-  const [position, setPosition] = useState<SortValue>("newestFirst"); // default to "newestFirst" or another value if you wish
+const AppCarDropdown = ({ sort, setSort }: AppDropdownMenuProps) => {
+  const [position, setPosition] = useState<SortValue>(sort); // default to "newestFirst" or another value if you wish
 
   const handleChange = (displayValue: string) => {
-    const sortValue = Object.keys(sortingMenuDisplayMap).find(key => sortingMenuDisplayMap[key] === displayValue);
+    const sortValue = Object.keys(sortingMenuDisplayMap).find(
+      (key) => sortingMenuDisplayMap[key] === displayValue
+    );
     if (sortValue) {
       setPosition(sortingMenuDisplayMap[sortValue]);
       setSort(sortingMenuDisplayMap[sortValue]);
     } else {
       console.error(`Invalid sort value: ${displayValue}`);
     }
-  }
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="bg-background">
-        <Button variant="outline">{Object.keys(sortingMenuDisplayMap).find(key => sortingMenuDisplayMap[key] === position)}</Button>
+        <Button variant="outline">
+          {Object.keys(sortingMenuDisplayMap).find(
+            (key) => sortingMenuDisplayMap[key] === position
+          )}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuRadioGroup value={position} onValueChange={handleChange as any}>
+        <DropdownMenuRadioGroup
+          value={position}
+          onValueChange={handleChange as any}
+        >
           {Object.entries(sortingMenuDisplayMap).map(([display, value]) => (
             <DropdownMenuRadioItem value={value} key={value}>
               {display}
@@ -54,4 +70,4 @@ const AppDropdownMenu = ({ setSort }: AppDropdownMenuProps) => {
   );
 };
 
-export default AppDropdownMenu;
+export default AppCarDropdown;

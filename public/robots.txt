@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /en/login
+Disallow: /fr/login
+Disallow: /de/login
+Disallow: /es/login
+Disallow: /it/login
+Disallow: /nl/login
+Disallow: /pl/login
+Disallow: /pt/login
+Disallow: /cz/login
+Disallow: /ro/login
+Disallow: /en/profile
+Disallow: /fr/profile
+Disallow: /de/profile
+Disallow: /es/profile
+Disallow: /it/profile
+Disallow: /nl/profile
+Disallow: /pl/profile
+Disallow: /pt/profile
+Disallow: /cz/profile
+Disallow: /ro/profile
+
+Sitemap: https://auto-heaven.com/en/sitemap.xml
