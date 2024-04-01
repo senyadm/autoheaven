@@ -1,3 +1,4 @@
+"use client"
 import { CheckCheck, ChevronRight } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
@@ -11,11 +12,25 @@ import {
 } from "../ui/card";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { TypographyH3, TypographyP } from "../ui/typography";
+import { getToken } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 interface Props {
   card: PlansInfo;
-  handleNavigate: (e: any, mode: "classic" | "direct" | undefined) => void;
+  lang: string;
 }
-const PlansCard = ({ card, handleNavigate }: Props) => {
+const PlansCard = ({ card, lang }: Props) => {
+  const router = useRouter();;
+   const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
+      const token = getToken();
+    e.preventDefault();
+
+    if (!token) {
+      router.push(`${lang}/login`);
+      return;
+    }
+
+    router.push(`/${lang}/sell/${mode}`);
+  }
   return (
     <Card
       key={card.title}

@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import {
   BadgeCheck,
@@ -20,11 +19,9 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { useRouter } from "next/navigation";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
-import { SellClassicTranslations, SellLabels } from "@/types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -32,28 +29,28 @@ export const metadata: Metadata = {
   description: "Sell your car on AutoHeaven and get the best price",
 };
 
-const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  const [dict, setDict] = useState<SellLabels | null>(null);
-  const [labels, setLabels] = useState<SellClassicTranslations | null>(null);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const {
-          sell: { main, classic },
-        } = await getlocales(lang);
-        setLabels(classic);
-        setDict(main);
-      } catch (error) {
-        console.error("Error fetching tools data:", error);
-      }
-    }
+const Sell = async ({ params: { lang } }: { params: { lang: Locale } }) => {
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const {
+  //         sell: { main, classic },
+  //       } = await getlocales(lang);
+  //       setLabels(classic);
+  //       setDict(main);
+  //     } catch (error) {
+  //       console.error("Error fetching tools data:", error);
+  //     }
+  //   }
 
-    if (!dict) {
-      fetchData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang]);
-
+  //   if (!dict) {
+  //     fetchData();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [lang]);
+  const locales = await getlocales(lang);
+  const dict = locales.sell.main;
+  const labels = locales.sell.classic;
   const cardInfo: PlansInfo[] = [
     {
       plan: "classic",
@@ -134,17 +131,17 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
     },
   ];
 
-  const router = useRouter();
-  const token = localStorage.getItem("token");
+  // const router = useRouter();
+  // const token = localStorage.getItem("token");
   const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    if (!token) {
-      router.push(`${lang}/login`);
-      return;
-    }
+    // if (!token) {
+    //   router.push(`${lang}/login`);
+    //   return;
+    // }
 
-    router.push(`/${lang}/sell/${mode}`);
+    // router.push(`/${lang}/sell/${mode}`);
   };
 
   return (
@@ -165,7 +162,7 @@ const Sell = ({ params: { lang } }: { params: { lang: Locale } }) => {
             <PlansCard
               card={card}
               key={card.title}
-              handleNavigate={handleNavigate}
+              lang={lang}
             />
           ))}
         </div>
