@@ -12,24 +12,27 @@ import {
 } from "../ui/card";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { TypographyH3, TypographyP } from "../ui/typography";
-import { getToken } from "@/utils/auth";
+import { getToken, saveOriginalUrl } from "@/utils/auth";
 import { useRouter } from "next/navigation";
+import { RootState, useAppSelector } from "@/app/GlobalRedux/store";
 interface Props {
   card: PlansInfo;
-  lang: string;
 }
-const PlansCard = ({ card, lang }: Props) => {
-  const router = useRouter();;
+const PlansCard = ({ card }: Props) => {
+  const router = useRouter();
+  // TODO: replace user authentication in here due to separation of concerns
+  // the sell/mode should decide itself whether the user is logged in
+  const user = useAppSelector((state: RootState) => state.user);
    const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
-      const token = getToken();
     e.preventDefault();
 
-    if (!token) {
-      router.push(`${lang}/login`);
+    if (!user.isLoggedIn) {
+      saveOriginalUrl(`/sell/${mode}`);
+      router.push(`/login`);
       return;
     }
 
-    router.push(`/${lang}/sell/${mode}`);
+    router.push(`/sell/${mode}`);
   }
   return (
     <Card

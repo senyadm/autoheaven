@@ -131,18 +131,6 @@ const Sell = async ({ params: { lang } }: { params: { lang: Locale } }) => {
     },
   ];
 
-  // const router = useRouter();
-  // const token = localStorage.getItem("token");
-  const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
-    // e.preventDefault();
-
-    // if (!token) {
-    //   router.push(`${lang}/login`);
-    //   return;
-    // }
-
-    // router.push(`/${lang}/sell/${mode}`);
-  };
 
   return (
     <div>
@@ -162,7 +150,6 @@ const Sell = async ({ params: { lang } }: { params: { lang: Locale } }) => {
             <PlansCard
               card={card}
               key={card.title}
-              lang={lang}
             />
           ))}
         </div>
