@@ -10,9 +10,10 @@ import { Locale } from "@/i18n.config";
 import Link from "next/link";
 import SocialMediaIcons from "./SocialMediaIcons";
 import SvgIcon from "./SvgIcon";
+import LanguageSelect from "./shared/LanguageSelect";
 
 const Footer = async ({ lang }: { lang: Locale }) => {
-  const { footer } = await getlocales(lang);
+  const { footer, profile } = await getlocales(lang);
   return (
     <footer className=" py-10 bg-secondary">
       <div className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto px-4 lg:px-0">
@@ -79,15 +80,7 @@ const Footer = async ({ lang }: { lang: Locale }) => {
             {footer?.privacyPolicy}
           </Link>
         </div>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="English" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="English">English</SelectItem>
-            <SelectItem value="Lang 1">Czech</SelectItem>
-          </SelectContent>
-        </Select>
+        <LanguageSelect langStr={profile?.language} currentLang={lang} />
       </div>
     </footer>
   );
