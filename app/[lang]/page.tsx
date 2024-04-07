@@ -6,6 +6,13 @@ import BrandsBlock from "../../components/landing/BrandsBlock";
 import Carousel from "../../components/landing/Carousel";
 import FilterComponent from "../../components/landing/Filters";
 import TipsBlock from "../../components/landing/TipsBlock";
+import { Metadata } from "next/types";
+
+export const metadata: Metadata = {
+  title: "AutoHeaven",
+  description:
+    "Your destination for discovering and purchasing quality vehicles. Browse through a wide selection of cars posted by sellers, and find the perfect match for your needs and preferences. Whether you're searching for a sleek sedan, a rugged SUV, or a fuel-efficient hybrid, AutoHeaven connects buyers with trusted sellers to make car buying a breeze.",
+};
 
 const Home = async ({ params }: { params: { lang: Locale } }) => {
   const lang = params.lang ?? defaultLocale;

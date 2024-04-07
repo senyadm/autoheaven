@@ -24,6 +24,7 @@ import { RootState } from "@/app/GlobalRedux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { sendEmail } from "@/app/GlobalRedux/profile/profileSlice";
 import { setProfileNavigationMenuItemName } from "../../../app/GlobalRedux/profile/profileNavigationMenuSlice";
+import LanguageSelect from "../../shared/LanguageSelect";
 const languages: Record<Language, string> = {
   en: "English",
   cz: "Czech",
@@ -55,35 +56,14 @@ const SettingsTextBlock = ({ mainText, subtext }: SettingsTextBlockProps) => {
 const styleClasses = {
   gap: "gap-x-[8vw]",
 };
-const ProfileSettings = ({ lang }: { lang: Locale }) => {
+const ProfileSettings = ({ lang, dict }: { lang: Locale }) => {
   const dispatch = useDispatch();
   const pathName = usePathname();
   const router = useRouter();
   const email = useSelector((state: RootState) => state?.user?.email);
-  const [dict, setDict] = useState<ProfileSettingsDictionary | null>(null);
   const { toast } = useToast();
   const [language, setLanguage] = React.useState(getLanguageLS());
-
-  useEffect(() => {
-    setLanguageLS(lang);
-    setLanguage(lang);
-  }, [lang]);
   const [isTimerActive, setIsTimerActive] = useState(false);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { profile } = await getlocales(language);
-        setDict(profile);
-      } catch (error) {
-        console.error("Error fetching tools data:", error);
-      }
-    }
-
-    if (!dict) {
-      fetchData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
 
   const { setTheme, theme } = useTheme();
   const isThemeDark = theme === "dark";
@@ -92,25 +72,6 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
   };
   const [authorized, setAuthorized] = useState<boolean>(true);
   const token = localStorage.getItem("access_token");
-  const createNewPathWithLanguage = (lang: Language): string => {
-    if (!pathName) return "/";
-
-    const segments = pathName.split("/");
-    if (segments.length > 1) {
-      segments[1] = lang;
-    } else {
-      segments.unshift(lang);
-    }
-    return segments.join("/");
-  };
-
-  const handleLanguageChange = (val: Language) => {
-    setLanguageLS(val);
-    setLanguage(val);
-    const newPath = createNewPathWithLanguage(val);
-    localStorage.setItem("language", val);
-    router.replace(newPath);
-  };
 
   const handleResend = () => {
     sendEmail(email)
@@ -173,29 +134,11 @@ const ProfileSettings = ({ lang }: { lang: Locale }) => {
 
         <Separator />
 
-        <div className={`flex ${styleClasses.gap}`}>
-          <div className="flex flex-col w-[260px] ">
-            <Label className="text-foreground font-inter text-lg font-semibold leading-relaxed">
-              {dict?.language}
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2 justify-end flex-1 max-w-48">
-            <Select
-              onValueChange={(val: Language) => handleLanguageChange(val)}
-            >
-              <SelectTrigger className="mb-2">
-                {languages[language]}
-              </SelectTrigger>
-              <SelectContent>
-                {Object.keys(languages).map((item, index: number) => (
-                  <SelectItem key={index} value={item}>
-                    {languages[item as Language]}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        <LanguageSelect
+          langStr={dict?.language}
+          currentLang={lang}
+          orientation="horizontal"
+        />
         <Separator />
         <div className={`flex ${styleClasses.gap}`}>
           <SettingsTextBlock

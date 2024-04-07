@@ -33,7 +33,6 @@ const ProfileNavigationMenuItem = ({
   const pathname = usePathname();
   const pathArr = pathname?.split("/");
   const currentLocale = pathArr ? pathArr[1] : "en";
-  console.log(itemInfo.componentName);
   return (
     <NavigationMenuItem
       className="w-full mb-4 flex flex-row bg-background"
