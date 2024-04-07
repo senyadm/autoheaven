@@ -18,7 +18,8 @@ import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../ui/checkbox";
 import { Filter } from "../../../interfaces/cars/cars";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getNormalizedParams } from "../../../utils/cars";
+import { getCarModelsById, getNormalizedParams } from "../../../utils/cars";
+import { parseModels } from "../../../utils/models";
 type CarSidebarProps = {
   offerNumber: number;
   pageText: FiltersDictionary;
@@ -30,11 +31,16 @@ const CarSidebar: FC<CarSidebarProps> = ({
   pageText,
   carModels,
 }) => {
+  console.log("🚀 ~ carModels:", carModels);
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
-  const paramFilters = getNormalizedParams(
-    Object.fromEntries(searchParams.entries()) as Filter
-  );
+  function prepParams() {
+    const normalized = getNormalizedParams(searchParams);
+    console.log("normalized: ", normalized);
+
+    return normalized;
+  }
+  const paramFilters = prepParams();
   const [filters, setFilters] = useState<Filter>(paramFilters);
   console.log("🚀 ~ filters:", filters);
   const setFiltersAndRedirect = (newFilters: Filter) => {
@@ -51,10 +57,12 @@ const CarSidebar: FC<CarSidebarProps> = ({
     const newFilters = { ...filters, [ids[0]]: values[0], [ids[1]]: values[1] };
     setFiltersAndRedirect(newFilters as Filter);
   };
-
-  const handleSelectorChange = (id: keyof Filter, selectorValue: string) => {
-    const newFilters = { ...filters, [id]: selectorValue };
+  const setFilterValue = (id: keyof Filter, value: string) => {
+    const newFilters = { ...filters, [id]: value };
     setFiltersAndRedirect(newFilters as Filter);
+  };
+  const handleSelectorChange = (id: keyof Filter, selectorValue: string) => {
+    setFilterValue(id, selectorValue);
   };
   const handleCheckboxToggle = (id: keyof Filter) => {
     const newFilters = { ...filters, [id]: !filters[id] };
@@ -92,7 +100,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   //   }
   // }, [filters, paramFilters, replace, searchParams]);
   return (
-    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-hidden">
+    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible">
       <Label htmlFor="filter1" className="font-bold">
         Type
       </Label>
@@ -182,7 +190,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
       <ModelSelector
         pageText={pageText}
         carModels={carModels}
-        addModel={addModel}
+        setFilterValue={setFilterValue}
         offerNumber={offerNumber}
       />
     </div>

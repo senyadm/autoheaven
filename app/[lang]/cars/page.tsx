@@ -5,9 +5,11 @@ import CarSidebar from "../../../components/cars/CarSidebar/CarSidebar";
 import { getlocales } from "../../actions";
 import { clientCars, fetchCars, getCars } from "../../GlobalRedux/client";
 import { FilterParams } from "../../../interfaces/cars/cars";
-import { getNormalizedParams } from "../../../utils/cars";
+import { getCarModelsById, getNormalizedParams } from "../../../utils/cars";
 import { Car } from "../../../interfaces/shared/Car";
 import { Metadata } from "next/types";
+import { parseModels } from "../../../utils/models";
+import { Make, MakeModelById } from "../../../interfaces/cars/models";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
@@ -23,8 +25,22 @@ export const metadata: Metadata = {
   description: "Find your dream car today on AutoHeaven",
 };
 
-async function getCarResults(searchParams: FilterParams) {
+async function getCarResults(
+  searchParams: FilterParams,
+  carModelsById: MakeModelById
+) {
   const normalizedParams = getNormalizedParams(searchParams);
+  const parsedModels = Object.entries(
+    parseModels(searchParams.models, carModelsById)
+  ).reduce((acc, [makeName, models]) => {
+    acc[makeName] = models.map((model) => model.name);
+    return acc;
+  }, {});
+  console.log("🚀 ~ parsedModels:", parsedModels);
+  normalizedParams.makeModels = JSON.stringify(parsedModels);
+  delete normalizedParams.models;
+  console.log("🚀 ~ normalizedParams:", normalizedParams);
+
   const topCars = {
       title: "Top offers",
       data: [] as Car[],
@@ -63,10 +79,12 @@ async function getCarResults(searchParams: FilterParams) {
   }
 }
 const page = async ({ params, searchParams }) => {
+  const carModels: Record<string, Make> = await getCars("/api/car_models");
+  const carModelsById = getCarModelsById(carModels);
+  console.log("🚀 ~ page ~ carModelsById:", carModelsById);
   const filtersText = (await getlocales(params.lang)).filters;
   // maps car make to car models array
-  const carModels: Record<string, string[]> = await getCars("/api/car_models");
-  const carResults = await getCarResults(searchParams);
+  const carResults = await getCarResults(searchParams, carModelsById);
   const { topCars, nonTopCars, offerCount, pageCount } = carResults;
   return (
     <main className="flex flex-1 items-start bg-primary-foreground py-6">

@@ -1,4 +1,5 @@
 import { Filter, FilterParams } from "../interfaces/cars/cars";
+import { Make, MakeModelById } from "../interfaces/cars/models";
 
 export const defaultFilters: Filter = {
   price_min: 0,
@@ -39,11 +40,33 @@ export function getNormalizedParams(
   if (!params) return necessaryParams;
   const normalized = Object.entries(params).reduce((acc, [key, value]) => {
     let finalValue = value;
+
     if (value === null || value === undefined || value === "") {
       return acc;
     }
     return { ...acc, [key]: finalValue };
   }, {});
+
   // normalized can override necessaryParams due to how spread operator in this syntax works
   return { ...necessaryParams, ...normalized };
 }
+
+export const getCarModelsById = (carModels: Record<string, Make>) => {
+  return Object.entries(carModels).reduce((makesAcc, [makeName, make]) => {
+    const models = make.models.reduce(
+      (modelsAcc, m) => ({
+        ...modelsAcc,
+        [m.id]: {
+          name: m.name,
+        },
+      }),
+      {} as Record<number, { name: string }>
+    );
+
+    makesAcc[make.id] = {
+      name: makeName,
+      models: models,
+    };
+    return makesAcc;
+  }, {} as MakeModelById);
+};
