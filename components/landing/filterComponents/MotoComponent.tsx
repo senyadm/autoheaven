@@ -94,7 +94,7 @@ export function MotorcycleComponent({
             <div className="flex items-center space-x-2">
               {" "}
               {/* Flex container */}
-              <Label htmlFor="filter1">Brand and model</Label>
+              <Label htmlFor="filter1">Brand</Label>
               <SvgIcon
                 filepath="icons/tick.svg"
                 alt=""
@@ -117,7 +117,7 @@ export function MotorcycleComponent({
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Vehicle body</Label>
+              <Label htmlFor="filter2">Model</Label>
               <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
             </div>
             <Select

@@ -17,6 +17,8 @@ const Layout = ({
 }: {
   params: { lang: Locale };
 }) => {
+  const [fullName, setFullName] = useState<string>("");
+
   const dispatch = useAppDispatch();
   const userName = useSelector(
     (state: RootState) => state?.user?.user_info?.name
@@ -26,9 +28,15 @@ const Layout = ({
     dispatch(fetchUserData());
   }
   const userSurname = useSelector(
-    (state: RootState) => state?.user?.user_info?.surname
+    (state: RootState) => state?.user
   );
-  const fullName = `${userName} ${userSurname}`;
+
+  useEffect(() => {
+    console.log("userSurname", userSurname);
+
+    setFullName(`${userName} ${userSurname}`);
+  }, [userName, userSurname]);
+
   const userEmail = useSelector((state: RootState) => state?.user?.email);
 
   const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);

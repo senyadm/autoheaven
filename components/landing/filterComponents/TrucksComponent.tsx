@@ -113,12 +113,12 @@ export function TrucksComponent({
             }
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               {" "}
               {/* Flex container */}
-              <Label htmlFor="filter1">Brand and model</Label>
+              <Label htmlFor="filter1">Brand</Label>
               <SvgIcon
                 filepath="icons/tick.svg"
                 alt=""
@@ -133,9 +133,32 @@ export function TrucksComponent({
             >
               <SelectTrigger>Select brand...</SelectTrigger>
               <SelectContent>
-                {/* Add your SelectItems here */}
                 <SelectItem value="option1">Option 1</SelectItem>
                 <SelectItem value="option2">Option 2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="filter2">Model</Label>
+              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+            </div>
+            <Select
+              onValueChange={(selectorValue) =>
+                handleSelectorChange("moto", "vehicleBody", selectorValue)
+              }
+              value={filter.brandAndModel}
+            >
+              <SelectTrigger currentValue={filter.vehicleBody}>
+                Select body...
+              </SelectTrigger>
+              <SelectContent>
+                {[].map((item: string, index: number) => (
+                  <SelectItem key={index} value={item}>
+                    {item}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
