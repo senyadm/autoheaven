@@ -21,7 +21,7 @@ export const setLanguageLS = (language: Language) => {
 export const getLanguageLS = (): Language => {
   const language = localStorage.getItem("language");
   if (language) {
-    return language;
+    return language as any as Language;
   }
   return "en";
 };

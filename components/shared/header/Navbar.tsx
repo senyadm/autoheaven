@@ -59,7 +59,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import logo from "../../../public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
@@ -103,6 +103,7 @@ const flagComponents: Record<string, any> = {
 };
 
 export function Navbar({ lang }: { lang: Locale }) {
+  const router = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   // useEffect(() => {
@@ -168,6 +169,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   }, []);
 
   const handleLogout = () => {
+    setOpenPopover(false);
     localStorage.removeItem("token");
     window.location.reload();
   };
@@ -307,6 +309,9 @@ export function Navbar({ lang }: { lang: Locale }) {
                 </PopoverTrigger>
                 <PopoverContent className="w-full px-1 py-2 space-y- flex flex-col">
                   <Link
+                    onClick={() => {
+                      setOpenPopover(false)
+                    }}
                     href={`/${lang}/profile`}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                   >
@@ -320,6 +325,9 @@ export function Navbar({ lang }: { lang: Locale }) {
                     />
                   </Link>
                   <Link
+                    onClick={() => {
+                      setOpenPopover(false)
+                    }}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                     href={`/${lang}/sell`}
                   >

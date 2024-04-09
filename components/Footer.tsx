@@ -1,3 +1,4 @@
+"use client";
 import { getlocales } from "@/app/actions";
 import {
   Select,
