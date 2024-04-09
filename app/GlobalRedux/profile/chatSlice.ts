@@ -96,7 +96,7 @@ export const fetchUserChats = createAsyncThunk(
   async (clientUserId: number, { dispatch, getState }) => {
     try {
       const chatListResponse = await clientChats.get(`/chat_list`);
-      console.log("chatList frozne", Object.isFrozen(chatListResponse.data));
+
       const chatList = chatListResponse.data.map((chat: ChatListAPI) => {
         return {
           ...chat,
@@ -104,8 +104,6 @@ export const fetchUserChats = createAsyncThunk(
           carInfo: null,
         };
       });
-
-      console.log(chatList, "chatList");
       const carPromiseURLs = chatList.map(
         (chat) => `api/cars/${chat.product_id}`
       );
