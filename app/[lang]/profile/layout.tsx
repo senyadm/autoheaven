@@ -117,7 +117,7 @@ const Layout = ({
 
   return (
     <main className="flex justify-center items-start flex-grow bg-topography-light">
-      <div className="flex md:space-x-4 flex-col md:flex-row w-full">
+      <div className="flex md:space-x-4 flex-col md:flex-row">
         <section className="border md:flex hidden rounded-lg h-full p-3 w-[230px] h-full md:h-[530px] flex flex-col items-start gap-2.5 flex-shrink-0 bg-background">
           <div className="flex items-center mb-4">
             <Suspense fallback={<Loading />}>
@@ -172,7 +172,7 @@ const Layout = ({
           </TabsList>
           </Tabs>
           </div>
-        <section className="border rounded-lg w-full h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background p-2">
+        <section className="border rounded-lg h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background p-2">
           {children}
         </section>
       </div>
