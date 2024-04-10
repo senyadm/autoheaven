@@ -1,20 +1,28 @@
 "use client";
 import { getlocales } from "@/app/actions";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Locale } from "@/i18n.config";
 import Link from "next/link";
 import SocialMediaIcons from "./SocialMediaIcons";
 import SvgIcon from "./SvgIcon";
 import LanguageSelect from "./shared/LanguageSelect";
+import { useEffect } from "react";
+let footerDict;
+let profileDict;
+const Footer = ({ lang }: { lang: Locale }) => {
+  useEffect(() => {
+    const getLocalesFunc = async () => {
+      const { footer, profile } = await getlocales(lang);
 
-const Footer = async ({ lang }: { lang: Locale }) => {
-  const { footer, profile } = await getlocales(lang);
+      profileDict = profile;
+      footerDict = footer;
+    }
+    
+
+
+    getLocalesFunc();
+  }, [lang])
+
   return (
     <footer className=" py-10 bg-secondary">
       <div className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto px-4 lg:px-0">
@@ -31,57 +39,57 @@ const Footer = async ({ lang }: { lang: Locale }) => {
         </div>
         <div className="flex flex-col gap-1">
           <div>
-            <strong>{footer?.company}</strong>
+            <strong>{footerDict?.company}</strong>
           </div>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.aboutUs}
+            {footerDict?.aboutUs}
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.careers}
+            {footerDict?.careers}
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.advertising}
+            {footerDict?.advertising}
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.helpContact}
+            {footerDict?.helpContact}
           </Link>
         </div>
         <div className="flex flex-col gap-1">
           <div>
-            <strong>{footer?.information}</strong>
+            <strong>{footerDict?.information}</strong>
           </div>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.termsConditions}
+            {footerDict?.termsConditions}
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.priceList}
+            {footerDict?.priceList}
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
             href={`/${lang}`}
           >
-            {footer?.privacyPolicy}
+            {footerDict?.privacyPolicy}
           </Link>
         </div>
-        <LanguageSelect langStr={profile?.language} currentLang={lang} />
+        <LanguageSelect langStr={profileDict?.language} currentLang={lang} />
       </div>
     </footer>
   );
