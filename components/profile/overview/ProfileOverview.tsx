@@ -10,8 +10,8 @@ interface OverviewProps {
 
 const ProfileOverview = ({ overview }: OverviewProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-      <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-hidden w-full">
+      <Card className="relative h-[140px] md:h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
         <svg
           className="absolute inset-0 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
         </CardContent>
       </Card>
 
-      <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
+      <Card className="relative h-[140px] md:h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
         <svg
           className="absolute inset-0 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
           </Label>
         </CardContent>
       </Card>
-      <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
+      <Card className="relative h-[140px] md:h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
         <svg
           className="absolute inset-0 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
         </CardContent>
       </Card>
 
-      <Card className="relative w-[232.667px] h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
+      <Card className="relative h-[140px] md:h-[174px] rounded-lg bg-primary-foreground overflow-hidden border-none shadow-none">
         <svg
           className="absolute inset-0 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"

@@ -58,7 +58,7 @@ const sortingAdsOptions = [
   "Milage (Lowest first)",
 ];
 
-const ProfileAds = () => {
+const ProfileAds = ({lang}: any) => {
   const [results, setResults] = useState<ResultCarCardInterface[]>([]);
   useEffect(() => {
     // fetch results
@@ -68,7 +68,7 @@ const ProfileAds = () => {
   }, []);
 
   if (results.length === 0) {
-    return <ProfileAdsWillAppear />;
+    return <ProfileAdsWillAppear lang={lang}/>;
   }
   return (
     <div className="space-y-2">

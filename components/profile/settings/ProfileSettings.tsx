@@ -108,11 +108,11 @@ const ProfileSettings = ({ lang, dict }: { lang: Locale }) => {
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
             <Button
-              className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2"
+              className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2 md:p-0 p-2"
               onClick={() => dispatch(setProfileNavigationMenuItemName("edit"))}
             >
               <Trash2 size={16} />
-              <Label className="font-semibold leading-relaxed cursor-pointer">
+              <Label className="md:font-semibold leading-relaxed cursor-pointer">
                 {dict?.editMyProfile}
               </Label>
             </Button>
@@ -166,7 +166,7 @@ const ProfileSettings = ({ lang, dict }: { lang: Locale }) => {
                   className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2"
                 >
                   <Send size={16} />{" "}
-                  <Label className="font-semibold text-xs">
+                  <Label className="md:font-semibold text-xs">
                     {dict?.resendActivationLink}
                   </Label>
                 </Button>
