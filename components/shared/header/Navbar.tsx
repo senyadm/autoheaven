@@ -105,7 +105,7 @@ const flagComponents: Record<string, any> = {
 export function Navbar({ lang }: { lang: Locale }) {
   const router = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
-  const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
+  const userLoggedIn = localStorage.getItem("token") || '';
   // useEffect(() => {
   //   const validate = async () => {
   //     return await validateToken();
@@ -313,6 +313,7 @@ export function Navbar({ lang }: { lang: Locale }) {
                       setOpenPopover(false)
                     }}
                     href={`/${lang}/profile`}
+                    onClick={() => setOpenPopover(!openPopover)}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                   >
                     <Label className="text-foreground text-l">
@@ -330,6 +331,7 @@ export function Navbar({ lang }: { lang: Locale }) {
                     }}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                     href={`/${lang}/sell`}
+                    onClick={() => setOpenPopover(!openPopover) }
                   >
                     <Label className="text-foreground text-l">
                       {menu?.make_ad || "Make Add"}
