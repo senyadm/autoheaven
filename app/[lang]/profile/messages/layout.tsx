@@ -1,9 +1,8 @@
-"use client";
 import React from "react";
 import ProfileMessages from "../../../../components/profile/messages/ProfileMessages";
 
-const page = () => {
-  return <></>;
+const layout = ({ children }) => {
+  return <ProfileMessages>{children}</ProfileMessages>;
 };
 
-export default page;
+export default layout;

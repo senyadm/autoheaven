@@ -16,7 +16,7 @@ import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 const token = getToken();
 
-const ProfileMessages = () => {
+const ProfileMessages = ({ children }) => {
   console.log(localStorage);
   const [userId, dispatch] = useAppStore((state) => state.user.id);
   const currentChat = useAppSelector((state) => state.chats.currentChat);
@@ -71,10 +71,7 @@ const ProfileMessages = () => {
           Delete all chats
         </Button>
       </div>
-
-      <div className="flex items-center row-span-1 bg-background col-span-2">
-        {currentChat && <TypingComponent onSendClick={handleSendClick} />}
-      </div>
+      {children}
     </div>
   );
 };
