@@ -25,18 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendEmail } from "@/app/GlobalRedux/profile/profileSlice";
 import { setProfileNavigationMenuItemName } from "../../../app/GlobalRedux/profile/profileNavigationMenuSlice";
 import LanguageSelect from "../../shared/LanguageSelect";
-const languages: Record<Language, string> = {
-  en: "English",
-  cz: "Czech",
-  de: "German",
-  es: "Spanish",
-  fr: "French",
-  it: "Italian",
-  pl: "Polish",
-  pt: "Portuguese",
-  nl: "Dutch",
-  ro: "Romanian",
-};
+
 interface SettingsTextBlockProps {
   mainText: string | undefined;
   subtext: string | undefined;
@@ -108,7 +97,7 @@ const ProfileSettings = ({ lang, dict }: { lang: Locale }) => {
           </div>
           <div className="flex items-center space-x-2 justify-end flex-1">
             <Button
-              className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2 md:p-0 p-2"
+              className="bg-white text-primary-foreground bg-primary hover:bg-gray-300 space-x-2 p-2"
               onClick={() => dispatch(setProfileNavigationMenuItemName("edit"))}
             >
               <Trash2 size={16} />

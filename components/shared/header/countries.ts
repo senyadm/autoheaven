@@ -4,7 +4,7 @@ export const euCountries = [
   { code: "BG", name: "Bulgaria" },
   { code: "HR", name: "Croatia" },
   { code: "CY", name: "Cyprus" },
-  { code: "CZ", name: "Czech Republic" },
+  { code: "CZ", name: "Czechia" },
   { code: "DK", name: "Denmark" },
   { code: "EE", name: "Estonia" },
   { code: "FI", name: "Finland" },

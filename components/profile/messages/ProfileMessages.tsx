@@ -17,7 +17,7 @@ import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 const token = getToken();
 
 const ProfileMessages = () => {
-  console.log(localStorage);
+
   const [userId, dispatch] = useAppStore((state) => state.user.id);
   const currentChat = useAppSelector((state) => state.chats.currentChat);
   const [webSckt, setWebSckt] = useState<WebSocket | null>(null);

@@ -53,7 +53,7 @@ const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
           setIsHovered(false);
         }}
       >
-        <DialogContent className="!w-80 p-2 md:p-0">
+        <DialogContent className="!w-80 p-2 md:p-3">
           <DialogHeader>
             <DialogDescription className="text-xs text-primary">
               {tipsDict?.type || tipType}
