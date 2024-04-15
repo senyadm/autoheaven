@@ -62,16 +62,17 @@ const ProfileMessages = ({ children }) => {
       <div className="row-span-12 col-span-1 bg-background">
         <Chats />
       </div>
-      <div className="row-span-12 bg-background col-span-2">
-        <ChatMessagesContent ws={webSckt} />
-      </div>
+      {children}
+
       <div className="row-span-1 p-2 bg-background col-span-1">
         <Button className="bg-background text-secondary-foreground border h-full w-full space-x-2 hover:text-primary-foreground ">
           <Trash height={16} width={16} />
           Delete all chats
         </Button>
       </div>
-      {children}
+      <div className="flex items-center row-span-1 bg-background col-span-2">
+        {<TypingComponent onSendClick={handleSendClick} />}
+      </div>
     </div>
   );
 };
