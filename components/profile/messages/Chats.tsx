@@ -8,12 +8,12 @@ import {
   setCurrentChat,
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import ChatComponent from "./ChatComponent";
+import { useRouter } from "next/navigation";
 
 const Chats = () => {
   // const [chats, setChats] = useState<ChatComponentProps[]>([]);
-  const dispatch = useAppDispatch();
   const userChats = useSelector((state: RootState) => state.chats.chats);
-
+  const { replace } = useRouter();
   // useEffect(() => {
   //   if (!userChats?.length) return;
 
@@ -38,8 +38,8 @@ const Chats = () => {
           chat={chat}
           key={`message ${chat.chat_id}`}
           onChatClick={() => {
-            dispatch(setCurrentChat(userChats[index]));
-            dispatch(fetchChatMessages(userChats[index].chat_id));
+            replace(`/profile/messages/${chat.chat_id}`);
+           
           }}
         />
       ))}
