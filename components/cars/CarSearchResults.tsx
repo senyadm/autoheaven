@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+"use client"
+import React, { Suspense, useEffect } from "react";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,13 +18,16 @@ interface CarSearchResultsProps {
   };
 }
 
-const CarSearchResults = async ({
+const CarSearchResults = ({
   lang,
   searchParams,
   carResultsData,
   pageCount,
 }: CarSearchResultsProps) => {
   const { topCars, nonTopCars } = carResultsData;
+  useEffect(() => {
+    console.log("Logging topCars data:", topCars.data);
+  }, [topCars.data]);
   try {
     return (
       <div className="space-y-8">

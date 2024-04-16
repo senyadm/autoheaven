@@ -11,6 +11,7 @@ export interface ChatListAPI {
 export interface Chat extends ChatListAPI {
   carInfo?: Car;
   chatter_id?: number;
+  ws?: WebSocket;
 }
 export interface ChatMessageAPI {
   chat_id: number;

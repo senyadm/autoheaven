@@ -1,16 +1,28 @@
 "use client";
 
+import { useEffect } from "react";
 import TypingComponent from "../../../../../components/profile/TypingComponent";
+import { RootState, useAppDispatch, useAppSelector } from "@/app/GlobalRedux/store";
+import { fetchChatMessages, setCurrentChat } from "@/app/GlobalRedux/profile/chatSlice";
+import ChatMessagesContent from "@/components/profile/messages/ChatMessagesContent";
 
-const page = ({ params }) => {
+const Chat = ({ params }) => {
+  const userChats = useAppSelector((state: RootState) => state.chats.chats);
+  
   const chatId = params.id;
-  console.log("🚀 ~ page ~ params:", params);
+  const dispatch = useAppDispatch();
+  console.log("🚀 ~ Chat ~ params:", params);
+  useEffect(()=> {
+    //  dispatch(setCurrentChat(userChats[index]));
+     dispatch(fetchChatMessages(chatId));
+  }, [chatId, dispatch, userChats])
   const handleSendClick = () => {};
   return (
-    <div className="flex items-center row-span-1 bg-background col-span-2">
-      {<TypingComponent onSendClick={handleSendClick} />}
-    </div>
+    
+     <div className="row-span-12 bg-background col-span-2">
+        <ChatMessagesContent ws={webSckt} />
+      </div>
   );
 };
 
-export default page;
+export default Chat;

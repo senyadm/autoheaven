@@ -10,6 +10,7 @@ import { Car } from "../../../interfaces/shared/Car";
 import { Metadata } from "next/types";
 import { parseModels } from "../../../utils/models";
 import { Make, MakeModelById } from "../../../interfaces/cars/models";
+import { Locale } from "@/i18n.config";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
