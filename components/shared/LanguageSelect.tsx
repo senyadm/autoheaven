@@ -12,6 +12,7 @@ const languages: Record<Language, string> = {
   es: "Español",
   fr: "Français",
   it: "Italiano",
+  ru: "Русский",
   pl: "Polski",
   pt: "Português",
   nl: "Nederlands",

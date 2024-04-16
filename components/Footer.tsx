@@ -6,20 +6,20 @@ import Link from "next/link";
 import SocialMediaIcons from "./SocialMediaIcons";
 import SvgIcon from "./SvgIcon";
 import LanguageSelect from "./shared/LanguageSelect";
-import { useEffect } from "react";
-let footerDict;
-let profileDict;
+import { useEffect, useState } from "react";
+
 const Footer = ({ lang }: { lang: Locale }) => {
+const [footerDict, setFooterDict] = useState<any>(null);
+const [profileDict, setProfileDict] = useState<any>(null);
+
   useEffect(() => {
     const getLocalesFunc = async () => {
       const { footer, profile } = await getlocales(lang);
 
-      profileDict = profile;
-      footerDict = footer;
+      setProfileDict(profile);
+      setFooterDict(footer);
     }
     
-
-
     getLocalesFunc();
   }, [lang])
 

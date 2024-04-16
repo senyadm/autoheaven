@@ -30,7 +30,7 @@ const BrandsBlock = async ({ popularBrands }: Props) => {
         className="mb-9"
       />
       <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {brandsDataState.map((brandsDataEl) => (
+        {brandsDataState.map((brandsDataEl: any) => (
           <BrandsElement
             key={brandsDataEl.brandName}
             brandInfo={brandsDataEl}

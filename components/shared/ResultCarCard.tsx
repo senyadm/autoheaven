@@ -83,7 +83,6 @@ const DrivetrainIcon = (drivetrain: any) => {
 };
 const ResultCarCard = ({
   carDetails,
-  isTop,
   pageDisplayed,
 }: ResultCarCardInterface) => {
   const {
@@ -95,6 +94,7 @@ const ResultCarCard = ({
     drivetrain,
     body_type,
     gearbox,
+    istop,
     phone_number,
     accidentfree,
     imageurl,
@@ -188,7 +188,6 @@ const ResultCarCard = ({
       router.push("/profile/messages");
     }
   };
-console.log(id)
 
   return (
     <div
@@ -209,7 +208,7 @@ console.log(id)
         </div>
 
       <div className="flex flex-col w-full ">
-        {isTop && (
+        {istop && (
           <div className="flex h-6 w-full bg-orange-500 space-x-2 text-primary-foreground items-center">
             <Flame width={16} height={16} className="mr-2 ml-6" /> Top
           </div>
