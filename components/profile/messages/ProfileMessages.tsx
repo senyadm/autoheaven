@@ -16,13 +16,8 @@ import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 const token = getToken();
 
-<<<<<<< HEAD
 const ProfileMessages = ({ children }) => {
   console.log(localStorage);
-=======
-const ProfileMessages = () => {
-
->>>>>>> 161896a950d037a114ef4c4d742cf2178888581a
   const [userId, dispatch] = useAppStore((state) => state.user.id);
   const currentChat = useAppSelector((state) => state.chats.currentChat);
   const [webSckt, setWebSckt] = useState<WebSocket | null>(null);
