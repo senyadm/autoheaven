@@ -105,7 +105,7 @@ const flagComponents: Record<string, any> = {
 export function Navbar({ lang }: { lang: Locale }) {
   const router = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
-  const userLoggedIn = localStorage.getItem("token") || '';
+  const userLoggedIn = localStorage.getItem("token") || "";
   // useEffect(() => {
   //   const validate = async () => {
   //     return await validateToken();
@@ -309,9 +309,6 @@ export function Navbar({ lang }: { lang: Locale }) {
                 </PopoverTrigger>
                 <PopoverContent className="w-full px-1 py-2 space-y- flex flex-col">
                   <Link
-                    onClick={() => {
-                      setOpenPopover(false)
-                    }}
                     href={`/${lang}/profile`}
                     onClick={() => setOpenPopover(!openPopover)}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
@@ -326,15 +323,12 @@ export function Navbar({ lang }: { lang: Locale }) {
                     />
                   </Link>
                   <Link
-                    onClick={() => {
-                      setOpenPopover(false)
-                    }}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                     href={`/${lang}/sell`}
-                    onClick={() => setOpenPopover(!openPopover) }
+                    onClick={() => setOpenPopover(!openPopover)}
                   >
                     <Label className="text-foreground text-l">
-                      {menu?.make_ad || "Make Add"}
+                      {menu?.make_ad || "Make Ad"}
                     </Label>
                     <MegaphoneIcon className="ml-2 w-4 h-4" />
                   </Link>
