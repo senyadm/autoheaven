@@ -3,7 +3,7 @@ import { Car } from "../shared/Car";
 export interface ChatListAPI {
   buyer_id: number;
   chat_id: number;
-  last_message_timestamp: string | null;
+  last_message: ChatMessageAPI;
   product_id: number;
   seller_id: number;
 }

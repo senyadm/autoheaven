@@ -70,7 +70,7 @@ const ProfileMessages = ({ children }) => {
         </Button>
       </div>
       <div className="flex items-center row-span-1 bg-background col-span-2">
-        {<TypingComponent onSendClick={handleSendClick} />}
+        <TypingComponent onSendClick={handleSendClick} />
       </div>
     </div>
   );
