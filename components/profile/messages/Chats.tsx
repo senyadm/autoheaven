@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 const Chats = () => {
   // const [chats, setChats] = useState<ChatComponentProps[]>([]);
   const userChats = useSelector((state: RootState) => state.chats.chats);
+  console.log("🚀 ~ Chats ~ userChats:", userChats);
   const { replace } = useRouter();
   // useEffect(() => {
   //   if (!userChats?.length) return;
@@ -39,7 +40,6 @@ const Chats = () => {
           key={`message ${chat.chat_id}`}
           onChatClick={() => {
             replace(`/profile/messages/${chat.chat_id}`);
-           
           }}
         />
       ))}

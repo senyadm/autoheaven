@@ -19,8 +19,6 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { lang: Locale };
 }) {
-  console.log(params);
-
   return (
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>

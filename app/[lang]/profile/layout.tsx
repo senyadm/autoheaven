@@ -8,7 +8,6 @@ import { RootState, useAppDispatch } from "../../GlobalRedux/store";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
-import Loading from "./loading";
 import { fetchUserData } from "../../GlobalRedux/profile/userSlice";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
@@ -23,6 +22,7 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import MenuHeader from "../../../components/profile/MenuHeader";
 
 export interface itemInfoModel {
   title: string;
@@ -71,27 +71,7 @@ const Layout = ({
 }: {
   params: { lang: Locale };
 }) => {
-  const [fullName, setFullName] = useState<string>("");
-
   const dispatch = useAppDispatch();
-  const userName = useSelector(
-    (state: RootState) => state?.user?.user_info?.name
-  );
-
-  if (!userName) {
-    dispatch(fetchUserData());
-  }
-  const userSurname = useSelector(
-    (state: RootState) => state?.user
-  );
-
-  useEffect(() => {
-    console.log("userSurname", userSurname);
-
-    setFullName(`${userName} ${userSurname}`);
-  }, [userName, userSurname]);
-
-  const userEmail = useSelector((state: RootState) => state?.user?.email);
 
   const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);
 
@@ -119,24 +99,7 @@ const Layout = ({
     <main className="flex justify-center items-start flex-grow bg-topography-light">
       <div className="flex md:space-x-4 flex-col md:w-[1280px] md:flex-row">
         <section className="border md:flex hidden rounded-lg h-full p-3 w-[230px] h-full md:h-[570px] flex flex-col items-start gap-2.5 flex-shrink-0 bg-background">
-          <div className="flex items-center mb-4">
-            <Suspense fallback={<Loading />}>
-              <div className="mr-4 flex-shrink-0">
-                <SvgIcon
-                  filepath="/icons/profile.svg"
-                  alt="Logo"
-                  width={48}
-                  height={48}
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold ">{fullName}</span>
-                <span className="text-foreground text-sm text-muted-foreground">
-                  {userEmail}
-                </span>
-              </div>
-            </Suspense>
-          </div>
+          <MenuHeader />
           <Separator />
           <div className="mt-4">
             <ProfileNavigationMenu dict={dict} />
@@ -145,33 +108,42 @@ const Layout = ({
         <div className="flex md:hidden w-full justify-center mb-1 pt-2 pb-2">
           <Tabs defaultValue="cars">
             <TabsList className="w-full gap-6 justify-center items-center">
-          {navigationMenuGeneralItemsInfo.map((itemInfo) => (
-            <TabsTrigger
-              className="flex-grow w-[35px]"
-              onClick={() => router.push(itemInfo.componentName === "overview"
-              ? `/${pathArr[1]}/profile`
-              : `/${pathArr[1]}/profile/${itemInfo.componentName}`)}
-              value={itemInfo.componentName}
-              key={itemInfo.componentName}
-          >
-            {itemInfo.icon}
-          </TabsTrigger>
-          ))}
+              {navigationMenuGeneralItemsInfo.map((itemInfo) => (
+                <TabsTrigger
+                  className="flex-grow w-[35px]"
+                  onClick={() =>
+                    router.push(
+                      itemInfo.componentName === "overview"
+                        ? `/${pathArr[1]}/profile`
+                        : `/${pathArr[1]}/profile/${itemInfo.componentName}`
+                    )
+                  }
+                  value={itemInfo.componentName}
+                  key={itemInfo.componentName}
+                >
+                  {itemInfo.icon}
+                </TabsTrigger>
+              ))}
 
-          {navigationMenuVehiclesItemsInfo.map((itemInfo) => (
-            <TabsTrigger
-            className="flex-grow w-[40px]"
-              onClick={() => router.push(itemInfo.componentName === "overview"
-              ? `/${pathArr[1]}/profile`
-              : `/${pathArr[1]}/profile/${itemInfo.componentName}`)}
-              value={itemInfo.componentName}
-              key={itemInfo.componentName}>
-                {itemInfo.icon}
-              </TabsTrigger>
-          ))}
-          </TabsList>
+              {navigationMenuVehiclesItemsInfo.map((itemInfo) => (
+                <TabsTrigger
+                  className="flex-grow w-[40px]"
+                  onClick={() =>
+                    router.push(
+                      itemInfo.componentName === "overview"
+                        ? `/${pathArr[1]}/profile`
+                        : `/${pathArr[1]}/profile/${itemInfo.componentName}`
+                    )
+                  }
+                  value={itemInfo.componentName}
+                  key={itemInfo.componentName}
+                >
+                  {itemInfo.icon}
+                </TabsTrigger>
+              ))}
+            </TabsList>
           </Tabs>
-          </div>
+        </div>
         <section className="border rounded-lg h-[calc(100vh-100px)] overflow-y-auto flex-grow bg-background p-2">
           {children}
         </section>

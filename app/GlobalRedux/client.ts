@@ -51,9 +51,11 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
               saveToken(response.data.access_type);
             })
             .catch((error) => {
-              saveOriginalUrl(window.location.pathname);
-              window.location.replace("/login");
-              localStorage.removeItem("token");
+              if (typeof window !== "undefined") {
+                saveOriginalUrl(window.location.pathname);
+                window.location.replace("/login");
+                localStorage.removeItem("token");
+              }
             });
         }
         return Promise.reject(error);

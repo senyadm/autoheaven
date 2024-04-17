@@ -13,9 +13,9 @@ interface ChatComponentProps {
 const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.chats.currentChat);
-  const { chat_id, carInfo } = chat;
-  if (!carInfo) return null;
-  const { imageurl, title } = carInfo;
+  const { chat_id, carInfo, chatter_id } = chat;
+  // if (!carInfo) return null;
+  // const { imageurl, title } = carInfo;
   return (
     <Button
       onClick={onChatClick}
@@ -25,16 +25,18 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
     >
       <div className="h-16 w-16 relative">
         <div className="absolute inset-0 overflow-hidden  rounded-lg">
-          <Image
+          {/* <Image
             src={imageurl}
             alt=""
             layout="fill" // This will fill the parent container
             objectFit="cover" // Crop the image to cover the container
-          />
+          /> */}
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-lg text-foreground font-semibold">{title}</div>
+        <div className="text-lg text-foreground font-semibold">
+          {chatter_id}
+        </div>
         <div className="text-muted text-muted-foreground">{"lastMessage"}</div>
       </div>
     </Button>
