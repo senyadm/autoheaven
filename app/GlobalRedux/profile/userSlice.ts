@@ -5,28 +5,10 @@ import { get } from "http";
 import { getToken } from "../../../utils/auth";
 import { AppDispatch } from "../store";
 import { Car } from "../../../interfaces/shared/Car";
+import { UserAPI } from "../../../interfaces/shared/users";
 
-interface UserInfo {
-  address: string;
-  city: string;
-  country: string;
-  id: number;
-  name: string;
-  phone_number: string;
-  region: string | null;
-  surname: string;
-}
 type LoadState = "idle" | "loading" | "succeeded" | "failed";
-interface UserAPI {
-  email: string;
-  id: number;
-  is_active: boolean;
-  password: string;
-  user_group: string | null;
-  user_info: UserInfo | null;
-  user_info_id: number;
-  username: string;
-}
+
 interface UserState extends UserAPI {
   loadState: LoadState; // for async
   wishlist: number[];
