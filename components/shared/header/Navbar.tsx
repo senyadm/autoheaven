@@ -105,7 +105,7 @@ const flagComponents: Record<string, any> = {
 export function Navbar({ lang }: { lang: Locale }) {
   const router = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
-  const userLoggedIn = localStorage.getItem("token") || "";
+  const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   // useEffect(() => {
   //   const validate = async () => {
   //     return await validateToken();

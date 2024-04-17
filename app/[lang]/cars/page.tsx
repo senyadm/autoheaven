@@ -37,10 +37,8 @@ async function getCarResults(
     acc[makeName] = models.map((model) => model.name);
     return acc;
   }, {});
-  console.log("🚀 ~ parsedModels:", parsedModels);
   normalizedParams.makeModels = JSON.stringify(parsedModels);
   delete normalizedParams.models;
-  console.log("🚀 ~ normalizedParams:", normalizedParams);
 
   const topCars = {
       title: "Top offers",
@@ -82,7 +80,6 @@ async function getCarResults(
 const page = async ({ params, searchParams }) => {
   const carModels: Record<string, Make> = await getCars("/api/car_models");
   const carModelsById = getCarModelsById(carModels);
-  console.log("🚀 ~ page ~ carModelsById:", carModelsById);
   const filtersText = (await getlocales(params.lang)).filters;
   // maps car make to car models array
   const carResults = await getCarResults(searchParams, carModelsById);

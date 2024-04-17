@@ -14,10 +14,8 @@ import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { getToken } from "../../../utils/auth";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
-const token = getToken();
 
 const ProfileMessages = ({ children }) => {
-  console.log(localStorage);
   const [userId, dispatch] = useAppStore((state) => state.user.id);
   const currentChat = useAppSelector((state) => state.chats.currentChat);
   const [webSckt, setWebSckt] = useState<WebSocket | null>(null);
@@ -26,6 +24,7 @@ const ProfileMessages = ({ children }) => {
     dispatch(fetchUserChats(userId));
   }, [dispatch, userId]);
   useEffect(() => {
+    const token = getToken();
     if (!currentChat) {
       console.error("No chat selected");
       return;

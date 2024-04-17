@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
 import { Separator } from "../../ui/separator";
@@ -6,11 +6,9 @@ import { Label } from "../../ui/label";
 import { Button } from "../../ui/button";
 import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-number-input";
-import { PenSquare, Eye, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Checkbox } from "../../ui/checkbox";
 import "react-phone-number-input/style.css";
-import flags from "react-phone-number-input/flags";
-import { fetchUserData } from "../../../app/GlobalRedux/profile/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/GlobalRedux/store";
 import EditButton from "./ProfileEditButton";
 import {
@@ -86,10 +84,6 @@ const ProfileEdit = ({ lang }: { lang: Locale }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang]);
 
-  useEffect(() => {
-    console.log("fetching user data");
-    dispatch(fetchUserData());
-  }, []);
   useEffect(() => {
     dispatch(
       setPublicProfile({

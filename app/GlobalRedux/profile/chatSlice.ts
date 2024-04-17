@@ -97,13 +97,18 @@ export const fetchUserChats = createAsyncThunk(
     try {
       const chatListResponse = await clientChats.get(`/chat_list`);
 
-      const chatList = chatListResponse.data.map((chat: ChatListAPI) => {
-        return {
+      let chatList;
+      for (const chat of chatListResponse.data) {
+        const chatterId = determineChatterId(clientUserId, chat);
+        // remove chats with yourself
+        if (chatterId === clientUserId) continue;
+        chatList.push({
           ...chat,
-          chatter_id: determineChatterId(clientUserId, chat),
+          chatter_id: chatterId,
           carInfo: null,
-        };
-      });
+        });
+      }
+
       const carPromiseURLs = chatList.map(
         (chat) => `api/cars/${chat.product_id}`
       );
