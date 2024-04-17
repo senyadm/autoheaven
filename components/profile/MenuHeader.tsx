@@ -4,11 +4,8 @@ import SvgIcon from "../SvgIcon";
 import { RootState, useAppSelector } from "../../app/GlobalRedux/store";
 
 const MenuHeader = () => {
-  const userSurname = useAppSelector((state: RootState) => state?.user);
-  const userName = useAppSelector(
-    (state: RootState) => state?.user?.user_info?.name
-  );
-  const fullName = `${userName} ${userSurname}`;
+  const userInfo = useAppSelector((state: RootState) => state?.user.user_info);
+  const fullName = `${userInfo?.name ?? ""} ${userInfo?.surname ?? ""}`;
   const userEmail = useAppSelector((state: RootState) => state?.user?.email);
   return (
     <div className="flex items-center mb-4">

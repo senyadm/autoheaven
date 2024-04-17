@@ -80,6 +80,11 @@ export const chatSlice = createSlice({
     addChat: (state, action: PayloadAction<Chat>) => {
       state.chats = [...state.chats, action.payload];
     },
+    deleteChat: (state, action: PayloadAction<Chat>) => {
+      state.chats = state.chats.filter(
+        (chat) => chat.chat_id !== action.payload.chat_id
+      );
+    },
     addMessage: (state, action: PayloadAction<ChatMessageAPI>) => {
       if (!state.currentChat) return;
 
@@ -91,13 +96,22 @@ export const chatSlice = createSlice({
   },
 });
 
+export const {
+  setCurrentChathistory,
+  setCurrentChat,
+  addChat,
+  addMessage,
+  setChats,
+  deleteChat,
+} = chatSlice.actions;
+
 export const fetchUserChats = createAsyncThunk(
   "user/fetchUserChats",
   async (clientUserId: number, { dispatch, getState }) => {
     try {
       const chatListResponse = await clientChats.get(`/chat_list`);
 
-      let chatList;
+      let chatList = [] as Chat[];
       for (const chat of chatListResponse.data) {
         const chatterId = determineChatterId(clientUserId, chat);
         // remove chats with yourself
@@ -154,11 +168,3 @@ export const fetchChatMessages = createAsyncThunk(
     }
   }
 );
-
-export const {
-  setCurrentChathistory,
-  setCurrentChat,
-  addChat,
-  addMessage,
-  setChats,
-} = chatSlice.actions;
