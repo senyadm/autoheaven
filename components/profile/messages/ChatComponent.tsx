@@ -56,7 +56,7 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
             {chatter_id}
           </div>
           <div className="text-muted text-muted-foreground">
-            {last_message.message_content}
+            {last_message?.message_content}
           </div>
         </div>
       </Button>
