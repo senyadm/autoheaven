@@ -176,7 +176,7 @@ const ResultCarCard = ({
       const newChat: Chat = {
         product_id: id,
         chat_id: 0,
-        last_message_timestamp: "",
+        last_message: null,
         buyer_id: userId,
         seller_id: seller_id,
         chatter_id: seller_id,
@@ -195,17 +195,17 @@ const ResultCarCard = ({
         isPremium ? "bg-premium text-white" : "bg-background"
       } border rounded-lg overflow-hidden`}
     >
-        <div className="block relative w-full max-w-[312px]">
-          <Image
-            alt=""
-            src={`https://autoheven-cars.vercel.app/cars/download/${id}`}
-            fill={true}
-            sizes={"100%"}
-            style={{
-              objectFit: "cover",
-            }}
-          />
-        </div>
+      <div className="block relative w-full max-w-[312px]">
+        <Image
+          alt=""
+          src={`https://autoheven-cars.vercel.app/cars/download/${id}`}
+          fill={true}
+          sizes={"100%"}
+          style={{
+            objectFit: "cover",
+          }}
+        />
+      </div>
 
       <div className="flex flex-col w-full ">
         {istop && (
@@ -272,6 +272,7 @@ const ResultCarCard = ({
             <div className="flex justify-between items-end text-foreground">
               <ResultCarCardButtons
                 isWish={wishlist?.includes(id)}
+                isMine={seller_id === userId}
                 onButtonClick={onButtonClick}
                 pageDisplayed={pageDisplayed || "cars"}
               />
