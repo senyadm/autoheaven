@@ -67,6 +67,7 @@
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
     "react-stack-grid": "^0.7.1",
+    "react-use-websocket": "^4.8.1",
     "react-window": "^1.8.9",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
