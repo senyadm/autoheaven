@@ -15,11 +15,30 @@ import { getToken } from "../../../utils/auth";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 import { fetchUserData } from "../../../app/GlobalRedux/profile/userSlice";
+import useWebSocket from "react-use-websocket";
 
 const ProfileMessages = () => {
   const [userId, dispatch] = useAppStore((state) => state.user.id);
   const currentChat = useAppSelector((state) => state.chats.currentChat);
-  const ws = useRef<WebSocket | null>(null);
+  const socketUrl =
+    currentChat &&
+    `ws://seashell-app-p3opp.ondigitalocean.app/ws/${getToken()}/${
+      currentChat.chatter_id
+    }/${currentChat.product_id}`;
+
+  const {
+    sendMessage,
+    sendJsonMessage,
+    lastMessage,
+    lastJsonMessage,
+    readyState,
+    getWebSocket,
+  } = useWebSocket(socketUrl, {
+    onOpen: () => console.log("opened"),
+    //Will attempt to reconnect on all close events, such as server shutting down
+    shouldReconnect: (closeEvent) => true,
+  });
+
   useEffect(() => {
     if (!userId) {
       dispatch(fetchUserData());
@@ -27,14 +46,15 @@ const ProfileMessages = () => {
     }
     dispatch(fetchUserChats(userId));
   }, [dispatch, userId]);
+
   const createMessage = useCallback(
-    function (msg, senderId) {
+    function (msg, areYouSender) {
       if (!currentChat) return console.error("No chat selected");
       const messagePayload: ChatMessageAPI = {
         message_content: msg,
-        sender_id: senderId,
+        sender_id: areYouSender ? userId : currentChat.chatter_id,
         chat_id: currentChat.chat_id,
-        timestamp: new Date().toISOString(),
+        created_at: new Date().toISOString(),
         read_status: false,
         message_id: -1, // local messages do no have message_id, they come from the server
       };
@@ -43,31 +63,19 @@ const ProfileMessages = () => {
     [currentChat, dispatch]
   );
   useEffect(() => {
+    if (lastMessage !== null) {
+      console.log("🚀 ~ useEffect ~ lastMessage:", lastMessage);
+      const { data } = lastMessage;
+      const { message, receiver } = JSON.parse(data);
+      createMessage(message, userId != receiver);
+    }
+  }, [createMessage, lastMessage]);
+
+  useEffect(() => {
     if (!currentChat) return;
-    ws.current = new WebSocket(
-      `ws://seashell-app-p3opp.ondigitalocean.app/ws/${getToken()}/${
-        currentChat.chatter_id
-      }/${currentChat.product_id}`
-    );
-    ws.current.onopen = () => {
-      console.log("WebSocket connected");
-    };
-    ws.current.onmessage = (event) => {
-      createMessage(event.data, currentChat.chatter_id);
-    };
-    ws.current.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-    return () => {
-      ws.current?.close();
-    };
   }, [createMessage, currentChat]);
 
   function handleSendClick(inputValue: string) {
-    if (!ws.current) return;
     if (!userId) {
       console.error("User not found");
       return;
@@ -76,8 +84,8 @@ const ProfileMessages = () => {
       console.error("No chat selected");
       return;
     }
-    createMessage(inputValue, userId);
-    ws.current.send(inputValue);
+    // createMessage(inputValue, userId);
+    sendMessage(inputValue);
   }
   return (
     <div className="h-full grid grid-cols-3 grid-rows-13 gap-px bg-border">
