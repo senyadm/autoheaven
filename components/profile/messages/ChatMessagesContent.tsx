@@ -8,6 +8,7 @@ import {
   setCurrentChat,
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import { useRouter } from "next/router";
+import { formatMessageDate } from "../../../utils/date";
 interface ChatMessagesContentProps {}
 const ChatMessagesContent = () => {
   const dispatch = useAppDispatch();
@@ -27,34 +28,21 @@ const ChatMessagesContent = () => {
     <div className="flex flex-col w-full h-full px-4 py-2 overflow-auto">
       {Object.entries(messagesByDate).map(([date, messages]) => (
         <div key={date}>
-          <div>{date}</div>
+          <div className="text-center text-xs text-muted-foreground">
+            {formatMessageDate(new Date(date))}
+          </div>
           {messages?.map((message, index) => {
             const shouldPutMarkerYou = () =>
               userId === message.sender_id && firstMessageYou;
             const shouldPutMarkerResponder = () =>
               userId === message.sender_id && firstMessageResponder;
-            let firstStr = "",
-              secondStr = "";
-            if (shouldPutMarkerYou()) {
-              firstMessageYou = false;
-              firstStr = "You";
-            }
 
-            if (shouldPutMarkerResponder()) {
-              firstMessageResponder = false;
-              secondStr = "" + message.sender_id;
-            }
             const areYouSender = userId == message.sender_id;
             return (
               <div
                 className={`flex w-full ${areYouSender ? "" : ""}`}
                 key={message.message_id}
               >
-                <div className="text-sm text-muted-foreground mb-1">
-                  <div className="flex justify-end">{firstStr}</div>
-                  <div>{secondStr}</div>
-                </div>
-
                 <div
                   key={index}
                   className={`w-5/12 space-y-1 rounded-lg border pr-2 py-2 pl-4 ${
@@ -77,7 +65,10 @@ const ChatMessagesContent = () => {
                         : "text-muted-foreground"
                     }`}
                   >
-                    {new Date(message.created_at).toLocaleTimeString()}
+                    {new Date(message.created_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </div>
                 </div>
               </div>
