@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../../ui/button";
 import { useAppDispatch, useAppSelector } from "../../../app/GlobalRedux/store";
 import { Chat } from "../../../interfaces/profile/messages";
@@ -14,8 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
 import { deleteChat } from "../../../app/GlobalRedux/profile/chatSlice";
-import { clientChats } from "../../../app/GlobalRedux/client";
-
+import { carsDomain, clientChats } from "../../../app/GlobalRedux/client";
+import Image from "next/image";
 interface ChatComponentProps {
   chat: Chat;
   onChatClick?: (id: number) => void;
@@ -23,23 +22,27 @@ interface ChatComponentProps {
 const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.chats.currentChat);
-  const { chat_id, last_message, chatter_id } = chat;
+  const { chat_id, last_message, chatter_id, carInfo, product_id } = chat;
   // if (!carInfo) return null;
   // const { imageurl, title } = carInfo;
   function handleDelete() {
     console.log("Deleting chat");
+
     dispatch(deleteChat(chat));
-    clientChats.delete(`/chat_list/${chat_id}`);
+    clientChats.delete(`/chat_list/${chat_id}`).catch((err) => {
+      console.error(err);
+    });
   }
   return (
     <div
       className={`flex border-b ${
         chat_id === currentChat?.chat_id ? "bg-secondary" : ""
-      }`}
+      }
+      hover:bg-secondary`}
     >
       <Button
         onClick={onChatClick}
-        className={`flex w-full bg-inherit justify-start text-left px-2 py-[18px] space-x-[10px] h-[100px]`}
+        className={`flex w-full bg-inherit justify-start shadow-none text-left hover:bg-inherit space-x-[10px] h-[100px]`}
       >
         <div className="h-16 w-16 relative">
           <div className="absolute inset-0 overflow-hidden  rounded-lg">
@@ -49,11 +52,20 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
             layout="fill" // This will fill the parent container
             objectFit="cover" // Crop the image to cover the container
           /> */}
+            <Image
+              alt=""
+              src={`${carsDomain}/cars/download/${product_id}`}
+              fill={true}
+              sizes={"100%"}
+              style={{
+                objectFit: "cover",
+              }}
+            />
           </div>
         </div>
         <div className="flex flex-col">
           <div className="text-lg text-foreground font-semibold">
-            {chatter_id}
+            {carInfo?.title || `${carInfo?.make} ${carInfo?.model}`}
           </div>
           <div className="text-muted text-muted-foreground">
             {last_message?.message_content}
@@ -61,8 +73,8 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
         </div>
       </Button>
       <Dialog>
-        <DialogTrigger>
-          <TrashIcon />
+        <DialogTrigger className="h-4 p-2">
+          <TrashIcon className="hover:text-red-700 h-4 w-4" />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

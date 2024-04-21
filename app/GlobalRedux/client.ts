@@ -9,6 +9,8 @@ const APIDomains = [
   "https://seashell-app-p3opp.ondigitalocean.app",
 ];
 
+export const [emailDomain, carsDomain, usersDomain, chatsDomain] = APIDomains;
+
 const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
   (url) => {
     const client = axios.create({

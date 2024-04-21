@@ -44,6 +44,7 @@ import { set } from "zod";
 import { Chat, ChatListAPI } from "../../interfaces/profile/messages";
 import { useAppSelector } from "../../app/GlobalRedux/store";
 import { fetchAndSetUser } from "../../utils/user";
+import { getWS } from "../../utils/chats";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
