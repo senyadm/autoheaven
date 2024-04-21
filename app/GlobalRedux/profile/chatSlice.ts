@@ -52,8 +52,7 @@ export interface MessagePayload {
   timestamp: Date;
 }
 function determineChatterId(userId: number, chat: Chat) {
-  if (chat.buyer_id === chat.seller_id) console.log("Chat with yourself");
-  return userId === chat.buyer_id ? chat.seller_id : chat.buyer_id;
+  return userId == chat.buyer_id ? chat.seller_id : chat.buyer_id;
 }
 export const chatSlice = createSlice({
   name: "chats",
@@ -113,14 +112,15 @@ export const fetchUserChats = createAsyncThunk(
 
       let chatList = [] as Chat[];
       for (const chat of chatListResponse.data) {
-        const chatterId = determineChatterId(clientUserId, chat);
         // remove chats with yourself
-        if (chatterId === clientUserId) continue;
-        chatList.push({
-          ...chat,
-          chatter_id: chatterId,
-          carInfo: null,
-        });
+        if (chat.buyer_id !== chat.seller_id) {
+          const chatterId = determineChatterId(clientUserId, chat);
+          chatList.push({
+            ...chat,
+            chatter_id: chatterId,
+            carInfo: null,
+          });
+        }
       }
 
       const carPromiseURLs = chatList.map(
@@ -130,19 +130,15 @@ export const fetchUserChats = createAsyncThunk(
       const carPromises = carPromiseURLs.map((url: string) =>
         clientCars.get(url)
       );
-      chatList[0].carInfo = "salam";
       await Promise.allSettled(carPromises).then((carInfos) => {
         carInfos.forEach((carInfo, index) => {
-          console.log("carInfo", carInfo);
           if (carInfo.status === "fulfilled") {
-            console.log("frozen", Object.isFrozen(chatList[index]));
             chatList[index].carInfo = carInfo.value.data;
           } else {
             console.error("Error fetching car info:", carInfo.reason);
           }
         });
       });
-      console.log(chatList, "chatList");
       dispatch(setChats(chatList));
       return chatList;
     } catch (error) {
@@ -154,17 +150,23 @@ export const fetchUserChats = createAsyncThunk(
 
 export const fetchChatMessages = createAsyncThunk(
   "user/fetchChatMessages",
-  async (receiver_id: number, { dispatch }) => {
+  async (chat_id: number, { dispatch }) => {
     try {
-      const response = await clientChats.get(
-        `/chat_history/${receiver_id}`,
-        {}
-      );
+      const response = await clientChats.get(`/chat_history/${chat_id}`, {});
       dispatch(setCurrentChathistory(response.data));
       return response.data;
     } catch (error) {
       console.error("Error fetching user chats:", error);
       throw error;
     }
+  }
+);
+
+export const selectChat = createAsyncThunk(
+  "user/selectChat",
+  async (chat: Chat, { dispatch, getState }) => {
+    console.log("🚀 ~ getState():", getState());
+    dispatch(setCurrentChat(chat));
+    dispatch(fetchChatMessages(chat.chat_id));
   }
 );
