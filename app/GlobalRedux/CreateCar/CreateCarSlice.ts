@@ -25,12 +25,6 @@ export interface CarDetails {
   interior_color: string;
 }
 
-enum RequestStatus {
-  Idle = "idle",
-  Loading = "loading",
-  Failed = "failed",
-}
-
 const defaultCarDetails = {
   type: "",
   body_type: "",

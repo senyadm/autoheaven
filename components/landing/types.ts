@@ -13,19 +13,24 @@ export interface Filter {
     sortBy?: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst"
 }
 
-export type TrucksComponentProps = {
+interface ComponentProps {
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
+    filter: Filter
+    lang: string
+    dict: FiltersDictionary
+}
+
+export interface TrucksComponentProps extends ComponentProps {
     setSelectedIcon: React.Dispatch<React.SetStateAction<number>>;
     setHoveredIcon: React.Dispatch<React.SetStateAction<number>>;
     selectedIcon: number;
     hoveredIcon: number;
-    filter: Filter;
 };
 
-export type MotoComponentProps = {
+export interface MotoComponentProps extends ComponentProps {
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
-handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
+    handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
     filter: Filter
 };
 
@@ -38,13 +43,8 @@ export type FilterStates = {
     busses: Filter;
 };
 
-export type CarComponentProps = {
-    dict: FiltersDictionary
-    lang: string
-    handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
-    handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
+export interface CarComponentProps extends ComponentProps {
     handleOfferNumbers: (offerNumber: number) => void;
-    filter: Filter
 };
 
 

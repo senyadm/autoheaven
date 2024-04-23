@@ -8,12 +8,14 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, RotateCcw } from "lucide-react";
 import SvgIcon from "../../SvgIcon";
 import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
-import RangeSlider from "../RangeSlider";
+import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
 import { BUS_SUBCATEGORIES, TrucksComponentProps } from "../types";
+import { createRef, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const fuelTypes: string[] = [
   "All",
@@ -31,8 +33,37 @@ export function BusComponent({
   selectedIcon,
   hoveredIcon,
   filter,
+  lang,
+  dict,
   handleSelectorChange,
 }: TrucksComponentProps) {
+  const [offers, setOffers] = useState<number>(0);
+
+  const router = useRouter();
+
+  const sliderRefs = useRef([
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>()
+  ]);
+
+  const handleReset = () => {
+    handleSliderChange("cars", "price", [1000, 1000000]);
+    handleSliderChange("cars", "milage", [0, 500000]);
+    handleSliderChange("cars", "year", [1975, 2023]);
+    handleSelectorChange("cars", "brandAndModel", "");
+    handleSelectorChange("cars", "vehicleBody", "");
+    handleSelectorChange("cars", "fuelType", "");
+    sliderRefs.current.forEach((ref) => {
+      ref.current?.reset();
+    });
+  }
+
+  const handleNavigate = (e: any) => {
+    e.preventDefault();
+    router.push(`${lang}/cars`);
+  };
+
   return (
     <Card className="bg-background border-0">
       <CardHeader>
@@ -69,8 +100,9 @@ export function BusComponent({
         </div>
       </CardHeader>
       <CardContent className="space-y-2">
-        <div className="flex flex-col md:grid md:grid-cols-3 gap-6 mt-4 mb-6">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-6 mt-4 md:mt-0 mb-6">
           <RangeSlider
+            ref={sliderRefs.current[0]}
             value={filter.price}
             fixedLowerText="1000 $"
             fixedUpperText="100000 $"
@@ -85,6 +117,7 @@ export function BusComponent({
             }
           />
           <RangeSlider
+            ref={sliderRefs.current[1]}
             value={filter.milage}
             fixedLowerText="0 km"
             fixedUpperText="500000 km"
@@ -99,6 +132,7 @@ export function BusComponent({
             }
           />
           <RangeSlider
+            ref={sliderRefs.current[2]}
             value={filter.year}
             fixedLowerText="1975"
             fixedUpperText="2023"
@@ -192,10 +226,16 @@ export function BusComponent({
         </div>
       </CardContent>
       <CardFooter className="grid place-items-end">
-        <Button>
-          100000 offers
+      <div className="flex flex-row space-x-2">
+        <Button variant="secondary" onClick={handleReset}>
+          <span className="me-2">{dict?.reset || "Reset"}</span>
+          <RotateCcw size={24} />
+        </Button>
+        <Button onClick={handleNavigate}>
+          {offers || 0} {dict?.offers || "offers"}
           <ChevronRight />
         </Button>
+        </div>
       </CardFooter>
     </Card>
   );
