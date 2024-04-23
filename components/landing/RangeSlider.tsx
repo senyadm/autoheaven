@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import SvgIcon from "@/components/SvgIcon";
@@ -18,7 +18,12 @@ type RangeSliderProps = {
 type tempRange =  {
 Range: [number, number]
 }
-function RangeSlider({
+
+interface RangeSliderRef {
+    reset: () => void;
+}
+
+const RangeSlider = forwardRef<RangeSliderRef, RangeSliderProps>(({
     value,
     min,
     max,
@@ -29,13 +34,17 @@ function RangeSlider({
     fixedLowerText,
     fixedUpperText,
     onValueChange
-}: RangeSliderProps) {
+}, ref) => {
     const [range, setRange] = useState<[number, number]>([min, max]),
     [errorInput, setErrorInput] = useState<boolean>(false)
-    
-    let dynamicLowerText = '';
-    let dynamicUpperText = '';
-    
+        
+    useImperativeHandle(ref, () => ({
+        reset: () => {
+            setRange([min, max]);
+            setErrorInput(false);
+            onValueChange && onValueChange([min, max]);
+        }}));
+
     const getSymbol = () => {
         if (id === "price") {
             return "$";
@@ -49,6 +58,11 @@ function RangeSlider({
         const inputValue = e.target.value;
         const isNumber = /^\d+$/.test(inputValue);
         if (isNumber) {
+            if (Number(inputValue) < min || Number(inputValue) > max) {
+                setErrorInput(true);
+                return;
+            }
+
             temp[index] = Number(inputValue);
             setRange(temp);
             onValueChange && onValueChange(temp)
@@ -86,6 +100,9 @@ function RangeSlider({
             </div>
         </div>
     );
-}
+});
 
+export type { RangeSliderRef };
+
+RangeSlider.displayName = "RangeSlider";
 export default RangeSlider;

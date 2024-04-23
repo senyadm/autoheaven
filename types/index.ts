@@ -91,6 +91,7 @@ export interface FiltersDictionary {
   trucks: string;
   busses: string;
   offers: string;
+  reset: string;
   fromDealer?: string;
   accidentFree?: string;
   type?: string;

@@ -7,8 +7,6 @@ import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
 import { Locale, defaultLocale } from "@/i18n.config";
 import { Toaster } from "@/components/ui/toaster";
-import { Suspense } from "react";
-import Loading from "./profile/loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
