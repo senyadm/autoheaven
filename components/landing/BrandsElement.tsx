@@ -22,10 +22,10 @@ const BrandsElement = ({ brandInfo }: BrandsElementProps) => {
         >
           {brandName}
         </Link>
-        <div className="flex opacity-50 items-center">
+        {/* <div className="flex opacity-50 items-center">
           <div className="mr-1">{resultsCount}</div>
           <ExternalLink className="h-3 w-3" />
-        </div>
+        </div> */}
       </div>
       <TypographyList listItems={models} />
     </div>
