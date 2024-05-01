@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SvgIcon from "../SvgIcon";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -8,19 +8,43 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transportCategorySlice";
 import { AppDispatch, RootState } from "@/app/GlobalRedux/store";
 
-import { Filter, FilterStates, TabKeys, tabsTriggersInfo } from "./types";
+import { Filter, FilterBusses, FilterMoto, FilterStates, TabKeys, busType, motoMake, motoType, tabsTriggersInfo } from "./types";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BusComponent } from "./filterComponents/BusComponent";
 import { CarComponent } from "./filterComponents/CarComponent";
 import { MotorcycleComponent } from "./filterComponents/MotoComponent";
 import { TrucksComponent } from "./filterComponents/TrucksComponent";
+import { clientCars } from "@/app/GlobalRedux/client";
 
 const filterDefault: Filter = {
+  type: "cars",
   price: [1000, 1000000],
   milage: [0, 500000],
   year: [1975, 2023],
   brandAndModel: "",
+  vehicleBody: "",
+  fuelType: "",
+};
+
+const filterDefaultMoto: FilterMoto = {
+  price: [1000, 1000000],
+  milage: [0, 500000],
+  year: [1975, 2023],
+  model: "",
+  brand: "",
+  type: "motos",
+  vehicleBody: "",
+  fuelType: "",
+};
+
+const filterDefaultBus: FilterBusses = {
+  price: [1000, 1000000],
+  milage: [0, 500000],
+  year: [1975, 2023],
+  model: "",
+  brand: "",
+  type: "busses",
   vehicleBody: "",
   fuelType: "",
 };
@@ -31,12 +55,16 @@ function FilterComponent({ className, dict, lang }: any) {
   const [selectedIcon, setSelectedIcon] = useState(-1);
   const [hoveredIcon, setHoveredIcon] = useState(-1);
   const [offers, setOffers] = useState<number>(0);
+  const [busList, setBusList] = useState<motoMake[]>([]);
+  const [busTypes, setBusTypes] = useState<busType[]>([]);
+  const [motoList, setMotoList] = useState<motoMake[]>([]);
+  const [motoTypes, setMotoTypes] = useState<motoType[]>([]);
   const dispatch: AppDispatch = useDispatch();
   const initialFilterStates: FilterStates = {
     cars: filterDefault,
-    moto: filterDefault,
+    motos: filterDefaultMoto,
     trucks: filterDefault,
-    busses: filterDefault,
+    busses: filterDefaultBus,
   };
   const [filters, setFilters] = useState<FilterStates>(initialFilterStates);
   const handleOfferNumbers = (offerNumber: number) => {
@@ -60,6 +88,64 @@ function FilterComponent({ className, dict, lang }: any) {
       [tab]: { ...prev[tab], [id]: selectorValue },
     }));
   };
+
+  // useEffect(() => {
+  //   console.log(filters.motos)
+  // }, [filters])
+
+  useEffect(() => {
+    const fetchBusList = async () => {
+      try {
+        const res = await clientCars.get('/api/bus_makes');
+        const busList = res.data;
+        setBusList(busList);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+
+    const getBusTypes = async () => {
+      try {
+        const res = await clientCars.get('/api/bus_types');
+        const busTypes = res.data;
+        setBusTypes(busTypes);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+
+    const getMotoTypes = async () => {
+      try {
+        const res = await clientCars.get('/api/moto_types');
+        const motoTypes = res.data;
+        setMotoTypes(motoTypes);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+
+    const fetchMotoList = async () => {
+      try {
+        const res = await clientCars.get('/api/moto_makes');
+        
+        const sortedList = (res.data as motoMake[]).sort((a, b) => a['make_name'].localeCompare(b['make_name']));
+
+        setMotoList(sortedList);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchBusList();
+    getBusTypes();
+
+    fetchMotoList();
+    getMotoTypes();
+  }, [])
 
   return (
     <div className={`md:max-w-[1140px] w-full mb-9 md:mb-36px ${className}`}>
@@ -97,13 +183,19 @@ function FilterComponent({ className, dict, lang }: any) {
               </TabsContent>
               <TabsContent value="moto">
                 <MotorcycleComponent
-                  filter={filters.moto}
+                  motoList={motoList}
+                  motoTypes={motoTypes}
+                  filter={filters.motos}
+                  lang={lang}
+                  dict={dict}
                   handleSliderChange={handleSliderChange}
                   handleSelectorChange={handleSelectorChange}
                 />
               </TabsContent>
               <TabsContent value="trucks">
                 <TrucksComponent
+                  lang={lang}
+                  dict={dict}
                   filter={filters.trucks}
                   handleSliderChange={handleSliderChange}
                   handleSelectorChange={handleSelectorChange}
@@ -116,6 +208,10 @@ function FilterComponent({ className, dict, lang }: any) {
 
               <TabsContent value="busses">
                 <BusComponent
+                  busList={busList}
+                  busTypes={busTypes}
+                  lang={lang}
+                  dict={dict}
                   filter={filters.busses}
                   handleSliderChange={handleSliderChange}
                   handleSelectorChange={handleSelectorChange}

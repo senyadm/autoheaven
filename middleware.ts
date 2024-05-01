@@ -27,14 +27,15 @@ const getLocale = (request: NextRequest): string => {
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
-  if (pathname.startsWith("/api")) {
+
+  if (pathname.startsWith("/api") || pathname.includes("/icons/")) {
     return NextResponse.next();
   }
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
-  // console.log("pathnameIsMissingLocale", pathnameIsMissingLocale)
+
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
