@@ -14,8 +14,6 @@ import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
 import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
 import { BUS_SUBCATEGORIES, TrucksComponentProps } from "../types";
-import { createRef, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/components/ui/input-field";
