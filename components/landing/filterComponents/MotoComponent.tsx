@@ -16,8 +16,11 @@ import { Card, CardContent, CardFooter } from "../../ui/card";
 import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
 import { MotoComponentProps } from "../types";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { InputField } from "@/components/ui/input-field";
+import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
+import { clientCars } from "@/app/GlobalRedux/client";
 
 const bodyTypes: string[] = [
   "All",
@@ -40,11 +43,15 @@ const fuelTypes: string[] = [
 export function MotorcycleComponent({
   handleSliderChange,
   filter,
-  lang,
+  lang = 'en',
   dict,
+  motoTypes = [],
+  motoList = [],
   handleSelectorChange,
 }: MotoComponentProps) {
   const [offers, setOffers] = useState<number>(0);
+  const [payloadFilters, setPayloadFilters] = useState<string>("");
+
   const router = useRouter();
 
   const sliderRefs = useRef([
@@ -54,12 +61,12 @@ export function MotorcycleComponent({
   ]);
 
   const handleReset = () => {
-    handleSliderChange("cars", "price", [1000, 1000000]);
-    handleSliderChange("cars", "milage", [0, 500000]);
-    handleSliderChange("cars", "year", [1975, 2023]);
-    handleSelectorChange("cars", "brandAndModel", "");
-    handleSelectorChange("cars", "vehicleBody", "");
-    handleSelectorChange("cars", "fuelType", "");
+    handleSliderChange("motos", "price", [1000, 1000000]);
+    handleSliderChange("motos", "milage", [0, 500000]);
+    handleSliderChange("motos", "year", [1975, 2023]);
+    handleSelectorChange("motos", "brand", "");
+    handleSelectorChange("motos", "model", "");
+    handleSelectorChange("motos", "type_id", "");
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
@@ -67,8 +74,75 @@ export function MotorcycleComponent({
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
-    router.push(`${lang}/cars`);
+    console.log(payloadFilters)
+    router.push(`${lang}/cars?${payloadFilters}`);
   };
+
+  useEffect(() => {
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const sendRequest = () => {
+      console.log(filter.model, filter.brand, filter.type_id)
+
+      const payloadFilter = {
+        max_results: 100000,
+        body_type: filter.vehicleBody || "",
+        make: filter.brand || "",
+        model: filter.model || "",
+        type: "motos",
+        type_id: filter.type_id || "",
+        price_min: 0,
+        price_max: filter.price[1] || 1000000,
+        mileage_min: filter.milage[0] || 0,
+        mileage_max: filter.milage[1] || 500000,
+        min_year: filter.year[0] || 1975,
+        max_year: filter.year[1] || 2023,
+      };
+
+      const queryParam = Object.keys(payloadFilter)
+        .map(
+          (key) =>
+            `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
+        )
+        .join("&");
+        
+      setPayloadFilters(queryParam);
+      fetchMotoList(payloadFilter).then((data) => {
+        let len = Object.keys(data).length;
+
+        if (!data['0'].length) len = 0;
+        
+        setOffers(len);
+      });
+    };
+
+    if (filter) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(sendRequest, 1000);
+    }
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [filter]);
+
+  const fetchMotoList = async (filters: FilterPayload) => {
+    try {
+      if (Object.keys(filters).length === 0) return {};
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          delete filters[key as keyof typeof filters];
+        }
+      });
+      const response = await clientCars.get(`/api/motos/fetch`, {
+        params: filters,
+        timeout: 20000,
+      });
+      return response.data;
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
 
   return (
     <Card className="bg-background border-0">
@@ -86,7 +160,7 @@ export function MotorcycleComponent({
             step={1000}
             label="Price"
             onValueChange={(values) =>
-              handleSliderChange("moto", "price", values)
+              handleSliderChange("motos", "price", values)
             }
           />
           <RangeSlider
@@ -101,7 +175,7 @@ export function MotorcycleComponent({
             step={10000}
             label="Milage"
             onValueChange={(values) =>
-              handleSliderChange("moto", "milage", values)
+              handleSliderChange("motos", "milage", values)
             }
           />
           <RangeSlider
@@ -116,7 +190,7 @@ export function MotorcycleComponent({
             step={1}
             label="Year"
             onValueChange={(values) =>
-              handleSliderChange("moto", "year", values)
+              handleSliderChange("motos", "year", values)
             }
           />
         </div>
@@ -136,35 +210,15 @@ export function MotorcycleComponent({
             </div>
             <Select
               onValueChange={(selectorValue) =>
-                handleSelectorChange("moto", "brandAndModel", selectorValue)
+                handleSelectorChange("motos", "brand", selectorValue)
               }
+              value={motoList.find((item) => item.id === filter.brand)?.make_name}
             >
-              <SelectTrigger>Select brand...</SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option1">Option 1</SelectItem>
-                <SelectItem value="option2">Option 2</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Model</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
-            </div>
-            <Select
-              onValueChange={(selectorValue) =>
-                handleSelectorChange("moto", "vehicleBody", selectorValue)
-              }
-              value={filter.brandAndModel}
-            >
-              <SelectTrigger currentValue={filter.vehicleBody}>
-                Select body...
-              </SelectTrigger>
-              <SelectContent>
-                {bodyTypes.map((item: string, index: number) => (
-                  <SelectItem key={index} value={item}>
-                    {item}
+              <SelectTrigger currentValue={motoList.find((item) => item.id === filter.brand)?.make_name}>Select brand...</SelectTrigger>
+              <SelectContent className="scrollbar-thin">
+                {motoList.map((item, index) => (
+                  <SelectItem key={index} value={item.id}>
+                    {item.make_name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -173,7 +227,31 @@ export function MotorcycleComponent({
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter3">Fuel type</Label>
+              <Label htmlFor="filter2">Type</Label>
+              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+            </div>
+            <Select
+              onValueChange={(selectorValue) =>
+                handleSelectorChange("motos", "type_id", selectorValue)
+              }
+              value={filter.type_id}
+            >
+              <SelectTrigger currentValue={motoTypes.find(m => m.id === filter.type_id)?.moto_type}>
+                Select type...
+              </SelectTrigger>
+              <SelectContent>
+                {motoTypes.map((item, index) => (
+                  <SelectItem key={index} value={item.id}>
+                    {item.moto_type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="filter3">Moto Model</Label>
               <SvgIcon
                 filepath="icons/fuel.svg"
                 alt=""
@@ -181,23 +259,15 @@ export function MotorcycleComponent({
                 height={16}
               />
             </div>
-            <Select
-              onValueChange={(selectorValue) =>
-                handleSelectorChange("moto", "fuelType", selectorValue)
-              }
-              value={filter.fuelType}
-            >
-              <SelectTrigger currentValue={filter.fuelType}>
-                Select fuel...
-              </SelectTrigger>
-              <SelectContent>
-                {fuelTypes.map((item: string, index: number) => (
-                  <SelectItem key={index} value={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <InputField value={filter.model} onChange={(e) => handleSelectorChange("motos", "model", e.target.value)} className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
+                placeholder="Search model..."
+                style={{
+                  borderColor: "transparent",
+                  outline: "none",
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                }}
+                />
           </div>
         </div>
 

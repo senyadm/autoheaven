@@ -1,7 +1,7 @@
 import { FiltersDictionary } from "@/types";
 
 export interface Filter {
-    type?: string
+    type: "cars" | "motos" | "trucks" | "busses";
     price: [number, number];
     milage: [number, number];
     year: [number, number];
@@ -13,34 +13,67 @@ export interface Filter {
     sortBy?: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst"
 }
 
+export interface FilterMoto extends Omit<Filter, 'brandAndModel'> {
+  brand: string;
+  model: string;
+  type_id?: string
+}
+
+export interface FilterBusses extends Omit<Filter, 'brandAndModel'> {
+  brand: string;
+  model: string;
+  type_id?: string
+}
+
 interface ComponentProps {
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
     filter: Filter
     lang: string
-    dict: FiltersDictionary
+    dict: FiltersDictionary 
 }
 
-export interface TrucksComponentProps extends ComponentProps {
+export interface TrucksComponentProps extends Omit<ComponentProps, 'filter'> {
+    filter: FilterBusses
     setSelectedIcon: React.Dispatch<React.SetStateAction<number>>;
     setHoveredIcon: React.Dispatch<React.SetStateAction<number>>;
     selectedIcon: number;
     hoveredIcon: number;
+    busList: motoMake[];
+    busTypes: busType[];
 };
 
-export interface MotoComponentProps extends ComponentProps {
+export type busType = {
+  bus_type: string;
+  id: string;
+};
+
+
+export type motoType = {
+  moto_type: string;
+  id: string;
+};
+
+export type motoMake = {
+  make_name: string;
+  id: string;
+};
+
+export interface MotoComponentProps extends Omit<ComponentProps, 'filter'>{
+    motoList: motoMake[];
     handleSliderChange: (tab: TabKeys, type: string, values: [number, number]) => void;
     handleSelectorChange: (tab: TabKeys, type: string, selectorValue: string) => void;
-    filter: Filter
+    filter: FilterMoto
+    motoTypes: motoType[]
 };
 
-export type TabKeys = 'cars' | 'moto' | 'trucks' | 'busses';
+export type TabKeys = 'cars' | 'motos' | 'trucks' | 'busses';
 
 export type FilterStates = {
     cars: Filter;
-    moto: Filter;
+    motos: FilterMoto;
     trucks: Filter;
-    busses: Filter;
+    busses: FilterBusses;
 };
 
 export interface CarComponentProps extends ComponentProps {
@@ -122,27 +155,32 @@ export const tabsTriggersInfo = [
     {
       value: "touristBus",
       icon: "icons/TouristBus.svg",
-      label: "Tourist",
+      label: "Coach",
+      id: "21f8efbf-95f1-42b9-9a7e-4cf22d9683eb"
     },
     {
       value: "cityBus",
       icon: "icons/CityBus.svg",
       label: "City",
+      id: "b27a6100-7eb3-4bf6-9c50-c45680d6412d"
     },
     {
       value: "doubleDeckerBus",
       icon: "icons/DoubleDeckerBus.svg",
       label: "Double Decker",
+      id: "81ff71b5-3410-407d-8813-a39297a456cd"
     },
     {
       value: "electricBus",
       icon: "icons/ElectricBus1.svg",
-      label: "Electric",
+      label: "Inter City",
+      id: "8e253fcb-2562-4303-aad6-9e74b161658b"
     },
     {
         value: "minivan",
         icon: "icons/Minivan.svg",
-        label: "Minivan",
+        label: "Other",
+        id: "2e61381e-3d4f-4e77-8376-8be50cc42c04"
     }
   ];
 

@@ -14,8 +14,11 @@ import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
 import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
 import { BUS_SUBCATEGORIES, TrucksComponentProps } from "../types";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { InputField } from "@/components/ui/input-field";
+import { clientCars } from "@/app/GlobalRedux/client";
+import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 const fuelTypes: string[] = [
   "All",
@@ -35,9 +38,12 @@ export function BusComponent({
   filter,
   lang,
   dict,
+  busList = [],
+  busTypes = [],
   handleSelectorChange,
 }: TrucksComponentProps) {
   const [offers, setOffers] = useState<number>(0);
+  const [payloadFilters, setPayloadFilters] = useState<string>("");
 
   const router = useRouter();
 
@@ -48,12 +54,12 @@ export function BusComponent({
   ]);
 
   const handleReset = () => {
-    handleSliderChange("cars", "price", [1000, 1000000]);
-    handleSliderChange("cars", "milage", [0, 500000]);
-    handleSliderChange("cars", "year", [1975, 2023]);
-    handleSelectorChange("cars", "brandAndModel", "");
-    handleSelectorChange("cars", "vehicleBody", "");
-    handleSelectorChange("cars", "fuelType", "");
+    handleSliderChange("busses", "price", [1000, 1000000]);
+    handleSliderChange("busses", "milage", [0, 500000]);
+    handleSliderChange("busses", "year", [1975, 2023]);
+    handleSelectorChange("busses", "brand", "");
+    handleSelectorChange("busses", "model", "");
+    handleSelectorChange("busses", "type_id", "");
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
@@ -61,8 +67,75 @@ export function BusComponent({
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
-    router.push(`${lang}/cars`);
+    router.push(`${lang}/cars?${payloadFilters}`);
   };
+
+
+  useEffect(() => {
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const sendRequest = () => {
+      console.log(filter.model, filter.brand, filter.type_id)
+
+      const payloadFilter = {
+        max_results: 100000,
+        fuelType: filter.fuelType || "",
+        make: filter.brand || "",
+        model: filter.model || "",
+        type: "busses",
+        type_id: filter.type_id || "",
+        price_min: 0,
+        price_max: filter.price[1] || 1000000,
+        mileage_min: filter.milage[0] || 0,
+        mileage_max: filter.milage[1] || 500000,
+        min_year: filter.year[0] || 1975,
+        max_year: filter.year[1] || 2023,
+      };
+
+      const queryParam = Object.keys(payloadFilter)
+        .map(
+          (key) =>
+            `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
+        )
+        .join("&");
+        
+      setPayloadFilters(queryParam);
+      fetchMotoList(payloadFilter).then((data) => {
+        let len = Object.keys(data).length;
+
+        if (!data['0'].length) len = 0;
+        
+        setOffers(len);
+      });
+    };
+
+    if (filter) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(sendRequest, 1000);
+    }
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [filter]);
+
+  const fetchMotoList = async (filters: FilterPayload) => {
+    try {
+      if (Object.keys(filters).length === 0) return {};
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          delete filters[key as keyof typeof filters];
+        }
+      });
+      const response = await clientCars.get(`/api/buses/fetch`, {
+        params: filters,
+        timeout: 20000,
+      });
+      return response.data;
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
 
   return (
     <Card className="bg-background border-0">
@@ -73,14 +146,13 @@ export function BusComponent({
               key={index}
               className="flex flex-col items-center justify-center"
             >
-              {" "}
               <button
-                onClick={() => setSelectedIcon(index)}
+                onClick={() => handleSelectorChange("busses", "type_id", subcategory.id)}
                 onMouseEnter={() => setHoveredIcon(index)}
                 onMouseLeave={() => setHoveredIcon(-1)}
                 className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
           ${
-            selectedIcon === index
+            filter.type_id === subcategory.id
               ? "border-2 border-primary"
               : "border border-border"
           } 
@@ -160,35 +232,15 @@ export function BusComponent({
             </div>
             <Select
               onValueChange={(selectorValue) =>
-                handleSelectorChange("busses", "brandAndModel", selectorValue)
+                handleSelectorChange("busses", "brand", selectorValue)
               }
+              value={filter.brand}
             >
-              <SelectTrigger>Select brand...</SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option1">Option 1</SelectItem>
-                <SelectItem value="option2">Option 2</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Model</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
-            </div>
-            <Select
-              onValueChange={(selectorValue) =>
-                handleSelectorChange("moto", "vehicleBody", selectorValue)
-              }
-              value={filter.brandAndModel}
-            >
-              <SelectTrigger currentValue={filter.vehicleBody}>
-                Select body...
-              </SelectTrigger>
-              <SelectContent>
-                {[].map((item: string, index: number) => (
-                  <SelectItem key={index} value={item}>
-                    {item}
+              <SelectTrigger currentValue={busList.find((item) => item.id === filter.brand)?.make_name}>Select brand...</SelectTrigger>
+              <SelectContent className="scrollbar-thin">
+                {busList.map((item, index) => (
+                  <SelectItem key={index} value={item.id}>
+                    {item.make_name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -197,7 +249,7 @@ export function BusComponent({
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter3">Fuel type</Label>
+              <Label htmlFor="filter2">Fuel Type</Label>
               <SvgIcon
                 filepath="icons/fuel.svg"
                 alt=""
@@ -212,7 +264,7 @@ export function BusComponent({
               value={filter.fuelType}
             >
               <SelectTrigger currentValue={filter.fuelType}>
-                Select fuel...
+                Select type...
               </SelectTrigger>
               <SelectContent>
                 {fuelTypes.map((item: string, index: number) => (
@@ -222,6 +274,27 @@ export function BusComponent({
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="filter3">Bus Model</Label>
+              <SvgIcon
+                filepath="icons/car.svg"
+                alt=""
+                width={16}
+                height={16}
+              />
+            </div>
+            <InputField value={filter.model} onChange={(e) => handleSelectorChange("motos", "model", e.target.value)} className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
+                placeholder="Search model..."
+                style={{
+                  borderColor: "transparent",
+                  outline: "none",
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                }}
+                />
           </div>
         </div>
       </CardContent>

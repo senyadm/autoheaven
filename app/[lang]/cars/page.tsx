@@ -30,6 +30,7 @@ async function getCarResults(
   searchParams: FilterParams,
   carModelsById: MakeModelById
 ) {
+  console.log(searchParams)
   const normalizedParams = getNormalizedParams(searchParams);
   const parsedModels = Object.entries(
     parseModels(searchParams.models, carModelsById)
@@ -48,10 +49,13 @@ async function getCarResults(
       title: "Main offers",
       data: [] as Car[],
     };
+
+  const type = normalizedParams.type;
+
   try {
     // TODO optimize such that next page does not fetch the same data
     const carResults: Record<number, Car[]> = (
-      await clientCars.get("/api/cars/fetch", {
+      await clientCars.get(`api/${type}/fetch`, {
         params: normalizedParams,
       })
     )?.data;

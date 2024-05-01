@@ -180,9 +180,9 @@ export function TrucksComponent({
             </div>
             <Select
               onValueChange={(selectorValue) =>
-                handleSelectorChange("moto", "vehicleBody", selectorValue)
+                handleSelectorChange("trucks", "vehicleBody", selectorValue)
               }
-              value={filter.brandAndModel}
+              value={filter.model}
             >
               <SelectTrigger currentValue={filter.vehicleBody}>
                 Select body...

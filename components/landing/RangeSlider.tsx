@@ -75,7 +75,7 @@ const RangeSlider = forwardRef<RangeSliderRef, RangeSliderProps>(({
         <div>
             <div className="flex items-center space-x-2">
                 <Label htmlFor={id}>{label}</Label>
-                <SvgIcon filepath={`icons/${filename}`} alt='' width={16} height={16} />
+                <SvgIcon filepath={`/icons/${filename}`} alt='' width={16} height={16} />
                 <Input className="text-sm h-6 w-20 px-2" value={range[0]} onChange={(e) => handleChange(e, 0)}/> -
                 <Input value={range[1]} className="text-sm h-6 w-20 px-2" onChange={(e) => handleChange(e, 1)}/><span>{getSymbol()}</span>
             </div>
