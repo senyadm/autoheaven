@@ -1,80 +1,80 @@
-"use client"
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Progress } from '@/components/ui/progress';
-import VehicleTypeSelection from '@/components/sell/classicSteps/VehicleTypeSelection';
-import BrandSelection from '@/components/sell/classicSteps/BrandSelection';
-import VehicleDetails from '@/components/sell/classicSteps/VehicleDetails';
-import ModelSelection from '@/components/sell/classicSteps/ModelSelection';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import  VehicleModification  from '@/components/sell/classicSteps/Modifications';
-import { getlocales } from '@/app/actions';
-import { Locale } from '@/i18n.config';
-import { SellClassicTranslations } from '@/types';
-import VehicleSpecs from '@/components/sell/classicSteps/VehicleSpecs';
-interface VehicleCreateParams {
-    vehicleType: string;
-    brand: string;
-    model: string;
-    year: number;
+import React, { useEffect, useState } from "react";
+
+import { getlocales } from "@/app/actions";
+
+import MultiStepForm from "../../../../components/sell/classicSteps/MultiStepForm";
+import { fetchCars, getCars } from "../../../GlobalRedux/client";
+import { access } from "fs";
+import path from "path";
+
+const vehicleAccessorNames = [
+  "moto_type",
+  "make_name",
+  "make_name",
+  "bus_type",
+];
+const dataStructure = {
+  moto: {
+    type: {
+      accessor: "moto_type",
+      name: "moto_type",
+      path: "/api/moto_types/",
+    },
+    make: {
+      accessor: "make_name",
+      name: "make_name",
+      path: "/api/moto_makes/",
+    },
+  },
+  bus: {
+    make: {
+      accessor: "make_name",
+      name: "make_name",
+      path: "/api/bus_makes/",
+    },
+    type: {
+      accessor: "bus_type",
+      name: "bus_type",
+      path: "/api/bus_types/",
+    },
+  },
+};
+
+async function getStaticVehicleData() {
+  const fetchPaths = [
+    dataStructure.moto.type.path,
+    dataStructure.moto.make.path,
+    dataStructure.bus.make.path,
+    dataStructure.bus.type.path,
+  ];
+  const fetchPromises = fetchPaths.map((url) => getCars(url));
+  const fetchResponse = await Promise.all(fetchPromises);
+  const filteredResponse = {
+    moto: {
+      type: fetchResponse[0].map((item) => item.moto_type),
+      make: fetchResponse[1].map((item) => item.make_name),
+    },
+    bus: {
+      make: fetchResponse[2].map((item) => item.make_name),
+      type: fetchResponse[3].map((item) => item.bus_type),
+    },
+  };
+  dataStructure.moto.type.data = fetchResponse[0];
+  dataStructure.moto.make.data = fetchResponse[1];
+  dataStructure.bus.make.data = fetchResponse[2];
+  dataStructure.bus.type.data = fetchResponse[3];
+  return dataStructure;
 }
 
-const steps = ['vehicleType', 'brand', 'model', 'modifications', 'specs', 'details'];
-
-const MultiStepForm = ({ params: { lang } }: { params: { lang: Locale } }) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<VehicleCreateParams>({} as VehicleCreateParams);
-  const [dict, setDict] = useState<SellClassicTranslations | null>(null)
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { sell: { classic } } = await getlocales(lang)
-        setDict(classic)
-      } catch (error) {
-        console.error('Error fetching tools data:', error)
-      }
-    }
-
-    if (!dict) {
-      fetchData()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang])
-
-  const nextStep = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-        console.log(formData);
-    }
-  };
-
-  const previousStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const progress = (currentStep / (steps.length - 1)) * 100;
+const page = async ({ params }) => {
+  const sellText = (await getlocales(params.lang)).sell;
+  const classicText = sellText.classic;
+  const staticVehicleData = await getStaticVehicleData();
+  console.log("🚀 ~ filteredResponse ~ filteredResponse:", staticVehicleData);
 
   return (
-<div className="flex flex-col justify-end items-stretch px-4 py-6 bg-background">
-  <Card className="w-full max-w-2xl mx-auto mb-32 bg-white border-none shadow-none mt-4">
-    <CardContent>
-      <Label className="text-lg mb-4 text-primary block text-center">{!currentStep ? dict?.title || 'Get Started' : currentStep === 1 ? dict?.brand || 'Brand' : currentStep === 2 ? dict?.model || 'Model' : currentStep === 3 ? dict?.mod || 'Modification' : currentStep === 4 ? 'Specification' : dict?.details || 'Details'}</Label>
-      <Progress value={progress} className="h-4 w-full" />
-      {currentStep === 0 && <VehicleTypeSelection onNext={nextStep} dict={dict}/>}
-      {currentStep === 1 && <BrandSelection onNext={nextStep} onPrevious={previousStep} dict={dict}/>}
-      {currentStep === 2 && <ModelSelection onNext={nextStep} onPrevious={previousStep} dict={dict}/>}
-      {currentStep === 3 && <VehicleModification onNext={nextStep} onPrevious={previousStep} dict={dict}/>}
-      {currentStep === 4 && <VehicleSpecs onNext={nextStep} onPrevious={previousStep} dict={dict}/>}
-      {currentStep === 5 && <VehicleDetails onNext={nextStep} onPrevious={previousStep} dict={dict}/>}
-    </CardContent>
-  </Card>
-</div>
+    <MultiStepForm dict={classicText} staticVehicleData={staticVehicleData} />
   );
 };
 
-export default MultiStepForm;
-
+export default page;
