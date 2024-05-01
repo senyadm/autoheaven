@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { SellClassicTranslations } from "@/types";
 import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
+import { useAppSelector } from "../../../app/GlobalRedux/store";
 
 const ModelSelection = ({
   onNext,
@@ -27,10 +28,13 @@ const ModelSelection = ({
   const [search, setSearch] = useState<string>("");
   const [showSimplified, setShowSimplified] = useState<boolean>(false);
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
+  const carType = useAppSelector((state) => state?.createCarProgress?.carType);
 
   const sortedModelsWithHeadings = useMemo(() => {
-    const modelNames = store?.models?.models?.map((model) => model.name);
-    console.log("🚀 ~ sortedModelsWithHeadings ~ modelNames:", modelNames);
+    const modelNames =
+      carType === "Passenger Car"
+        ? store?.models?.models?.map((model) => model.name)
+        : store?.models;
     if (!modelNames || !modelNames?.length) return [];
 
     const sortedModels: string[] = [...modelNames].sort();

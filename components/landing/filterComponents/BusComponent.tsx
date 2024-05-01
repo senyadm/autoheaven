@@ -50,7 +50,7 @@ export function BusComponent({
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>()
+    createRef<RangeSliderRef>(),
   ]);
 
   const handleReset = () => {
@@ -63,19 +63,18 @@ export function BusComponent({
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
-  }
+  };
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
     router.push(`${lang}/cars?${payloadFilters}`);
   };
 
-
   useEffect(() => {
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
     const sendRequest = () => {
-      console.log(filter.model, filter.brand, filter.type_id)
+      console.log(filter.model, filter.brand, filter.type_id);
 
       const payloadFilter = {
         max_results: 100000,
@@ -98,13 +97,13 @@ export function BusComponent({
             `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
         )
         .join("&");
-        
+
       setPayloadFilters(queryParam);
       fetchMotoList(payloadFilter).then((data) => {
         let len = Object.keys(data).length;
 
-        if (!data['0'].length) len = 0;
-        
+        if (!data["0"].length) len = 0;
+
         setOffers(len);
       });
     };
@@ -135,7 +134,7 @@ export function BusComponent({
     } catch (err: any) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <Card className="bg-background border-0">
@@ -147,7 +146,9 @@ export function BusComponent({
               className="flex flex-col items-center justify-center"
             >
               <button
-                onClick={() => handleSelectorChange("busses", "type_id", subcategory.id)}
+                onClick={() =>
+                  handleSelectorChange("busses", "type_id", subcategory.id)
+                }
                 onMouseEnter={() => setHoveredIcon(index)}
                 onMouseLeave={() => setHoveredIcon(-1)}
                 className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
@@ -236,7 +237,13 @@ export function BusComponent({
               }
               value={filter.brand}
             >
-              <SelectTrigger currentValue={busList.find((item) => item.id === filter.brand)?.make_name}>Select brand...</SelectTrigger>
+              <SelectTrigger
+                currentValue={
+                  busList.find((item) => item.id === filter.brand)?.make_name
+                }
+              >
+                Select brand...
+              </SelectTrigger>
               <SelectContent className="scrollbar-thin">
                 {busList.map((item, index) => (
                   <SelectItem key={index} value={item.id}>
@@ -279,35 +286,35 @@ export function BusComponent({
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <Label htmlFor="filter3">Bus Model</Label>
-              <SvgIcon
-                filepath="icons/car.svg"
-                alt=""
-                width={16}
-                height={16}
-              />
+              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
             </div>
-            <InputField value={filter.model} onChange={(e) => handleSelectorChange("motos", "model", e.target.value)} className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
-                placeholder="Search model..."
-                style={{
-                  borderColor: "transparent",
-                  outline: "none",
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                }}
-                />
+            <InputField
+              value={filter.model}
+              onChange={(e) =>
+                handleSelectorChange("motos", "model", e.target.value)
+              }
+              className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
+              placeholder="Search model..."
+              style={{
+                borderColor: "transparent",
+                outline: "none",
+                backgroundColor: "transparent",
+                boxShadow: "none",
+              }}
+            />
           </div>
         </div>
       </CardContent>
       <CardFooter className="grid place-items-end">
-      <div className="flex flex-row space-x-2">
-        <Button variant="secondary" onClick={handleReset}>
-          <span className="me-2">{dict?.reset || "Reset"}</span>
-          <RotateCcw size={24} />
-        </Button>
-        <Button onClick={handleNavigate}>
-          {offers || 0} {dict?.offers || "offers"}
-          <ChevronRight />
-        </Button>
+        <div className="flex flex-row space-x-2">
+          <Button variant="secondary" onClick={handleReset}>
+            <span className="me-2">{dict?.reset || "Reset"}</span>
+            <RotateCcw size={24} />
+          </Button>
+          <Button onClick={handleNavigate}>
+            {offers || 0} {dict?.offers || "offers"}
+            <ChevronRight />
+          </Button>
         </div>
       </CardFooter>
     </Card>

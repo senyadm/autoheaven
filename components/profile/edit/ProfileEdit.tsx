@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "../../ui/card";
 import SvgIcon from "../../SvgIcon";
@@ -17,7 +18,6 @@ import {
 } from "../../../app/GlobalRedux/profile/profileSlice";
 import { Locale } from "@/i18n.config";
 import { getlocales } from "@/app/actions";
-import { ProfileEdit } from "@/types";
 import "./ProfileEdit.css";
 
 interface LeftTextBlockProps {

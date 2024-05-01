@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../client";
+import { postVehicle } from "../../../features/create-vehicle/createVehicle";
 
 export interface CarDetails {
   type: string;
@@ -71,7 +72,7 @@ export async function createCar(
   params: CarCreationState,
   selectedFiles: FileList | null
 ): Promise<string> {
-  const payload: Record<string, string | Blob> = {
+  const payload: Record<string, string | Blob | number> = {
     type: params.carType || "",
     body_type: params.details?.body_type || "",
     make: params.brand || "",
@@ -91,7 +92,7 @@ export async function createCar(
     istop: params.details?.istop.toString(),
     vehicle_id: params.details?.vehicle_id.toString(),
     country_origin: params.details?.country_origin || "",
-    cubic_capacity: params.details?.cubic_capacity || "",
+    cubic_capacity: Number(params.details?.cubic_capacity) || 0,
     horsepower: params.details?.horsepower || "",
     fuel_consumption: params.details?.fuel_consumption || "",
     interior_color: params.details?.interior_color || "",
@@ -109,38 +110,33 @@ export async function createCar(
     }
   }
 
-  try {
-    const response = await clientCars.post("/api/cars", payload);
-    return response.data.id;
-  } catch (err: any) {
-    return err.response.data;
-  }
+  postVehicle(payload, params.carType);
 }
 
 export async function uploadImage(id: string, file: File) {
   const formData = new FormData();
-  formData.append('file', file);
-  
+  formData.append("file", file);
+
   try {
     const response = await clientCars.post(`/cars/upload/${id}`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error uploading image:', error);
+    console.error("Error uploading image:", error);
     throw error;
   }
 }
 
 export async function getIntent(id: string, option: string) {
-  const url = `/create-payment-intent/${option}/${id}`
+  const url = `/create-payment-intent/${option}/${id}`;
   try {
     const response = await clientCars.post(url);
     return response.data.client_secret;
   } catch (error) {
-    console.error('Error uploading image:', error);
+    console.error("Error uploading image:", error);
     throw error;
   }
 }

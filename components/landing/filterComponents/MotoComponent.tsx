@@ -43,7 +43,7 @@ const fuelTypes: string[] = [
 export function MotorcycleComponent({
   handleSliderChange,
   filter,
-  lang = 'en',
+  lang = "en",
   dict,
   motoTypes = [],
   motoList = [],
@@ -57,7 +57,7 @@ export function MotorcycleComponent({
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>()
+    createRef<RangeSliderRef>(),
   ]);
 
   const handleReset = () => {
@@ -70,11 +70,11 @@ export function MotorcycleComponent({
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
-  }
+  };
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
-    console.log(payloadFilters)
+    console.log(payloadFilters);
     router.push(`${lang}/cars?${payloadFilters}`);
   };
 
@@ -82,7 +82,7 @@ export function MotorcycleComponent({
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
     const sendRequest = () => {
-      console.log(filter.model, filter.brand, filter.type_id)
+      console.log(filter.model, filter.brand, filter.type_id);
 
       const payloadFilter = {
         max_results: 100000,
@@ -105,13 +105,13 @@ export function MotorcycleComponent({
             `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
         )
         .join("&");
-        
+
       setPayloadFilters(queryParam);
       fetchMotoList(payloadFilter).then((data) => {
         let len = Object.keys(data).length;
 
-        if (!data['0'].length) len = 0;
-        
+        if (!data["0"].length) len = 0;
+
         setOffers(len);
       });
     };
@@ -142,7 +142,7 @@ export function MotorcycleComponent({
     } catch (err: any) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <Card className="bg-background border-0">
@@ -212,9 +212,17 @@ export function MotorcycleComponent({
               onValueChange={(selectorValue) =>
                 handleSelectorChange("motos", "brand", selectorValue)
               }
-              value={motoList.find((item) => item.id === filter.brand)?.make_name}
+              value={
+                motoList.find((item) => item.id === filter.brand)?.make_name
+              }
             >
-              <SelectTrigger currentValue={motoList.find((item) => item.id === filter.brand)?.make_name}>Select brand...</SelectTrigger>
+              <SelectTrigger
+                currentValue={
+                  motoList.find((item) => item.id === filter.brand)?.make_name
+                }
+              >
+                Select brand...
+              </SelectTrigger>
               <SelectContent className="scrollbar-thin">
                 {motoList.map((item, index) => (
                   <SelectItem key={index} value={item.id}>
@@ -236,7 +244,11 @@ export function MotorcycleComponent({
               }
               value={filter.type_id}
             >
-              <SelectTrigger currentValue={motoTypes.find(m => m.id === filter.type_id)?.moto_type}>
+              <SelectTrigger
+                currentValue={
+                  motoTypes.find((m) => m.id === filter.type_id)?.moto_type
+                }
+              >
                 Select type...
               </SelectTrigger>
               <SelectContent>
@@ -259,30 +271,35 @@ export function MotorcycleComponent({
                 height={16}
               />
             </div>
-            <InputField value={filter.model} onChange={(e) => handleSelectorChange("motos", "model", e.target.value)} className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
-                placeholder="Search model..."
-                style={{
-                  borderColor: "transparent",
-                  outline: "none",
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                }}
-                />
+            <InputField
+              value={filter.model}
+              onChange={(e) =>
+                handleSelectorChange("motos", "model", e.target.value)
+              }
+              className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
+              placeholder="Search model..."
+              style={{
+                borderColor: "transparent",
+                outline: "none",
+                backgroundColor: "transparent",
+                boxShadow: "none",
+              }}
+            />
           </div>
         </div>
 
         {/* New Sliders */}
       </CardContent>
       <CardFooter className="grid place-items-end">
-      <div className="flex flex-row space-x-2">
-        <Button variant="secondary" onClick={handleReset}>
-          <span className="me-2">{dict?.reset || "Reset"}</span>
-          <RotateCcw size={24} />
-        </Button>
-        <Button onClick={handleNavigate}>
-          {offers || 0} {dict?.offers || "offers"}
-          <ChevronRight />
-        </Button>
+        <div className="flex flex-row space-x-2">
+          <Button variant="secondary" onClick={handleReset}>
+            <span className="me-2">{dict?.reset || "Reset"}</span>
+            <RotateCcw size={24} />
+          </Button>
+          <Button onClick={handleNavigate}>
+            {offers || 0} {dict?.offers || "offers"}
+            <ChevronRight />
+          </Button>
         </div>
       </CardFooter>
     </Card>
