@@ -45,7 +45,7 @@ const BrandSelection = ({
   const BrandsByCarType = {
     "Passenger car": {
       modelList: carBrands,
-      brandList: Object.keys(carBrands),
+      brandList: Object.keys(carBrands || {}),
     },
     Motorcycle: {
       modelList: staticVehicleData.moto.type.data.map((item) => item.moto_type),
