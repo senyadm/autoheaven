@@ -36,6 +36,7 @@ export function getNormalizedParams(
   const necessaryParams = {
     max_results: defaultParams.max_results,
     page: defaultParams.page,
+    type: defaultParams.type,
   };
   if (!params) return necessaryParams;
   const normalized = Object.entries(params).reduce((acc, [key, value]) => {

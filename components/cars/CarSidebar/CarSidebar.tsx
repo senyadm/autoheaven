@@ -35,8 +35,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
   function prepParams() {
-    const normalized = getNormalizedParams(searchParams);
-    console.log("normalized: ", normalized);
+    const normalized = getNormalizedParams(Object.fromEntries(searchParams));
 
     return normalized;
   }
