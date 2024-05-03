@@ -17,15 +17,18 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { clientUsers } from "../../app/GlobalRedux/client";
 import { useRouter } from "next/navigation";
-import { deleteOriginalUrl, getOriginalUrl, saveToken } from "@/utils/auth";
-import useLoginRedirect from "@/hooks/useLoginRedirect";
+import {
+  deleteOriginalUrl,
+  getOriginalUrl,
+  saveToken,
+} from "@/shared/utils/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/app/GlobalRedux/profile/userSlice";
 import { useEffect, useState } from "react";
 import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";
 import { Locale } from "@/i18n.config";
-import { fetchAndSetUser } from "../../utils/user";
+import { fetchAndSetUser } from "../../shared/utils/user";
 
 const formSchema = zod.object({
   email: zod.string().email(),

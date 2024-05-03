@@ -11,7 +11,7 @@ import {
   fetchUserChats,
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
-import { getToken } from "../../../utils/auth";
+import { getToken } from "../../../shared/utils/auth";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 import { fetchUserData } from "../../../app/GlobalRedux/profile/userSlice";

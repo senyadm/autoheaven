@@ -5,7 +5,7 @@ import ResultCarCard from "../../shared/ResultCarCard";
 import AppCarDropdown from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
 import { clientCars } from "@/app/GlobalRedux/client";
-import { getToken } from "@/utils/auth";
+import { getToken } from "@/shared/utils/auth";
 
 const volkswagenCar4: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",
@@ -58,7 +58,7 @@ const sortingAdsOptions = [
   "Milage (Lowest first)",
 ];
 
-const ProfileAds = ({lang}: any) => {
+const ProfileAds = ({ lang }: any) => {
   const [results, setResults] = useState<ResultCarCardInterface[]>([]);
   useEffect(() => {
     // fetch results
@@ -68,7 +68,7 @@ const ProfileAds = ({lang}: any) => {
   }, []);
 
   if (results.length === 0) {
-    return <ProfileAdsWillAppear lang={lang}/>;
+    return <ProfileAdsWillAppear lang={lang} />;
   }
   return (
     <div className="space-y-2">

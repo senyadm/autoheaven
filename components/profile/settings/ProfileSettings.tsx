@@ -14,7 +14,10 @@ import {
   SelectTrigger,
 } from "../../ui/select";
 import { useTheme } from "next-themes";
-import { getLanguageLS, setLanguageLS } from "../../../utils/preferences";
+import {
+  getLanguageLS,
+  setLanguageLS,
+} from "../../../shared/utils/preferences";
 import { Language } from "../../../interfaces/Language";
 import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";

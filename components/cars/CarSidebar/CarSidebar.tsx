@@ -18,8 +18,11 @@ import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../ui/checkbox";
 import { Filter } from "../../../interfaces/cars/cars";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getCarModelsById, getNormalizedParams } from "../../../utils/cars";
-import { parseModels } from "../../../utils/models";
+import {
+  getCarModelsById,
+  getNormalizedParams,
+} from "../../../shared/utils/cars";
+import { parseModels } from "../../../shared/utils/models";
 type CarSidebarProps = {
   offerNumber: number;
   pageText: FiltersDictionary;

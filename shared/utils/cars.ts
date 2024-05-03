@@ -1,5 +1,5 @@
-import { Filter, FilterParams } from "../interfaces/cars/cars";
-import { Make, MakeModelById } from "../interfaces/cars/models";
+import { Filter, FilterParams } from "../../interfaces/cars/cars";
+import { Make, MakeModelById } from "../../interfaces/cars/models";
 
 export const defaultFilters: Filter = {
   price_min: 0,

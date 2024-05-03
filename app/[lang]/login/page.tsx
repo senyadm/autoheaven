@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
 import { Locale } from "@/i18n.config";
-import { validateToken } from "@/utils/auth";
+import { validateToken } from "@/shared/utils/auth";
 
 const Login = ({
   children,
