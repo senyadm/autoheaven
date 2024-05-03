@@ -31,15 +31,12 @@ const fuelTypes: string[] = [
 
 export function BusComponent({
   handleSliderChange,
-  setSelectedIcon,
   setHoveredIcon,
-  selectedIcon,
   hoveredIcon,
   filter,
   lang,
   dict,
   busList = [],
-  busTypes = [],
   handleSelectorChange,
 }: TrucksComponentProps) {
   const [offers, setOffers] = useState<number>(0);
@@ -291,7 +288,7 @@ export function BusComponent({
             <InputField
               value={filter.model}
               onChange={(e) =>
-                handleSelectorChange("motos", "model", e.target.value)
+                handleSelectorChange("busses", "model", e.target.value)
               }
               className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
               placeholder="Search model..."
