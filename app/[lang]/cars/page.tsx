@@ -26,11 +26,18 @@ export const metadata: Metadata = {
   description: "Find your dream car today on AutoHeaven",
 };
 
+enum apiPathByVehicleType {
+  "Moto" = "api/moto_listings/",
+  "Busses" = "api/bus_listings/",
+  "Trucks" = "api/truck_listings/",
+  "Cars" = "api/cars/fetch",
+}
+
 async function getCarResults(
   searchParams: FilterParams,
   carModelsById: MakeModelById
 ) {
-  console.log(searchParams)
+  console.log(searchParams);
   const normalizedParams = getNormalizedParams(searchParams);
   const parsedModels = Object.entries(
     parseModels(searchParams.models, carModelsById)
@@ -51,11 +58,13 @@ async function getCarResults(
     };
 
   const type = normalizedParams.type;
-
+  // Right Now no idea what the types are
+  // Cars, cars, car all give zero results, wtf
+  delete normalizedParams.type;
   try {
     // TODO optimize such that next page does not fetch the same data
     const carResults: Record<number, Car[]> = (
-      await clientCars.get(`api/${type}/fetch`, {
+      await clientCars.get(apiPathByVehicleType[type], {
         params: normalizedParams,
       })
     )?.data;
