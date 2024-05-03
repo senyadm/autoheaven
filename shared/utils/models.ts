@@ -1,11 +1,11 @@
-import { Filter } from "../components/landing/types";
+import { Filter } from "../../components/landing/types";
 import {
   FilterMake,
   FilterModel,
   Make,
   MakeModelById,
   Model,
-} from "../interfaces/cars/models";
+} from "../../interfaces/cars/models";
 
 export function getInitialMakes(carModels: Record<string, Make>) {
   return Object.entries(carModels).reduce((acc, [makeName, make]) => {

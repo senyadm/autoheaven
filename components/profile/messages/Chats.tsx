@@ -10,8 +10,8 @@ import {
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import ChatComponent from "./ChatComponent";
 import { useRouter } from "next/navigation";
-import { getWS } from "../../../utils/chats";
-import { getToken } from "../../../utils/auth";
+import { getWS } from "../../../shared/utils/chats";
+import { getToken } from "../../../shared/utils/auth";
 
 const Chats = () => {
   // const [chats, setChats] = useState<ChatComponentProps[]>([]);

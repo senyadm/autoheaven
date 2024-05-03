@@ -6,7 +6,7 @@ import { allData } from "@/components/landing/allData";
 import { Car } from "@/components/landing/types";
 
 import { useAppStore } from "@/app/GlobalRedux/useStore";
-import usePremiumStatus from "@/hooks/usePremiumStatus";
+import usePremiumStatus from "@/shared/hooks/usePremiumStatus";
 import { FiltersDictionary } from "../../../types";
 import { Filter } from "../../../interfaces/cars/cars";
 

@@ -14,10 +14,10 @@ import { TrashIcon, PlusCircle, ChevronRight } from "lucide-react";
 import { Make, Model, MakeModelById } from "../../../interfaces/cars/models";
 import { useSearchParams } from "next/navigation";
 import { Filter } from "../../../interfaces/cars/cars";
-import { parseModels, stringifyModels } from "../../../utils/models";
+import { parseModels, stringifyModels } from "../../../shared/utils/models";
 import { MultiSelect } from "../../shared/MultiSelect";
 import { useRouter } from "next/navigation";
-import { getCarModelsById } from "../../../utils/cars";
+import { getCarModelsById } from "../../../shared/utils/cars";
 
 const userWarningsDefault = {
   exists: {

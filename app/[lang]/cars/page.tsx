@@ -5,10 +5,13 @@ import CarSidebar from "../../../components/cars/CarSidebar/CarSidebar";
 import { getlocales } from "../../actions";
 import { clientCars, fetchCars, getCars } from "../../GlobalRedux/client";
 import { FilterParams } from "../../../interfaces/cars/cars";
-import { getCarModelsById, getNormalizedParams } from "../../../utils/cars";
+import {
+  getCarModelsById,
+  getNormalizedParams,
+} from "../../../shared/utils/cars";
 import { Car } from "../../../interfaces/shared/Car";
 import { Metadata } from "next/types";
-import { parseModels } from "../../../utils/models";
+import { parseModels } from "../../../shared/utils/models";
 import { Make, MakeModelById } from "../../../interfaces/cars/models";
 import { Locale } from "@/i18n.config";
 const premiumThreshold = 250_000;

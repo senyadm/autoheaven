@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { CheckCheck, ChevronRight } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
@@ -12,7 +12,7 @@ import {
 } from "../ui/card";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { TypographyH3, TypographyP } from "../ui/typography";
-import { getToken, saveOriginalUrl } from "@/utils/auth";
+import { getToken, saveOriginalUrl } from "@/shared/utils/auth";
 import { useRouter } from "next/navigation";
 import { RootState, useAppSelector } from "@/app/GlobalRedux/store";
 interface Props {
@@ -23,7 +23,7 @@ const PlansCard = ({ card }: Props) => {
   // TODO: replace user authentication in here due to separation of concerns
   // the sell/mode should decide itself whether the user is logged in
   const user = useAppSelector((state: RootState) => state.user);
-   const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
+  const handleNavigate = (e: any, mode: "classic" | "direct" | undefined) => {
     e.preventDefault();
 
     if (!user.isLoggedIn) {
@@ -33,7 +33,7 @@ const PlansCard = ({ card }: Props) => {
     }
 
     router.push(`/sell/${mode}`);
-  }
+  };
   return (
     <Card
       key={card.title}

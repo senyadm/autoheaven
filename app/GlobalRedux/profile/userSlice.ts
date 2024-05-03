@@ -2,7 +2,7 @@ import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clientCars, clientChats, clientUsers } from "../client";
 import { get } from "http";
-import { getToken } from "../../../utils/auth";
+import { getToken } from "../../../shared/utils/auth";
 import { AppDispatch } from "../store";
 import { Car } from "../../../interfaces/shared/Car";
 import { UserAPI } from "../../../interfaces/shared/users";

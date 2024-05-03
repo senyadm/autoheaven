@@ -27,8 +27,8 @@ import ResultCarCardButtons from "./ResultCarCardButtons";
 import { Label } from "../ui/label";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
-import usePremiumStatus from "@/hooks/usePremiumStatus";
-import { getToken } from "@/utils/auth";
+import usePremiumStatus from "@/shared/hooks/usePremiumStatus";
+import { getToken } from "@/shared/utils/auth";
 import {
   addToWishlistThunk,
   deleteFromWishlist,
@@ -43,8 +43,8 @@ import { useRouter } from "next/navigation";
 import { set } from "zod";
 import { Chat, ChatListAPI } from "../../interfaces/profile/messages";
 import { useAppSelector } from "../../app/GlobalRedux/store";
-import { fetchAndSetUser } from "../../utils/user";
-import { getWS } from "../../utils/chats";
+import { fetchAndSetUser } from "../../shared/utils/user";
+import { getWS } from "../../shared/utils/chats";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
