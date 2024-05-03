@@ -56,6 +56,7 @@ function FilterComponent({ className, dict, lang }: any) {
   const [hoveredIcon, setHoveredIcon] = useState(-1);
   const [offers, setOffers] = useState<number>(0);
   const [busList, setBusList] = useState<motoMake[]>([]);
+  const [truckList, setTruckList] = useState<motoMake[]>([]);
   const [busTypes, setBusTypes] = useState<busType[]>([]);
   const [motoList, setMotoList] = useState<motoMake[]>([]);
   const [motoTypes, setMotoTypes] = useState<motoType[]>([]);
@@ -63,7 +64,7 @@ function FilterComponent({ className, dict, lang }: any) {
   const initialFilterStates: FilterStates = {
     cars: filterDefault,
     motos: filterDefaultMoto,
-    trucks: filterDefault,
+    trucks: filterDefaultBus,
     busses: filterDefaultBus,
   };
   const [filters, setFilters] = useState<FilterStates>(initialFilterStates);
@@ -94,6 +95,17 @@ function FilterComponent({ className, dict, lang }: any) {
   // }, [filters])
 
   useEffect(() => {
+    const fetchTruckList = async () => {
+      try {
+        const res = await clientCars.get('/api/truck_makes');
+        const truckList = res.data;
+        setTruckList(truckList);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+
     const fetchBusList = async () => {
       try {
         const res = await clientCars.get('/api/bus_makes');
@@ -139,6 +151,8 @@ function FilterComponent({ className, dict, lang }: any) {
         console.error(error);
       }
     }
+
+    fetchTruckList();
 
     fetchBusList();
     getBusTypes();
@@ -196,6 +210,7 @@ function FilterComponent({ className, dict, lang }: any) {
                 <TrucksComponent
                   lang={lang}
                   dict={dict}
+                  busList={truckList}
                   filter={filters.trucks}
                   handleSliderChange={handleSliderChange}
                   handleSelectorChange={handleSelectorChange}
@@ -209,7 +224,6 @@ function FilterComponent({ className, dict, lang }: any) {
               <TabsContent value="busses">
                 <BusComponent
                   busList={busList}
-                  busTypes={busTypes}
                   lang={lang}
                   dict={dict}
                   filter={filters.busses}

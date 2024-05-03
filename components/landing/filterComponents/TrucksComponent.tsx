@@ -15,7 +15,10 @@ import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
 import { TRUCK_SUBCATEGORIES, TrucksComponentProps } from "../types";
 import { useRouter } from "next/navigation";
-import { createRef, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
+import { InputField } from "@/components/ui/input-field";
+import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
+import { clientCars } from "@/app/GlobalRedux/client";
 
 const fuelTypes: string[] = [
   "All",
@@ -35,6 +38,7 @@ export function TrucksComponent({
   filter,
   lang,
   dict,
+  busList = [],
   handleSelectorChange,
 }: TrucksComponentProps) {
   const sliderRefs = useRef([
@@ -44,6 +48,7 @@ export function TrucksComponent({
   ]);
   
   const router = useRouter();
+  const [payloadFilters, setPayloadFilters] = useState<string>("");
 
   const [offers, setOffers] = useState<number>(0);
 
@@ -53,16 +58,82 @@ export function TrucksComponent({
   };
 
   const handleReset = () => {
-    handleSliderChange("cars", "price", [1000, 1000000]);
-    handleSliderChange("cars", "milage", [0, 500000]);
-    handleSliderChange("cars", "year", [1975, 2023]);
-    handleSelectorChange("cars", "brandAndModel", "");
-    handleSelectorChange("cars", "vehicleBody", "");
-    handleSelectorChange("cars", "fuelType", "");
+    handleSliderChange("trucks", "price", [1000, 1000000]);
+    handleSliderChange("trucks", "milage", [0, 500000]);
+    handleSliderChange("trucks", "year", [1975, 2023]);
+    handleSelectorChange("trucks", "brand", "");
+    handleSelectorChange("trucks", "model", "");
+    handleSelectorChange("trucks", "type_id", "");
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
   }
+
+  useEffect(() => {
+    let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const sendRequest = () => {
+      console.log(filter.model, filter.brand, filter.type_id);
+
+      const payloadFilter = {
+        max_results: 100000,
+        fuelType: filter.fuelType || "",
+        make: filter.brand || "",
+        model: filter.model || "",
+        type: "trucks",
+        type_id: filter.type_id || "",
+        price_min: 0,
+        price_max: filter.price[1] || 1000000,
+        mileage_min: filter.milage[0] || 0,
+        mileage_max: filter.milage[1] || 500000,
+        min_year: filter.year[0] || 1975,
+        max_year: filter.year[1] || 2023,
+      };
+
+      const queryParam = Object.keys(payloadFilter)
+        .map(
+          (key) =>
+            `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
+        )
+        .join("&");
+
+      setPayloadFilters(queryParam);
+      fetchMotoList(payloadFilter).then((data) => {
+        let len = Object.keys(data).length;
+
+        if (!data["0"].length) len = 0;
+
+        setOffers(len);
+      });
+    };
+
+    if (filter) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(sendRequest, 1000);
+    }
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [filter]);
+
+  const fetchMotoList = async (filters: FilterPayload) => {
+    try {
+      if (Object.keys(filters).length === 0) return {};
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") {
+          delete filters[key as keyof typeof filters];
+        }
+      });
+      const response = await clientCars.get(`/api/trucks/fetch`, {
+        params: filters,
+        timeout: 20000,
+      });
+      return response.data;
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
 
   return (
     <Card className="bg-background border-0">
@@ -75,12 +146,12 @@ export function TrucksComponent({
             >
               {" "}
               <button
-                onClick={() => setSelectedIcon(index)}
+                onClick={() => handleSelectorChange("trucks", "type_id", subcategory.id)}
                 onMouseEnter={() => setHoveredIcon(index)}
                 onMouseLeave={() => setHoveredIcon(-1)}
                 className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
           ${
-            selectedIcon === index
+            filter.type_id === subcategory.id
               ? "border-2 border-primary"
               : "border border-border"
           } 
@@ -150,8 +221,6 @@ export function TrucksComponent({
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              {" "}
-              {/* Flex container */}
               <Label htmlFor="filter1">Brand</Label>
               <SvgIcon
                 filepath="icons/tick.svg"
@@ -162,43 +231,30 @@ export function TrucksComponent({
             </div>
             <Select
               onValueChange={(selectorValue) =>
-                handleSelectorChange("trucks", "brandAndModel", selectorValue)
+                handleSelectorChange("trucks", "brand", selectorValue)
               }
+              value={filter.brand}
             >
-              <SelectTrigger>Select brand...</SelectTrigger>
-              <SelectContent>
-                <SelectItem value="option1">Option 1</SelectItem>
-                <SelectItem value="option2">Option 2</SelectItem>
+              <SelectTrigger
+                currentValue={
+                  busList.find((item) => item.id === filter.brand)?.make_name
+                }
+              >
+                Select brand...
+              </SelectTrigger>
+              <SelectContent className="scrollbar-thin">
+                {busList.map((item, index) => (
+                  <SelectItem key={index} value={item.id}>
+                    {item.make_name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <Label htmlFor="filter2">Model</Label>
-              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
-            </div>
-            <Select
-              onValueChange={(selectorValue) =>
-                handleSelectorChange("trucks", "vehicleBody", selectorValue)
-              }
-              value={filter.model}
-            >
-              <SelectTrigger currentValue={filter.vehicleBody}>
-                Select body...
-              </SelectTrigger>
-              <SelectContent>
-                {[].map((item: string, index: number) => (
-                  <SelectItem key={index} value={item}>
-                    {item}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="filter3">Fuel type</Label>
+              <Label htmlFor="filter2">Fuel Type</Label>
               <SvgIcon
                 filepath="icons/fuel.svg"
                 alt=""
@@ -213,7 +269,7 @@ export function TrucksComponent({
               value={filter.fuelType}
             >
               <SelectTrigger currentValue={filter.fuelType}>
-                Select fuel...
+                Select type...
               </SelectTrigger>
               <SelectContent>
                 {fuelTypes.map((item: string, index: number) => (
@@ -224,9 +280,28 @@ export function TrucksComponent({
               </SelectContent>
             </Select>
           </div>
-        </div>
 
-        {/* New Sliders */}
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="filter3">Truck Model</Label>
+              <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
+            </div>
+            <InputField
+              value={filter.model}
+              onChange={(e) =>
+                handleSelectorChange("trucks", "model", e.target.value)
+              }
+              className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
+              placeholder="Search model..."
+              style={{
+                borderColor: "transparent",
+                outline: "none",
+                backgroundColor: "transparent",
+                boxShadow: "none",
+              }}
+            />
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="grid place-items-end">
       <div className="flex flex-row space-x-2">

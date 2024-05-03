@@ -54,7 +54,6 @@ export interface TrucksComponentProps extends Omit<ComponentProps, "filter"> {
   selectedIcon: number;
   hoveredIcon: number;
   busList: motoMake[];
-  busTypes: busType[];
 }
 
 export type busType = {
@@ -93,7 +92,7 @@ export type TabKeys = "cars" | "motos" | "trucks" | "busses";
 export type FilterStates = {
   cars: Filter;
   motos: FilterMoto;
-  trucks: Filter;
+  trucks: FilterBusses;
   busses: FilterBusses;
 };
 
@@ -207,31 +206,37 @@ export const TRUCK_SUBCATEGORIES = [
     value: "Truck",
     icon: "icons/Truck.svg",
     label: "Truck",
+    id: "87f0fb37-34b1-4a9d-9cf6-756fce067196"
   },
   {
     value: "commercial",
     icon: "icons/CommercialVehicle.svg",
     label: "Commercial",
+    id: "0e6c8268-1a33-49d1-8188-4a69c1278a5f"
   },
   {
     value: "truckTractor",
     icon: "icons/TruckTractor.svg",
     label: "Tractor",
+    id: "0b3ec5bf-9f6b-41c3-8ca0-3bbdaa46b2b8"
   },
   {
     value: "trailer",
     icon: "icons/Trailer.svg",
     label: "Trailer",
+    id: "0b3ec5bf-9f6b-41c3-8ca0-3bbdaa46b2b8"
   },
   {
     value: "semitrailer",
     icon: "icons/SemiTrailler.svg",
     label: "Semitrailer",
+    id: "0b3ec5bf-9f6b-41c3-8ca0-3bbdaa46b2b8"
   },
   {
     value: "tankTransport",
     icon: "icons/TankTransport.svg",
     label: "Tank",
+    id: "cc52633d-093a-4a49-b2d5-cf55c0591c37"
   },
 ];
 
