@@ -1,4 +1,4 @@
-import { clientCars } from "../../app/GlobalRedux/client";
+import { clientCars } from "../../shared/api/client";
 
 const pathByType = {
   "Passenger Car": "/api/cars",

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
 import { deleteChat } from "../../../app/GlobalRedux/profile/chatSlice";
-import { carsDomain, clientChats } from "../../../app/GlobalRedux/client";
+import { carsDomain, clientChats } from "../../../src/shared/api/client";
 import Image from "next/image";
 interface ChatComponentProps {
   chat: Chat;

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import ResultCarCard from "../../shared/ResultCarCard";
 import AppCarDropdown from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
-import { clientCars } from "@/app/GlobalRedux/client";
-import { getToken } from "@/shared/utils/auth";
+import { clientCars } from "@/src/shared/api/client";
+import { getToken } from "@/src/shared/utils/auth";
 
 const volkswagenCar4: ResultCarCardInterface = {
   title: "Volkswagen Golf VII Lim. GTI Performance Airride Dynaudio",

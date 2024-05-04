@@ -12,7 +12,7 @@ import {
 } from "../ui/card";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { TypographyH3, TypographyP } from "../ui/typography";
-import { getToken, saveOriginalUrl } from "@/shared/utils/auth";
+import { getToken, saveOriginalUrl } from "@/src/shared/utils/auth";
 import { useRouter } from "next/navigation";
 import { RootState, useAppSelector } from "@/app/GlobalRedux/store";
 interface Props {

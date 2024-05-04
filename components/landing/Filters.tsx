@@ -8,14 +8,24 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { setActiveTransportCategory } from "@/app/GlobalRedux/Features/transportCategorySlice";
 import { AppDispatch, RootState } from "@/app/GlobalRedux/store";
 
-import { Filter, FilterBusses, FilterMoto, FilterStates, TabKeys, busType, motoMake, motoType, tabsTriggersInfo } from "./types";
+import {
+  Filter,
+  FilterBusses,
+  FilterMoto,
+  FilterStates,
+  TabKeys,
+  busType,
+  motoMake,
+  motoType,
+  tabsTriggersInfo,
+} from "./types";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BusComponent } from "./filterComponents/BusComponent";
 import { CarComponent } from "./filterComponents/CarComponent";
 import { MotorcycleComponent } from "./filterComponents/MotoComponent";
 import { TrucksComponent } from "./filterComponents/TrucksComponent";
-import { clientCars } from "@/app/GlobalRedux/client";
+import { clientCars } from "@/src/shared/api/client";
 
 const filterDefault: Filter = {
   type: "cars",
@@ -97,60 +107,57 @@ function FilterComponent({ className, dict, lang }: any) {
   useEffect(() => {
     const fetchTruckList = async () => {
       try {
-        const res = await clientCars.get('/api/truck_makes');
+        const res = await clientCars.get("/api/truck_makes");
         const truckList = res.data;
         setTruckList(truckList);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const fetchBusList = async () => {
       try {
-        const res = await clientCars.get('/api/bus_makes');
+        const res = await clientCars.get("/api/bus_makes");
         const busList = res.data;
         setBusList(busList);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const getBusTypes = async () => {
       try {
-        const res = await clientCars.get('/api/bus_types');
+        const res = await clientCars.get("/api/bus_types");
         const busTypes = res.data;
         setBusTypes(busTypes);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const getMotoTypes = async () => {
       try {
-        const res = await clientCars.get('/api/moto_types');
+        const res = await clientCars.get("/api/moto_types");
         const motoTypes = res.data;
         setMotoTypes(motoTypes);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     const fetchMotoList = async () => {
       try {
-        const res = await clientCars.get('/api/moto_makes');
-        
-        const sortedList = (res.data as motoMake[]).sort((a, b) => a['make_name'].localeCompare(b['make_name']));
+        const res = await clientCars.get("/api/moto_makes");
+
+        const sortedList = (res.data as motoMake[]).sort((a, b) =>
+          a["make_name"].localeCompare(b["make_name"])
+        );
 
         setMotoList(sortedList);
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     fetchTruckList();
 
@@ -159,11 +166,11 @@ function FilterComponent({ className, dict, lang }: any) {
 
     fetchMotoList();
     getMotoTypes();
-  }, [])
+  }, []);
 
   return (
     <div className={`md:max-w-[1140px] w-full mb-9 md:mb-36px ${className}`}>
-      <Card  className="bg-background">
+      <Card className="bg-background">
         <CardHeader>
           <CardContent>
             <Tabs defaultValue="cars">

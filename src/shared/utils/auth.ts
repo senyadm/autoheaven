@@ -1,5 +1,5 @@
 "use client";
-import { clientUsers } from "@/app/GlobalRedux/client";
+import { clientUsers } from "@/src/shared/api/client";
 export const getToken = () => {
   return localStorage.getItem("token");
 };

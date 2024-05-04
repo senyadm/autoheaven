@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { getToken } from "../../../shared/utils/auth";
-import { clientCars, clientChats } from "../client";
+import { getToken } from "../../../src/shared/utils/auth";
+import { clientCars, clientChats } from "../../../src/shared/api/client";
 import { RootState } from "../store";
 import {
   Chat,

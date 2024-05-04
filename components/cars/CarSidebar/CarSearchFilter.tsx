@@ -6,9 +6,9 @@ import { allData } from "@/components/landing/allData";
 import { Car } from "@/components/landing/types";
 
 import { useAppStore } from "@/app/GlobalRedux/useStore";
-import usePremiumStatus from "@/shared/hooks/usePremiumStatus";
+import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
 import { FiltersDictionary } from "../../../types";
-import { Filter } from "../../../interfaces/cars/cars";
+import { Filter } from "../../../src/shared/model/params";
 
 interface CarSearchFilterProps {
   handleSliderChange: (

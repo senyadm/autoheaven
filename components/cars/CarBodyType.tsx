@@ -1,4 +1,4 @@
-import { Filter } from "../../interfaces/cars/cars";
+import { Filter } from "../../src/shared/model/params";
 import { Trucks, Busses, bodyTypes } from "../landing/types";
 import { Label } from "../ui/label";
 import {

@@ -16,13 +16,13 @@ import CarBodyType from "../CarBodyType";
 import ModelSelector from "./ModelSelector";
 import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../ui/checkbox";
-import { Filter } from "../../../interfaces/cars/cars";
+import { Filter } from "../../../src/shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getCarModelsById,
   getNormalizedParams,
-} from "../../../shared/utils/cars";
-import { parseModels } from "../../../shared/utils/models";
+} from "../../../src/shared/api/cars";
+import { parseModels } from "../../../src/shared/utils/models";
 type CarSidebarProps = {
   offerNumber: number;
   pageText: FiltersDictionary;

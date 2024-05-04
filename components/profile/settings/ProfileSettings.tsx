@@ -17,7 +17,7 @@ import { useTheme } from "next-themes";
 import {
   getLanguageLS,
   setLanguageLS,
-} from "../../../shared/utils/preferences";
+} from "../../../src/shared/utils/preferences";
 import { Language } from "../../../interfaces/Language";
 import { usePathname, useRouter } from "next/navigation";
 import { Locale } from "@/i18n.config";

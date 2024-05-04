@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getlocales } from "@/app/actions";
 
 import MultiStepForm from "../../../../components/sell/classicSteps/MultiStepForm";
-import { fetchCars, getCars } from "../../../GlobalRedux/client";
+import { fetchCars, getCars } from "../../../../src/shared/api/client";
 import { access } from "fs";
 import path from "path";
 

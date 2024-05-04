@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { clientCars } from "../client";
+import { clientCars } from "../../../src/shared/api/client";
 import { object } from "zod";
 
 enum RequestStatus {
@@ -12,7 +12,6 @@ type Drivetrain = "fwd" | "awd" | "rwd";
 type BodyStyle = "sedan" | "suv";
 type Gear = "automatic" | "manual";
 type PageDisplayed = "cars" | "profileCars" | "profileAds";
-
 
 export type CarResult = {
   id: number;
@@ -46,8 +45,8 @@ type CarState = {
 
 export type brandsWithModels = {
   [brand: string]: {
-    id: number,
-    models: {id: number, name: string}[];
+    id: number;
+    models: { id: number; name: string }[];
   };
 };
 
@@ -84,22 +83,28 @@ interface Car {
 }
 
 export interface FilterPayload {
-  max_results: number
-  type?: string
-  make?: string
-  model?: string
-  fueltype?: string
-  body_type?: string
-  price_max: number
-  price_min: number 
-  min_year: number
-  max_year: number
-  mileage_min: number 
-  mileage_max: number  
-  accidentfree?: boolean
-  drivetrain?: string
-  istop?: boolean
-  sortBy?: "newestFirst" | "oldestFirst" | "priceHighestFirst" | "priceLowestFirst" | "mileageHighestFirst" | "mileageLowestFirst";
+  max_results: number;
+  type?: string;
+  make?: string;
+  model?: string;
+  fueltype?: string;
+  body_type?: string;
+  price_max: number;
+  price_min: number;
+  min_year: number;
+  max_year: number;
+  mileage_min: number;
+  mileage_max: number;
+  accidentfree?: boolean;
+  drivetrain?: string;
+  istop?: boolean;
+  sortBy?:
+    | "newestFirst"
+    | "oldestFirst"
+    | "priceHighestFirst"
+    | "priceLowestFirst"
+    | "mileageHighestFirst"
+    | "mileageLowestFirst";
 }
 
 export const fetchAllCarMakes = createAsyncThunk(
@@ -120,7 +125,7 @@ export const fetchBrands = createAsyncThunk(
     try {
       const response = await clientCars.get(`/api/car_models`, {
         timeout: 20000,
-      }); 
+      });
       return response.data;
     } catch (err: any) {
       throw rejectWithValue(err.response.data);
@@ -130,7 +135,10 @@ export const fetchBrands = createAsyncThunk(
 
 export const fetchAllCars = createAsyncThunk(
   "carFiltersAndResults/fetchAllCars",
-  async (filters: FilterPayload, { rejectWithValue }): Promise<Record<string, CarResult[]>> => {
+  async (
+    filters: FilterPayload,
+    { rejectWithValue }
+  ): Promise<Record<string, CarResult[]>> => {
     try {
       if (Object.keys(filters).length === 0) return {};
       Object.entries(filters).forEach(([key, value]) => {
@@ -190,19 +198,25 @@ export const carFiltersAndResultsSlice = createSlice({
       })
       .addCase(fetchBrands.pending, (state) => {
         state.status = RequestStatus.Loading;
-        })
-      .addCase(fetchBrands.fulfilled, (state, action: PayloadAction<brandsWithModels>) => {
-        state.status = RequestStatus.Idle;
-        state.brandsWithModels = action.payload;
       })
+      .addCase(
+        fetchBrands.fulfilled,
+        (state, action: PayloadAction<brandsWithModels>) => {
+          state.status = RequestStatus.Idle;
+          state.brandsWithModels = action.payload;
+        }
+      )
       .addCase(fetchAllCars.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
-      .addCase(fetchAllCars.fulfilled, (state, action: PayloadAction<Record<string, CarResult[]>>) => {
-        state.status = RequestStatus.Idle;
-        const res = Object.values(action.payload)
-        state.filteredCars = res;
-      })
+      .addCase(
+        fetchAllCars.fulfilled,
+        (state, action: PayloadAction<Record<string, CarResult[]>>) => {
+          state.status = RequestStatus.Idle;
+          const res = Object.values(action.payload);
+          state.filteredCars = res;
+        }
+      );
   },
 });
 // export const selectCarBrands = (state: RootState) => state.carFiltersAndResults.carMakes;

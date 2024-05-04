@@ -1,5 +1,5 @@
-import { Filter, FilterParams } from "../../interfaces/cars/cars";
-import { Make, MakeModelById } from "../../interfaces/cars/models";
+import { Filter, FilterParams, VehicleType } from "../model/params";
+import { Make, MakeModelById } from "../model/models";
 
 export const defaultFilters: Filter = {
   price_min: 0,
@@ -8,7 +8,7 @@ export const defaultFilters: Filter = {
   mileage_max: 500000,
   year_min: 1975,
   year_max: 2023,
-  type: "cars",
+  type: VehicleType.car,
   body_type: "sedan",
 };
 
@@ -20,7 +20,7 @@ export const defaultParams: FilterParams = {
   mileage_max: 500000,
   year_min: 1975,
   year_max: 2023,
-  type: "cars",
+  type: VehicleType.car,
   body_type: "sedan",
   page: 0,
 };

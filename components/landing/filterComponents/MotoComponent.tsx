@@ -20,7 +20,7 @@ import { createRef, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/components/ui/input-field";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import { clientCars } from "@/app/GlobalRedux/client";
+import { clientCars } from "@/src/shared/api/client";
 
 const bodyTypes: string[] = [
   "All",

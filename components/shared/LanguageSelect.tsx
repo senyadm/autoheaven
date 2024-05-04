@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "../ui/select";
-import { getLanguageLS, setLanguageLS } from "../../shared/utils/preferences";
+import {
+  getLanguageLS,
+  setLanguageLS,
+} from "../../src/shared/utils/preferences";
 import { usePathname, useRouter } from "next/navigation";
 import { Language } from "../../interfaces/Language";
 const languages: Record<Language, string> = {

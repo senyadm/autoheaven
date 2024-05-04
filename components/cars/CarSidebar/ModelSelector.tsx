@@ -11,13 +11,13 @@ import { Button } from "@/components/ui/button";
 
 import { Label } from "../../ui/label";
 import { TrashIcon, PlusCircle, ChevronRight } from "lucide-react";
-import { Make, Model, MakeModelById } from "../../../interfaces/cars/models";
+import { Make, Model, MakeModelById } from "../../../src/shared/model/models";
 import { useSearchParams } from "next/navigation";
-import { Filter } from "../../../interfaces/cars/cars";
-import { parseModels, stringifyModels } from "../../../shared/utils/models";
+import { Filter } from "../../../src/shared/model/params";
+import { parseModels, stringifyModels } from "../../../src/shared/utils/models";
 import { MultiSelect } from "../../shared/MultiSelect";
 import { useRouter } from "next/navigation";
-import { getCarModelsById } from "../../../shared/utils/cars";
+import { getCarModelsById } from "../../../src/shared/api/cars";
 
 const userWarningsDefault = {
   exists: {

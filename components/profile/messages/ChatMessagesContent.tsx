@@ -8,7 +8,7 @@ import {
   setCurrentChat,
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import { useRouter } from "next/router";
-import { formatMessageDate } from "../../../shared/utils/date";
+import { formatMessageDate } from "../../../src/shared/utils/date";
 interface ChatMessagesContentProps {}
 const ChatMessagesContent = () => {
   const dispatch = useAppDispatch();

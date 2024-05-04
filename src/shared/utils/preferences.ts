@@ -12,7 +12,7 @@
 //   const darkMode = getDarkMode();
 //   setDarkMode(!darkMode);
 
-import { Language } from "../../interfaces/Language";
+import { Language } from "../../../interfaces/Language";
 
 // };
 export const setLanguageLS = (language: Language) => {

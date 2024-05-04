@@ -1,3 +1,10 @@
+export enum VehicleType {
+  "car",
+  "truck",
+  "moto",
+  "bus",
+}
+
 export interface FilterParams extends Filter {
   max_results: number;
   max_cars_per_page?: number;
@@ -10,7 +17,7 @@ export interface FilterParams extends Filter {
   page: number;
 }
 export interface Filter {
-  type?: string;
+  type: VehicleType;
   body_type?: string;
   price_min?: number;
   price_max?: number;

@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { FilterParams } from "../../interfaces/cars/cars";
+import { FilterParams } from "../../src/shared/model/params";
 
 const paginationIconProps = {
   width: 16,

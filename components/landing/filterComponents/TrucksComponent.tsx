@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { createRef, useEffect, useRef, useState } from "react";
 import { InputField } from "@/components/ui/input-field";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import { clientCars } from "@/app/GlobalRedux/client";
+import { clientCars } from "@/src/shared/api/client";
 
 const fuelTypes: string[] = [
   "All",
@@ -44,9 +44,9 @@ export function TrucksComponent({
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>()
+    createRef<RangeSliderRef>(),
   ]);
-  
+
   const router = useRouter();
   const [payloadFilters, setPayloadFilters] = useState<string>("");
 
@@ -67,7 +67,7 @@ export function TrucksComponent({
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
-  }
+  };
 
   useEffect(() => {
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
@@ -146,7 +146,9 @@ export function TrucksComponent({
             >
               {" "}
               <button
-                onClick={() => handleSelectorChange("trucks", "type_id", subcategory.id)}
+                onClick={() =>
+                  handleSelectorChange("trucks", "type_id", subcategory.id)
+                }
                 onMouseEnter={() => setHoveredIcon(index)}
                 onMouseLeave={() => setHoveredIcon(-1)}
                 className={`subcategory-icon w-32 h-11 flex items-center justify-center rounded-md px-2 py-1.5 text-sm transition-transform duration-300 
@@ -304,15 +306,15 @@ export function TrucksComponent({
         </div>
       </CardContent>
       <CardFooter className="grid place-items-end">
-      <div className="flex flex-row space-x-2">
-        <Button variant="secondary" onClick={handleReset}>
-          <span className="me-2">{dict?.reset || "Reset"}</span>
-          <RotateCcw size={24} />
-        </Button>
-        <Button onClick={handleNavigate}>
-          {offers || 0} {dict?.offers || "offers"}
-          <ChevronRight />
-        </Button>
+        <div className="flex flex-row space-x-2">
+          <Button variant="secondary" onClick={handleReset}>
+            <span className="me-2">{dict?.reset || "Reset"}</span>
+            <RotateCcw size={24} />
+          </Button>
+          <Button onClick={handleNavigate}>
+            {offers || 0} {dict?.offers || "offers"}
+            <ChevronRight />
+          </Button>
         </div>
       </CardFooter>
     </Card>

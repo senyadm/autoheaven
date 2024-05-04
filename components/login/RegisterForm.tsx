@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { Badge } from "../ui/badge";
-import { clientUsers } from "../../app/GlobalRedux/client";
+import { clientUsers } from "../../src/shared/api/client";
 import { useRouter } from "next/navigation";
 
 clientUsers.get("/api/users").then((response) => {

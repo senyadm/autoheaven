@@ -1,6 +1,6 @@
 "use server";
 
-import { clientUsers } from "../app/GlobalRedux/client";
+import { clientUsers } from "../src/shared/api/client";
 
 const fetchUserData = async (token: string) => {
   const response = await clientUsers.get("/api/users/me/", {

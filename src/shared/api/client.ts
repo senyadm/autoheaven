@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getToken, saveOriginalUrl, saveToken } from "../../shared/utils/auth";
+import { getToken, saveOriginalUrl, saveToken } from "../utils/auth";
 
 const APIDomains = [
   "https://autoheven-email.vercel.app",

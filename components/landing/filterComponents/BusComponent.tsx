@@ -17,7 +17,7 @@ import { BUS_SUBCATEGORIES, TrucksComponentProps } from "../types";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { InputField } from "@/components/ui/input-field";
-import { clientCars } from "@/app/GlobalRedux/client";
+import { clientCars } from "@/src/shared/api/client";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 
 const fuelTypes: string[] = [

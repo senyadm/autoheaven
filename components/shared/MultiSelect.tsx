@@ -8,7 +8,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Command, CommandGroup, CommandItem } from "../ui/command";
 import { Label } from "../ui/label";
 import { Badge } from "../ui/badge";
-import { Model } from "../../interfaces/cars/models";
+import { Model } from "../../src/shared/model/models";
 import { Button } from "../ui/button";
 
 export function MultiSelect({

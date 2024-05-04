@@ -1,6 +1,6 @@
 "use server";
 import { FilterPayload } from "../app/GlobalRedux/Features/carFiltersAndResultsSlice";
-import { clientCars } from "../app/GlobalRedux/client";
+import { clientCars } from "../src/shared/api/client";
 import { cache } from "react";
 
 export const fetchBrands = cache(async () => {
