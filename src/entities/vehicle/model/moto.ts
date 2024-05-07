@@ -28,7 +28,7 @@
 //   "description": "string",
 //   "make_id": "032013df-f7ef-4d3c-af72-878c467e607d"
 // }
-interface Moto {
+export interface Moto {
   id: string;
   seller_id: string;
   driving_mode: string;
@@ -56,4 +56,12 @@ interface Moto {
   istop_expiry: null;
   description: string;
   make_id: string;
+}
+export interface MotoType {
+  moto_type: string;
+  id: string;
+}
+export interface MotoMake {
+  make_name: string;
+  id: string;
 }

@@ -29,7 +29,7 @@
 //     "mileage": 0,
 //     "horse_power": 0
 //   }
-interface Bus {
+export interface Bus {
   gearbox: string;
   fueltype: string;
   istop_expiry: null;
@@ -58,4 +58,12 @@ interface Bus {
   other: string;
   mileage: number;
   horse_power: number;
+}
+export interface BusType {
+  moto_type: string;
+  id: string;
+}
+export interface BusMake {
+  make_name: string;
+  id: string;
 }

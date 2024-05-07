@@ -16,25 +16,44 @@ import CarBodyType from "../CarBodyType";
 import ModelSelector from "./ModelSelector";
 import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../ui/checkbox";
-import { Filter } from "../../../src/shared/model/params";
+import { Filter, VehicleType } from "../../../src/shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getCarModelsById,
   getNormalizedParams,
 } from "../../../src/shared/api/cars";
-import { parseModels } from "../../../src/shared/utils/models";
+import { vehicleTypes } from "../../../src/entities/vehicle/model/vehicle";
+import { Make, MakeModelById } from "../../../src/shared/model";
+import { MotoMake, MotoType } from "../../../src/entities/vehicle/model/moto";
+import TypeSelect from "../../../src/entities/vehicle/ui/TypeSelect";
+import MakeSelect from "../../../src/entities/vehicle/ui/MakeSelect";
+
 type CarSidebarProps = {
   offerNumber: number;
   pageText: FiltersDictionary;
-  carModels: Record<string, string[]>;
+  vehicleUIData:
+    | {
+        models: Record<string, Make>;
+        carModelsById: MakeModelById;
+      }
+    | {
+        makes: MotoMake[];
+        types: MotoType[];
+      };
 };
-
+const typeLabel = {
+  [VehicleType.Car]: "Passenger Car",
+  [VehicleType.Bus]: "Bus",
+  [VehicleType.Moto]: "Motorcycle",
+  [VehicleType.Truck]: "Truck",
+};
 const CarSidebar: FC<CarSidebarProps> = ({
   offerNumber,
   pageText,
-  carModels,
+  vehicleUIData,
 }) => {
-  console.log("🚀 ~ carModels:", carModels);
+  const { types, makes, models } = vehicleUIData;
+  console.log("🚀 ~ carModels:", models);
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
   function prepParams() {
@@ -72,62 +91,51 @@ const CarSidebar: FC<CarSidebarProps> = ({
   };
   // TODO: change so that URL can look like
   // https://www.aaaauto.eu/used-cars#makes=15-75&models-15=1437-2128-2214&models-75=33
-  const addModel = (make: string, model: string) => {
-    const currentModels = filters.makeModels?.[make] || [];
-    currentModels.push(model);
-    const newFilters = {
-      ...filters,
-      makeModels: {
-        [make]: currentModels,
-      },
-    };
-    setFiltersAndRedirect(newFilters as Filter);
-  };
-  // useEffect(() => {
-  //   // rerender when filters change
-  //   const newURLParams = new URLSearchParams(getNormalizedParams(filters));
-  //   console.log("🚀 ~ useEffect ~ filters", filters);
-  //   console.log("🚀 ~ newURLParams:", newURLParams.toString());
-  //   const newURLStr = newURLParams.toString();
-  //   const currentURLStr = new URLSearchParams(searchParams).toString();
-  //   if (currentURLStr !== newURLStr) {
-  //     console.log("🚀 ~ useEffect ~ newURLStr:", newURLStr);
-  //     console.log("🚀 ~ useEffect ~ currentURLStr:", currentURLStr);
-  //     // replace(`cars?${newURLStr}`);
-  //     //   if (newURLStr !== currentURLStr) {
-  //     //     replace(`cars?${newURLStr}`);
-  //     //   }
-  //     // }
-  //     // replace(newURLParams.toString());
-  //   }
-  // }, [filters, paramFilters, replace, searchParams]);
+
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible">
       <Label htmlFor="filter1" className="font-bold">
-        Type
+        Vehicle
       </Label>
       <Select
         onValueChange={(selectorValue) =>
-          handleSelectorChange("type", selectorValue)
+          setFiltersAndRedirect({ type: selectorValue as VehicleType })
         }
       >
-        <SelectTrigger className="mb-2" currentValue={filters.type}>
+        <SelectTrigger className="mb-2" currentValue={typeLabel[filters.type]}>
           Choose Type
         </SelectTrigger>
         <SelectContent>
-          {types.map((item: typeProps, index: number) => (
+          {vehicleTypes.map((item, index: number) => (
             <SelectItem key={index} value={item.value}>
               {item.label}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
+      {types && (
+        <TypeSelect
+          type={filters.type}
+          filters={filters}
+          types={types}
+          handleSelectorChange={handleSelectorChange}
+        />
+      )}
+      {makes && (
+        <MakeSelect
+          makes={makes}
+          handleSelectorChange={handleSelectorChange}
+          filters={filters}
+        />
+      )}
 
-      <CarBodyType
-        vehicleType={filters.type}
-        currentVehicleBody={filters.body_type}
-        handleSelectorChange={handleSelectorChange}
-      />
+      {filters.type === VehicleType.Car && (
+        <CarBodyType
+          vehicleType={filters.type}
+          currentVehicleBody={filters.body_type}
+          handleSelectorChange={handleSelectorChange}
+        />
+      )}
 
       <CarSearchFilter
         dict={pageText}
@@ -189,12 +197,14 @@ const CarSidebar: FC<CarSidebarProps> = ({
 
       <Separator />
 
-      <ModelSelector
-        pageText={pageText}
-        carModels={carModels}
-        setFilterValue={setFilterValue}
-        offerNumber={offerNumber}
-      />
+      {models && (
+        <ModelSelector
+          pageText={pageText}
+          carModels={models}
+          setFilterValue={setFilterValue}
+          offerNumber={offerNumber}
+        />
+      )}
     </div>
   );
 };

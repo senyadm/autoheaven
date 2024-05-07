@@ -1,4 +1,4 @@
-import { Filter } from "../../src/shared/model/params";
+import { Filter, VehicleType } from "../../src/shared/model/params";
 import { Trucks, Busses, bodyTypes } from "../landing/types";
 import { Label } from "../ui/label";
 import {
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 
 interface CarBodyTypeProps {
-  vehicleType: string | undefined;
+  vehicleType: VehicleType;
   currentVehicleBody: string | undefined;
   handleSelectorChange: (key: keyof Filter, value: string) => void;
 }
@@ -19,7 +19,7 @@ const CarBodyType = ({
   handleSelectorChange,
 }: CarBodyTypeProps) => {
   switch (vehicleType) {
-    case "Trucks":
+    case VehicleType.Truck:
       return (
         <>
           <Label htmlFor="filter1" className="font-bold">
@@ -43,7 +43,7 @@ const CarBodyType = ({
           </Select>
         </>
       );
-    case "Busses":
+    case VehicleType.Bus:
       return (
         <>
           <Label htmlFor="filter1" className="font-bold">

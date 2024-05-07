@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../../../src/shared/api/client";
-import { postVehicle } from "../../../src/features/create-vehicle/createVehicle";
+import { postVehicle } from "../../../src/features/create-vehicle/api/create-vehicle";
 
 export interface CarDetails {
   type: string;

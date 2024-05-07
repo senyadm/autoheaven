@@ -2,14 +2,15 @@ import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { getCarModelsById } from "../../../shared/api/cars";
 import {
   FilterParams,
+  Make,
   MakeModelById,
   parseModels,
 } from "../../../shared/model";
 
 export async function getCarResults(searchParams: FilterParams) {
-  const models: Record<string, Make> = await getCars("/api/car_models");
-  const carModelsById = getCarModelsById(models);
+  const { carModelsById } = await fetchCarModels();
   const normalizedParams = getNormalizedParams(searchParams);
+
   const parsedModels = Object.entries(
     parseModels(searchParams.models, carModelsById)
   ).reduce((acc, [makeName, models]) => {
@@ -55,9 +56,15 @@ export async function getCarResults(searchParams: FilterParams) {
         nonTopVehicles.data.push(carResult);
       }
     }
-    return { models, topVehicles, nonTopVehicles, offerCount, pageCount };
+    return { topVehicles, nonTopVehicles, offerCount, pageCount };
   } catch (e) {
     console.error("🚀 ~ getCarResults ~ e", e);
-    return { models, topVehicles, nonTopVehicles, offerCount: 0, pageCount: 0 };
+    return { topVehicles, nonTopVehicles, offerCount: 0, pageCount: 0 };
   }
+}
+
+export async function fetchCarModels() {
+  const models: Record<string, Make> = await getCars("/api/car_models");
+  const carModelsById = getCarModelsById(models);
+  return { models, carModelsById };
 }

@@ -19,6 +19,7 @@ import { createRef, useEffect, useRef, useState } from "react";
 import { InputField } from "@/components/ui/input-field";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { clientCars } from "@/src/shared/api/client";
+import { VehicleType } from "../../../src/shared/model/params";
 
 const fuelTypes: string[] = [
   "All",
@@ -80,7 +81,7 @@ export function TrucksComponent({
         fuelType: filter.fuelType || "",
         make: filter.brand || "",
         model: filter.model || "",
-        type: "trucks",
+        type: VehicleType.Truck,
         type_id: filter.type_id || "",
         price_min: 0,
         price_max: filter.price[1] || 1000000,

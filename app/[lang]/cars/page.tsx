@@ -5,7 +5,10 @@ import CarSidebar from "../../../components/cars/CarSidebar/CarSidebar";
 import { getlocales } from "../../actions";
 import { Metadata } from "next/types";
 import { Locale } from "@/i18n.config";
-import { fetchVehiclesByParams } from "../../../src/entities/vehicle";
+import {
+  fetchVehicleUIData,
+  fetchVehiclesByParams,
+} from "../../../src/entities/vehicle";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
@@ -22,10 +25,12 @@ export const metadata: Metadata = {
 };
 
 const page = async ({ params, searchParams }) => {
+  const { type } = searchParams;
   const filtersText = (await getlocales(params.lang)).filters;
   // maps car make to car models array
   const carResults = await fetchVehiclesByParams(searchParams);
-  const { models, offerCount, pageCount } = carResults;
+  const vehicleUIData = await fetchVehicleUIData(type);
+  const { offerCount, pageCount } = carResults;
   return (
     <main className="flex flex-1 items-start bg-primary-foreground py-6">
       <div className="flex flex-col lg:flex-row mt-10 max-w-screen-2xl w-full mx-auto">
@@ -33,7 +38,7 @@ const page = async ({ params, searchParams }) => {
           <CarSidebar
             pageText={filtersText}
             offerNumber={offerCount}
-            carModels={models}
+            vehicleUIData={vehicleUIData}
           />
         </div>
         <div className="w-full lg:w-3/4">

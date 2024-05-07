@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { InputField } from "@/components/ui/input-field";
 import { clientCars } from "@/src/shared/api/client";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
+import { VehicleType } from "../../../src/shared/model/params";
 
 const fuelTypes: string[] = [
   "All",
@@ -78,7 +79,7 @@ export function BusComponent({
         fuelType: filter.fuelType || "",
         make: filter.brand || "",
         model: filter.model || "",
-        type: "busses",
+        type: VehicleType.Bus,
         type_id: filter.type_id || "",
         price_min: 0,
         price_max: filter.price[1] || 1000000,

@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { InputField } from "@/components/ui/input-field";
 import { FilterPayload } from "@/app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { clientCars } from "@/src/shared/api/client";
+import { VehicleType } from "../../../src/shared/model/params";
 
 const bodyTypes: string[] = [
   "All",
@@ -89,7 +90,7 @@ export function MotorcycleComponent({
         body_type: filter.vehicleBody || "",
         make: filter.brand || "",
         model: filter.model || "",
-        type: "motos",
+        type: VehicleType.Moto,
         type_id: filter.type_id || "",
         price_min: 0,
         price_max: filter.price[1] || 1000000,

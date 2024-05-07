@@ -1,8 +1,8 @@
 export enum VehicleType {
-  "car",
-  "truck",
-  "moto",
-  "bus",
+  Car = "car",
+  Truck = "truck",
+  Moto = "moto",
+  Bus = "bus",
 }
 
 export interface FilterParams extends Filter {
