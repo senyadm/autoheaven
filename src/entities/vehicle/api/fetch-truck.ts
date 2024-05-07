@@ -4,7 +4,7 @@ import { FilterParams } from "../../../shared/model";
 import { MAX_RESULTS_PER_PAGE } from "../constants/constants";
 import { Truck, TruckMake, TruckType } from "../model/truck";
 
-export async function fetchTruck(searchParams: FilterParams) {
+export async function fetchTrucks(searchParams: FilterParams) {
   const normalizedParams = getNormalizedParams(searchParams);
 
   const topVehicles = {

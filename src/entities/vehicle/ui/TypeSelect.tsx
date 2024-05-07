@@ -64,7 +64,13 @@ const TypeSelect = ({
             {findTypeById(filters.type_id) || "Select Type"}
           </SelectTrigger>
           <SelectContent>
-            {types.map((item, index: number) => (
+            {[
+              {
+                id: "",
+                [typePropertyName[type]]: "All",
+              },
+              ...types,
+            ].map((item, index: number) => (
               <SelectItem key={index} value={item.id}>
                 {item[typePropertyName[type]]}
               </SelectItem>

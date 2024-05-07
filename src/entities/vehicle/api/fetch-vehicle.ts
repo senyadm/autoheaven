@@ -5,6 +5,7 @@ import { VehicleType } from "../../../shared/model/params";
 import { fetchBusTypes, fetchBuses } from "./fetch-bus";
 import { fetchCarModels, getCarResults } from "./fetch-car";
 import { fetchMoto, fetchMotoTypes } from "./fetch-moto";
+import { fetchTruckTypes, fetchTrucks } from "./fetch-truck";
 
 export function fetchVehiclesByParams(params: FilterParams) {
   const { type } = params;
@@ -17,6 +18,8 @@ export function fetchVehiclesByParams(params: FilterParams) {
       return fetchMoto(params);
     case VehicleType.Bus:
       return fetchBuses(params);
+    case VehicleType.Truck:
+      return fetchTrucks(params);
     default:
       return getCarResults(params);
   }
@@ -30,6 +33,8 @@ export async function fetchVehicleUIData(type: VehicleType) {
       return fetchMotoTypes();
     case VehicleType.Bus:
       return fetchBusTypes();
+    case VehicleType.Truck:
+      return fetchTruckTypes();
     default:
       return fetchCarModels();
   }

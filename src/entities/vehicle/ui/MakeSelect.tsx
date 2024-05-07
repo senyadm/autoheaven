@@ -44,7 +44,13 @@ const MakeSelect = ({
             {findMakeById(filters.make_id) || "Select Make"}
           </SelectTrigger>
           <SelectContent>
-            {makes.map((item, index: number) => (
+            {[
+              {
+                id: "",
+                make_name: "All",
+              },
+              ...makes,
+            ].map((item, index: number) => (
               <SelectItem key={index} value={item.id}>
                 {item.make_name}
               </SelectItem>
