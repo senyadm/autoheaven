@@ -57,7 +57,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>()
+    createRef<RangeSliderRef>(),
   ]);
 
   const { types, makes, models } = vehicleUIData;
@@ -83,10 +83,9 @@ const CarSidebar: FC<CarSidebarProps> = ({
   });
 
   useEffect(() => {
-    console.log("RERENDER")
+    console.log("RERENDER");
     setFilters(paramFilters);
   }, []);
-
 
   console.log("🚀 ~ filters:", filters);
   const setFiltersAndRedirect = (newFilters: Filter) => {
@@ -116,25 +115,25 @@ const CarSidebar: FC<CarSidebarProps> = ({
   };
 
   const handleReset = () => {
-    const resetFilters = {
-      ...filters,
-      price_min: 1000,
-      price_max: 1000000,
-      mileage_min: 0,
-      fromDealer: false,
-      accitendfree: false,
-      mileage_max: 500000,
-      year_min: 1975,
-      year_max: 2023,
-      body_type: "",
-      make_id: "",
-    };
-  
-    setFilters(resetFilters);
+    // const resetFilters = {
+    //   ...filters,
+    //   price_min: 1000,
+    //   price_max: 1000000,
+    //   mileage_min: 0,
+    //   fromDealer: false,
+    //   accitendfree: false,
+    //   mileage_max: 500000,
+    //   year_min: 1975,
+    //   year_max: 2023,
+    //   body_type: "",
+    //   make_id: "",
+    // };
 
-    sliderRefs.current.forEach((ref) => {
-      ref.current?.reset();
-    });
+    setFiltersAndRedirect({});
+
+    // sliderRefs.current.forEach((ref) => {
+    //   ref.current?.reset();
+    // });
   };
 
   // TODO: change so that URL can look like
@@ -143,15 +142,15 @@ const CarSidebar: FC<CarSidebarProps> = ({
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible">
       <div className="flex justify-between items-center">
-      <Label htmlFor="filter1" className="font-bold">
-        Vehicle
-      </Label>
-      <Button variant="ghost" onClick={handleReset}>
+        <Label htmlFor="filter1" className="font-bold">
+          Vehicle
+        </Label>
+        <Button variant="ghost" onClick={handleReset}>
           <RotateCcw size={20} />
         </Button>
-
       </div>
       <Select
+        value={filters.type}
         onValueChange={(selectorValue) =>
           setFiltersAndRedirect({ type: selectorValue as VehicleType })
         }
@@ -169,7 +168,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
       </Select>
       {types && (
         <TypeSelect
-          type={filters.type}
           filters={filters}
           types={types}
           handleSelectorChange={handleSelectorChange}
@@ -219,7 +217,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
 
         <Checkbox
           className="mr-2"
-          checked={filters.fromDealer}
+          checked={filters.fromDealer || false}
           onCheckedChange={(e) => handleCheckboxToggle("fromDealer")}
         />
       </div>
@@ -245,7 +243,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
 
         <Checkbox
           className="mr-2"
-          checked={filters.accidentfree}
+          checked={filters.accidentfree || false}
           onCheckedChange={(e) => handleCheckboxToggle("accidentfree")}
         />
       </div>

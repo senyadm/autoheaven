@@ -13,7 +13,6 @@ import { TruckMake } from "../model/truck";
 import { useSearchParams } from "next/navigation";
 type Type = MotoType | BusMake | TruckMake;
 interface TypeSelectProps {
-  type: VehicleType;
   types: Type[];
   handleSelectorChange: (key: keyof Filter, value: string) => void;
   filters;

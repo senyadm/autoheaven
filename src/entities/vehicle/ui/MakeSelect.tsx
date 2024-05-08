@@ -16,6 +16,7 @@ type Make = MotoMake | BusMake | TruckMake;
 interface MakeSelectProps {
   makes: Make[];
   handleSelectorChange: (key: keyof Filter, value: string) => void;
+  filters: Filter;
 }
 
 const MakeSelect = ({
