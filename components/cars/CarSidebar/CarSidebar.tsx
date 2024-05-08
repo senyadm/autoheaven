@@ -1,9 +1,9 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, createRef, useEffect, useRef, useState } from "react";
 import { Label } from "../../ui/label";
 import CarSearchFilter from "./CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, RotateCcw } from "lucide-react";
 import { types, typeProps } from "../../landing/types";
 import {
   Select,
@@ -27,6 +27,8 @@ import { Make, MakeModelById } from "../../../src/shared/model";
 import { MotoMake, MotoType } from "../../../src/entities/vehicle/model/moto";
 import TypeSelect from "../../../src/entities/vehicle/ui/TypeSelect";
 import MakeSelect from "../../../src/entities/vehicle/ui/MakeSelect";
+import { Button } from "@/components/ui/button";
+import { RangeSliderRef } from "@/components/landing/RangeSlider";
 
 type CarSidebarProps = {
   offerNumber: number;
@@ -52,6 +54,12 @@ const CarSidebar: FC<CarSidebarProps> = ({
   pageText,
   vehicleUIData,
 }) => {
+  const sliderRefs = useRef([
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>()
+  ]);
+
   const { types, makes, models } = vehicleUIData;
   console.log("🚀 ~ carModels:", models);
   const { push, replace } = useRouter();
@@ -62,7 +70,24 @@ const CarSidebar: FC<CarSidebarProps> = ({
     return normalized;
   }
   const paramFilters = prepParams();
-  const [filters, setFilters] = useState<Filter>(paramFilters);
+  const [filters, setFilters] = useState<Filter>({
+    type: VehicleType.Car,
+    price_min: 1000,
+    price_max: 1000000,
+    mileage_min: 0,
+    mileage_max: 500000,
+    year_min: 1975,
+    year_max: 2023,
+    fromDealer: false,
+    accidentfree: false,
+  });
+
+  useEffect(() => {
+    console.log("RERENDER")
+    setFilters(paramFilters);
+  }, []);
+
+
   console.log("🚀 ~ filters:", filters);
   const setFiltersAndRedirect = (newFilters: Filter) => {
     setFilters(newFilters);
@@ -89,14 +114,43 @@ const CarSidebar: FC<CarSidebarProps> = ({
     const newFilters = { ...filters, [id]: !filters[id] };
     setFiltersAndRedirect(newFilters as Filter);
   };
+
+  const handleReset = () => {
+    const resetFilters = {
+      ...filters,
+      price_min: 1000,
+      price_max: 1000000,
+      mileage_min: 0,
+      fromDealer: false,
+      accitendfree: false,
+      mileage_max: 500000,
+      year_min: 1975,
+      year_max: 2023,
+      body_type: "",
+      make_id: "",
+    };
+  
+    setFilters(resetFilters);
+
+    sliderRefs.current.forEach((ref) => {
+      ref.current?.reset();
+    });
+  };
+
   // TODO: change so that URL can look like
   // https://www.aaaauto.eu/used-cars#makes=15-75&models-15=1437-2128-2214&models-75=33
 
   return (
     <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible">
+      <div className="flex justify-between items-center">
       <Label htmlFor="filter1" className="font-bold">
         Vehicle
       </Label>
+      <Button variant="ghost" onClick={handleReset}>
+          <RotateCcw size={20} />
+        </Button>
+
+      </div>
       <Select
         onValueChange={(selectorValue) =>
           setFiltersAndRedirect({ type: selectorValue as VehicleType })
@@ -138,6 +192,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
       )}
 
       <CarSearchFilter
+        sliderRefs={sliderRefs}
         dict={pageText}
         filters={filters}
         handleSliderChange={handleSliderChange}

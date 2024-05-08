@@ -21,7 +21,9 @@ export interface Filter {
   body_type?: string;
   price_min?: number;
   price_max?: number;
+  fromDealer?: boolean;
   mileage_min?: number;
+  make_id?: string;
   mileage_max?: number;
   year_min?: number;
   year_max?: number;

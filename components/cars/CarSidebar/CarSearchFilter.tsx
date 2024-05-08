@@ -15,6 +15,7 @@ interface CarSearchFilterProps {
     ids: [keyof Filter, keyof Filter],
     values: [number, number]
   ) => void;
+  sliderRefs: any;
   filters: Filter;
   dict: FiltersDictionary;
 }
@@ -22,6 +23,7 @@ const CarSearchFilter = ({
   handleSliderChange,
   filters,
   dict,
+  sliderRefs
 }: CarSearchFilterProps) => {
   const { premiumThreshold, isPremium } = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;
@@ -79,6 +81,7 @@ const CarSearchFilter = ({
           value={[filters.price_min || 1000, filters.price_max || 1000000]}
           fixedLowerText={`${variablePriceMin} $`}
           fixedUpperText="1000000 $"
+          ref={sliderRefs.current[0]}
           filename="banknote.svg"
           id="price"
           min={variablePriceMin}
@@ -92,6 +95,7 @@ const CarSearchFilter = ({
       </div>
       <div className="mt-7">
         <RangeSlider
+          ref={sliderRefs.current[1]}
           value={[filters.mileage_min || 0, filters.mileage_max || 500000]}
           fixedLowerText="0 km"
           fixedUpperText="500000 km"
@@ -108,6 +112,7 @@ const CarSearchFilter = ({
       </div>
       <div className="mt-7">
         <RangeSlider
+          ref={sliderRefs.current[2]}
           value={[filters.year_min || 1975, filters.year_max || 2023]}
           fixedLowerText="1975"
           fixedUpperText="2023"
