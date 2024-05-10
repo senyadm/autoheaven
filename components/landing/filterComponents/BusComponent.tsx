@@ -175,8 +175,8 @@ export function BusComponent({
           <RangeSlider
             ref={sliderRefs.current[0]}
             value={filter.price}
-            fixedLowerText="1000 $"
-            fixedUpperText="100000 $"
+            fixedLowerText="1000 €"
+            fixedUpperText="100000 €"
             filename="banknote.svg"
             id="price"
             min={1000}
@@ -303,7 +303,7 @@ export function BusComponent({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid place-items-end">
+      <CardFooter className="grid place-items-end md:mt-0 mt-2">
         <div className="flex flex-row space-x-2">
           <Button variant="secondary" onClick={handleReset}>
             <span className="me-2">{dict?.reset || "Reset"}</span>

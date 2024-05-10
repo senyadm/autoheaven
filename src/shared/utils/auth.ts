@@ -5,7 +5,9 @@ export const getToken = () => {
 };
 export const validateToken = async () => {
   const token = getToken();
-  if (!token) return false;
+  if (!token) {   
+    return false
+  };
 
   try {
     const resp = await clientUsers.get("/api/users/me/", {

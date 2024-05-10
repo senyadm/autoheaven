@@ -54,7 +54,7 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
           /> */}
             <Image
               alt=""
-              src={`${carsDomain}/cars/download/${product_id}`}
+              src={`api/${carsDomain}/cars/download/${product_id}`}
               fill={true}
               sizes={"100%"}
               style={{

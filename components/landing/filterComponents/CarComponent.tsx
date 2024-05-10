@@ -193,8 +193,8 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
           <RangeSlider
             ref={sliderRefs.current[0]}
             value={filter.price}
-            fixedLowerText="1000 $"
-            fixedUpperText="1000000 $"
+            fixedLowerText="1000 €"
+            fixedUpperText="1000000 €"
             filename="banknote.svg"
             id="price"
             min={1000}
@@ -337,7 +337,7 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid place-items-end">
+      <CardFooter className="grid place-items-end md:mt-0 mt-2">
         <div className="flex flex-row space-x-2">
         <Button variant="secondary" onClick={handleReset}>
           <span className="me-2">{dict?.reset || "Reset"}</span>

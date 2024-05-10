@@ -199,7 +199,7 @@ const ResultCarCard = ({
       <div className="block relative w-full max-w-[312px]">
         <Image
           alt=""
-          src={`https://autoheven-cars.vercel.app/cars/download/${id}`}
+          src={`https://autoheven-cars.vercel.app/api/cars/download/${id}`}
           fill={true}
           sizes={"100%"}
           style={{

@@ -118,7 +118,7 @@ export async function uploadImage(id: string, file: File) {
   formData.append("file", file);
 
   try {
-    const response = await clientCars.post(`/cars/upload/${id}`, formData, {
+    const response = await clientCars.post(`api/cars/upload/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -131,7 +131,7 @@ export async function uploadImage(id: string, file: File) {
 }
 
 export async function getIntent(id: string, option: string) {
-  const url = `/create-payment-intent/${option}/${id}`;
+  const url = `api/create-payment-intent/${option}/${id}`;
   try {
     const response = await clientCars.post(url);
     return response.data.client_secret;

@@ -46,6 +46,19 @@ export const userSlice = createSlice({
       }
       state.isLoggedIn = true;
     },
+    logOut: (state) => {
+      state.isLoggedIn = false;
+      state.email = "";
+      state.id = 0;
+      state.is_active = true;
+      state.password = "";
+      state.user_group = null;
+      state.user_info = null;
+      state.user_info_id = 0;
+      state.username = "";
+      state.wishlist = [];
+      state.cars = [];
+    },
     addToWishlist: (state, action: PayloadAction<number>) => {
       state.wishlist.push(action.payload);
     },
@@ -154,6 +167,7 @@ export const {
   deleteFromWishlist,
   setWishlist,
   setCars,
+  logOut
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -66,6 +66,9 @@ import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
+import { validateToken } from "@/src/shared/utils/auth";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/app/GlobalRedux/profile/userSlice";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -106,15 +109,23 @@ export function Navbar({ lang }: { lang: Locale }) {
   const router = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-  // useEffect(() => {
-  //   const validate = async () => {
-  //     return await validateToken();
-  //   };
-
-  //   validate();
-  // }, []);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    const validate = async () => {
+      const doesExist = await validateToken();
+
+      if (!doesExist) {
+        dispatch(logOut())
+      }
+    };
+
+    validate();
+  }, [dispatch]);
+
+  useEffect(() => {
+    localStorage.removeItem
+
     async function fetchData() {
       try {
         const { navbar } = await getlocales(lang);
@@ -148,24 +159,28 @@ export function Navbar({ lang }: { lang: Locale }) {
   const [location, setLocation] = useState({ country: "", city: "" });
   const [selectedCountry, setSelectedCountry] = useState("");
 
-  useEffect(() => {
-    const fetchLocation = async () => {
-      try {
-        // Fetch IP address
-        const ipResponse = await fetch("https://api.ipify.org?format=json");
-        const ipData = await ipResponse.json();
-        const ip = ipData.ip;
+  const fetchLocation = async (attempt = 1) => {
+    try {
+      const ipResponse = await fetch("https://api.ipify.org?format=json");
+      const ipData = await ipResponse.json();
+      const ip = ipData.ip;
 
-        // Fetch location data using IP address
-        const locationResponse = await fetch(`http://ip-api.com/json/${ip}`);
-        const locationData = await locationResponse.json();
-        setLocation({ country: locationData.country, city: locationData.city });
-      } catch (error) {
-        console.error("Failed to fetch location", error);
+      const locationResponse = await fetch(`http://ip-api.com/json/${ip}`);
+      const locationData = await locationResponse.json();
+      setLocation({ country: locationData.country, city: locationData.city });
+    } catch (error) {
+      console.error(`Attempt ${attempt}: Failed to fetch location`, error);
+      if (attempt < 10) {
+        setTimeout(() => fetchLocation(attempt + 1), 2000);
+      } else {
+        throw new Error("Failed to obtain location after 10 attempts");
       }
-    };
-
+    }
+  };
+  
+  useEffect(() => {
     fetchLocation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
@@ -214,8 +229,6 @@ export function Navbar({ lang }: { lang: Locale }) {
         )}
 
         <div className="flex items-center space-x-4">
-          {/*         <ModeToggle />  */}
-
           <Dialog open={regionModalOpen} onOpenChange={handleClose}>
             <DialogTrigger asChild>
               <Button
@@ -235,7 +248,7 @@ export function Navbar({ lang }: { lang: Locale }) {
                 <DialogTitle className="flex justify-between items-center p-4">
                   {" "}
                   <Label className="text-lg font-bold">{menu?.country}</Label>
-                  <Label className="md:hidden text-foreground text-l">
+                  <Label className="md:hidden me-4 md:me-0 text-foreground text-l">
                     Current location - {location.city}
                   </Label>
                 </DialogTitle>
@@ -263,7 +276,7 @@ export function Navbar({ lang }: { lang: Locale }) {
                   <Button
                     variant="default"
                     onClick={() => setModalState("country")}
-                    className="p-2 border rounded"
+                    className="p-2 border rounded me-4 md:me-0"
                   >
                     {menu?.country_select}
                   </Button>

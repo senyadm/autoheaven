@@ -79,8 +79,8 @@ const CarSearchFilter = ({
       <div className="mt-8">
         <RangeSlider
           value={[filters.price_min || 1000, filters.price_max || 1000000]}
-          fixedLowerText={`${variablePriceMin} $`}
-          fixedUpperText="1000000 $"
+          fixedLowerText={`${variablePriceMin} €`}
+          fixedUpperText="1000000 €"
           ref={sliderRefs.current[0]}
           filename="banknote.svg"
           id="price"

@@ -52,7 +52,7 @@ const RangeSlider = forwardRef<RangeSliderRef, RangeSliderProps>(
 
     const getSymbol = () => {
       if (id === "price") {
-        return "$";
+        return "€";
       } else if (id === "milage") {
         return "km";
       }

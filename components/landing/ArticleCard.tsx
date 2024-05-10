@@ -32,7 +32,6 @@ interface ArticleCardProps {
 const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
   const { tipType, title, description, icon } = tipsInfo;
   const [isHovered, setIsHovered] = useState(false);
-  const [addClassTimeout, setAddClassTimeout] = useState(null);
 
   return (
     <>
@@ -65,7 +64,7 @@ const ArticleCard = ({ tipsInfo, tipsDict }: ArticleCardProps) => {
               {tipsDict?.description || description}
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex !justify-between w-full">
+          <DialogFooter className="flex !justify-between w-full flex-row">
             {icon}
             <Button>
               {tipsDict?.readMore || "Read more"}
