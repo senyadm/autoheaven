@@ -25,19 +25,19 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
   const contactButtonClasses = `${buttonBaseClasses} bg-primary text-secondary px-2 py-2 md:px-2 md:py-3 mb-2 md:mb-0`;
 
   const myCarComponent = (
-    <div className="flex flex-row space-x-2">
+    <>
       <Button onClick={() => onButtonClick("advertise")}>
         <Label className="text-xs">Advertise</Label>
       </Button>
       <Button onClick={() => onButtonClick("edit")}>
         <Label className="text-xs">Edit</Label>
       </Button>
-    </div>
+    </>
   );
   if (isMine) return myCarComponent;
   const pageDisplayedToButtons = {
     cars: (
-      <div className="w-full">
+      <>
         <Button
           className={` text-primary hover:text-primary-foreground md:p-[0.625rem] mr-2
       ${isWish ? "bg-primary text-background" : "bg-background"}`}
@@ -58,7 +58,7 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
           />
           <Label className="text-xs"> Contact</Label>
         </Button>
-      </div>
+      </>
     ),
     profileCars: myCarComponent,
     profileAds: (
@@ -85,7 +85,11 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
       </>
     ),
   };
-  return pageDisplayedToButtons[pageDisplayed];
+  return (
+    <div className="flex space-x-2">
+      {pageDisplayedToButtons[pageDisplayed]}
+    </div>
+  );
 };
 
 export default ResultCarCardButtons;
