@@ -15,6 +15,7 @@ import { SellClassicTranslations } from "@/types";
 import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
+import { VehicleType } from "../../../src/shared/model/params";
 
 const ModelSelection = ({
   onNext,
@@ -32,7 +33,7 @@ const ModelSelection = ({
 
   const sortedModelsWithHeadings = useMemo(() => {
     const modelNames =
-      carType === "Passenger Car"
+      carType === VehicleType.Car
         ? store?.models?.models?.map((model) => model.name)
         : store?.models;
     if (!modelNames || !modelNames?.length) return [];
@@ -59,7 +60,11 @@ const ModelSelection = ({
     }
     console.log(groupedModels);
     return groupedModels;
-  }, [store, search]);
+  }, [carType, store?.models, search]);
+  console.log(
+    "🚀 ~ sortedModelsWithHeadings ~ sortedModelsWithHeadings:",
+    sortedModelsWithHeadings
+  );
 
   return (
     <Card className="w-full h-full mx-auto bg-white border-none shadow-none">

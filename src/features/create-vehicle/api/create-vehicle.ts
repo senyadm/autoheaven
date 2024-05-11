@@ -11,13 +11,13 @@ export async function postVehicle(
   vehicleType: VehicleType
 ) {
   switch (vehicleType) {
-    case VehicleType.car:
-      return clientCars.post("/api/car_listings/", payload);
-    case VehicleType.bus:
+    case VehicleType.Car:
+      return clientCars.post("/api/cars", payload);
+    case VehicleType.Bus:
       return clientCars.post("/api/bus_listings/", payload);
-    case VehicleType.moto:
+    case VehicleType.Moto:
       return clientCars.post("/api/moto_listings/", payload);
     default:
-      return clientCars.post("/api/car_listings/", payload);
+      return clientCars.post("/api/cars", payload);
   }
 }

@@ -42,7 +42,7 @@ const page = async ({ params, searchParams }) => {
           />
         </div>
         <div className="w-full lg:w-3/4">
-          <section className="mx-8">
+          <section className="mx-4 md:mx-8">
             <div className="flex justify-between mt-8 md:mt-8">
               <GradientHeading title={`${offerCount} offers found`} />
               <CarSortDropdown />

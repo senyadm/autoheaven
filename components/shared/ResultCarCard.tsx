@@ -1,17 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Calendar,
   Car,
   CheckCheck,
   ClipboardList,
-  Divide,
   Eye,
   Flame,
   Fuel,
-  Heart,
   Sliders,
   Wind,
 } from "lucide-react";
@@ -28,10 +26,8 @@ import { Label } from "../ui/label";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
-import { getToken } from "@/src/shared/utils/auth";
 import {
   addToWishlistThunk,
-  deleteFromWishlist,
   deleteFromWishlistThunk,
 } from "@/app/GlobalRedux/profile/userSlice";
 import Image from "next/image";
@@ -40,11 +36,9 @@ import {
   setCurrentChat,
 } from "../../app/GlobalRedux/profile/chatSlice";
 import { useRouter } from "next/navigation";
-import { set } from "zod";
-import { Chat, ChatListAPI } from "../../interfaces/profile/messages";
+import { Chat } from "../../interfaces/profile/messages";
 import { useAppSelector } from "../../app/GlobalRedux/store";
 import { fetchAndSetUser } from "../../src/shared/utils/user";
-import { getWS } from "../../src/shared/utils/chats";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -200,11 +194,8 @@ const ResultCarCard = ({
         <Image
           alt=""
           src={`https://autoheven-cars.vercel.app/api/cars/download/${id}`}
-          fill={true}
-          sizes={"100%"}
-          style={{
-            objectFit: "cover",
-          }}
+          width={152}
+          height={108}
         />
       </div>
 
@@ -217,7 +208,7 @@ const ResultCarCard = ({
         <div className="flex flex-col justify-between flex-1 px-6 py-4">
           <div className="flex justify-between mb-1">
             <p className="font-bold">{title}</p>
-            <p className="font-medium whitespace-nowrap">€ {price}</p>
+            <p className="font-medium whitespace-nowrap bold">€ {price}</p>
           </div>
           <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1">
             {carInfo.map((info, index) => (

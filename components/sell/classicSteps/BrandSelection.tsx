@@ -24,6 +24,7 @@ import { InputField } from "@/components/ui/input-field";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SellClassicTranslations } from "@/types";
+import { VehicleType } from "../../../src/shared/model/params";
 
 const BrandSelection = ({
   onNext,
@@ -43,15 +44,15 @@ const BrandSelection = ({
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);
 
   const BrandsByCarType = {
-    "Passenger car": {
+    [VehicleType.Car]: {
       modelList: carBrands,
       brandList: Object.keys(carBrands || {}),
     },
-    Motorcycle: {
+    [VehicleType.Moto]: {
       modelList: staticVehicleData.moto.type.data.map((item) => item.moto_type),
       brandList: staticVehicleData.moto.make.data.map((item) => item.make_name),
     },
-    Bus: {
+    [VehicleType.Bus]: {
       modelList: staticVehicleData.bus.type.data.map((item) => item.bus_type),
       brandList: staticVehicleData.bus.make.data.map((item) => item.make_name),
     },
