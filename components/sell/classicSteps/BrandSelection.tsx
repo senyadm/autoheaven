@@ -37,7 +37,7 @@ const BrandSelection = ({
   dict: SellClassicTranslations | null;
 }) => {
   const [search, setSearch] = useState<string>("");
-  const [showSimplified, setShowSimplified] = useState<boolean>(false);
+
   const [carBrands, dispatchBrands] = useAppStore(
     (state) => state?.carFiltersAndResults?.brandsWithModels
   );
@@ -58,10 +58,10 @@ const BrandSelection = ({
     },
   };
   const brands = carBrands;
+  console.log(BrandsByCarType)
+
   const brandList = BrandsByCarType[carType].brandList;
   const modelList = BrandsByCarType[carType].modelList;
-  console.log("🚀 ~ BrandsByCarType[carType]:", BrandsByCarType[carType]);
-
   const sortedBrandsWithHeadings = useMemo(() => {
     if (!brands) return [];
 
@@ -77,6 +77,7 @@ const BrandSelection = ({
       }
       groupedBrands[groupedBrands.length - 1].push(brand);
     });
+
     if (search) {
       groupedBrands = groupedBrands.filter((grouped) =>
         grouped.some((brand) =>
@@ -86,26 +87,6 @@ const BrandSelection = ({
     }
     return groupedBrands;
   }, [brands, brandList, search]);
-
-  const sortedAndGroupedBrands = useMemo(() => {
-    if (!brands) return {};
-
-    const sortedBrands: string[] = [...brandList].sort();
-
-    const grouped = sortedBrands.reduce(
-      (acc: Record<string, string[]>, brand) => {
-        const firstLetter = brand[0].toUpperCase();
-        if (!acc[firstLetter]) {
-          acc[firstLetter] = [brand];
-        } else {
-          acc[firstLetter].push(brand);
-        }
-        return acc;
-      },
-      {}
-    );
-    return grouped;
-  }, [brands, brandList]);
 
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
   useEffect(() => {
@@ -135,28 +116,8 @@ const BrandSelection = ({
         </div>
       </CardHeader>
       <CardContent
-        className={`border shadow-md border-rounded w-full p-4 ${
-          showSimplified ? "" : "column-container"
-        }`}
-      >
-        {showSimplified
-          ? Object.keys(sortedAndGroupedBrands)
-              .sort()
-              .slice(0, 6)
-              .map((brand) => (
-                <div key={brand} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id={`simple-${brand}`}
-                    name="brand"
-                    checked={store?.brand === brand}
-                    onChange={() => dispatch(setBrand(brand))}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`simple-${brand}`}>{brand}</label>
-                </div>
-              ))
-          : sortedBrandsWithHeadings.map((group, index) => (
+        className="border shadow-md border-rounded w-full p-4 column-container">
+          {sortedBrandsWithHeadings.map((group, index) => (
               <div key={index} className="break-inside-avoid mb-4">
                 {group.map((brand, index) => (
                   <>
@@ -180,7 +141,7 @@ const BrandSelection = ({
                   </>
                 ))}
               </div>
-            ))}
+          ))}
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button

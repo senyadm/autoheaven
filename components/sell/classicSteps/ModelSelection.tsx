@@ -27,15 +27,16 @@ const ModelSelection = ({
   dict: SellClassicTranslations | null;
 }) => {
   const [search, setSearch] = useState<string>("");
-  const [showSimplified, setShowSimplified] = useState<boolean>(false);
+
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
 
   const sortedModelsWithHeadings = useMemo(() => {
     const modelNames =
-      carType === VehicleType.Car
+      carType === "Passenger Car"
         ? store?.models?.models?.map((model) => model.name)
         : store?.models;
+
     if (!modelNames || !modelNames?.length) return [];
 
     const sortedModels: string[] = [...modelNames].sort();
@@ -43,6 +44,12 @@ const ModelSelection = ({
     let groupedModels: string[][] = [];
 
     sortedModels.forEach((model) => {
+      if (!model[0]) {
+        console.error("Model name is empty");
+
+        return;
+      }
+
       const firstLetter = model[0].toUpperCase();
       if (firstLetter !== lastLetter) {
         groupedModels.push([firstLetter]);
@@ -80,9 +87,7 @@ const ModelSelection = ({
         </div>
       </CardHeader>
       <CardContent
-        className={`border shadow-md border-rounded w-full p-8 ${
-          showSimplified ? "" : "column-container"
-        }`}
+        className="border shadow-md border-rounded w-full p-8 column-container"
       >
         {sortedModelsWithHeadings.map((group, index) => (
           <div key={index} className="break-inside-avoid mb-4">

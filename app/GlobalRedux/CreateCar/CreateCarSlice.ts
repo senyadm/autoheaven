@@ -10,6 +10,9 @@ export interface CarDetails {
   mileage: number;
   gearbox: string;
   price: number;
+  summerConsumption?: number;
+  winterConsumption?: number;
+  highwayConsumption?: number;
   description: string;
   phone?: string;
   title: string;
@@ -71,13 +74,15 @@ const initialState: CarCreationState = {
 export async function createCar(
   params: CarCreationState,
   selectedFiles: FileList | null
-): Promise<string> {
+): Promise<void> {
   const payload: Record<string, string | Blob | number> = {
     type: params.carType || "",
+    type_id: params.details?.type || "",
     body_type: params.details?.body_type || "",
     make: params.brand || "",
     model: params.model || "",
     color: params.details?.color || "",
+    ext_color: params.details?.color || "",
     year: params.details?.year.toString(),
     mileage: params.details?.mileage.toString(),
     gearbox: params.details?.gearbox || "",
@@ -90,12 +95,12 @@ export async function createCar(
     imageurl: params.details?.imageurl || "",
     drivetrain: params.details?.drivetrain || "",
     istop: params.details?.istop.toString(),
-    vehicle_id: params.details?.vehicle_id.toString(),
-    country_origin: params.details?.country_origin || "",
+    vehicle_number: params.details?.vehicle_id.toString(),
+    origin: params.details?.country_origin || "",
     cubic_capacity: Number(params.details?.cubic_capacity) || 0,
-    horsepower: params.details?.horsepower || "",
+    horse_power: params.details?.horsepower || "",
     fuel_consumption: params.details?.fuel_consumption || "",
-    interior_color: params.details?.interior_color || "",
+    int_color: params.details?.interior_color || "",
   };
 
   const formData = new FormData();
@@ -170,7 +175,6 @@ export const carCreationSlice = createSlice({
     setBrand: (state, action: PayloadAction<string>) => {
       state.brand = action.payload;
     },
-
     setModel: (state, action: PayloadAction<string>) => {
       state.model = action.payload;
     },

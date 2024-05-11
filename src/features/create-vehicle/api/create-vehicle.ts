@@ -18,6 +18,6 @@ export async function postVehicle(
     case VehicleType.Moto:
       return clientCars.post("/api/moto_listings/", payload);
     default:
-      return clientCars.post("/api/cars", payload);
+      return clientCars.post("/api/cars/", payload);
   }
 }

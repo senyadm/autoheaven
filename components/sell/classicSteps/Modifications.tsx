@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/select";
 import SvgIcon from "@/components/SvgIcon";
 import { SellClassicTranslations } from "@/types";
-import { Settings, ShipWheel } from "lucide-react";
+import { Kanban, Settings, ShipWheel, Snowflake, Sun, Zap } from "lucide-react";
 import { VehicleType } from "../../../interfaces/shared/vehicle";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 
@@ -109,6 +109,24 @@ const VehicleModification = ({
     );
   }, [store]);
 
+  const handleHorsePower = (horsepower: string) => {
+    dispatch(setDetails({ ...store, horsepower }));
+  };
+
+  const handleConsumption = (consumption: string, type: string) => {
+    const numberCons = Number(consumption);
+
+    if (isNaN(numberCons) || numberCons < 1) return;
+
+    if (type === "summer") {
+      dispatch(setDetails({ ...store, summerConsumption: numberCons }));
+    } else if (type === "winter") {
+      dispatch(setDetails({ ...store, winterConsumption: numberCons }));
+    } else {
+      dispatch(setDetails({ ...store, highwayConsumption: numberCons }));
+    }
+  };
+
   return (
     <Card className="w-full mx-auto bg-white border-none shadow-none">
       <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
@@ -171,6 +189,50 @@ const VehicleModification = ({
             </SelectContent>
           </Select>
         </div>
+
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Label className="text-lg text-foreground" htmlFor="filter3">
+              Consumption
+            </Label>
+            <SvgIcon filepath="/icons/fuel.svg" alt="" width={16} height={16} />
+          </div>
+          <div className="flex flex-row justify-between items-center space-x-4">
+          <Input
+            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+            type="text"
+            id="cons"
+            name="cons"
+            placeholder="Summer"
+            value={store?.summerConsumption}
+            onChange={(e) => handleConsumption(e.target.value, "summer")}
+          />
+          <Snowflake width={12} height={12} />
+                    <Input
+            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+            type="text"
+            id="cons"
+            name="cons"
+            placeholder="Winter"
+            value={store?.winterConsumption}
+            onChange={(e) => handleConsumption(e.target.value, "winter")}
+          />
+          <Sun width={12} height={12} />
+                    <Input
+            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+            type="text"
+            id="cons"
+            min={0}
+            max={5000}
+            name="cons"
+            placeholder="Highway"
+            value={store?.highwayConsumption}
+            onChange={(e) => handleConsumption(e.target.value, "highway")}
+          />
+          <Kanban width={12} height={12} />
+          </div>
+        </div>
+
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter2">
@@ -191,6 +253,28 @@ const VehicleModification = ({
             onChange={(e) => handleYear(e.target.value)}
           />
         </div>
+
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Label className="text-lg text-foreground" htmlFor="filter2">
+              Horse Power
+            </Label>
+            <Zap width={16} height={16} />
+          </div>
+          <Input
+            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+            type="number"
+            id="power"
+            defaultValue={1}
+            min={1}
+            max={5000}
+            name="power"
+            placeholder="Horse Power"
+            value={store?.horsepower}
+            onChange={(e) => handleHorsePower(e.target.value)}
+          />
+        </div>
+
         {carType != VehicleType.moto && (
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -199,7 +283,7 @@ const VehicleModification = ({
               </Label>
               <ShipWheel width={16} height={16} />
             </div>
-            <div className="flex flex-row justify-between">
+            <div className="flex md:flex-row md:justify-between flex-col space-y-3">
               {driveTrain.map((item, index) => (
                 <div key={index} className="items-center">
                   <Checkbox

@@ -52,12 +52,12 @@ const MultiStepForm = ({
   const progress = (currentStep / (steps.length - 1)) * 100;
 
   return (
-    <div className="flex flex-col justify-end items-stretch px-4 py-6 bg-background">
+    <div className="flex flex-col justify-end items-stretch px-4 md:py-6 bg-background">
       <Card className="w-full max-w-2xl mx-auto mb-32 bg-white border-none shadow-none mt-4">
         <CardContent>
           <Label className="text-lg mb-4 text-primary block text-center">
             {!currentStep
-              ? dict?.title || "Get Started"
+              ? "" || "Get Started"
               : currentStep === 1
               ? dict?.brand || "Brand"
               : currentStep === 2
@@ -68,7 +68,7 @@ const MultiStepForm = ({
               ? "Specification"
               : dict?.details || "Details"}
           </Label>
-          <Progress value={progress} className="h-4 w-full" />
+          <Progress value={progress} className="h-4 w-full md:mb-0 mb-4" />
           {currentStep === 0 && (
             <VehicleTypeSelection onNext={nextStep} dict={dict} />
           )}
