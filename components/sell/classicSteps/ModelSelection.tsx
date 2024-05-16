@@ -33,7 +33,7 @@ const ModelSelection = ({
 
   const sortedModelsWithHeadings = useMemo(() => {
     const modelNames =
-      carType === "Passenger Car"
+      carType === "car"
         ? store?.models?.models?.map((model) => model.name)
         : store?.models;
 
