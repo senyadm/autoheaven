@@ -1,4 +1,4 @@
-import { setModel } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
+import { ModelName, setModel } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,8 @@ import React, { useMemo, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { VehicleType } from "../../../src/shared/model/params";
 
+
+
 const ModelSelection = ({
   onNext,
   onPrevious,
@@ -29,33 +31,38 @@ const ModelSelection = ({
   const [search, setSearch] = useState<string>("");
 
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
+  const [brand] = useAppStore((state) => state?.createCarProgress?.brand);
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
 
   const sortedModelsWithHeadings = useMemo(() => {
-    const modelNames =
+    if (!brand) return [];
+
+    const modelNames: ModelName[] =
       carType === "car"
-        ? store?.models?.models?.map((model) => model.name)
+        ? store?.models[brand]?.models
         : store?.models;
+
+    console.log(store?.models?.[brand]?.models);
 
     if (!modelNames || !modelNames?.length) return [];
 
-    const sortedModels: string[] = [...modelNames].sort();
+    const sortedModels: ModelName[] = [...modelNames].sort((a, b) => a.name.localeCompare(b.name));
     let lastLetter = "";
     let groupedModels: string[][] = [];
 
     sortedModels.forEach((model) => {
-      if (!model[0]) {
+      if (!model.name) {
         console.error("Model name is empty");
 
         return;
       }
 
-      const firstLetter = model[0].toUpperCase();
+      const firstLetter = model.name.toUpperCase();
       if (firstLetter !== lastLetter) {
         groupedModels.push([firstLetter]);
         lastLetter = firstLetter;
       }
-      groupedModels[groupedModels.length - 1].push(model);
+      groupedModels[groupedModels.length - 1].push(model.name);
     });
     if (search) {
       // Filter the groupedBrands based on the search term
@@ -65,12 +72,12 @@ const ModelSelection = ({
         )
       );
     }
-    console.log(groupedModels);
+
     return groupedModels;
   }, [carType, store?.models, search]);
   console.log(
     "🚀 ~ sortedModelsWithHeadings ~ sortedModelsWithHeadings:",
-    sortedModelsWithHeadings
+    sortedModelsWithHeadings, 
   );
 
   return (

@@ -2,6 +2,8 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../../../src/shared/api/client";
 import { postVehicle } from "../../../src/features/create-vehicle/api/create-vehicle";
 
+export type ModelName = { id: number, name: string };
+
 export interface CarDetails {
   type: string;
   body_type: string;
@@ -19,6 +21,7 @@ export interface CarDetails {
   fueltype: string;
   accidentfree: boolean;
   imageurl: string;
+  seats: string;
   drivetrain: string;
   istop: boolean;
   vehicle_id: number;
@@ -47,6 +50,7 @@ const defaultCarDetails = {
   vehicle_id: 0,
   title: "",
   fueltype: "",
+  seats: "4",
   accidentfree: false,
   imageurl: "",
   drivetrain: "",
@@ -93,13 +97,16 @@ export async function createCar(
     fueltype: params.details?.fueltype || "",
     accidentfree: params.details?.accidentfree.toString(),
     imageurl: params.details?.imageurl || "",
+    seats: params.details?.seats || "",
     drivetrain: params.details?.drivetrain || "",
     istop: params.details?.istop.toString(),
     vehicle_number: params.details?.vehicle_id.toString(),
     origin: params.details?.country_origin || "",
     cubic_capacity: Number(params.details?.cubic_capacity) || 0,
     horse_power: params.details?.horsepower || "",
-    fuel_consumption: params.details?.fuel_consumption || "",
+    consumption_winter: params.details?.fuel_consumption || "",
+    consumption_summer: params.details?.fuel_consumption || "",
+    consumption_highway: params.details?.fuel_consumption || "",
     int_color: params.details?.interior_color || "",
   };
 

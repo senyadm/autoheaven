@@ -172,21 +172,20 @@ const VehicleSpecs = ({
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter2">
-              Fuel Consumption
+              Seats
             </Label>
-            <Label className="text-sm text-foreground">/100 km</Label>
           </div>
           <Input
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
             id="fuel"
             name="Fuel"
-            value={store?.fuel_consumption || ""}
+            value={store?.seats || ""}
             onChange={(e) => {
               const value = e.target.value;
               dispatch(
                 setDetails({
                   ...store,
-                  fuel_consumption: value,
+                  seats: value,
                 })
               );
             }}
