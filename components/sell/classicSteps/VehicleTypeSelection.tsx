@@ -12,9 +12,10 @@ import { Label } from "@/components/ui/label";
 import { ChevronRight } from "lucide-react";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import { setCarType } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SellClassicTranslations } from "@/types";
 import { VehicleType } from "../../../src/shared/model/params";
+import { useRouter } from "next/navigation";
 
 const VehicleTypeSelection = ({
   onNext,
@@ -23,6 +24,7 @@ const VehicleTypeSelection = ({
   onNext: () => void;
   dict: SellClassicTranslations | null;
 }) => {
+  const { replace } = useRouter();
   const vehicleTypes = [
     { name: VehicleType.Car, iconPath: "/icons/Car.svg" },
     { name: VehicleType.Truck, iconPath: "/icons/Truck.svg" },
@@ -33,41 +35,76 @@ const VehicleTypeSelection = ({
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
 
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+  function setTypeParam() {
+    if (typeof store?.carType === "string") {
+      onNext();
+    }
+  }
+  function handleTypeSelect(vehicle) {
+    if (vehicle.name) {
+      dispatch(setCarType(vehicle.name ?? ""));
+      const params = new URLSearchParams({ type: vehicle.name });
+      replace(`/sell/classic?${params.toString()}`);
+    }
+  }
 
   return (
-
-      <Card className="w-full  mx-auto bg-white border-none shadow-none ">
-        <CardHeader>
-          <CardTitle className='text-center text-foreground'>{dict?.title || "I want to sell..."}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col mt-4 md:mt-0 items-center border shadow-md border-rounded">
-          {vehicleTypes.map((vehicle, index) => (
-            <Button
-              key={vehicle.name}
-              onMouseEnter={() => setHoveredIcon(index)}
-              onMouseLeave={() => setHoveredIcon(-1)}
-              onClick={() => dispatch(setCarType(vehicle.name ?? ''))}
-              className={`my-2 flex items-center justify-center px-4 py-2 rounded-md transition-colors w-full h-full shadow-none border-border
-                ${store?.carType === vehicle.name ? 'bg-primary text-white' : 'text-foreground bg-white'}
+    <Card className="w-full  mx-auto bg-white border-none shadow-none ">
+      <CardHeader>
+        <CardTitle className="text-center text-foreground">
+          {dict?.title || "I want to sell..."}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col mt-4 md:mt-0 items-center border shadow-md border-rounded">
+        {vehicleTypes.map((vehicle, index) => (
+          <Button
+            key={vehicle.name}
+            onMouseEnter={() => setHoveredIcon(index)}
+            onMouseLeave={() => setHoveredIcon(-1)}
+            onClick={() => handleTypeSelect(vehicle)}
+            className={`my-2 flex items-center justify-center px-4 py-2 rounded-md transition-colors w-full h-full shadow-none border-border
+                ${
+                  store?.carType === vehicle.name
+                    ? "bg-primary text-white"
+                    : "text-foreground bg-white"
+                }
                 
                 `}
-            >
-              <SvgIcon width={32} height={32} alt={vehicle.name} filepath={vehicle.iconPath} className={`${store?.carType === vehicle.name ? 'text-white' : 'text-foreground'}`}/>
-              <Label className={`text-lg ml-2 ${store?.carType === vehicle.name ? 'text-white' : 'text-foreground'}`}>{vehicle.name}</Label>
-            </Button>
-          ))}
-        </CardContent>
-        <CardFooter className="grid place-items-end ">
-          <Button
-            disabled={!store?.carType}
-            onClick={() => onNext()}
-            className={`mt-4 w-full bg-primary text-white disabled:opacity-50`}
           >
-            {dict?.continue || "Continue"}
-            <ChevronRight/>
+            <SvgIcon
+              width={32}
+              height={32}
+              alt={vehicle.name}
+              filepath={vehicle.iconPath}
+              className={`${
+                store?.carType === vehicle.name
+                  ? "text-white"
+                  : "text-foreground"
+              }`}
+            />
+            <Label
+              className={`text-lg ml-2 ${
+                store?.carType === vehicle.name
+                  ? "text-white"
+                  : "text-foreground"
+              }`}
+            >
+              {vehicle.name}
+            </Label>
           </Button>
-        </CardFooter>
-      </Card>
+        ))}
+      </CardContent>
+      <CardFooter className="grid place-items-end ">
+        <Button
+          disabled={!store?.carType}
+          onClick={setTypeParam}
+          className={`mt-4 w-full bg-primary text-white disabled:opacity-50`}
+        >
+          {dict?.continue || "Continue"}
+          <ChevronRight />
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 

@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../../../src/shared/api/client";
-import { postVehicle } from "../../../src/features/create-vehicle/api/create-vehicle";
+import {
+  VehiclePayload,
+  postVehicle,
+} from "../../../src/features/create-vehicle/api/create-vehicle";
+import { VehicleType } from "../../../src/shared/model/params";
+import { AxiosResponse } from "axios";
 
-export type ModelName = { id: number, name: string };
+export type ModelName = { id: number; name: string };
 
 export interface CarDetails {
   type: string;
@@ -41,7 +46,9 @@ const defaultCarDetails = {
   gearbox: "",
   price: 0,
   description: "",
-  fuel_consumption: "",
+  consumption_highway: "",
+  consumption_summer: "",
+  consumption_winter: "",
   horsepower: "",
   cubic_capacity: "",
   country_origin: "",
@@ -59,16 +66,19 @@ const defaultCarDetails = {
 
 interface CarCreationState {
   carType: string | null;
-  brand: string | null;
+  make: string | null;
+  make_id: string | null;
   model: string | null;
   details: CarDetails;
   models: string[];
+  type_id?: string;
   wishlist: number[];
 }
 
 const initialState: CarCreationState = {
   carType: null,
-  brand: null,
+  make: null,
+  make_id: null,
   model: null,
   details: defaultCarDetails,
   models: [],
@@ -78,12 +88,13 @@ const initialState: CarCreationState = {
 export async function createCar(
   params: CarCreationState,
   selectedFiles: FileList | null
-): Promise<void> {
-  const payload: Record<string, string | Blob | number> = {
+): Promise<AxiosResponse<any, any>> {
+  const payload: VehiclePayload = {
     type: params.carType || "",
-    type_id: params.details?.type || "",
+    type_id: params.type_id || "",
     body_type: params.details?.body_type || "",
-    make: params.brand || "",
+    make: params.make || "",
+    make_id: params.make_id || "",
     model: params.model || "",
     color: params.details?.color || "",
     ext_color: params.details?.color || "",
@@ -104,9 +115,9 @@ export async function createCar(
     origin: params.details?.country_origin || "",
     cubic_capacity: Number(params.details?.cubic_capacity) || 0,
     horse_power: params.details?.horsepower || "",
-    consumption_winter: params.details?.fuel_consumption || "",
-    consumption_summer: params.details?.fuel_consumption || "",
-    consumption_highway: params.details?.fuel_consumption || "",
+    consumption_winter: Number(params.details?.consumption_winter) || "",
+    consumption_summer: Number(params.details?.consumption_summer) || "",
+    consumption_highway: Number(params.details?.consumption_highway) || "",
     int_color: params.details?.interior_color || "",
   };
 
@@ -122,7 +133,7 @@ export async function createCar(
     }
   }
 
-  postVehicle(payload, params.carType);
+  return postVehicle(payload, params.carType);
 }
 
 export async function uploadImage(id: string, file: File) {
@@ -180,10 +191,15 @@ export const carCreationSlice = createSlice({
       state.carType = action.payload;
     },
     setBrand: (state, action: PayloadAction<string>) => {
-      state.brand = action.payload;
+      const propertyAccessor =
+        state.carType === VehicleType.Car ? "make" : "make_id";
+      state[propertyAccessor] = action.payload;
     },
     setModel: (state, action: PayloadAction<string>) => {
       state.model = action.payload;
+    },
+    setTypeId: (state, action: PayloadAction<string>) => {
+      state.type_id = action.payload;
     },
     setModels: (state, action: PayloadAction<string[]>) => {
       state.models = action.payload;
@@ -220,6 +236,7 @@ export const {
   setCarType,
   setBrand,
   setModel,
+  setTypeId,
   setModels,
   setDetails,
   resetSelections,

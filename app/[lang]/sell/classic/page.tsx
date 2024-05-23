@@ -6,6 +6,7 @@ import MultiStepForm from "../../../../components/sell/classicSteps/MultiStepFor
 import { fetchCars, getCars } from "../../../../src/shared/api/client";
 import { access } from "fs";
 import path from "path";
+import { fetchVehicleUIData } from "../../../../src/entities/vehicle";
 
 const vehicleAccessorNames = [
   "moto_type",
@@ -66,10 +67,12 @@ async function getStaticVehicleData() {
   return dataStructure;
 }
 
-const page = async ({ params }) => {
+const page = async ({ params, searchParams }) => {
   const sellText = (await getlocales(params.lang)).sell;
   const classicText = sellText.classic;
-  const staticVehicleData = await getStaticVehicleData();
+  const staticVehicleData = searchParams.type
+    ? await fetchVehicleUIData(searchParams.type)
+    : null;
   console.log("🚀 ~ filteredResponse ~ filteredResponse:", staticVehicleData);
 
   return (

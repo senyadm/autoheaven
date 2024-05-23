@@ -181,13 +181,14 @@ const CarSidebar: FC<CarSidebarProps> = ({
         />
       )}
 
+      {/* No longer needed => replaced with types
       {filters.type === VehicleType.Car && (
         <CarBodyType
           vehicleType={filters.type}
           currentVehicleBody={filters.body_type}
           handleSelectorChange={handleSelectorChange}
         />
-      )}
+      )} */}
 
       <CarSearchFilter
         sliderRefs={sliderRefs}

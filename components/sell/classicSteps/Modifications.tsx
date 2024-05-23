@@ -101,11 +101,7 @@ const VehicleModification = ({
 
   const isDisabled = useMemo(() => {
     return (
-      !store?.body_type ||
-      !store?.fueltype ||
-      !store?.year ||
-      !store?.drivetrain ||
-      !store?.gearbox
+      !store?.fueltype || !store?.year || !store?.drivetrain || !store?.gearbox
     );
   }, [store]);
 
@@ -119,11 +115,11 @@ const VehicleModification = ({
     if (isNaN(numberCons) || numberCons < 1) return;
 
     if (type === "summer") {
-      dispatch(setDetails({ ...store, summerConsumption: numberCons }));
+      dispatch(setDetails({ ...store, consumption_summer: numberCons }));
     } else if (type === "winter") {
-      dispatch(setDetails({ ...store, winterConsumption: numberCons }));
+      dispatch(setDetails({ ...store, consumption_winter: numberCons }));
     } else {
-      dispatch(setDetails({ ...store, highwayConsumption: numberCons }));
+      dispatch(setDetails({ ...store, consumption_highway: numberCons }));
     }
   };
 
@@ -198,38 +194,38 @@ const VehicleModification = ({
             <SvgIcon filepath="/icons/fuel.svg" alt="" width={16} height={16} />
           </div>
           <div className="flex flex-row justify-between items-center space-x-4">
-          <Input
-            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-            type="text"
-            id="cons"
-            name="cons"
-            placeholder="Summer"
-            value={store?.summerConsumption}
-            onChange={(e) => handleConsumption(e.target.value, "summer")}
-          />
-          <Snowflake width={12} height={12} />
-                    <Input
-            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-            type="text"
-            id="cons"
-            name="cons"
-            placeholder="Winter"
-            value={store?.winterConsumption}
-            onChange={(e) => handleConsumption(e.target.value, "winter")}
-          />
-          <Sun width={12} height={12} />
-                    <Input
-            className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-            type="text"
-            id="cons"
-            min={0}
-            max={5000}
-            name="cons"
-            placeholder="Highway"
-            value={store?.highwayConsumption}
-            onChange={(e) => handleConsumption(e.target.value, "highway")}
-          />
-          <Kanban width={12} height={12} />
+            <Input
+              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+              type="text"
+              id="cons"
+              name="cons"
+              placeholder="Summer"
+              value={store?.summerConsumption}
+              onChange={(e) => handleConsumption(e.target.value, "summer")}
+            />
+            <Snowflake width={12} height={12} />
+            <Input
+              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+              type="text"
+              id="cons"
+              name="cons"
+              placeholder="Winter"
+              value={store?.winterConsumption}
+              onChange={(e) => handleConsumption(e.target.value, "winter")}
+            />
+            <Sun width={12} height={12} />
+            <Input
+              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+              type="text"
+              id="cons"
+              min={0}
+              max={5000}
+              name="cons"
+              placeholder="Highway"
+              value={store?.highwayConsumption}
+              onChange={(e) => handleConsumption(e.target.value, "highway")}
+            />
+            <Kanban width={12} height={12} />
           </div>
         </div>
 

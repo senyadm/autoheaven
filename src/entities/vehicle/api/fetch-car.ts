@@ -63,8 +63,13 @@ export async function getCarResults(searchParams: FilterParams) {
   }
 }
 
+const MODELS_PATH = "/api/car_models";
+const TYPES_PATH = "/api/car_types/";
+
 export async function fetchCarModels() {
-  const models: Record<string, Make> = await getCars("/api/car_models");
+  const promises = [getCars(MODELS_PATH), getCars(TYPES_PATH)];
+  const [models, types] = await Promise.all(promises);
   const carModelsById = getCarModelsById(models);
-  return { models, carModelsById };
+
+  return { models, types, carModelsById };
 }

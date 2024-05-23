@@ -1,8 +1,3 @@
-import {
-  ModelName,
-  setModel,
-} from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,17 +6,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronRight, SearchIcon } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useAppStore } from "@/app/GlobalRedux/useStore";
+interface VehicleCreateParams {
+  vehicleType: string;
+  make: string;
+  model: string;
+  year: number;
+}
+import {
+  setBrand,
+  setModels,
+} from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { InputField } from "@/components/ui/input-field";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { SellClassicTranslations } from "@/types";
-import { ChevronRight, SearchIcon } from "lucide-react";
-import React, { useMemo, useState } from "react";
-import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { VehicleType } from "../../../src/shared/model/params";
-import { searchModels } from "../../../src/entities/vehicle";
+import VehicleMakeCheckbox, {
+  searchModels,
+} from "../../../src/entities/vehicle";
 
-const ModelSelection = ({
+function getMakesByCarType(
+  carType: string,
+  makes: string[] | { make_name: string }[]
+): string[] {
+  switch (carType) {
+    case VehicleType.Car:
+      return Object.keys(makes || {});
+    case VehicleType.Moto:
+      return makes.map((item) => item.make_name);
+    case VehicleType.Bus:
+      return makes.map((item) => item.make_name);
+    default:
+      return Object.keys(makes || {});
+  }
+}
+
+const MakeSelection = ({
   onNext,
   onPrevious,
   dict,
@@ -31,35 +54,34 @@ const ModelSelection = ({
   onPrevious: () => void;
   dict: SellClassicTranslations | null;
 }) => {
-  const carType = useAppSelector((state) => state?.createCarProgress?.carType);
-  const { models } = staticVehicleData;
-  console.log("🚀 ~ models:", models);
+  const { makes, models } = staticVehicleData;
   const [search, setSearch] = useState<string>("");
 
-  const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
-  const [make] = useAppStore((state) => state?.createCarProgress?.make);
-
+  const [carType] = useAppStore((state) => state?.createCarProgress?.carType);
+  const isCar = carType === VehicleType.Car;
   const sortedModelsWithHeadings = useMemo(() => {
-    if (!make) return {};
-    const modelNames: string[] = models[make]?.models.map((m) => m.name);
-    const grouped = Object.groupBy(modelNames, (model) =>
-      model[0].toUpperCase()
-    );
+    const makeNames = getMakesByCarType(carType, makes || models);
+    const grouped = isCar
+      ? Object.groupBy(Object.keys(models), (make) => make[0].toUpperCase())
+      : Object.groupBy(makes, (make) => make.make_name[0].toUpperCase());
     return grouped;
-  }, [make, models]);
-  console.log(
-    "🚀 ~ sortedModelsWithHeadings ~ sortedModelsWithHeadings:",
-    sortedModelsWithHeadings
-  );
-
+  }, [carType, isCar, makes, models]);
   const filteredModels = useMemo(() => {
     const lettersAndModels = Object.entries(
-      searchModels(search, sortedModelsWithHeadings)
+      // searchModels(search, sortedModelsWithHeadings)
+      sortedModelsWithHeadings
     );
     lettersAndModels.sort(([a], [b]) => a.localeCompare(b));
     return lettersAndModels;
-  }, [search, sortedModelsWithHeadings]);
-  console.log("🚀 ~ filteredModels ~ filteredModels:", filteredModels);
+  }, [sortedModelsWithHeadings]);
+
+  const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
+
+  const handleMake = (make: string) => {
+    if (!make) return;
+
+    dispatch(setBrand(make));
+  };
 
   return (
     <Card className="w-full h-full mx-auto bg-white border-none shadow-none">
@@ -68,30 +90,18 @@ const ModelSelection = ({
           <SearchIcon className="w-5 h-5 text-gray-500" />
           <InputField
             className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground"
-            placeholder={dict?.model || "Search a model"}
+            placeholder={dict?.brand || "Search a make"}
             onChange={(e) => setSearch(e.target.value)}
             value={search}
           />
         </div>
       </CardHeader>
-      <CardContent className="border shadow-md border-rounded w-full p-8 column-container">
+      <CardContent className="border shadow-md border-rounded w-full p-4 column-container">
         {filteredModels.map(([letter, modelsArr]) => (
           <div key={letter} className="break-inside-avoid mb-4">
             <Label className="text-xl font-bold text-primary">{letter}</Label>
-            {modelsArr?.map((model, index) => (
-              <>
-                <div key={model} className="my-1">
-                  <Checkbox
-                    isRounded={true}
-                    id={`model-${model}`}
-                    name="model"
-                    checked={store?.model === model}
-                    onClick={() => dispatch(setModel(model))}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`model-${model}`}>{model}</label>
-                </div>
-              </>
+            {modelsArr?.map((make, index) => (
+              <VehicleMakeCheckbox key={index} make={make} />
             ))}
           </div>
         ))}
@@ -116,4 +126,4 @@ const ModelSelection = ({
   );
 };
 
-export default ModelSelection;
+export default MakeSelection;

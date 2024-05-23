@@ -1,6 +1,7 @@
 import {
   ModelName,
   setModel,
+  setTypeId,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import { Button } from "@/components/ui/button";
@@ -19,47 +20,29 @@ import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { VehicleType } from "../../../src/shared/model/params";
-import { searchModels } from "../../../src/entities/vehicle";
+import { CarType, searchTypes } from "../../../src/entities/vehicle";
 
-const ModelSelection = ({
-  onNext,
-  onPrevious,
-  dict,
-  staticVehicleData,
-}: {
+interface BodyTypeSelectionProps {
   onNext: () => void;
   onPrevious: () => void;
   dict: SellClassicTranslations | null;
-}) => {
+  types: CarType[];
+}
+
+const BodyTypeSelection = ({
+  onNext,
+  onPrevious,
+  dict,
+  types,
+}: BodyTypeSelectionProps) => {
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
-  const { models } = staticVehicleData;
-  console.log("🚀 ~ models:", models);
   const [search, setSearch] = useState<string>("");
 
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
-  const [make] = useAppStore((state) => state?.createCarProgress?.make);
 
-  const sortedModelsWithHeadings = useMemo(() => {
-    if (!make) return {};
-    const modelNames: string[] = models[make]?.models.map((m) => m.name);
-    const grouped = Object.groupBy(modelNames, (model) =>
-      model[0].toUpperCase()
-    );
-    return grouped;
-  }, [make, models]);
-  console.log(
-    "🚀 ~ sortedModelsWithHeadings ~ sortedModelsWithHeadings:",
-    sortedModelsWithHeadings
-  );
-
-  const filteredModels = useMemo(() => {
-    const lettersAndModels = Object.entries(
-      searchModels(search, sortedModelsWithHeadings)
-    );
-    lettersAndModels.sort(([a], [b]) => a.localeCompare(b));
-    return lettersAndModels;
-  }, [search, sortedModelsWithHeadings]);
-  console.log("🚀 ~ filteredModels ~ filteredModels:", filteredModels);
+  const filteredTypes = useMemo(() => {
+    return searchTypes(search, types);
+  }, [search, types]);
 
   return (
     <Card className="w-full h-full mx-auto bg-white border-none shadow-none">
@@ -75,24 +58,19 @@ const ModelSelection = ({
         </div>
       </CardHeader>
       <CardContent className="border shadow-md border-rounded w-full p-8 column-container">
-        {filteredModels.map(([letter, modelsArr]) => (
-          <div key={letter} className="break-inside-avoid mb-4">
-            <Label className="text-xl font-bold text-primary">{letter}</Label>
-            {modelsArr?.map((model, index) => (
-              <>
-                <div key={model} className="my-1">
-                  <Checkbox
-                    isRounded={true}
-                    id={`model-${model}`}
-                    name="model"
-                    checked={store?.model === model}
-                    onClick={() => dispatch(setModel(model))}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`model-${model}`}>{model}</label>
-                </div>
-              </>
-            ))}
+        {filteredTypes.map((type, index) => (
+          <div key={index} className="break-inside-avoid mb-4">
+            <div key={type.car_type} className="my-1">
+              <Checkbox
+                isRounded={true}
+                id={`type-${type.car_type}`}
+                name="type"
+                checked={store?.type_id === type.id}
+                onClick={() => dispatch(setTypeId(type.id))}
+                className="mr-2"
+              />
+              <label htmlFor={`type-${type.car_type}`}>{type.car_type}</label>
+            </div>
           </div>
         ))}
       </CardContent>
@@ -104,7 +82,7 @@ const ModelSelection = ({
           {dict?.previous || "Previous"}
         </Button>
         <Button
-          disabled={!store?.make}
+          disabled={!store?.type_id}
           onClick={() => onNext()}
           className="mt-4 bg-primary text-white disabled:opacity-50"
         >
@@ -116,4 +94,4 @@ const ModelSelection = ({
   );
 };
 
-export default ModelSelection;
+export default BodyTypeSelection;

@@ -108,11 +108,7 @@ const VehicleSpecs = ({
 
   const isDisabled = useMemo(() => {
     return (
-      !store?.body_type ||
-      !store?.fueltype ||
-      !store?.year ||
-      !store?.drivetrain ||
-      !store?.gearbox
+      !store?.fueltype || !store?.year || !store?.drivetrain || !store?.gearbox
     );
   }, [store]);
 

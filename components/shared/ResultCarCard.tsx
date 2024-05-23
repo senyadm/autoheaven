@@ -200,7 +200,7 @@ const ResultCarCard = ({
         </div>
       )}
       <CardHeader className="px-3 pt-3">
-        <CardTitle>{title} Toyota Supra</CardTitle>
+        <CardTitle>{title}</CardTitle>
         <CardDescription className="text-bold">€ {price}</CardDescription>
       </CardHeader>
 

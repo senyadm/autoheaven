@@ -31,7 +31,7 @@
 //       "imageurl": "",
 //       "type_id": null
 // },
-interface Car {
+export interface Car {
   body_type: string;
   price: number;
   drivetrain: string;
@@ -62,4 +62,11 @@ interface Car {
   istop_expiry: null;
   imageurl: string;
   type_id: string;
+}
+
+export interface CarType {
+  created_at: string;
+  car_type: string;
+  updated_at: string;
+  id: string;
 }

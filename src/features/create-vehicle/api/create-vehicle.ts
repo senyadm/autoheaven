@@ -4,7 +4,7 @@ import { BusPayload } from "../model/bus-payload";
 import { CarPayload } from "../model/car-payload";
 import { MotoPayload } from "../model/moto-payload";
 
-type VehiclePayload = BusPayload | MotoPayload | CarPayload;
+export type VehiclePayload = BusPayload | MotoPayload | CarPayload;
 
 export async function postVehicle(
   payload: VehiclePayload,
