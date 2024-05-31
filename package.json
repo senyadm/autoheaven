@@ -79,6 +79,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/negotiator": "^0.6.3",
     "@types/react-color": "^3.0.10",
     "@types/react-select-country-list": "^2.2.3",
