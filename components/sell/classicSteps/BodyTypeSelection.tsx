@@ -20,7 +20,11 @@ import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { VehicleType } from "../../../src/shared/model/params";
-import { CarType, searchTypes } from "../../../src/entities/vehicle";
+import {
+  CarType,
+  searchTypes,
+  typePropertyName,
+} from "../../../src/entities/vehicle";
 
 interface BodyTypeSelectionProps {
   onNext: () => void;
@@ -39,10 +43,10 @@ const BodyTypeSelection = ({
   const [search, setSearch] = useState<string>("");
 
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
-
+  const currentTypePropertyName = typePropertyName[carType];
   const filteredTypes = useMemo(() => {
-    return searchTypes(search, types);
-  }, [search, types]);
+    return searchTypes(search, types, currentTypePropertyName);
+  }, [currentTypePropertyName, search, types]);
 
   return (
     <Card className="w-full h-full mx-auto bg-white border-none shadow-none">
@@ -58,21 +62,24 @@ const BodyTypeSelection = ({
         </div>
       </CardHeader>
       <CardContent className="border shadow-md border-rounded w-full p-8 column-container">
-        {filteredTypes.map((type, index) => (
-          <div key={index} className="break-inside-avoid mb-4">
-            <div key={type.car_type} className="my-1">
-              <Checkbox
-                isRounded={true}
-                id={`type-${type.car_type}`}
-                name="type"
-                checked={store?.type_id === type.id}
-                onClick={() => dispatch(setTypeId(type.id))}
-                className="mr-2"
-              />
-              <label htmlFor={`type-${type.car_type}`}>{type.car_type}</label>
+        {filteredTypes.map((type, index) => {
+          const typeName = type[currentTypePropertyName];
+          return (
+            <div key={index} className="break-inside-avoid mb-4">
+              <div key={typeName} className="my-1">
+                <Checkbox
+                  isRounded={true}
+                  id={`type-${typeName}`}
+                  name="type"
+                  checked={store?.type_id === type.id}
+                  onClick={() => dispatch(setTypeId(type.id))}
+                  className="mr-2"
+                />
+                <label htmlFor={`type-${typeName}`}>{typeName}</label>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button

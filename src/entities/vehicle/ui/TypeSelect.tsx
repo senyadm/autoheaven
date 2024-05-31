@@ -11,6 +11,7 @@ import {
 import { BusMake } from "../model/bus";
 import { TruckMake } from "../model/truck";
 import { useSearchParams } from "next/navigation";
+import { typePropertyName } from "../model/vehicle";
 type Type = MotoType | BusMake | TruckMake;
 interface TypeSelectProps {
   types: Type[];
@@ -23,12 +24,6 @@ const typeLabel = {
   [VehicleType.Bus]: "Bus",
   [VehicleType.Moto]: "Motorcycle",
   [VehicleType.Truck]: "Truck",
-};
-const typePropertyName = {
-  [VehicleType.Car]: "car_type",
-  [VehicleType.Bus]: "bus_type",
-  [VehicleType.Moto]: "moto_type",
-  [VehicleType.Truck]: "truck_type",
 };
 
 const TypeSelect = ({

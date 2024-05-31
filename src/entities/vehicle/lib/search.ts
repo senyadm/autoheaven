@@ -1,4 +1,6 @@
+import { VehicleType } from "../../../shared/model/params";
 import { CarType } from "../model/car";
+import { typePropertyName } from "../model/vehicle";
 
 export function searchModels(
   search: string,
@@ -22,9 +24,13 @@ export function searchModels(
   return filtered;
 }
 
-export function searchTypes(search: string, types: CarType[]): CarType[] {
+export function searchTypes(
+  search: string,
+  types: CarType[],
+  currentTypePropertyName: string
+): CarType[] {
   if (!search) return types;
   return types.filter((type) =>
-    type.car_type.toLowerCase().includes(search.toLowerCase())
+    type[currentTypePropertyName].toLowerCase().includes(search.toLowerCase())
   );
 }

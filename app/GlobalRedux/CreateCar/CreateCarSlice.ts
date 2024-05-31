@@ -119,6 +119,9 @@ export async function createCar(
     consumption_summer: Number(params.details?.consumption_summer) || "",
     consumption_highway: Number(params.details?.consumption_highway) || "",
     int_color: params.details?.interior_color || "",
+    // other - TO BE IMPLEMENTED (like mobile.de)
+    other: "",
+    vendor: "",
   };
 
   const formData = new FormData();

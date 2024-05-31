@@ -11,7 +11,7 @@ interface BrandsElementProps {
 
 const BrandsElement = ({ brandInfo }: BrandsElementProps) => {
   const { brandName, resultsCount, models } = brandInfo;
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <div>

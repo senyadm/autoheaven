@@ -27,6 +27,7 @@ import { VehicleType } from "../../../src/shared/model/params";
 import VehicleMakeCheckbox, {
   searchModels,
 } from "../../../src/entities/vehicle";
+import { useMake } from "../../../src/entities/vehicle";
 
 function getMakesByCarType(
   carType: string,
@@ -56,7 +57,7 @@ const MakeSelection = ({
 }) => {
   const { makes, models } = staticVehicleData;
   const [search, setSearch] = useState<string>("");
-
+  const { isMakeChosen } = useMake();
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);
   const isCar = carType === VehicleType.Car;
   const sortedModelsWithHeadings = useMemo(() => {
@@ -114,7 +115,7 @@ const MakeSelection = ({
           {dict?.previous || "Previous"}
         </Button>
         <Button
-          disabled={!store?.make}
+          disabled={!isMakeChosen}
           onClick={() => onNext()}
           className="mt-4 bg-primary text-white disabled:opacity-50"
         >

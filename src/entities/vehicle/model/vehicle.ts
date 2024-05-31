@@ -21,3 +21,9 @@ export const vehicleTypes: {
     label: "Bus",
   },
 ];
+export const typePropertyName = {
+  [VehicleType.Car]: "car_type",
+  [VehicleType.Bus]: "bus_type",
+  [VehicleType.Moto]: "moto_type",
+  [VehicleType.Truck]: "truck_type",
+};
