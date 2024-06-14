@@ -1,5 +1,5 @@
 import { clientUsers } from "@/src/shared/api/client";
-import { setUser } from "../../../app/GlobalRedux/profile/userSlice";
+import { setUser } from "../../entities/user/api/userSlice";
 import { AppDispatch } from "../../../app/GlobalRedux/store";
 
 export const getUserInfo = async (token: string) => {

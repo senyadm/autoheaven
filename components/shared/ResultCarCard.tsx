@@ -18,7 +18,8 @@ import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
 import {
   addToWishlistThunk,
   deleteFromWishlistThunk,
-} from "@/app/GlobalRedux/profile/userSlice";
+  useWishlist,
+} from "@/src/entities/user";
 import Image from "next/image";
 import {
   addChat,
@@ -47,6 +48,7 @@ import {
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "../ui/button";
+import { carsDomain } from "../../src/shared/api";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -147,7 +149,7 @@ const ResultCarCard = ({
   ];
   const userId = useAppSelector((state) => state.user.id);
   const [eyeOpen, setEyeOpen] = useState(false);
-  const [wishlist, dispatch] = useAppStore((state) => state?.user.wishlist);
+  const [wishlist, dispatch] = useAppStore((state) => state.user.wishlist);
   const [showNumber, setShowNumber] = useState(false);
   const onButtonClick = (type: string) => {
     // const item = getToken();
@@ -209,7 +211,7 @@ const ResultCarCard = ({
           <AspectRatio ratio={16 / 9} className=" bg-muted w-[152px] h-[108px]">
             <Image
               alt=""
-              src={`https://autoheven-cars.vercel.app/api/cars/download/${id}`}
+              src={`${carsDomain}/api/cars/download/${id}`}
               fill
               className="rounded-md object-cover"
             />

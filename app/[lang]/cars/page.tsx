@@ -1,14 +1,15 @@
 import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSortDropdown from "../../../components/cars/CarSortDropdown";
 import GradientHeading from "../../../components/landing/GradientHeading";
-import CarSidebar from "../../../components/cars/CarSidebar/CarSidebar";
+import CarSidebar from "@/src/widgets/car-filters/ui/CarSidebar";
 import { getlocales } from "../../actions";
 import { Metadata } from "next/types";
-import { Locale } from "@/i18n.config";
+import { Locale } from "@/src/app/i18n.config";
 import {
   fetchVehicleUIData,
   fetchVehiclesByParams,
 } from "../../../src/entities/vehicle";
+import { WishlistProvider } from "../../../src/entities/user";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
@@ -47,12 +48,14 @@ const page = async ({ params, searchParams }) => {
               <GradientHeading title={`${offerCount} offers found`} />
               <CarSortDropdown />
             </div>
-            <CarSearchResults
-              lang={params.lang}
-              searchParams={searchParams}
-              carResultsData={carResults}
-              pageCount={pageCount}
-            />
+            <WishlistProvider>
+              <CarSearchResults
+                lang={params.lang}
+                searchParams={searchParams}
+                carResultsData={carResults}
+                pageCount={pageCount}
+              />
+            </WishlistProvider>
           </section>
         </div>
       </div>

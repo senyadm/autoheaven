@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileAds from "../../../../components/profile/ads/ProfileAds";
-import { Locale, defaultLocale } from "@/i18n.config";
+import { Locale, defaultLocale } from "@/src/app/i18n.config";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {

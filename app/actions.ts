@@ -1,6 +1,6 @@
 "use server";
 
-import { Locale, i18n } from "@/i18n.config";
+import { Locale, i18n } from "@/src/app/i18n.config";
 import { PageData } from "@/types";
 
 const dictionaries: { [key in Locale]: Promise<PageData> } = {
@@ -14,7 +14,7 @@ const dictionaries: { [key in Locale]: Promise<PageData> } = {
   pt: import("@/locales/pt.json").then((module) => module.default as PageData),
   cz: import("@/locales/cz.json").then((module) => module.default as PageData),
   ro: import("@/locales/ro.json").then((module) => module.default as PageData),
-  ru: import("@/locales/ru.json").then((module) => module.default as PageData)
+  ru: import("@/locales/ru.json").then((module) => module.default as PageData),
 };
 
 export const getlocales = async (locale: Locale): Promise<PageData> => {

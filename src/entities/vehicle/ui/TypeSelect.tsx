@@ -17,6 +17,7 @@ interface TypeSelectProps {
   types: Type[];
   handleSelectorChange: (key: keyof Filter, value: string) => void;
   filters;
+  carType: VehicleType;
 }
 
 const typeLabel = {
@@ -30,8 +31,9 @@ const TypeSelect = ({
   types,
   handleSelectorChange,
   filters,
+  carType,
 }: TypeSelectProps) => {
-  const type = filters.type;
+  const type = carType;
   // const [typeName, setTypeName] = React.useState<string | undefined>(
   //   findTypeById(searchParams.get("type_id"))
   // );

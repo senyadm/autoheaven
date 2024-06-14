@@ -4,7 +4,7 @@ import carMakesReducer from "./Features/carMakesSlice";
 import carFiltersAndResultsReducer from "./Features/carFiltersAndResultsSlice";
 import transportCategoryReducer from "./Features/transportCategorySlice";
 import profileNavigationMenuReducer from "./profile/profileNavigationMenuSlice";
-import userReducer from "./profile/userSlice";
+import userReducer from "../../src/entities/user/api/userSlice";
 import profileReducer from "./profile/profileSlice";
 import carCreationSlice from "./CreateCar/CreateCarSlice";
 

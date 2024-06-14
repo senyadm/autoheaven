@@ -1,4 +1,4 @@
-import { Locale } from "../../../../i18n.config";
+import { Locale } from "../../../../src/app/i18n.config";
 import ProfileEdit from "../../../../components/profile/edit/ProfileEdit";
 import { Metadata } from "next/types";
 

@@ -14,7 +14,7 @@ import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { getToken } from "../../../src/shared/utils/auth";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
-import { fetchUserData } from "../../../app/GlobalRedux/profile/userSlice";
+import { fetchUserData } from "../../../src/entities/user/api/userSlice";
 import useWebSocket from "react-use-websocket";
 
 const ProfileMessages = () => {

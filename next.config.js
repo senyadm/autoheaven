@@ -30,7 +30,7 @@ const nextConfig = {
     images: {
         remotePatterns: [{
             protocol: 'https',
-            hostname: 'autoheven-cars.vercel.app',
+            hostname: 'cars.auto-heaven.com',
             port: '',
             pathname: '**'
         }]

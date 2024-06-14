@@ -8,7 +8,7 @@ import { RootState, useAppDispatch } from "../../GlobalRedux/store";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
-import { fetchUserData } from "../../GlobalRedux/profile/userSlice";
+import { fetchUserData } from "../../../src/entities/user/api/userSlice";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";

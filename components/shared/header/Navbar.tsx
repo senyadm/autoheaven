@@ -57,18 +57,17 @@ import {
   MegaphoneIcon,
   SearchIcon,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import logo from "../../../public/img/logo/AutoHeaven.svg";
+import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { euCountries, euCountriesCities } from "./countries";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { validateToken } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";
-import { logOut } from "@/app/GlobalRedux/profile/userSlice";
+import { logOut } from "@/src/entities/user/api/userSlice";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -116,7 +115,7 @@ export function Navbar({ lang }: { lang: Locale }) {
       const doesExist = await validateToken();
 
       if (!doesExist) {
-        dispatch(logOut())
+        dispatch(logOut());
       }
     };
 
@@ -124,7 +123,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   }, [dispatch]);
 
   useEffect(() => {
-    localStorage.removeItem
+    localStorage.removeItem;
 
     async function fetchData() {
       try {
@@ -177,10 +176,10 @@ export function Navbar({ lang }: { lang: Locale }) {
       }
     }
   };
-  
+
   useEffect(() => {
     fetchLocation();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
@@ -215,7 +214,7 @@ export function Navbar({ lang }: { lang: Locale }) {
         ) : (
           <div className="flex items-center space-x-4">
             <Link href={`/${lang}`}>
-              <Image src={logo} height={30} width={64} alt="" />
+              <Logo height="30px" width="64px" viewBox="0 0 131 50" />
             </Link>
 
             <div className="flex items-center border rounded-md pl-2 h-10">

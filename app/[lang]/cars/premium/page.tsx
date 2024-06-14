@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Cars from "../page";
-import { Locale, defaultLocale } from "@/i18n.config";
+import { Locale, defaultLocale } from "@/src/app/i18n.config";
 import { Metadata } from "next/types";
 // export const metadata: Metadata = {
 //   title: "AutoHeaven - Premium Cars",

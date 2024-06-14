@@ -1,4 +1,3 @@
-"use client";
 import React, { Suspense, useEffect } from "react";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
@@ -9,6 +8,9 @@ import { ChevronRight } from "lucide-react";
 
 import { FilterParams } from "../../src/shared/model/params";
 import CarPagination from "./CarPagination";
+import { fetchWishlistCars } from "../../src/entities/user";
+import { RootState, useAppDispatch } from "../../app/GlobalRedux/store";
+import { useAppStore } from "../../app/GlobalRedux/useStore";
 interface CarSearchResultsProps {
   lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro";
   searchParams: FilterParams;
@@ -26,9 +28,7 @@ const CarSearchResults = ({
   pageCount,
 }: CarSearchResultsProps) => {
   const { topVehicles, nonTopVehicles } = carResultsData;
-  useEffect(() => {
-    console.log("Logging topVehicles data:", topVehicles.data);
-  }, [topVehicles.data]);
+
   try {
     return (
       <div className="space-y-8">

@@ -9,6 +9,10 @@ import { fetchTruckTypes, fetchTrucks } from "./fetch-truck";
 
 export function fetchVehiclesByParams(params: FilterParams) {
   const { type } = params;
+  return fetchCarTypeByParams(type, params);
+}
+
+export function fetchCarTypeByParams(type: VehicleType, params: FilterParams) {
   switch (type) {
     case VehicleType.Car:
       return getCarResults(params);

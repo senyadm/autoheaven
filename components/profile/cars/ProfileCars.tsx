@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import ResultCarCard from "../../shared/ResultCarCard";
-import { fetchUserCars } from "../../../app/GlobalRedux/profile/userSlice";
+import { fetchUserCars } from "../../../src/entities/user/api/userSlice";
 import { useAppStore } from "../../../app/GlobalRedux/useStore";
 
 const ProfileCars = () => {

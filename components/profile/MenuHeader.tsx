@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import Loading from "../Loading";
 import SvgIcon from "../SvgIcon";
 import { RootState, useAppSelector } from "../../app/GlobalRedux/store";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 const MenuHeader = () => {
   const userInfo = useAppSelector((state: RootState) => state?.user.user_info);
@@ -9,7 +9,7 @@ const MenuHeader = () => {
   const userEmail = useAppSelector((state: RootState) => state?.user?.email);
   return (
     <div className="flex items-center mb-4">
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<LoadingSpinner />}>
         <div className="mr-4 flex-shrink-0">
           <SvgIcon
             filepath="/icons/profile.svg"

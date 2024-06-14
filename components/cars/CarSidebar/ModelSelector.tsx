@@ -44,6 +44,7 @@ interface ModelSelectorProps {
   carModels: Record<string, Make>;
   offerNumber: number;
   setFilterValue?: (id: keyof Filter, value: string) => void;
+  onOfferClick: () => void | null;
 }
 
 const ModelSelector = ({
@@ -51,6 +52,7 @@ const ModelSelector = ({
   carModels,
   offerNumber,
   setFilterValue,
+  onOfferClick,
 }: ModelSelectorProps) => {
   const searchParams = useSearchParams();
   const { push } = useRouter();
@@ -198,7 +200,7 @@ const ModelSelector = ({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button className="flex-1">
+        <Button className="flex-1" onClick={onOfferClick}>
           <Label className="text-sm"> {offerNumber} offers </Label>
           <ChevronRight size={14} />
         </Button>
