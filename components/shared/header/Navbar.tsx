@@ -63,7 +63,10 @@ import { useEffect, useState } from "react";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { euCountries, euCountriesCities } from "./countries";
+import {
+  euCountries,
+  euCountriesCities,
+} from "@/src/entities/location/model/countries-cities";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { validateToken } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";

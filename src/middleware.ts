@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Negotiator from "negotiator";
 import { i18n } from "./app/i18n.config";
 import { match } from "@formatjs/intl-localematcher";
+import {
+  getLocationRedirectURL,
+  isValidCity,
+  isValidCountry,
+} from "./entities/location";
 
 const defaultLocale = i18n.defaultLocale;
 const locales: string[] = [...i18n.locales];
@@ -27,7 +32,7 @@ const getLocale = (request: NextRequest): string => {
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
-
+  const [_, locale, country, city, ...rest] = pathname.split("/");
   if (pathname.startsWith("/api") || pathname.includes("/icons/")) {
     return NextResponse.next();
   }
@@ -35,19 +40,24 @@ export async function middleware(request: NextRequest) {
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
-
+  const url = new URL(request.url);
+  console.log("🚀 ~ middleware ~ url:", url);
   // Redirect if there is no locale
-  if (pathnameIsMissingLocale) {
+  if (
+    pathnameIsMissingLocale ||
+    !isValidCountry(country) ||
+    !isValidCity(city, country)
+  ) {
     const locale = getLocale(request);
-    const url = new URL(request.url);
-
+    const locationURL = getLocationRedirectURL(city, country);
     // Preserving the original query parameters
     const searchParams = url.searchParams.toString();
+    const restURL = rest.join("/");
     return NextResponse.redirect(
       new URL(
-        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${
-          searchParams ? "?" + searchParams : ""
-        }`,
+        `/${locale}${
+          pathname.startsWith("/") ? "" : "/"
+        }${locationURL}/${restURL}${searchParams ? "?" + searchParams : ""}`,
         request.url
       )
     );
