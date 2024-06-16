@@ -11,7 +11,7 @@ import {
 import { InputField } from "@/components/ui/input-field";
 import { Label } from "@/components/ui/label";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
-import { Locale } from "@/i18n.config";
+import { Locale } from "@/src/app/i18n.config";
 import { NavbarData } from "@/types";
 import {
   AT,

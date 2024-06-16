@@ -2,10 +2,10 @@ import { getlocales } from "@/app/actions";
 import { Locale, defaultLocale } from "@/src/app/i18n.config";
 import { FiltersDictionary, PageData, TipsBlockDictionary } from "@/types";
 import { useEffect, useState } from "react";
-import BrandsBlock from "../../components/landing/BrandsBlock";
-import Carousel from "../../components/landing/Carousel";
-import FilterComponent from "../../components/landing/Filters";
-import TipsBlock from "../../components/landing/TipsBlock";
+import BrandsBlock from "../../../../components/landing/BrandsBlock";
+import Carousel from "../../../../components/landing/Carousel";
+import FilterComponent from "../../../../components/landing/Filters";
+import TipsBlock from "../../../../components/landing/TipsBlock";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
