@@ -58,7 +58,7 @@ import {
   SearchIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
@@ -71,6 +71,8 @@ import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { validateToken } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/src/entities/user/api/userSlice";
+import { set } from "zod";
+import { getNewLocationURL } from "../../../src/entities/location";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -108,11 +110,10 @@ const flagComponents: Record<string, any> = {
 };
 
 export function Navbar({ lang }: { lang: Locale }) {
-  const router = useRouter();
+  const { replace } = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const dispatch = useDispatch();
-
   useEffect(() => {
     const validate = async () => {
       const doesExist = await validateToken();
@@ -150,7 +151,10 @@ export function Navbar({ lang }: { lang: Locale }) {
     setModalState("city");
   };
   const handleCitySelect = (cityName: string) => {
-    setLocation({ ...location, city: cityName });
+    const country = euCountries.find((c) => c.code === selectedCountry);
+    if (!country) return;
+    setLocationAndRedirect(country.name, cityName);
+
     setModalState("none");
     toggleRegionModal();
   };
@@ -159,6 +163,7 @@ export function Navbar({ lang }: { lang: Locale }) {
   const [regionModalOpen, setRegionModalOpen] = useState(false),
     toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
   const [location, setLocation] = useState({ country: "", city: "" });
+
   const [selectedCountry, setSelectedCountry] = useState("");
 
   const fetchLocation = async (attempt = 1) => {
@@ -169,7 +174,7 @@ export function Navbar({ lang }: { lang: Locale }) {
 
       const locationResponse = await fetch(`http://ip-api.com/json/${ip}`);
       const locationData = await locationResponse.json();
-      setLocation({ country: locationData.country, city: locationData.city });
+      setLocationAndRedirect(locationData.country, locationData.city);
     } catch (error) {
       console.error(`Attempt ${attempt}: Failed to fetch location`, error);
       if (attempt < 10) {
@@ -192,6 +197,21 @@ export function Navbar({ lang }: { lang: Locale }) {
   };
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  function setLocationAndRedirect(country: string, city: string) {
+    const url = getNewLocationURL(
+      pathname,
+      searchParams?.toString(),
+      city,
+      country
+    );
+    console.log("🚀 ~ setLocationAndRedirect ~ url:", url);
+    setLocation({ country, city });
+    replace(url);
+    // setLocation({ country, city });
+    // const url = [lang, country, city].join("/");
+    // router.push(`/${lang}/countr`);
+  }
   const backHomeShown = pathname === "/login" || pathname === "/profile";
   const handleClose = () => {
     setRegionModalOpen(!regionModalOpen);
@@ -286,7 +306,7 @@ export function Navbar({ lang }: { lang: Locale }) {
                 <div className="grid grid-cols-3 gap-4">
                   {cityList?.map((city) => (
                     <button
-                      key={city}
+                      key={city + "button"}
                       onClick={() => handleCitySelect(city)}
                       className="p-2 border rounded hover:bg-gray-100"
                     >

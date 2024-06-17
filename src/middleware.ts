@@ -32,7 +32,7 @@ const getLocale = (request: NextRequest): string => {
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
-  const [_, locale, country, city, ...rest] = pathname.split("/");
+  const [_, arg1, arg2, arg3, ...rest] = pathname.split("/");
   if (pathname.startsWith("/api") || pathname.includes("/icons/")) {
     return NextResponse.next();
   }
@@ -41,23 +41,55 @@ export async function middleware(request: NextRequest) {
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
   const url = new URL(request.url);
-  console.log("🚀 ~ middleware ~ url:", url);
-  // Redirect if there is no locale
+  const isURLBrowseVehicles =
+    pathname.includes("cars") ||
+    pathname.includes("trucks") ||
+    pathname.includes("buses") ||
+    pathname.includes("motorcycles");
+  const locale = getLocale(request);
+  const locationURL = getLocationRedirectURL(arg3, arg2);
+  // Preserving the original query parameters
+  const searchParams = url.searchParams.toString();
+  if (pathnameIsMissingLocale) {
+    if (isURLBrowseVehicles) {
+      return NextResponse.redirect(
+        new URL(
+          `/${locale}${
+            pathname.startsWith("/") ? "" : "/"
+          }${locationURL}/${pathname}${searchParams ? "?" + searchParams : ""}`,
+          request.url
+        )
+      );
+    } else {
+      return NextResponse.redirect(
+        new URL(
+          `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${
+            searchParams ? "?" + searchParams : ""
+          }`,
+          request.url
+        )
+      );
+    }
+  }
+  function processOptionalArg(arg) {
+    if (arg) {
+      return "/" + arg;
+    } else {
+      return "";
+    }
+  }
+
   if (
-    pathnameIsMissingLocale ||
-    !isValidCountry(country) ||
-    !isValidCity(city, country)
+    (isURLBrowseVehicles &&
+      (!isValidCountry(arg2) || !isValidCity(arg3, arg2))) ||
+    pathname === `/${locale}`
   ) {
-    const locale = getLocale(request);
-    const locationURL = getLocationRedirectURL(city, country);
-    // Preserving the original query parameters
-    const searchParams = url.searchParams.toString();
-    const restURL = rest.join("/");
+    const restPath = rest.join("/");
     return NextResponse.redirect(
       new URL(
         `/${locale}${
           pathname.startsWith("/") ? "" : "/"
-        }${locationURL}/${restURL}${searchParams ? "?" + searchParams : ""}`,
+        }${locationURL}/${restPath}${searchParams ? "?" + searchParams : ""}`,
         request.url
       )
     );
