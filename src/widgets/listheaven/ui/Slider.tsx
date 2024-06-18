@@ -13,119 +13,69 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../../../../components/ui/button";
-// const styles = {
-//   container: {
-//     position: "relative",
-//     height: "100%",
-//     width: "100%",
-//     touchAction: "none",
-//   },
-//   item: { position: "absolute", height: "100%", willChange: "transform" },
-// };
 
-// /**
-//  * Calculates a spring-physics driven infinite slider
-//  *
-//  * @param {Array} items - display items
-//  * @param {Function} children - render child
-//  * @param {number} width - fixed item with
-//  * @param {number} visible - number of items that muste be visible on screen
-//  */
-// export function Slider({ items, width = 600, visible = 4, style, children }) {
-//   const idx = useCallback(
-//     (x, l = items.length) => (x < 0 ? x + l : x) % l,
-//     [items]
-//   );
-//   const getPos = useCallback(
-//     (i, firstVis, firstVisIdx) => idx(i - firstVis + firstVisIdx),
-//     [idx]
-//   );
-//   const [springs, api] = useSprings(items.length, (i) => ({
-//     x: (i < items.length - 1 ? i : -1) * width,
-//   }));
-//   console.log("🚀 ~ const[springs,api]=useSprings ~ springs:", springs);
+function calcZ(index, currentIndex, itemsCount) {
+  return itemsCount - Math.ceil((currentIndex - index) / 3) * 3 - index;
+}
+function calcItemIndex(index, currentIndex) {
+  const res = 3 * Math.ceil((currentIndex - index) / 3) + index;
+  return res;
+}
 
-//   const prev = useRef([0, 1]);
-//   const target = useRef();
-
-//   const runSprings = useCallback(
-//     (y, dy) => {
-//       const firstVis = idx(Math.floor(y / width) % items.length);
-//       const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1;
-//       api.start((i) => {
-//         const position = getPos(i, firstVis, firstVisIdx);
-//         const prevPosition = getPos(i, prev.current[0], prev.current[1]);
-//         const rank =
-//           firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx;
-//         const configPos = dy > 0 ? position : items.length - position;
-//         return {
-//           x: (-y % (width * items.length)) + width * rank,
-//           immediate: dy < 0 ? prevPosition > position : prevPosition < position,
-//           config: {
-//             tension: (1 + items.length - configPos) * 100,
-//             friction: 30 + configPos * 40,
-//           },
-//         };
-//       });
-//       prev.current = [firstVis, firstVisIdx];
-//     },
-//     [idx, getPos, width, visible, api, items.length]
-//   );
-
-//   const wheelOffset = useRef(0);
-//   const dragOffset = useRef(0);
-
-//   useGesture(
-//     {
-//       onDrag: ({ event, offset: [x], direction: [dx], swipe, tap }) => {
-//         console.log("🚀 ~ Slider ~ tap:", tap);
-//         console.log("🚀 ~ Slider ~ swipe:", swipe);
-//         console.log("🚀 ~ Slider ~ direction:", dx);
-//         event.preventDefault();
-//         if (dx) {
-//           dragOffset.current = -x;
-//           runSprings(wheelOffset.current + -x, -dx);
-//         }
-//       },
-//       onWheel: ({ event, offset: [, y], direction: [, dy] }) => {
-//         event.preventDefault();
-//         if (dy) {
-//           wheelOffset.current = y;
-//           runSprings(dragOffset.current + y, dy);
-//         }
-//       },
-//     },
-//     { target, wheel: { eventOptions: { passive: false } } }
-//   );
-
-//   return (
-//     <div ref={target} style={{ ...style, ...styles.container }}>
-//       {springs.map(({ x }, i) => (
-//         <a.div
-//           key={i}
-//           style={{ ...styles.item, width, x }}
-//           children={children(items[i], i)}
-//         />
-//       ))}
-//     </div>
-//   );
-// }
-// const items = Array.from({ length: 5 }).map((_, index) => index + 1);
+const CARDS_RENDERED = 4;
 
 export function Slider({ carResults, vehicleUIData }) {
   const items = carResults;
-  const [firstCardVisible, setFirstCardVisible] = React.useState(true);
-  const [firstCardItem, setFirstCardItem] = React.useState(0);
+  const itemsCount = items.length;
+
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  console.log("🚀 ~ Slider ~ currentIndex:", currentIndex);
+  const startSwipeAnimation = (swipeDirection: 1 | -1) => {
+    const springIndex = currentIndex % 3;
+    api.start((i) => {
+      if (springIndex !== i) return;
+      setCurrentIndex(currentIndex + 1);
+      if (swipeDirection === 1) {
+        // right => like
+        // likeOffer();
+        console.log("like");
+      }
+      // else {
+      //   // swipeDirection = -1 && swipe left => dislike
+      //   dislikeOffer();
+      // }
+      return {
+        opacity: 0,
+        x: 200 * swipeDirection,
+        onRest: () => {
+          if (springIndex !== i) return;
+
+          api.start((j) => {
+            if (springIndex !== j) return;
+
+            return {
+              immediate: true,
+              skipAnimation: true,
+              opacity: 1,
+              x: 0,
+              // zIndex: itemsCount - currentIndex - 3,
+            };
+          });
+        },
+      };
+    });
+  };
+  const likeOffer = () => {
+    startSwipeAnimation(1);
+  };
+  const dislikeOffer = () => {
+    startSwipeAnimation(-1);
+  };
   const [springs, api] = useSprings(
-    2,
+    3,
     () => ({
       from: {
-        opacity: 1,
         x: 0,
       },
-      to: { opacity: 0 },
     }),
     []
   );
@@ -137,31 +87,35 @@ export function Slider({ carResults, vehicleUIData }) {
       args, // is the drag assimilated to a tap
     } = state;
     const index = args[0];
-    console.log("🚀 ~ bind ~ args:", args);
     const [dx] = swipe;
     if (dx) {
-      console.log("🚀 ~ bind ~ swipe", dx);
-      api.start((i) => {
-        if (index !== i) return;
-        setCurrentIndex(currentIndex + 1);
-        return {
-          opacity: 0,
-          x: 100 * dx,
-          onRest: () => {
-            if (index !== i) return;
+      startSwipeAnimation(dx as 1 | -1);
+      // api.start((i) => {
+      //   if (index !== i) return;
+      //   if (dx === 1) {
+      //     // right => like
+      //     likeOffer();
+      //   } else {
+      //     // dx = -1 && swipe left => dislike
+      //     dislikeOffer();
+      //   }
+      //   return {
+      //     opacity: 0,
+      //     x: 100 * dx,
+      //     onRest: () => {
+      //       if (index !== i) return;
 
-            console.log("🚀 ~ api.start ~ i:", i);
-            api.start((i) => {
-              // if (index !== i) return;
+      //       api.start((i) => {
+      //         // if (index !== i) return;
 
-              return {
-                opacity: 1,
-                x: 0,
-              };
-            });
-          },
-        };
-      });
+      //         return {
+      //           opacity: 1,
+      //           x: 0,
+      //         };
+      //       });
+      //     },
+      //   };
+      // });
     }
   });
 
@@ -172,8 +126,8 @@ export function Slider({ carResults, vehicleUIData }) {
           <DialogHeader>
             <DialogTitle>List Heaven Tutorial</DialogTitle>
             <DialogDescription className="flex flex-col">
-              <p>Swipe left to like an offer</p>
-              <p>Swipe right to see the next offer</p>
+              <p>Swipe right to like an offer</p>
+              <p>Swipe left to see the next offer</p>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -185,32 +139,93 @@ export function Slider({ carResults, vehicleUIData }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {currentIndex < items.length && (
-        <animated.div
-          {...bind(0)}
-          style={springs[0]}
-          className={`${
-            currentIndex % 2 ? "z-10" : ""
-          } absolute w-full h-full  touch-none`}
-        >
-          <SliderCarCard
-            carDetails={items[currentIndex]}
-            types={vehicleUIData.types}
-          ></SliderCarCard>
-        </animated.div>
-      )}
-      {currentIndex < items.length - 1 && (
-        <animated.div
-          className="absolute w-full h-full  touch-none"
-          {...bind(1)}
-          style={springs[1]}
-        >
-          <SliderCarCard
-            carDetails={items[currentIndex + 1]}
-            types={vehicleUIData.types}
-          ></SliderCarCard>
-        </animated.div>
-      )}
+      {[0, 1, 2].map((cardNumber) => {
+        const itemIndex = calcItemIndex(cardNumber, currentIndex);
+        const itemsLeft = itemsCount > itemIndex;
+        return (
+          <div
+            key={"card " + cardNumber}
+            style={{ zIndex: calcZ(cardNumber, currentIndex, itemsCount) }}
+            className="absolute w-full h-full "
+          >
+            {itemsLeft && (
+              <animated.div
+                {...bind(cardNumber)}
+                style={{
+                  ...springs[cardNumber],
+                }}
+                className={` w-full h-full touch-none`}
+              >
+                <SliderCarCard
+                  carDetails={items[itemIndex]}
+                  types={vehicleUIData.types}
+                  buttonCallbacks={{ likeOffer, dislikeOffer }}
+                ></SliderCarCard>
+              </animated.div>
+            )}
+          </div>
+        );
+      })}
+      {/* <div
+        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 }}
+        className="absolute w-full h-full "
+      >
+        {currentIndex < items.length && (
+          <animated.div
+            {...bind(0)}
+            style={{
+              ...springs[0],
+            }}
+            className={` w-full h-full  touch-none`}
+          >
+            <SliderCarCard
+              carDetails={items[Math.ceil(currentIndex / 3) * 3]}
+              types={vehicleUIData.types}
+              buttonCallbacks={{ likeOffer, dislikeOffer }}
+            ></SliderCarCard>
+          </animated.div>
+        )}
+      </div>
+      <div
+        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 - 1 }}
+        className="absolute w-full h-full "
+      >
+        {currentIndex < items.length - 1 && (
+          <animated.div
+            className={`w-full h-full touch-none`}
+            {...bind(1)}
+            style={{
+              ...springs[1],
+            }}
+          >
+            <SliderCarCard
+              carDetails={items[Math.ceil(currentIndex / 3) * 3 + 1]}
+              types={vehicleUIData.types}
+              buttonCallbacks={{ likeOffer, dislikeOffer }}
+            ></SliderCarCard>
+          </animated.div>
+        )}
+      </div>
+      <div
+        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 - 2 }}
+        className="absolute w-full h-full "
+      >
+        {currentIndex < items.length - 2 && (
+          <animated.div
+            className={` w-full h-full  touch-none`}
+            {...bind(2)}
+            style={{
+              ...springs[2],
+            }}
+          >
+            <SliderCarCard
+              carDetails={items[Math.ceil(currentIndex / 3) * 3 + 2]}
+              types={vehicleUIData.types}
+              buttonCallbacks={{ likeOffer, dislikeOffer }}
+            ></SliderCarCard>
+          </animated.div>
+        )}
+      </div> */}
       <SliderCard
         className={
           "text-primary bg-primary-foreground flex items-center justify-center"

@@ -34,10 +34,6 @@ const TypeSelect = ({
   carType,
 }: TypeSelectProps) => {
   const type = carType;
-  // const [typeName, setTypeName] = React.useState<string | undefined>(
-  //   findTypeById(searchParams.get("type_id"))
-  // );
-  // console.log("🚀 ~ TypeSelect ~ typeName:", typeName);
 
   function findTypeById(id: string) {
     const foundType = types.find((type) => type.id === id);

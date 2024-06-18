@@ -165,7 +165,6 @@ export const fetchChatMessages = createAsyncThunk(
 export const selectChat = createAsyncThunk(
   "user/selectChat",
   async (chat: Chat, { dispatch, getState }) => {
-    console.log("🚀 ~ getState():", getState());
     dispatch(setCurrentChat(chat));
     dispatch(fetchChatMessages(chat.chat_id));
   }

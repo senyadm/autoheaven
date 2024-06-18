@@ -15,7 +15,7 @@ export default function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: Locale };
+  params: { lang: Locale; country: string; city: string };
 }) {
   return (
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
@@ -28,7 +28,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <div className="h-screen flex flex-col ">
-              <Navbar lang={params.lang ?? defaultLocale} />
+              <Navbar params={params} />
 
               {children}
 

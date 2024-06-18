@@ -48,13 +48,10 @@ export function parseModels(
   modelsParams: string,
   carModelsById: MakeModelById
 ): Record<string, Model[]> {
-  console.log("🚀 ~ modelsParams:", modelsParams);
-  // console.log("🚀 ~ carModelsById:", carModelsById);
   if (!modelsParams) return {};
   const makes = modelsParams.split("|");
   return makes.reduce((acc, make: string) => {
     const [makeId, modelIds] = make.split("-");
-    // console.log("🚀 ~ returnmakes.reduce ~ makeId:", carModelsById);
     if (modelIds === "all") {
       return {
         ...acc,

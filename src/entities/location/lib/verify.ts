@@ -1,10 +1,8 @@
+import { capitalizeFirstLetter } from "../../../shared/utils/text";
 import { euCountries, euCountriesCities } from "../model/countries-cities";
 
 const countryNames = euCountries.map((country) => country.name.toLowerCase());
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 // country in lowercase
 export function isValidCountry(country: string) {
   if (!country) return false;
@@ -22,7 +20,6 @@ export function isValidCity(city: string, country: string) {
   const countryCode = euCountries[countryIndex]?.code;
   if (!countryCode) return false;
   const cities = euCountriesCities[countryCode];
-  // console.log("🚀 ~ isValidCity ~ cities:", cities);
   if (!cities) return false;
   return cities.find((c) => c === cCity);
 }
@@ -46,24 +43,46 @@ export function getNewLocationURL(
   country: string
 ): string {
   const [_, arg1, arg2, arg3, ...rest] = pathname.split("/");
-  console.log("🚀 ~ [_, arg1, arg2, arg3, ...rest]:", [
-    _,
-    arg1,
-    arg2,
-    arg3,
-    ...rest,
-  ]);
+
   const isURLBrowseVehicles =
     pathname.includes("cars") ||
     pathname.includes("trucks") ||
     pathname.includes("buses") ||
     pathname.includes("motorcycles");
   if (isURLBrowseVehicles) {
-    const locationURL = getLocationRedirectURL(arg3, arg2);
     const url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
     console.log("🚀 ~ getNewLocationURL ~ url:", url);
     return url + (searchParams ? "?" + searchParams : "");
   } else {
     return pathname + searchParams ? "?" + searchParams : "";
   }
+}
+
+export function getLocationText(country: string, city: string) {
+  if (country === "all") return "Europe";
+  const cCountry = capitalizeFirstLetter(country);
+  if (city === "all") return cCountry;
+  const cCity = capitalizeFirstLetter(city);
+  return `${cCity}, ${cCountry}`;
+}
+export function getLocationShortText(
+  country: string | undefined,
+  city: string
+) {
+  if (country === "all" || !country) return "Europe";
+  if (city === "all") return capitalizeFirstLetter(country);
+  return capitalizeFirstLetter(city);
+}
+
+export function setCountryLS(country: string) {
+  localStorage.setItem("country", country);
+}
+export function setCityLS(city: string) {
+  localStorage.setItem("city", city);
+}
+export function getCountryLS() {
+  return localStorage.getItem("country");
+}
+export function getCityLS() {
+  return localStorage.getItem("city");
 }

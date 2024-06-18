@@ -76,7 +76,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
   ]);
 
   const { types, makes, models } = vehicleUIData;
-  console.log("🚀 ~ carModels:", models);
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
   function prepParams() {
@@ -98,11 +97,9 @@ const CarSidebar: FC<CarSidebarProps> = ({
   });
 
   useEffect(() => {
-    console.log("RERENDER");
     setFilters(paramFilters);
   }, []);
 
-  console.log("🚀 ~ filters:", filters);
   const setFiltersAndRedirect = (newFilters: Filter) => {
     setFilters(newFilters);
     const normalizedFilters = getNormalizedParams(newFilters);

@@ -59,7 +59,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
@@ -72,7 +72,10 @@ import { validateToken } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/src/entities/user/api/userSlice";
 import { set } from "zod";
-import { getNewLocationURL } from "../../../src/entities/location";
+import {
+  getLocationShortText,
+  getNewLocationURL,
+} from "../../../src/entities/location";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -109,7 +112,12 @@ const flagComponents: Record<string, any> = {
   UA: UA,
 };
 
-export function Navbar({ lang }: { lang: Locale }) {
+export function Navbar({
+  params,
+}: {
+  params: { lang: Locale; country: string; city: string };
+}) {
+  const { lang, country: countryParam, city: cityParam } = params;
   const { replace } = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
@@ -142,7 +150,12 @@ export function Navbar({ lang }: { lang: Locale }) {
       fetchData();
     }
   }, [lang, menu]);
+  const [selectedCountry, setSelectedCountry] = useState("");
 
+  const countryNameParam = useMemo(
+    () => euCountries.find((c) => c.code === selectedCountry)?.name || "all",
+    [selectedCountry]
+  );
   const [modalState, setModalState] = useState("country");
   const [cityList, setCityList] = useState<string[]>([]);
   const handleCountrySelect = (countryName: string) => {
@@ -151,10 +164,8 @@ export function Navbar({ lang }: { lang: Locale }) {
     setModalState("city");
   };
   const handleCitySelect = (cityName: string) => {
-    const country = euCountries.find((c) => c.code === selectedCountry);
-    if (!country) return;
-    setLocationAndRedirect(country.name, cityName);
-
+    if (!countryNameParam) return;
+    setLocationAndRedirect(countryNameParam, cityName);
     setModalState("none");
     toggleRegionModal();
   };
@@ -163,8 +174,6 @@ export function Navbar({ lang }: { lang: Locale }) {
   const [regionModalOpen, setRegionModalOpen] = useState(false),
     toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
   const [location, setLocation] = useState({ country: "", city: "" });
-
-  const [selectedCountry, setSelectedCountry] = useState("");
 
   const fetchLocation = async (attempt = 1) => {
     try {
@@ -205,7 +214,6 @@ export function Navbar({ lang }: { lang: Locale }) {
       city,
       country
     );
-    console.log("🚀 ~ setLocationAndRedirect ~ url:", url);
     setLocation({ country, city });
     replace(url);
     // setLocation({ country, city });
@@ -225,7 +233,7 @@ export function Navbar({ lang }: { lang: Locale }) {
       >
         {backHomeShown ? (
           <Link
-            href={`/${lang}`}
+            href={`/${lang}/${countryParam}/${cityParam}`}
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
             passHref
           >
@@ -236,7 +244,7 @@ export function Navbar({ lang }: { lang: Locale }) {
           </Link>
         ) : (
           <div className="flex items-center space-x-4">
-            <Link href={`/${lang}`}>
+            <Link href={`/${lang}/${countryParam}/${cityParam}`}>
               <Logo height="30px" width="64px" viewBox="0 0 131 50" />
             </Link>
 
@@ -261,14 +269,13 @@ export function Navbar({ lang }: { lang: Locale }) {
               >
                 <MapPin width={16} height={16} />
                 <Label className="hidden md:block text-foreground text-l">
-                  {location.city}
+                  {getLocationShortText(countryNameParam, location.city)}
                 </Label>
               </Button>
             </DialogTrigger>
             {modalState === "country" ? (
               <DialogContent className="overflow-y-auto">
                 <DialogTitle className="flex justify-between items-center p-4">
-                  {" "}
                   <Label className="text-lg font-bold">{menu?.country}</Label>
                   <Label className="md:hidden me-4 md:me-0 text-foreground text-l">
                     Current location - {location.city}
@@ -289,6 +296,16 @@ export function Navbar({ lang }: { lang: Locale }) {
                       </button>
                     );
                   })}
+                  <button
+                    onClick={() => {
+                      setSelectedCountry("all");
+                      setLocationAndRedirect("all", "all");
+                      setRegionModalOpen(false);
+                    }}
+                    className="flex items-center space-x-2 pl-4 p-1 border rounded hover:bg-gray-100"
+                  >
+                    <span>All countries</span>
+                  </button>
                 </div>
               </DialogContent>
             ) : (
@@ -313,6 +330,17 @@ export function Navbar({ lang }: { lang: Locale }) {
                       {city}
                     </button>
                   ))}
+                  <button
+                    onClick={() => {
+                      if (!countryNameParam) return;
+                      setLocationAndRedirect(countryNameParam, "all");
+                      setModalState("none");
+                      toggleRegionModal();
+                    }}
+                    className="p-2 border rounded hover:bg-gray-100"
+                  >
+                    All cities
+                  </button>
                 </div>
               </DialogContent>
             )}

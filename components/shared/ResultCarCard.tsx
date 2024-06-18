@@ -155,7 +155,6 @@ const ResultCarCard = ({
     // const item = getToken();
     if (!wishlist) return;
     if (!userId) {
-      console.log("No user id");
       fetchAndSetUser(dispatch);
       return;
     }

@@ -59,8 +59,6 @@ const Carousel = React.forwardRef<
     const [canScrollNext, setCanScrollNext] = React.useState(false);
 
     const onSelect = React.useCallback((api: CarouselApi) => {
-      console.log("🚀 ~ onSelect ~ onSelect:");
-
       if (!api) {
         return;
       }
@@ -72,8 +70,6 @@ const Carousel = React.forwardRef<
     }, []);
 
     const onPointerUp = React.useCallback((api: CarouselApi, another) => {
-      console.log("🚀 ~ onPointerUp ~ onPointerUp:");
-
       if (!api) {
         return;
       }

@@ -72,8 +72,6 @@ export function BusComponent({
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
     const sendRequest = () => {
-      console.log(filter.model, filter.brand, filter.type_id);
-
       const payloadFilter = {
         max_results: 100000,
         fuelType: filter.fuelType || "",

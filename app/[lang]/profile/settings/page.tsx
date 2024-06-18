@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 const page = async ({ params }) => {
-  console.log("🚀 ~ page ~ params:", params);
   const { profile } = await getlocales(params.lang);
   return <ProfileSettings lang={params.lang} dict={profile} />;
 };

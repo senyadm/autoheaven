@@ -83,7 +83,6 @@ const VehicleModification = ({
   dict: SellClassicTranslations | null;
 }) => {
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
-  console.log("🚀 ~ carType:", carType);
 
   const [store, dispatch] = useAppStore(
     (state) => state?.createCarProgress.details

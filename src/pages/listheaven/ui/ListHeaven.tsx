@@ -46,31 +46,33 @@ const ListHeaven = ({
   const offerCount = allResults.length;
   const [filtersOpen, setFiltersOpen] = useState(false);
   return (
-    <section className="min-h-[calc(100vh-64px)] w-full p-2 bg-black text-white flex flex-col">
-      <div className="flex justify-between p-6">
-        <LocaleLink href={"cars/listheaven"} lang={"en"}>
-          <Undo2 width={16} height={16} />
-        </LocaleLink>
-        <p>{offerCount} offers found</p>
-        <Popover
-          open={filtersOpen}
-          onOpenChange={() => setFiltersOpen(!filtersOpen)}
-        >
-          <PopoverTrigger className="bg-primary p-1 rounded-lg">
-            <SlidersHorizontal width={16} height={16} />
-          </PopoverTrigger>
-          <PopoverContent className="p-0 mx-auto">
-            <CarSidebar
-              offerNumber={offerCount}
-              pageText={filtersText}
-              vehicleUIData={vehicleUIData}
-              vehicleTypeState={{ isParam: false, type: vehicleType }}
-              onOfferClick={() => setFiltersOpen(false)}
-            />
-          </PopoverContent>
-        </Popover>
+    <section className="min-h-[calc(100vh-64px)] w-full p-2 bg-black text-white ">
+      <div className="flex flex-col max-w-[400px] h-full mx-auto">
+        <div className="flex justify-between p-6">
+          <LocaleLink href={"cars/listheaven"} lang={"en"}>
+            <Undo2 width={16} height={16} />
+          </LocaleLink>
+          <p>{offerCount} offers found</p>
+          <Popover
+            open={filtersOpen}
+            onOpenChange={() => setFiltersOpen(!filtersOpen)}
+          >
+            <PopoverTrigger className="bg-primary p-1 rounded-lg">
+              <SlidersHorizontal width={16} height={16} />
+            </PopoverTrigger>
+            <PopoverContent className="p-0 mx-auto">
+              <CarSidebar
+                offerNumber={offerCount}
+                pageText={filtersText}
+                vehicleUIData={vehicleUIData}
+                vehicleTypeState={{ isParam: false, type: vehicleType }}
+                onOfferClick={() => setFiltersOpen(false)}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <Slider carResults={allResults} vehicleUIData={vehicleUIData} />
       </div>
-      <Slider carResults={allResults} vehicleUIData={vehicleUIData} />
     </section>
   );
 };

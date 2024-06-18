@@ -121,7 +121,6 @@ const VehicleDetails = ({
 
     createCar(newStore, selectedFiles)
       .then((res) => {
-        console.log(res);
         uploadImage(res.data.id, selectedFiles[0]);
         // window.location.href = '/success';
       })

@@ -5,15 +5,15 @@ import {
   MotoIcon,
 } from "@/public/icons/vehicle-category";
 import Link from "next/link";
-import { TypographyH4 } from "../../../../components/ui/typography";
-import { Label } from "../../../../components/ui/label";
+import { TypographyH4 } from "@/components/ui/typography";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "../../../../components/ui/card";
-import { Button } from "../../../../components/ui/button";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import bgElectric from "@/public/img/cars/listheaven/exploring_electric_cars.jpg";
 import bgFilters from "@/public/img/cars/listheaven/filters_effective_usage.jpg";
 import bgSell from "@/public/img/cars/listheaven/how_to_sell_your_car_online.jpg";

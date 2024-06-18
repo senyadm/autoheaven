@@ -49,7 +49,6 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
           client
             .post("/api/users/token/refresh")
             .then((response) => {
-              console.log(response);
               saveToken(response.data.access_type);
             })
             .catch((error) => {
