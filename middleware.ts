@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import Negotiator from "negotiator";
-import { i18n } from "./app/i18n.config";
+import { i18n } from "./src/app/i18n.config";
 import { match } from "@formatjs/intl-localematcher";
 import {
   getLocationRedirectURL,
   isValidCity,
   isValidCountry,
-} from "./entities/location";
+} from "./src/entities/location";
 
 const defaultLocale = i18n.defaultLocale;
 const locales: string[] = [...i18n.locales];
@@ -30,6 +30,7 @@ const getLocale = (request: NextRequest): string => {
 };
 
 export async function middleware(request: NextRequest) {
+  console.log("🚀 ~ middleware ~ middleware:");
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
   const [_, arg1, arg2, arg3, ...rest] = pathname.split("/");
@@ -39,6 +40,10 @@ export async function middleware(request: NextRequest) {
 
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  );
+  console.log(
+    "🚀 ~ middleware ~ pathnameIsMissingLocale:",
+    pathnameIsMissingLocale
   );
   const url = new URL(request.url);
   const isURLBrowseVehicles =
@@ -61,6 +66,7 @@ export async function middleware(request: NextRequest) {
         )
       );
     } else {
+      console.log("🚀 ~ middleware ~ else:");
       return NextResponse.redirect(
         new URL(
           `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${
@@ -69,13 +75,6 @@ export async function middleware(request: NextRequest) {
           request.url
         )
       );
-    }
-  }
-  function processOptionalArg(arg) {
-    if (arg) {
-      return "/" + arg;
-    } else {
-      return "";
     }
   }
 
