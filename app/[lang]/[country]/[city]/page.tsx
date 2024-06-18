@@ -14,15 +14,24 @@ export const metadata: Metadata = {
     "Your destination for discovering and purchasing quality vehicles. Browse through a wide selection of cars posted by sellers, and find the perfect match for your needs and preferences. Whether you're searching for a sleek sedan, a rugged SUV, or a fuel-efficient hybrid, AutoHeaven connects buyers with trusted sellers to make car buying a breeze.",
 };
 
-const Home = async ({ params }: { params: { lang: Locale } }) => {
+const Home = async ({
+  params,
+}: {
+  params: { lang: Locale; country: string; city: string };
+}) => {
   const lang = params.lang ?? defaultLocale;
-
+  const { country, city } = params;
   const { dict, tipsBlock, brands, carousel } = await getlocales(lang);
 
   return (
     <main className="body-container flex flex-col items-center bg-topography-light relative">
       <Carousel lang={lang} menu={carousel} />
-      <FilterComponent lang={lang} dict={dict} className="mt-[19.5rem] z-10" />
+      <FilterComponent
+        lang={lang}
+        location={{ country, city }}
+        dict={dict}
+        className="mt-[19.5rem] z-10"
+      />
       <TipsBlock tipsBlock={tipsBlock} />
       <BrandsBlock popularBrands={brands} />
     </main>

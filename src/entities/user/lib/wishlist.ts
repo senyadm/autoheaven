@@ -8,16 +8,18 @@ import {
 import { useAppStore } from "../../../../app/GlobalRedux/useStore";
 import { fetchWishlistCars } from "../api/userSlice";
 import { useSelector } from "react-redux";
+import { useUser } from "./useUser";
 
-export function useWishlist(): [number[] | undefined, AppDispatch] {
-  const [{ wishlist, isLoggedIn }, dispatch] = useAppStore(
-    (state: RootState) => state.user
-  );
+export function useWishlist(
+  requiresLogin: boolean = false
+): [number[] | undefined | null, AppDispatch] {
+  const [{ wishlist, isLoggedIn }, dispatch] = useUser();
   const [ws] = useAppStore((state: RootState) => state.user);
   useEffect(() => {
-    if (wishlist || !isLoggedIn) return;
+    if (wishlist) return;
+    if (requiresLogin && !isLoggedIn) return;
     dispatch(fetchWishlistCars());
-  }, [dispatch, wishlist]);
+  }, [dispatch, isLoggedIn, requiresLogin, wishlist]);
   return [wishlist, dispatch];
 }
 

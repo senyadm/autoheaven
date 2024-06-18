@@ -59,7 +59,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
@@ -73,8 +73,14 @@ import { useDispatch } from "react-redux";
 import { logOut } from "@/src/entities/user/api/userSlice";
 import { set } from "zod";
 import {
+  getCityLS,
+  getCountryLS,
+  getLocationRedirectURL,
   getLocationShortText,
   getNewLocationURL,
+  getValidLocation,
+  setCityLS,
+  setCountryLS,
 } from "../../../src/entities/location";
 
 const flagComponents: Record<string, any> = {
@@ -112,12 +118,19 @@ const flagComponents: Record<string, any> = {
   UA: UA,
 };
 
-export function Navbar({
-  params,
-}: {
-  params: { lang: Locale; country: string; city: string };
-}) {
-  const { lang, country: countryParam, city: cityParam } = params;
+const locationAllButtons = [
+  {
+    name: "All countries",
+    code: "all",
+  },
+  {
+    name: "All cities",
+    code: "all",
+  },
+];
+
+export function Navbar({ params }: { params: { lang: Locale } }) {
+  const { lang } = params;
   const { replace } = useRouter();
   const [menu, setMenu] = useState<NavbarData | null>(null);
   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
@@ -158,14 +171,25 @@ export function Navbar({
   );
   const [modalState, setModalState] = useState("country");
   const [cityList, setCityList] = useState<string[]>([]);
-  const handleCountrySelect = (countryName: string) => {
-    setSelectedCountry(countryName);
-    setCityList(euCountriesCities[countryName]);
+  const handleCountrySelect = (countryCode: string) => {
+    const isAll = locationAllButtons[0].code === countryCode;
+    if (isAll) {
+      setSelectedCountry("all");
+      setLocationAndRedirect("all", "all");
+      setRegionModalOpen(false);
+      return;
+    }
+    setSelectedCountry(countryCode);
+    setCityList(euCountriesCities[countryCode]);
     setModalState("city");
   };
   const handleCitySelect = (cityName: string) => {
     if (!countryNameParam) return;
-    setLocationAndRedirect(countryNameParam, cityName);
+    if (locationAllButtons[1].name === cityName) {
+      setLocationAndRedirect(countryNameParam, locationAllButtons[1].code);
+    } else {
+      setLocationAndRedirect(countryNameParam, cityName);
+    }
     setModalState("none");
     toggleRegionModal();
   };
@@ -214,7 +238,10 @@ export function Navbar({
       city,
       country
     );
+
     setLocation({ country, city });
+    setCountryLS(country);
+    setCityLS(city);
     replace(url);
     // setLocation({ country, city });
     // const url = [lang, country, city].join("/");
@@ -224,6 +251,13 @@ export function Navbar({
   const handleClose = () => {
     setRegionModalOpen(!regionModalOpen);
   };
+  const homeLink = useRef(`/${lang}/all/all`);
+  useEffect(() => {
+    homeLink.current = `/${lang}${getLocationRedirectURL(
+      getCityLS(),
+      getCountryLS()
+    )}`;
+  }, [lang]);
 
   return (
     <NavigationMenu className="flex items-center py-3 bg-background border-b sticky top-0 z-20 h-[64px]">
@@ -233,7 +267,7 @@ export function Navbar({
       >
         {backHomeShown ? (
           <Link
-            href={`/${lang}/${countryParam}/${cityParam}`}
+            href={homeLink.current}
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
             passHref
           >
@@ -244,7 +278,7 @@ export function Navbar({
           </Link>
         ) : (
           <div className="flex items-center space-x-4">
-            <Link href={`/${lang}/${countryParam}/${cityParam}`}>
+            <Link href={homeLink.current}>
               <Logo height="30px" width="64px" viewBox="0 0 131 50" />
             </Link>
 
@@ -282,8 +316,9 @@ export function Navbar({
                   </Label>
                 </DialogTitle>
                 <div className="grid grid-cols-2 h-[500px] pb-5 md:h-full md:grid-cols-3 gap-4">
-                  {euCountries.map((country) => {
-                    const FlagIcon = flagComponents[country.code];
+                  {[...euCountries, locationAllButtons[0]].map((country) => {
+                    const isAll = locationAllButtons[0].name === country.name;
+                    const FlagIcon = isAll || flagComponents[country.code];
 
                     return (
                       <button
@@ -291,21 +326,11 @@ export function Navbar({
                         onClick={() => handleCountrySelect(country.code)}
                         className="flex items-center space-x-2 pl-4 p-1 border rounded hover:bg-gray-100"
                       >
-                        <FlagIcon className="w-5 h-auto" />
+                        {isAll || <FlagIcon className="w-5 h-auto" />}
                         <span>{country.name}</span>
                       </button>
                     );
                   })}
-                  <button
-                    onClick={() => {
-                      setSelectedCountry("all");
-                      setLocationAndRedirect("all", "all");
-                      setRegionModalOpen(false);
-                    }}
-                    className="flex items-center space-x-2 pl-4 p-1 border rounded hover:bg-gray-100"
-                  >
-                    <span>All countries</span>
-                  </button>
                 </div>
               </DialogContent>
             ) : (
@@ -321,7 +346,7 @@ export function Navbar({
                   </Button>
                 </DialogTitle>
                 <div className="grid grid-cols-3 gap-4">
-                  {cityList?.map((city) => (
+                  {[...cityList, locationAllButtons[1].name]?.map((city) => (
                     <button
                       key={city + "button"}
                       onClick={() => handleCitySelect(city)}
@@ -330,17 +355,6 @@ export function Navbar({
                       {city}
                     </button>
                   ))}
-                  <button
-                    onClick={() => {
-                      if (!countryNameParam) return;
-                      setLocationAndRedirect(countryNameParam, "all");
-                      setModalState("none");
-                      toggleRegionModal();
-                    }}
-                    className="p-2 border rounded hover:bg-gray-100"
-                  >
-                    All cities
-                  </button>
                 </div>
               </DialogContent>
             )}

@@ -103,7 +103,12 @@ function SliderCarCard({
     </SliderCard>
   );
 }
-export function SliderCard({ children, className, style }) {
+interface SliderCardProps {
+  children: any;
+  className?: string;
+  style?: any;
+}
+export function SliderCard({ children, className, style }: SliderCardProps) {
   return (
     <Card className={`w-full h-full bg-black ${className}`} style={style}>
       <CardContent className="">{children}</CardContent>

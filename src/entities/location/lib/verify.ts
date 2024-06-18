@@ -4,33 +4,50 @@ import { euCountries, euCountriesCities } from "../model/countries-cities";
 const countryNames = euCountries.map((country) => country.name.toLowerCase());
 
 // country in lowercase
-export function isValidCountry(country: string) {
+export function isValidCountry(country: string | undefined) {
   if (!country) return false;
+  const lCountry = country?.toLowerCase();
+
   if (country === "all") return true;
-  return countryNames.includes(country);
+
+  return countryNames.includes(lCountry);
 }
 
 // country and city in lowercase
-export function isValidCity(city: string, country: string) {
-  if (!city) return false;
+export function isValidCity(
+  city: string | undefined,
+  country: string | undefined
+) {
+  if (!city || !country) return false;
+  const lCountry = country.toLowerCase();
   if (city === "all") return true;
 
   const cCity = capitalizeFirstLetter(city);
-  const countryIndex = countryNames.findIndex((c) => c === country);
+  const countryIndex = countryNames.findIndex((c) => c === lCountry);
   const countryCode = euCountries[countryIndex]?.code;
+  console.log("🚀 ~ isValidCity ~ countryCode:", countryCode);
   if (!countryCode) return false;
   const cities = euCountriesCities[countryCode];
   if (!cities) return false;
+
   return cities.find((c) => c === cCity);
 }
 
-export function getValidLocation(city, country) {
+export function getValidLocation(
+  city: string | undefined,
+  country: string | undefined
+) {
+  const lCountry = country?.toLowerCase();
+  const lCity = city?.toLowerCase();
   if (!isValidCountry(country)) return ["all", "all"];
-  if (!isValidCity(city, country)) return [country, "all"];
-  return [city, country];
+  if (!isValidCity(city, country)) return [lCountry, "all"];
+  return [lCity, lCountry];
 }
 
-export function getLocationRedirectURL(city, country) {
+export function getLocationRedirectURL(
+  city: string | undefined,
+  country: string | undefined
+) {
   const [vCity, vCountry] = getValidLocation(city, country);
   return `/${vCity}/${vCountry}`;
 }
@@ -49,12 +66,12 @@ export function getNewLocationURL(
     pathname.includes("trucks") ||
     pathname.includes("buses") ||
     pathname.includes("motorcycles");
-  if (isURLBrowseVehicles) {
+  const isLanding = arg2 && arg3 && rest.length === 0;
+  if (isURLBrowseVehicles || isLanding) {
     const url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
-    console.log("🚀 ~ getNewLocationURL ~ url:", url);
     return url + (searchParams ? "?" + searchParams : "");
   } else {
-    return pathname + searchParams ? "?" + searchParams : "";
+    return pathname + (searchParams ? "?" + searchParams : "");
   }
 }
 

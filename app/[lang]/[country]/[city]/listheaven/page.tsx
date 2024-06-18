@@ -47,7 +47,7 @@ const tipCards = [
 
 const page = ({ params }) => {
   return (
-    <main className="flex flex-col m-8 space-y-4">
+    <main className="flex flex-col m-8 space-y-4 w-full max-w-[700px] mx-auto">
       <section>
         <h1 className="font-bold mb-2">Category</h1>
         <div className="flex justify-between w-full ">
@@ -69,7 +69,7 @@ const page = ({ params }) => {
           {tipCards.map(({ mainText, subText, bg }) => (
             <Card
               key={mainText}
-              className="h-40 relative overflow-hidden text-primary-foreground  pt-12 pl-4 pb-6"
+              className=" relative overflow-hidden text-primary-foreground  pt-12 p-6"
               style={{
                 zIndex: -2,
               }}
@@ -94,8 +94,10 @@ const page = ({ params }) => {
                   className="min-[1920px]:w-[100vw] "
                 />
               </div>
-              <CardHeader className="font-bold text-2xl">{mainText}</CardHeader>
-              <CardContent className="p-0 mb-3 font-bold">
+              <CardHeader className="font-bold md:p-0 text-2xl">
+                {mainText}
+              </CardHeader>
+              <CardContent className="p-0 mb-3 md:p-0 font-bold">
                 {subText}
               </CardContent>
               <CardFooter className="p-0">

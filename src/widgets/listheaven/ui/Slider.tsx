@@ -13,7 +13,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../../../../components/ui/button";
-
+import { config } from "@react-spring/web";
+import { addToWishlist, addToWishlistThunk } from "../../../entities/user";
+import { useAppDispatch } from "../../../../app/GlobalRedux/store";
 function calcZ(index, currentIndex, itemsCount) {
   return itemsCount - Math.ceil((currentIndex - index) / 3) * 3 - index;
 }
@@ -27,7 +29,7 @@ const CARDS_RENDERED = 4;
 export function Slider({ carResults, vehicleUIData }) {
   const items = carResults;
   const itemsCount = items.length;
-
+  const dispatch = useAppDispatch();
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const startSwipeAnimation = (swipeDirection: 1 | -1) => {
     const springIndex = currentIndex % 3;
@@ -38,13 +40,14 @@ export function Slider({ carResults, vehicleUIData }) {
         // right => like
         // likeOffer();
         console.log("like");
+        dispatch(addToWishlistThunk(items[currentIndex].id));
       }
       // else {
       //   // swipeDirection = -1 && swipe left => dislike
       //   dislikeOffer();
       // }
       return {
-        opacity: 0,
+        opacity: 0.05,
         x: 200 * swipeDirection,
         onRest: () => {
           if (springIndex !== i) return;
@@ -64,8 +67,16 @@ export function Slider({ carResults, vehicleUIData }) {
       };
     });
   };
+  const handleSwipe = (swipeDirection: 1 | -1) => {
+    if (swipeDirection === 1) {
+      likeOffer();
+    } else {
+      dislikeOffer();
+    }
+  };
   const likeOffer = () => {
     startSwipeAnimation(1);
+    // addToWishlist()
   };
   const dislikeOffer = () => {
     startSwipeAnimation(-1);
@@ -76,6 +87,7 @@ export function Slider({ carResults, vehicleUIData }) {
       from: {
         x: 0,
       },
+      config: config.gentle,
     }),
     []
   );
@@ -89,33 +101,7 @@ export function Slider({ carResults, vehicleUIData }) {
     const index = args[0];
     const [dx] = swipe;
     if (dx) {
-      startSwipeAnimation(dx as 1 | -1);
-      // api.start((i) => {
-      //   if (index !== i) return;
-      //   if (dx === 1) {
-      //     // right => like
-      //     likeOffer();
-      //   } else {
-      //     // dx = -1 && swipe left => dislike
-      //     dislikeOffer();
-      //   }
-      //   return {
-      //     opacity: 0,
-      //     x: 100 * dx,
-      //     onRest: () => {
-      //       if (index !== i) return;
-
-      //       api.start((i) => {
-      //         // if (index !== i) return;
-
-      //         return {
-      //           opacity: 1,
-      //           x: 0,
-      //         };
-      //       });
-      //     },
-      //   };
-      // });
+      handleSwipe(dx as 1 | -1);
     }
   });
 
@@ -126,8 +112,7 @@ export function Slider({ carResults, vehicleUIData }) {
           <DialogHeader>
             <DialogTitle>List Heaven Tutorial</DialogTitle>
             <DialogDescription className="flex flex-col">
-              <p>Swipe right to like an offer</p>
-              <p>Swipe left to see the next offer</p>
+              Swipe right to like an offer. Swipe left to see the next offer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -166,66 +151,7 @@ export function Slider({ carResults, vehicleUIData }) {
           </div>
         );
       })}
-      {/* <div
-        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 }}
-        className="absolute w-full h-full "
-      >
-        {currentIndex < items.length && (
-          <animated.div
-            {...bind(0)}
-            style={{
-              ...springs[0],
-            }}
-            className={` w-full h-full  touch-none`}
-          >
-            <SliderCarCard
-              carDetails={items[Math.ceil(currentIndex / 3) * 3]}
-              types={vehicleUIData.types}
-              buttonCallbacks={{ likeOffer, dislikeOffer }}
-            ></SliderCarCard>
-          </animated.div>
-        )}
-      </div>
-      <div
-        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 - 1 }}
-        className="absolute w-full h-full "
-      >
-        {currentIndex < items.length - 1 && (
-          <animated.div
-            className={`w-full h-full touch-none`}
-            {...bind(1)}
-            style={{
-              ...springs[1],
-            }}
-          >
-            <SliderCarCard
-              carDetails={items[Math.ceil(currentIndex / 3) * 3 + 1]}
-              types={vehicleUIData.types}
-              buttonCallbacks={{ likeOffer, dislikeOffer }}
-            ></SliderCarCard>
-          </animated.div>
-        )}
-      </div>
-      <div
-        style={{ zIndex: itemsCount - Math.ceil(currentIndex / 3) * 3 - 2 }}
-        className="absolute w-full h-full "
-      >
-        {currentIndex < items.length - 2 && (
-          <animated.div
-            className={` w-full h-full  touch-none`}
-            {...bind(2)}
-            style={{
-              ...springs[2],
-            }}
-          >
-            <SliderCarCard
-              carDetails={items[Math.ceil(currentIndex / 3) * 3 + 2]}
-              types={vehicleUIData.types}
-              buttonCallbacks={{ likeOffer, dislikeOffer }}
-            ></SliderCarCard>
-          </animated.div>
-        )}
-      </div> */}
+
       <SliderCard
         className={
           "text-primary bg-primary-foreground flex items-center justify-center"

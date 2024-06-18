@@ -13,11 +13,12 @@ const DetailsTable = ({ carDetails }: DetailsTableProps) => {
             <td className="font-bold">Mileage</td>
             <td className="text-right">{mileage} km</td>
           </tr>
-          <tr></tr>
-          <td className="font-bold">Incident history</td>
-          <td className="text-right">
-            {accidentfree ? "No Accidents" : "View"}
-          </td>
+          <tr>
+            <td className="font-bold">Incident history</td>
+            <td className="text-right">
+              {accidentfree ? "No Accidents" : "View"}
+            </td>
+          </tr>
           <tr>
             <td className="font-bold">Price</td>
             <td className="text-right">{price} $</td>

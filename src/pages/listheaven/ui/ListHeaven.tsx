@@ -1,31 +1,18 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Carousel } from "../../../widgets/listheaven/ui/Carousel";
-import {
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Slider } from "../../../widgets/listheaven/ui/Slider";
-import { animated } from "@react-spring/web";
-import { Button } from "../../../../components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "../../../../components/ui/popover";
-import { SlidersHorizontal, Undo, Undo2, Undo2Icon } from "lucide-react";
-import Link from "next/link";
+import { SlidersHorizontal, Undo2 } from "lucide-react";
 import LocaleLink from "../../../shared/ui/LocaleLink";
 import { filterData } from "../../../features/search-vehicles";
 import { CarSidebar } from "../../../widgets/car-filters";
 import { VehicleType } from "../../../shared/model/params";
-import { fetchWishlistCars, useWishlist } from "@/src/entities/user";
-import { RootState, useAppDispatch } from "../../../../app/GlobalRedux/store";
-import { useAppStore } from "../../../../app/GlobalRedux/useStore";
+import { useWishlist } from "@/src/entities/user";
 
 interface ListHeavenProps {
   lang: string;
@@ -38,7 +25,7 @@ const ListHeaven = ({
   filterData: { filtersText, carResults, vehicleUIData },
   vehicleType,
 }: ListHeavenProps) => {
-  const [wishlist, dispatch] = useWishlist();
+  const [wishlist, dispatch] = useWishlist(true);
   const allResults = [
     ...carResults.topVehicles.data,
     ...carResults.nonTopVehicles.data,

@@ -26,6 +26,8 @@ import { CarComponent } from "./filterComponents/CarComponent";
 import { MotorcycleComponent } from "./filterComponents/MotoComponent";
 import { TrucksComponent } from "./filterComponents/TrucksComponent";
 import { clientCars } from "@/src/shared/api/client";
+import { capitalizeFirstLetter } from "../../src/shared/utils/text";
+import { getLocationText } from "../../src/entities/location";
 
 const filterDefault: Filter = {
   type: "cars",
@@ -59,7 +61,7 @@ const filterDefaultBus: FilterBusses = {
   fuelType: "",
 };
 
-function FilterComponent({ className, dict, lang }: any) {
+function FilterComponent({ className, dict, lang, location }: any) {
   const carMakes = useSelector((state: RootState) => state.carMakes.carMakes);
   const status = useSelector((state: RootState) => state.carMakes.status);
   const [selectedIcon, setSelectedIcon] = useState(-1);
@@ -171,80 +173,83 @@ function FilterComponent({ className, dict, lang }: any) {
   return (
     <div className={`md:max-w-[1140px] w-full mb-9 md:mb-36px ${className}`}>
       <Card className="bg-background">
-        <CardHeader>
-          <CardContent>
-            <Tabs defaultValue="cars">
-              <TabsList className="grid w-full grid-cols-4 gap-4">
-                {tabsTriggersInfo.map((tab, index) => (
-                  <TabsTrigger
-                    key={tab.value}
-                    value={tab.value}
-                    onClick={() => dispatch(setActiveTransportCategory(index))}
-                  >
-                    <SvgIcon
-                      filepath={tab.icon}
-                      alt={tab.label}
-                      color="#2563EB"
-                      width={16}
-                      height={16}
-                    />
-                    <span className="ml-2 hidden md:block">{tab.label}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              <TabsContent value="cars">
-                <CarComponent
-                  lang={lang}
-                  dict={dict}
-                  handleOfferNumbers={handleOfferNumbers}
-                  filter={filters.cars}
-                  handleSliderChange={handleSliderChange}
-                  handleSelectorChange={handleSelectorChange}
-                />
-              </TabsContent>
-              <TabsContent value="moto">
-                <MotorcycleComponent
-                  motoList={motoList}
-                  motoTypes={motoTypes}
-                  filter={filters.motos}
-                  lang={lang}
-                  dict={dict}
-                  handleSliderChange={handleSliderChange}
-                  handleSelectorChange={handleSelectorChange}
-                />
-              </TabsContent>
-              <TabsContent value="trucks">
-                <TrucksComponent
-                  lang={lang}
-                  dict={dict}
-                  busList={truckList}
-                  filter={filters.trucks}
-                  handleSliderChange={handleSliderChange}
-                  handleSelectorChange={handleSelectorChange}
-                  setSelectedIcon={setSelectedIcon}
-                  setHoveredIcon={setHoveredIcon}
-                  selectedIcon={selectedIcon}
-                  hoveredIcon={hoveredIcon}
-                />
-              </TabsContent>
-
-              <TabsContent value="busses">
-                <BusComponent
-                  busList={busList}
-                  lang={lang}
-                  dict={dict}
-                  filter={filters.busses}
-                  handleSliderChange={handleSliderChange}
-                  handleSelectorChange={handleSelectorChange}
-                  setSelectedIcon={setSelectedIcon}
-                  setHoveredIcon={setHoveredIcon}
-                  selectedIcon={selectedIcon}
-                  hoveredIcon={hoveredIcon}
-                />
-              </TabsContent>
-            </Tabs>
-          </CardContent>
+        <CardHeader className="md:pb-0 text-md">
+          <h2>
+            Find vehicles in {getLocationText(location.country, location.city)}
+          </h2>
         </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="cars">
+            <TabsList className="grid w-full grid-cols-4 gap-4">
+              {tabsTriggersInfo.map((tab, index) => (
+                <TabsTrigger
+                  key={tab.value}
+                  value={tab.value}
+                  onClick={() => dispatch(setActiveTransportCategory(index))}
+                >
+                  <SvgIcon
+                    filepath={tab.icon}
+                    alt={tab.label}
+                    color="#2563EB"
+                    width={16}
+                    height={16}
+                  />
+                  <span className="ml-2 hidden md:block">{tab.label}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <TabsContent value="cars">
+              <CarComponent
+                lang={lang}
+                dict={dict}
+                handleOfferNumbers={handleOfferNumbers}
+                filter={filters.cars}
+                handleSliderChange={handleSliderChange}
+                handleSelectorChange={handleSelectorChange}
+              />
+            </TabsContent>
+            <TabsContent value="moto">
+              <MotorcycleComponent
+                motoList={motoList}
+                motoTypes={motoTypes}
+                filter={filters.motos}
+                lang={lang}
+                dict={dict}
+                handleSliderChange={handleSliderChange}
+                handleSelectorChange={handleSelectorChange}
+              />
+            </TabsContent>
+            <TabsContent value="trucks">
+              <TrucksComponent
+                lang={lang}
+                dict={dict}
+                busList={truckList}
+                filter={filters.trucks}
+                handleSliderChange={handleSliderChange}
+                handleSelectorChange={handleSelectorChange}
+                setSelectedIcon={setSelectedIcon}
+                setHoveredIcon={setHoveredIcon}
+                selectedIcon={selectedIcon}
+                hoveredIcon={hoveredIcon}
+              />
+            </TabsContent>
+
+            <TabsContent value="busses">
+              <BusComponent
+                busList={busList}
+                lang={lang}
+                dict={dict}
+                filter={filters.busses}
+                handleSliderChange={handleSliderChange}
+                handleSelectorChange={handleSelectorChange}
+                setSelectedIcon={setSelectedIcon}
+                setHoveredIcon={setHoveredIcon}
+                selectedIcon={selectedIcon}
+                hoveredIcon={hoveredIcon}
+              />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
       </Card>
     </div>
   );

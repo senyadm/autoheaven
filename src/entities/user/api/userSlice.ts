@@ -5,7 +5,7 @@ import { UserAPI } from "../../../../interfaces/shared/users";
 
 type LoadState = "idle" | "loading" | "succeeded" | "failed";
 
-interface UserState extends UserAPI {
+export interface UserState extends UserAPI {
   loadState: LoadState; // for async
   wishlist: number[] | null;
   cars: Car[] | null;
