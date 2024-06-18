@@ -1,5 +1,5 @@
 import React from "react";
-import BrowseVehicle from "../../../../../src/pages/browse-vehicles/ui/BrowseVehicle";
+import BrowseVehicle from "../../../../../src/app-pages/browse-vehicles/ui/BrowseVehicle";
 import { VehicleType } from "../../../../../src/shared/model/params";
 import { Metadata, ResolvingMetadata } from "next/types";
 import { getLocationText } from "../../../../../src/entities/location";
