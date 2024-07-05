@@ -27,3 +27,21 @@ export const typePropertyName = {
   [VehicleType.Moto]: "moto_type",
   [VehicleType.Truck]: "truck_type",
 };
+export const enum VehicleTypePage {
+  Car = "cars",
+  Bus = "buses",
+  Moto = "motorcycles",
+  Truck = "trucks",
+}
+export const vehicleTypeByPage: Record<VehicleTypePage, VehicleType> = {
+  [VehicleTypePage.Car]: VehicleType.Car,
+  [VehicleTypePage.Bus]: VehicleType.Bus,
+  [VehicleTypePage.Moto]: VehicleType.Moto,
+  [VehicleTypePage.Truck]: VehicleType.Truck,
+};
+export const vehicleTypePages = [
+  VehicleTypePage.Car,
+  VehicleTypePage.Bus,
+  VehicleTypePage.Moto,
+  VehicleTypePage.Truck,
+];

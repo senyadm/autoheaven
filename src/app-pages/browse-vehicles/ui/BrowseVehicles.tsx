@@ -25,7 +25,7 @@ interface BrowseVehicleProps {
   vehicleType: VehicleType;
 }
 
-const BrowseVehicle = async ({
+const BrowseVehicles = async ({
   params: { lang, country, city },
   searchParams,
   vehicleType,
@@ -80,4 +80,4 @@ const BrowseVehicle = async ({
   );
 };
 
-export default BrowseVehicle;
+export default BrowseVehicles;

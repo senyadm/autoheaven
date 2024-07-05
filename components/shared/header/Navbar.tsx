@@ -219,7 +219,10 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
   };
 
   useEffect(() => {
-    fetchLocation();
+    if (!getCountryLS() || !getCityLS()) {
+      setRegionModalOpen(true);
+      fetchLocation();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -238,6 +241,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
       city,
       country
     );
+    console.log("🚀 ~ setLocationAndRedirect ~ url:", url);
 
     setLocation({ country, city });
     setCountryLS(country);
@@ -251,7 +255,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
   const handleClose = () => {
     setRegionModalOpen(!regionModalOpen);
   };
-  const homeLink = useRef(`/${lang}/all/all`);
+  const homeLink = useRef(`/${lang}`);
   useEffect(() => {
     homeLink.current = `/${lang}${getLocationRedirectURL(
       getCityLS(),

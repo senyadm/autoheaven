@@ -13,11 +13,11 @@ import { useUser } from "./useUser";
 export function useWishlist(
   requiresLogin: boolean = false
 ): [number[] | undefined | null, AppDispatch] {
-  const [{ wishlist, isLoggedIn }, dispatch] = useUser();
+  const [{ wishlist, isLoggedIn }, dispatch] = useUser(requiresLogin);
   const [ws] = useAppStore((state: RootState) => state.user);
   useEffect(() => {
     if (wishlist) return;
-    if (requiresLogin && !isLoggedIn) return;
+    if (!requiresLogin && !isLoggedIn) return;
     dispatch(fetchWishlistCars());
   }, [dispatch, isLoggedIn, requiresLogin, wishlist]);
   return [wishlist, dispatch];

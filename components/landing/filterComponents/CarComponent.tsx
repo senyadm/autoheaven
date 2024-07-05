@@ -2,8 +2,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
-import React, { createRef, useCallback, useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import {
   fetchAllCars,
@@ -54,7 +60,7 @@ export const CarComponent = React.memo(function CarComponent({
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>()
+    createRef<RangeSliderRef>(),
   ]);
 
   const router = useRouter();
@@ -62,12 +68,15 @@ export const CarComponent = React.memo(function CarComponent({
     (state) => state?.carFiltersAndResults.brandsWithModels
   );
 
-  
-type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
+  type BrandEntry = [
+    string,
+    { id: number; models: { name: string; id: number }[] }
+  ];
 
   const [carStore] = useAppStore(
     (state) => state?.carFiltersAndResults.filteredCars
   );
+  const pathname = usePathname();
 
   const [entries, setEntries] = useState<BrandEntry[]>([]);
   const [brandsOpen, setBrandsOpen] = React.useState(false);
@@ -93,7 +102,7 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
     sliderRefs.current.forEach((ref) => {
       ref.current?.reset();
     });
-  }
+  };
 
   const handleBrandClick = useCallback(
     (brand: string) => {
@@ -111,7 +120,7 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
-    router.push(`${lang}/cars?${payloadFilters}`);
+    router.push(`${pathname}/cars?${payloadFilters}`);
   };
 
   const initMount = useRef(false);
@@ -162,7 +171,7 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
             `${key}=${encodeURIComponent((payloadFilter as any)[key] || "")}`
         )
         .join("&");
-        
+
       setPayloadFilters(queryParam);
       dispatch(fetchAllCars(payloadFilter));
     };
@@ -185,7 +194,6 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
       handleOfferNumbers(i);
     }
   }, [carStore]);
-
   return (
     <Card className="border-0 bg-background">
       <CardContent className="space-y-2 mt-8">
@@ -238,12 +246,13 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
-            <div className="flex items-center space-x-2" style={{
-              minHeight: "2rem"
-            }}>
-              <Label htmlFor="filter1">
-                {dict?.brandAndModel || "Model"}
-              </Label>
+            <div
+              className="flex items-center space-x-2"
+              style={{
+                minHeight: "2rem",
+              }}
+            >
+              <Label htmlFor="filter1">{dict?.brandAndModel || "Model"}</Label>
               <SvgIcon
                 filepath="icons/tick.svg"
                 alt=""
@@ -280,9 +289,12 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center space-x-2" style={{
-              minHeight: "2rem"
-            }}>
+            <div
+              className="flex items-center space-x-2"
+              style={{
+                minHeight: "2rem",
+              }}
+            >
               <Label htmlFor="filter2">{dict?.body || "Vehicle body"}</Label>
               <SvgIcon filepath="icons/car.svg" alt="" width={16} height={16} />
             </div>
@@ -306,9 +318,12 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center space-x-2" style={{
-              minHeight: "2rem"
-            }}>
+            <div
+              className="flex items-center space-x-2"
+              style={{
+                minHeight: "2rem",
+              }}
+            >
               <Label htmlFor="filter3">{dict?.fuel || "Fuel type"}</Label>
               <SvgIcon
                 filepath="icons/fuel.svg"
@@ -339,14 +354,14 @@ type BrandEntry = [string, {id: number, models: {name: string, id: number}[]}];
       </CardContent>
       <CardFooter className="grid place-items-end md:mt-0 mt-2">
         <div className="flex flex-row space-x-2">
-        <Button variant="secondary" onClick={handleReset}>
-          <span className="me-2">{dict?.reset || "Reset"}</span>
-          <RotateCcw size={24} />
-        </Button>
-        <Button onClick={handleNavigate}>
-          {offers || 0} {dict?.offers || "offers"}
-          <ChevronRight />
-        </Button>
+          <Button variant="secondary" onClick={handleReset}>
+            <span className="me-2">{dict?.reset || "Reset"}</span>
+            <RotateCcw size={24} />
+          </Button>
+          <Button onClick={handleNavigate}>
+            {offers || 0} {dict?.offers || "offers"}
+            <ChevronRight />
+          </Button>
         </div>
       </CardFooter>
     </Card>

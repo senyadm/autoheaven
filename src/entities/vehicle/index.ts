@@ -4,3 +4,4 @@ export * from "./lib/search";
 export type { CarType } from "./model/car";
 export { useMake } from "./lib/useMake";
 export { typePropertyName, vehicleTypes } from "./model/vehicle";
+export { VehicleTypePage, vehicleTypePages } from "./model/vehicle";

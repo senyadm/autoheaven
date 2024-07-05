@@ -30,7 +30,6 @@ const getLocale = (request: NextRequest): string => {
 };
 
 export async function middleware(request: NextRequest) {
-  console.log("🚀 ~ middleware ~ middleware:");
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname;
   const [_, arg1, arg2, arg3, ...rest] = pathname.split("/");
@@ -41,58 +40,57 @@ export async function middleware(request: NextRequest) {
   const pathnameIsMissingLocale = i18n.locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
-  console.log(
-    "🚀 ~ middleware ~ pathnameIsMissingLocale:",
-    pathnameIsMissingLocale
-  );
-  const url = new URL(request.url);
-  const isURLBrowseVehicles =
-    pathname.includes("cars") ||
-    pathname.includes("trucks") ||
-    pathname.includes("buses") ||
-    pathname.includes("motorcycles");
-  const locale = getLocale(request);
-  const locationURL = getLocationRedirectURL(arg3, arg2);
-  // Preserving the original query parameters
-  const searchParams = url.searchParams.toString();
-  if (pathnameIsMissingLocale) {
-    if (isURLBrowseVehicles) {
-      return NextResponse.redirect(
-        new URL(
-          `/${locale}${
-            pathname.startsWith("/") ? "" : "/"
-          }${locationURL}/${pathname}${searchParams ? "?" + searchParams : ""}`,
-          request.url
-        )
-      );
-    } else {
-      console.log("🚀 ~ middleware ~ else:");
-      return NextResponse.redirect(
-        new URL(
-          `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${
-            searchParams ? "?" + searchParams : ""
-          }`,
-          request.url
-        )
-      );
-    }
-  }
 
-  if (
-    (isURLBrowseVehicles &&
-      (!isValidCountry(arg2) || !isValidCity(arg3, arg2))) ||
-    pathname === `/${locale}`
-  ) {
-    const restPath = rest.join("/");
+  const url = new URL(request.url);
+  // const isURLBrowseVehicles =
+  //   pathname.includes("cars") ||
+  //   pathname.includes("trucks") ||
+  //   pathname.includes("buses") ||
+  //   pathname.includes("motorcycles");
+  const locale = getLocale(request);
+  // const locationURL = getLocationRedirectURL(arg3, arg2);
+  // // Preserving the original query parameters
+  const searchParams = url.searchParams.toString();
+  // if (pathnameIsMissingLocale) {
+  //   if (isURLBrowseVehicles) {
+  //     return NextResponse.redirect(
+  //       new URL(
+  //         `/${locale}${
+  //           pathname.startsWith("/") ? "" : "/"
+  //         }${locationURL}/${pathname}${searchParams ? "?" + searchParams : ""}`,
+  //         request.url
+  //       )
+  //     );
+  //   } else {
+  //     console.log("🚀 ~ middleware ~ else:");
+  if (pathnameIsMissingLocale) {
     return NextResponse.redirect(
       new URL(
-        `/${locale}${
-          pathname.startsWith("/") ? "" : "/"
-        }${locationURL}/${restPath}${searchParams ? "?" + searchParams : ""}`,
+        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${
+          searchParams ? "?" + searchParams : ""
+        }`,
         request.url
       )
     );
   }
+  //   }
+  // }
+
+  // if (
+  //   (isURLBrowseVehicles &&
+  //     (!isValidCountry(arg2) || !isValidCity(arg3, arg2))) ||
+  //   pathname === `/${locale}`
+  // ) {
+  //   const restPath = rest.join("/");
+  //   return NextResponse.redirect(
+  //     new URL(
+  //       `/${locale}${
+  //         pathname.startsWith("/") ? "" : "/"
+  //       }${locationURL}/${restPath}${searchParams ? "?" + searchParams : ""}`,
+  //       request.url
+  //     )
+  //   );
+  // }
 
   if (request.nextUrl.pathname.startsWith("/api")) {
     response.headers.append("Access-Control-Allow-Origin", "*");

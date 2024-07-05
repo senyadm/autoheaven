@@ -59,26 +59,53 @@ export function getNewLocationURL(
   city: string,
   country: string
 ): string {
-  const [_, arg1, arg2, arg3, ...rest] = pathname.split("/");
-
-  const isURLBrowseVehicles =
-    pathname.includes("cars") ||
-    pathname.includes("trucks") ||
-    pathname.includes("buses") ||
-    pathname.includes("motorcycles");
-  const isLanding = arg2 && arg3 && rest.length === 0;
-  if (isURLBrowseVehicles || isLanding) {
-    const url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
-    return url + (searchParams ? "?" + searchParams : "");
+  // null, locale, country or sth else, city or sth else, ...
+  // basically if we see country or city we should replace it, else insert
+  const [_, arg1, arg2, arg3, ...rest] = decodeURI(pathname).split("/");
+  let url;
+  if (isValidCountry(arg2)) {
+    if (country === "all") {
+      url = ["", arg1, ...rest].join("/").toLowerCase();
+    } else if (isValidCity(arg3, arg2)) {
+      if (city === "all") {
+        url = ["", arg1, country, ...rest].join("/").toLowerCase();
+      } else {
+        url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
+      }
+    } else {
+      url = ["", arg1, country, city, arg3, ...rest].join("/").toLowerCase();
+    }
   } else {
-    return pathname + (searchParams ? "?" + searchParams : "");
+    url = ["", arg1, country, city, arg2, arg3, ...rest]
+      .join("/")
+      .toLowerCase();
   }
+  return url + (searchParams ? "?" + searchParams : "");
+  // const isURLBrowseVehicles =
+  //   pathname.includes("cars") ||
+  //   pathname.includes("trucks") ||
+  //   pathname.includes("buses") ||
+  //   pathname.includes("motorcycles");
+  // const isLanding = !arg2 || isValidCountry(arg2);
+  // if (isURLBrowseVehicles || isLanding) {
+  //   if (country === "all") {
+  //     country = "";
+  //     city = "";
+  //   } else if (city === "all") {
+  //     city = "";
+  //   }
+  //   const url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
+  //   console.log("🚀 ~ url:", url);
+  //   return url + (searchParams ? "?" + searchParams : "");
+  // } else {
+  //   return pathname + (searchParams ? "?" + searchParams : "");
+  // }
 }
 
 export function getLocationText(country: string, city: string) {
-  if (country === "all") return "Europe";
+  if (!country) return "Europe";
   const cCountry = capitalizeFirstLetter(country);
-  if (city === "all") return cCountry;
+  if (!city) return cCountry;
   const cCity = capitalizeFirstLetter(city);
   return `${cCity}, ${cCountry}`;
 }
@@ -86,8 +113,8 @@ export function getLocationShortText(
   country: string | undefined,
   city: string
 ) {
-  if (country === "all" || !country) return "Europe";
-  if (city === "all") return capitalizeFirstLetter(country);
+  if (!country) return "Europe";
+  if (!city) return capitalizeFirstLetter(country);
   return capitalizeFirstLetter(city);
 }
 
