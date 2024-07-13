@@ -12,12 +12,6 @@ import { Label } from "../../../../components/ui/label";
 import CarSearchFilter from "../../../../components/cars/CarSidebar/CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
 import { HelpCircle, RotateCcw } from "lucide-react";
-import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-} from "@/components/ui/select";
 
 import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../../../components/ui/checkbox";
@@ -35,39 +29,22 @@ import {
   getUriFromFilters,
 } from "../../../shared/utils/params";
 import { findIdByMakeName } from "../../../entities/vehicle";
+import ResetButton from "./ResetButton";
+import VehicleTypeSelect from "../../../entities/vehicle/ui/VehicleTypeSelect";
+import { cn } from "../../../shared/utils/cn";
+import VehicleTypeTabButtons from "./VehicleTypeTabButtons";
+import { getFilterData } from "../../../features/search-vehicles";
 
 type CarSidebarProps = {
-  offerNumber: number;
-  pageText: FiltersDictionary;
-  isVehicleTypeAParam?: boolean;
-  vehicleTypeState?: {
-    type: VehicleType;
-    isParam: boolean;
-  };
-  vehicleUIData:
-    | {
-        models: Record<string, Make>;
-        carModelsById: MakeModelById;
-      }
-    | {
-        makes: MotoMake[];
-        types: MotoType[];
-      };
-  onOfferClick?: () => void;
   params: FullPageParams;
-};
-const typeLabel = {
-  [VehicleType.Car]: "Passenger Car",
-  [VehicleType.Bus]: "Bus",
-  [VehicleType.Moto]: "Motorcycle",
-  [VehicleType.Truck]: "Truck",
+  mode: "default" | "compact";
+  isFetchInstant?: boolean;
 };
 
 const CarSidebar: FC<CarSidebarProps> = ({
-  offerNumber,
-  pageText,
-  vehicleUIData,
   params,
+  mode = "default",
+  isFetchInstant = true,
 }) => {
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
@@ -75,7 +52,8 @@ const CarSidebar: FC<CarSidebarProps> = ({
     createRef<RangeSliderRef>(),
   ]);
   const { country, city, vehicleType, make, model } = params;
-  console.log("🚀 ~ params:", params);
+  const [vehicleUIData, setVehicleUIData] = useState<any>({});
+  const [pageText, setPageText] = useState<FiltersDictionary | null>(null);
 
   const { types, makes, models } = vehicleUIData;
   const { push, replace } = useRouter();
@@ -98,11 +76,22 @@ const CarSidebar: FC<CarSidebarProps> = ({
     accidentfree: Boolean(searchParams.get("accidentfree")) || false,
     make: make,
     model: model,
-    make_id: findIdByMakeName(makes, make) || null,
+    make_id: searchParams.get("make_id") || "",
     type: searchParams.get("type") || "",
     type_id: searchParams.get("type_id") || "",
+    sortBy: searchParams.get("sortBy") || "newestFirst",
   });
-  console.log("🚀 ~ filters:", filters);
+  useEffect(() => {
+    async function fetchFilterData() {
+      const { filtersText, vehicleUIData } = await getFilterData(
+        filters.vehicleType,
+        params.lang
+      );
+      setPageText(filtersText);
+      setVehicleUIData(vehicleUIData);
+    }
+    fetchFilterData();
+  }, [params.vehicleType, params.lang, filters.vehicleType]);
 
   useEffect(() => {
     // setFilters(paramFilters);
@@ -111,186 +100,174 @@ const CarSidebar: FC<CarSidebarProps> = ({
       console.log("unmount");
     };
   }, []);
+  const redirectURI = useRef("");
 
   const setFiltersAndRedirect = useCallback(
     (newFilters: Filter) => {
       setFilters(newFilters);
-      const newUri = getUriFromFilters({ ...params, ...newFilters });
-      replace(newUri);
+      replace(redirectURI.current);
       // const normalizedFilters = getNormalizedParams(newFilters);
       // // normalizedFilters.makeModels = ["M5", "M6"];
       // const newURLParams = new URLSearchParams(normalizedFilters);
       // replace(`cars?${newURLParams.toString()}`);
     },
-    [country, city, replace]
+    [replace]
   );
+  const setFiltersFn = useCallback(
+    (newFilters: Filter) => {
+      let fullFilters = { ...params, ...newFilters };
+      if (params.vehicleType !== newFilters.vehicleType) {
+        // delete fullFilters.make;
+        // delete fullFilters.model;
+        fullFilters.make = "";
+        fullFilters.model = "";
+      }
+      const newUri = getUriFromFilters(fullFilters);
+      redirectURI.current = newUri;
+      isFetchInstant
+        ? setFiltersAndRedirect(newFilters)
+        : setFilters(newFilters);
+    },
+    [isFetchInstant, params, setFiltersAndRedirect]
+  );
+
   const handleSliderChange = (
     ids: [string, string],
     values: [number, number]
   ) => {
     const newFilters = { ...filters, [ids[0]]: values[0], [ids[1]]: values[1] };
-    setFiltersAndRedirect(newFilters as Filter);
+    setFiltersFn(newFilters as Filter);
   };
   const setFilterValue = (id: keyof Filter, value: string) => {
     const newFilters = { ...filters, [id]: value };
-    setFiltersAndRedirect(newFilters as Filter);
+    setFiltersFn(newFilters as Filter);
   };
   const handleSelectorChange = (id: keyof Filter, selectorValue: string) => {
     setFilterValue(id, selectorValue);
   };
   const handleCheckboxToggle = (id: keyof Filter) => {
     const newFilters = { ...filters, [id]: !filters[id] };
-    setFiltersAndRedirect(newFilters as Filter);
-  };
-
-  const handleReset = () => {
-    // const resetFilters = {
-    //   ...filters,
-    //   price_min: 1000,
-    //   price_max: 1000000,
-    //   mileage_min: 0,
-    //   fromDealer: false,
-    //   accitendfree: false,
-    //   mileage_max: 500000,
-    //   year_min: 1975,
-    //   year_max: 2023,
-    //   body_type: "",
-    //   make_id: "",
-    // };
-
-    setFiltersAndRedirect({});
-
-    // sliderRefs.current.forEach((ref) => {
-    //   ref.current?.reset();
-    // });
+    setFiltersFn(newFilters as Filter);
   };
 
   // TODO: change so that URL can look like
   // https://www.aaaauto.eu/used-cars#makes=15-75&models-15=1437-2128-2214&models-75=33
 
   return (
-    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible max-w-[500px] mx-auto">
-      <div className="flex justify-between items-center">
-        <Label htmlFor="filter1" className="font-bold">
-          Vehicle
-        </Label>
-        <Button variant="ghost" onClick={handleReset}>
-          <RotateCcw size={20} />
-        </Button>
-      </div>
-      <Select
-        value={filters.vehicleType}
-        onValueChange={(selectorValue: VehicleType) => {
-          setFiltersAndRedirect({
-            vehicleType: selectorValue as VehicleType,
-          });
-        }}
-      >
-        <SelectTrigger
-          className="mb-2"
-          currentValue={typeLabel[filters.vehicleType]}
-        >
-          Choose A Vehicle Type
-        </SelectTrigger>
-        <SelectContent>
-          {vehicleTypes.map((item, index: number) => (
-            <SelectItem key={index} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      {types && (
-        <TypeSelect
-          filters={filters}
-          types={types}
-          handleSelectorChange={handleSelectorChange}
-        />
+    <div
+      className={cn(
+        "flex flex-col  w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible mx-auto ",
+        mode === "compact" ? "z-10 mt-[19.5rem]" : "max-w-[500px] "
       )}
-      {makes && (
-        <MakeSelect
-          makes={makes}
-          onChange={handleSelectorChange}
-          filters={filters}
-        />
-      )}
-      {models && (
-        <ModelSelect
-          models={models}
-          filtersState={[filters, setFiltersAndRedirect]}
-          pageText={pageText}
-        />
-      )}
+    >
+      <div className={cn("space-y-4", mode === "default" ? "" : "flex-col")}>
+        {mode === "compact" && (
+          <VehicleTypeTabButtons
+            currentTab={filters.vehicleType}
+            onTabClick={handleSelectorChange}
+          />
+        )}
+        <div className={mode === "compact" ? "flex space-x-8" : "flex-col"}>
+          {mode === "default" && (
+            <VehicleTypeSelect
+              onChange={setFiltersFn}
+              vehicleType={filters.vehicleType}
+            />
+          )}
 
-      {/* No longer needed => replaced with types
-      {filters.type === VehicleType.Car && (
-        <CarBodyType
-          vehicleType={filters.type}
-          currentVehicleBody={filters.body_type}
-          handleSelectorChange={handleSelectorChange}
-        />
-      )} */}
+          {types && (
+            <TypeSelect
+              filters={filters}
+              types={types}
+              handleSelectorChange={handleSelectorChange}
+            />
+          )}
+          {makes && (
+            <MakeSelect
+              makes={makes}
+              onChange={setFiltersFn}
+              filters={filters}
+            />
+          )}
+          {models && (
+            <ModelSelect
+              models={models}
+              filtersState={[filters, setFiltersFn]}
+              pageText={pageText}
+            />
+          )}
+        </div>
+      </div>
 
       <CarSearchFilter
         sliderRefs={sliderRefs}
         dict={pageText}
         filters={filters}
         handleSliderChange={handleSliderChange}
+        orientation={mode === "default" ? "vertical" : "horizontal"}
       />
 
-      <Separator />
+      <div className={mode === "compact" ? "flex" : "flex-col space-y-3"}>
+        <div
+          className={cn(
+            "flex items-center justify-between space-x-2",
+            mode === "compact" ? "mr-4" : ""
+          )}
+        >
+          <div className="relative">
+            <Label className="text-l font-semibold flex flex-row">
+              {pageText?.fromDealer || "From Dealer"}
+              <div className="group inline-block ml-2 relative">
+                <HelpCircle
+                  width={16}
+                  height={16}
+                  className="hover:cursor-pointer"
+                />
+                <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
+                  This is some info about the From Dealer option.
+                </span>
+              </div>
+            </Label>
+          </div>
 
-      <div className="flex items-center justify-between">
-        <div className="relative">
-          <Label className="text-l font-semibold flex flex-row">
-            {pageText?.fromDealer || "From Dealer"}
-            <div className="group inline-block ml-2 relative">
-              <HelpCircle
-                width={16}
-                height={16}
-                className="hover:cursor-pointer"
-              />
-              <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
-                This is some info about the From Dealer option.
-              </span>
-            </div>
-          </Label>
+          <Checkbox
+            className="mr-2"
+            checked={filters.fromDealer || false}
+            onCheckedChange={(e) => handleCheckboxToggle("fromDealer")}
+          />
         </div>
+        <div className="flex items-center justify-between space-x-2">
+          <div className="relative">
+            <Label className="text-l font-semibold flex flex-row">
+              {pageText?.accidentFree || "Accident Free"}
+              <div className="group inline-block ml-2 relative">
+                <HelpCircle
+                  width={16}
+                  height={16}
+                  className="hover:cursor-pointer"
+                />
+                <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
+                  This is some info about the Accident free option.
+                </span>
+              </div>
+            </Label>
+          </div>
 
-        <Checkbox
-          className="mr-2"
-          checked={filters.fromDealer || false}
-          onCheckedChange={(e) => handleCheckboxToggle("fromDealer")}
-        />
-      </div>
-
-      <Separator />
-
-      <div className="flex items-center justify-between">
-        <div className="relative">
-          <Label className="text-l font-semibold flex flex-row">
-            {pageText?.accidentFree || "Accident Free"}
-            <div className="group inline-block ml-2 relative">
-              <HelpCircle
-                width={16}
-                height={16}
-                className="hover:cursor-pointer"
-              />
-              <span className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 text-xs px-2 py-1 bg-black text-white rounded opacity-0 group-hover:opacity-100 transition-opacity  w-48 break-words">
-                This is some info about the Accident free option.
-              </span>
-            </div>
-          </Label>
+          <Checkbox
+            className="mr-2"
+            checked={filters.accidentfree || false}
+            onCheckedChange={(e) => handleCheckboxToggle("accidentfree")}
+          />
         </div>
-
-        <Checkbox
-          className="mr-2"
-          checked={filters.accidentfree || false}
-          onCheckedChange={(e) => handleCheckboxToggle("accidentfree")}
-        />
+        {isFetchInstant || (
+          <Button
+            onClick={() => replace(redirectURI.current)}
+            className="!ml-auto mr-0"
+          >
+            See offers
+          </Button>
+        )}{" "}
       </div>
-
-      <Separator />
     </div>
   );
 };

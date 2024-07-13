@@ -79,7 +79,7 @@ const RangeSlider = forwardRef<RangeSliderRef, RangeSliderProps>(
       }
     };
     return (
-      <div>
+      <div className="relative">
         <div className="flex items-center space-x-2">
           <Label htmlFor={id}>{label}</Label>
           <SvgIcon

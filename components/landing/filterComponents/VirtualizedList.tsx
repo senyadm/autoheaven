@@ -230,7 +230,7 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
 
         {showModels && (
           <div
-            className="absolute left-full mt-0 z-10 bg-white border border-gray-200 rounded shadow-md w-64 max-h-60 overflow-y-auto"
+            className="absolute left-full mt-0 bg-white border border-gray-200 rounded shadow-md w-64 max-h-60 overflow-y-auto"
             style={{
               top: modelListTopPosition,
               bottom: modelListBottomPosition,

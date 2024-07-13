@@ -37,10 +37,7 @@ const BrowseVehicles = async ({
   vehicleType,
 }: BrowseVehicleProps) => {
   //
-  const { filtersText, vehicleUIData } = await getFilterData(
-    vehicleType,
-    pathParams.lang
-  );
+
   const allParams: AllParams = { ...pathParams, ...searchParams };
   const normalizedParams = getNormalizedParams(allParams);
   const carResults = await fetchVehiclesByParams(normalizedParams);
@@ -61,12 +58,7 @@ const BrowseVehicles = async ({
         </Link>
         <div className="flex flex-col lg:flex-row mt-10 max-w-screen-2xl w-full mx-auto">
           <div className="w-full lg:w-1/4">
-            <CarSidebar
-              params={pathParams}
-              pageText={filtersText}
-              offerNumber={offerCount}
-              vehicleUIData={vehicleUIData}
-            />
+            <CarSidebar params={pathParams} offerNumber={offerCount} />
           </div>
           <div className="w-full lg:w-3/4">
             <section className="mx-4 md:mx-8">

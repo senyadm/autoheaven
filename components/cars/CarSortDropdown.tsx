@@ -16,14 +16,13 @@ const CarSortDropdown = () => {
   const [sort, setSort] = useState<SortValue>(
     (params.get("sortBy") as SortValue) || "newestFirst"
   );
-  useEffect(() => {
-    if (params.get("sortBy") !== sort) {
-      params.set("sortBy", sort);
-      replace(`${pathname}?${params.toString()}`);
-    }
-  }, [params, pathname, replace, sort]);
+  const setSortAndRedirect = (value: SortValue) => {
+    setSort(value);
+    params.set("sortBy", value);
+    replace(`${pathname}?${params.toString()}`);
+  };
 
-  return <AppDropdownMenu sort={sort} setSort={setSort} />;
+  return <AppDropdownMenu sort={sort} setSort={setSortAndRedirect} />;
 };
 
 export default memo(CarSortDropdown);

@@ -9,6 +9,7 @@ import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
 import { FiltersDictionary } from "../../../types";
 import { Filter } from "../../../src/shared/model/params";
+import { cn } from "../../../src/shared/utils/cn";
 
 interface CarSearchFilterProps {
   handleSliderChange: (
@@ -18,12 +19,14 @@ interface CarSearchFilterProps {
   sliderRefs: any;
   filters: Filter;
   dict: FiltersDictionary;
+  orientation?: "vertical" | "horizontal";
 }
 const CarSearchFilter = ({
   handleSliderChange,
   filters,
   dict,
   sliderRefs,
+  orientation = "vertical",
 }: CarSearchFilterProps) => {
   const { premiumThreshold, isPremium } = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;
@@ -75,7 +78,14 @@ const CarSearchFilter = ({
   // }, [carData, carMatchesFilters, filter]);
 
   return (
-    <div className=" mt-4 mb-6">
+    <div
+      className={cn(
+        "w-full mb-6",
+        orientation === "horizontal"
+          ? "flex space-x-4 items-center justify-between"
+          : "mt-4"
+      )}
+    >
       <div className="mt-8">
         <RangeSlider
           value={[filters.price_min || 1000, filters.price_max || 1000000]}

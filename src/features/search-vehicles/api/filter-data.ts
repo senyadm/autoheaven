@@ -1,3 +1,4 @@
+"use server";
 import { getlocales } from "../../../../app/actions";
 import { Locale } from "../../../app/i18n.config";
 import { FiltersDictionary } from "../../../../types";

@@ -29,6 +29,7 @@ export const defaultParams: FilterParams = {
   vehicleType: VehicleType.Car,
   fromDealer: false,
   accidentfree: false,
+  sortBy: "newestFirst",
 };
 
 /**
@@ -42,6 +43,7 @@ export function getNormalizedParams(
   const necessaryParams = {
     max_results: defaultParams.max_results,
     page: defaultParams.page,
+    sortBy: defaultParams.sortBy,
   };
   if (!params) return necessaryParams;
   const normalized = Object.entries(params).reduce((acc, [key, value]) => {

@@ -16,26 +16,29 @@ import { findMakeById } from "../lib/search";
 
 interface MakeSelectProps {
   makes: Make[];
-  onChange: (key: keyof Filter, value: string) => void;
+  onChange: (newFilters: Filter) => void;
   filters: Filter;
 }
 
 const MakeSelect = ({ filters, makes, onChange }: MakeSelectProps) => {
   return (
     makes && (
-      <>
+      <div className="w-full">
         <Label htmlFor="filter1" className="font-bold">
           Make
         </Label>
         <Select
           onValueChange={(selectorValue) => {
             const makeName = findMakeById(makes, selectorValue);
-            console.log("🚀 ~ makeName:", makeName);
-            onChange("make", makeName);
+            onChange({
+              ...filters,
+              make_id: selectorValue,
+              make: makeName,
+            });
             // handleSelectorChange("make_id", selectorValue);
           }}
         >
-          <SelectTrigger className="mb-2">
+          <SelectTrigger>
             {findMakeById(makes, filters.make_id) || "Select Make"}
           </SelectTrigger>
           <SelectContent>
@@ -52,7 +55,7 @@ const MakeSelect = ({ filters, makes, onChange }: MakeSelectProps) => {
             ))}
           </SelectContent>
         </Select>
-      </>
+      </div>
     )
   );
 };

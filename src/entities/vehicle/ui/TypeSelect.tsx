@@ -40,7 +40,7 @@ const TypeSelect = ({
   }
   return (
     types && (
-      <>
+      <div className="w-full">
         <Label htmlFor="filter1" className="font-bold">
           {typeLabel[vehicleType]} Type
         </Label>
@@ -50,7 +50,7 @@ const TypeSelect = ({
             // setTypeName(findTypeById(selectorValue));
           }}
         >
-          <SelectTrigger className="mb-2">
+          <SelectTrigger>
             {findTypeById(filters.type_id) || "Select Type"}
           </SelectTrigger>
           <SelectContent>
@@ -67,7 +67,7 @@ const TypeSelect = ({
             ))}
           </SelectContent>
         </Select>
-      </>
+      </div>
     )
   );
 };

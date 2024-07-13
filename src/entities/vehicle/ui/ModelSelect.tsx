@@ -47,15 +47,13 @@ const ModelSelect = ({
   }, [filters.make, filters.model]);
   return (
     models && (
-      <div className="space-y-1 z-10">
-        <div
-          className="flex items-center space-x-2"
-          style={{
-            minHeight: "2rem",
-          }}
-        >
+      <div className="w-full relative z-10">
+        {/* <div className="flex items-center space-x-2">
           <Label htmlFor="filter1">{pageText?.brandAndModel || "Model"}</Label>
-        </div>
+        </div> */}
+        <Label htmlFor="filter1" className="font-bold">
+          {pageText?.brandAndModel || "Model"}
+        </Label>
 
         <Select
           open={brandsOpen}
