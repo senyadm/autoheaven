@@ -11,25 +11,16 @@ import {
 import { TruckMake } from "../model/truck";
 import { BusMake } from "../model/bus";
 import { useSearchParams } from "next/navigation";
+import { Make } from "../model/vehicle";
+import { findMakeById } from "../lib/search";
 
-type Make = MotoMake | BusMake | TruckMake;
 interface MakeSelectProps {
   makes: Make[];
-  handleSelectorChange: (key: keyof Filter, value: string) => void;
+  onChange: (key: keyof Filter, value: string) => void;
   filters: Filter;
 }
 
-const MakeSelect = ({
-  filters,
-  makes,
-  handleSelectorChange,
-}: MakeSelectProps) => {
-  const searchParams = useSearchParams();
-
-  function findMakeById(id: string) {
-    return makes.find((make) => make.id === id)?.make_name;
-  }
-
+const MakeSelect = ({ filters, makes, onChange }: MakeSelectProps) => {
   return (
     makes && (
       <>
@@ -38,11 +29,14 @@ const MakeSelect = ({
         </Label>
         <Select
           onValueChange={(selectorValue) => {
-            handleSelectorChange("make_id", selectorValue);
+            const makeName = findMakeById(makes, selectorValue);
+            console.log("🚀 ~ makeName:", makeName);
+            onChange("make", makeName);
+            // handleSelectorChange("make_id", selectorValue);
           }}
         >
           <SelectTrigger className="mb-2">
-            {findMakeById(filters.make_id) || "Select Make"}
+            {findMakeById(makes, filters.make_id) || "Select Make"}
           </SelectTrigger>
           <SelectContent>
             {[

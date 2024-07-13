@@ -276,12 +276,12 @@ export const CarComponent = React.memo(function CarComponent({
                 {filter.brandAndModel || "Select a brand..."}
               </SelectTrigger>
               <VirtualizedList
-                dict={dict}
+                // dict={dict}
                 hidden={!brandsOpen}
                 toggleBrands={toggleBrandsOpen}
                 entries={entries}
                 filter={filter}
-                handleSelectorChange={handleSelectorChange}
+                // handleSelectorChange={handleSelectorChange}
                 handleBrandClick={handleBrandClick}
                 handleModelClick={handleModelClick}
               />

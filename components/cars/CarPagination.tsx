@@ -26,7 +26,7 @@ const CarPagination = ({ searchParams, pageCount }: CarPaginationProps) => {
   };
   const disabledLinkProps = {
     className: "pointer-events-none text-gray-400",
-    ariaDisabled: true,
+    "aria-disabled": true,
     tabIndex: -1,
   };
   const previousPageProps = currentPage === 0 ? disabledLinkProps : {};

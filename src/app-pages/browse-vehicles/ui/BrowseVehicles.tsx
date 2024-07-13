@@ -2,11 +2,8 @@ import CarSearchResults from "@/components/cars/CarSearchResults";
 import CarSortDropdown from "@/components/cars/CarSortDropdown";
 import GradientHeading from "@/components/landing/GradientHeading";
 import CarSidebar from "@/src/widgets/car-filters/ui/CarSidebar";
-import { getlocales } from "@/app/actions";
-import { Metadata, ResolvingMetadata } from "next/types";
-import { Locale } from "@/src/app/i18n.config";
 import {
-  fetchVehicleUIData,
+  fetchCarTypeByParams,
   fetchVehiclesByParams,
 } from "@/src/entities/vehicle";
 import { WishlistProvider } from "@/src/entities/user";
@@ -15,29 +12,35 @@ import { VehicleType } from "../../../shared/model/params";
 import { getFilterData } from "../../../features/search-vehicles";
 import { getLocationText } from "../../../entities/location";
 import Link from "next/link";
+import { FullPageParams } from "@/src/shared/utils/params";
+import { AllParams } from "../../../shared/utils/params";
+import { getNormalizedParams } from "../../../shared/api";
 const premiumThreshold = 250_000;
 
 // revalidate cache after an hour
 export const revalidate = 3600;
 interface BrowseVehicleProps {
-  params: { lang: Locale; country: string; city: string };
+  pathParams: FullPageParams;
   searchParams: ReadonlyURLSearchParams;
   vehicleType: VehicleType;
 }
 
 const BrowseVehicles = async ({
-  params: { lang, country, city },
+  pathParams,
   searchParams,
   vehicleType,
 }: BrowseVehicleProps) => {
   //
-  const { filtersText, carResults, vehicleUIData } = await getFilterData(
+  const { filtersText, vehicleUIData } = await getFilterData(
     vehicleType,
-    searchParams,
-    lang
+    pathParams.lang
   );
-  const { offerCount, pageCount } = carResults;
+  const allParams: AllParams = { ...pathParams, ...searchParams };
+  const normalizedParams = getNormalizedParams(allParams);
+  const carResults = await fetchVehiclesByParams(normalizedParams);
 
+  const { offerCount, pageCount } = carResults;
+  const { country, city, lang } = pathParams;
   return (
     <main className=" bg-primary-foreground py-6">
       <div className="flex flex-col flex-1 items-center">
@@ -47,10 +50,10 @@ const BrowseVehicles = async ({
         <div className="flex flex-col lg:flex-row mt-10 max-w-screen-2xl w-full mx-auto">
           <div className="w-full lg:w-1/4">
             <CarSidebar
+              params={pathParams}
               pageText={filtersText}
               offerNumber={offerCount}
               vehicleUIData={vehicleUIData}
-              vehicleTypeState={{ isParam: false, type: vehicleType }}
             />
           </div>
           <div className="w-full lg:w-3/4">

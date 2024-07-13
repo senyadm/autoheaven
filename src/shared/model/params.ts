@@ -17,16 +17,23 @@ export interface FilterParams extends Filter {
   page: number;
 }
 export interface Filter {
-  type: VehicleType;
+  vehicleType: VehicleType;
   body_type?: string;
   price_min?: number;
   price_max?: number;
   fromDealer?: boolean;
   mileage_min?: number;
+  make?: string;
+  model?: string;
   make_id?: string;
   mileage_max?: number;
   year_min?: number;
   year_max?: number;
   accidentfree?: boolean;
   makeModels?: string[];
+}
+
+export interface FilterWithLocation extends Filter {
+  country: string;
+  city: string;
 }

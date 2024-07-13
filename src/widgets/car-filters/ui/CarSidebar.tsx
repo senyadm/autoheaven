@@ -1,10 +1,17 @@
 "use client";
-import { FC, createRef, useEffect, useRef, useState } from "react";
+import {
+  FC,
+  createRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Label } from "../../../../components/ui/label";
 import CarSearchFilter from "../../../../components/cars/CarSidebar/CarSearchFilter";
 import { Separator } from "@/components/ui/separator";
 import { HelpCircle, RotateCcw } from "lucide-react";
-import { types, typeProps } from "../../../../components/landing/types";
 import {
   Select,
   SelectItem,
@@ -12,23 +19,22 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 
-import CarBodyType from "../../../../components/cars/CarBodyType";
-import ModelSelector from "../../../../components/cars/CarSidebar/ModelSelector";
 import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { Filter, VehicleType } from "../../../shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  getCarModelsById,
-  getNormalizedParams,
-} from "../../../shared/api/cars";
+import { getNormalizedParams } from "../../../shared/api/cars";
 import { vehicleTypes } from "../../../entities/vehicle/model/vehicle";
 import { Make, MakeModelById } from "../../../shared/model";
 import { MotoMake, MotoType } from "../../../entities/vehicle/model/moto";
-import TypeSelect from "../../../entities/vehicle/ui/TypeSelect";
-import MakeSelect from "../../../entities/vehicle/ui/MakeSelect";
+import { TypeSelect, MakeSelect, ModelSelect } from "../../../entities/vehicle";
 import { Button } from "@/components/ui/button";
 import { RangeSliderRef } from "@/components/landing/RangeSlider";
+import {
+  FullPageParams,
+  getUriFromFilters,
+} from "../../../shared/utils/params";
+import { findIdByMakeName } from "../../../entities/vehicle";
 
 type CarSidebarProps = {
   offerNumber: number;
@@ -48,6 +54,7 @@ type CarSidebarProps = {
         types: MotoType[];
       };
   onOfferClick?: () => void;
+  params: FullPageParams;
 };
 const typeLabel = {
   [VehicleType.Car]: "Passenger Car",
@@ -55,17 +62,12 @@ const typeLabel = {
   [VehicleType.Moto]: "Motorcycle",
   [VehicleType.Truck]: "Truck",
 };
-const pageNameByVehicleType = {
-  [VehicleType.Car]: "cars",
-  [VehicleType.Bus]: "buses",
-  [VehicleType.Moto]: "motorcycles",
-  [VehicleType.Truck]: "trucks",
-};
+
 const CarSidebar: FC<CarSidebarProps> = ({
   offerNumber,
   pageText,
   vehicleUIData,
-  isVehicleTypeAParam = true,
+  params,
   vehicleTypeState = { type: VehicleType.Car, isParam: true },
   onOfferClick = null,
 }) => {
@@ -74,6 +76,8 @@ const CarSidebar: FC<CarSidebarProps> = ({
     createRef<RangeSliderRef>(),
     createRef<RangeSliderRef>(),
   ]);
+  const { country, city, vehicleType, make, model } = params;
+  console.log("🚀 ~ params:", params);
 
   const { types, makes, models } = vehicleUIData;
   const { push, replace } = useRouter();
@@ -85,7 +89,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   }
   const paramFilters = prepParams();
   const [filters, setFilters] = useState<Filter>({
-    type: VehicleType.Car,
+    vehicleType: vehicleType,
     price_min: 1000,
     price_max: 1000000,
     mileage_min: 0,
@@ -94,19 +98,32 @@ const CarSidebar: FC<CarSidebarProps> = ({
     year_max: 2023,
     fromDealer: false,
     accidentfree: false,
+    make: make,
+    model: model,
+    make_id: findIdByMakeName(makes, make) || null,
   });
+  console.log("🚀 ~ filters:", filters);
 
   useEffect(() => {
-    setFilters(paramFilters);
+    // setFilters(paramFilters);
+    console.log("mount");
+    return () => {
+      console.log("unmount");
+    };
   }, []);
 
-  const setFiltersAndRedirect = (newFilters: Filter) => {
-    setFilters(newFilters);
-    const normalizedFilters = getNormalizedParams(newFilters);
-    // normalizedFilters.makeModels = ["M5", "M6"];
-    const newURLParams = new URLSearchParams(normalizedFilters);
-    replace(`cars?${newURLParams.toString()}`);
-  };
+  const setFiltersAndRedirect = useCallback(
+    (newFilters: Filter) => {
+      setFilters(newFilters);
+      const newUri = getUriFromFilters({ ...newFilters, country, city });
+      replace(newUri);
+      // const normalizedFilters = getNormalizedParams(newFilters);
+      // // normalizedFilters.makeModels = ["M5", "M6"];
+      // const newURLParams = new URLSearchParams(normalizedFilters);
+      // replace(`cars?${newURLParams.toString()}`);
+    },
+    [country, city, replace]
+  );
   const handleSliderChange = (
     ids: [string, string],
     values: [number, number]
@@ -152,7 +169,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   // https://www.aaaauto.eu/used-cars#makes=15-75&models-15=1437-2128-2214&models-75=33
 
   return (
-    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible">
+    <div className="flex flex-col space-y-4 w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible max-w-[500px] mx-auto">
       <div className="flex justify-between items-center">
         <Label htmlFor="filter1" className="font-bold">
           Vehicle
@@ -162,25 +179,18 @@ const CarSidebar: FC<CarSidebarProps> = ({
         </Button>
       </div>
       <Select
-        value={filters.type}
-        onValueChange={(selectorValue) => {
-          if (vehicleTypeState.isParam) {
-            setFiltersAndRedirect({ type: selectorValue as VehicleType });
-          } else {
-            replace(`${pageNameByVehicleType[selectorValue as VehicleType]}`);
-            setFilters({});
-          }
+        value={filters.vehicleType}
+        onValueChange={(selectorValue: VehicleType) => {
+          setFiltersAndRedirect({
+            vehicleType: selectorValue as VehicleType,
+          });
         }}
       >
         <SelectTrigger
           className="mb-2"
-          currentValue={
-            typeLabel[
-              vehicleTypeState.isParam ? filters.type : vehicleTypeState.type
-            ]
-          }
+          currentValue={typeLabel[filters.vehicleType]}
         >
-          Choose Type
+          Choose A Vehicle Type
         </SelectTrigger>
         <SelectContent>
           {vehicleTypes.map((item, index: number) => (
@@ -195,16 +205,20 @@ const CarSidebar: FC<CarSidebarProps> = ({
           filters={filters}
           types={types}
           handleSelectorChange={handleSelectorChange}
-          carType={
-            vehicleTypeState.isParam ? filters.type : vehicleTypeState.type
-          }
         />
       )}
       {makes && (
         <MakeSelect
           makes={makes}
-          handleSelectorChange={handleSelectorChange}
+          onChange={handleSelectorChange}
           filters={filters}
+        />
+      )}
+      {models && (
+        <ModelSelect
+          models={models}
+          filtersState={[filters, setFiltersAndRedirect]}
+          pageText={pageText}
         />
       )}
 
@@ -277,16 +291,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
       </div>
 
       <Separator />
-
-      {models && (
-        <ModelSelector
-          pageText={pageText}
-          carModels={models}
-          setFilterValue={setFilterValue}
-          offerNumber={offerNumber}
-          onOfferClick={onOfferClick}
-        />
-      )}
     </div>
   );
 };

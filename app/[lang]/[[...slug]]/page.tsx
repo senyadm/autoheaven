@@ -1,4 +1,8 @@
-import { parsePageParams } from "../../../src/app-pages/browse-vehicles/lib/params";
+import {
+  AllParams,
+  FullPageParams,
+  parsePageParams,
+} from "../../../src/shared/utils/params";
 import { BrowseVehicles } from "../../../src/app-pages/browse-vehicles";
 import { Home } from "../../../src/app-pages/home";
 import { ListHeaven } from "../../../src/widgets/listheaven";
@@ -19,22 +23,23 @@ const page = ({ params, searchParams }: PageProps) => {
   if (!lang) return;
   const parsedParams = parsePageParams(slug);
   console.log("🚀 ~ page ~ parsedParams:", parsedParams);
-  const fullParams = {
+  const pathParams: FullPageParams = {
     lang: params.lang,
-    country: parsedParams.country,
-    city: parsedParams.city,
+    ...parsedParams,
   };
+  const allParams: AllParams = { ...pathParams, ...searchParams };
+
   if (parsedParams.vehicleType)
     return (
       <BrowseVehicles
-        params={fullParams}
+        pathParams={pathParams}
         searchParams={searchParams}
         vehicleType={parsedParams.vehicleType}
       />
     );
   if (parsedParams.isListHeaven)
-    return <ListHeaven params={fullParams} searchParams={searchParams} />;
-  return <Home params={fullParams} />;
+    return <ListHeaven params={allParams} searchParams={searchParams} />;
+  return <Home params={allParams} />;
 };
 
 export default page;

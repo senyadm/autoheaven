@@ -31,20 +31,18 @@ const TypeSelect = ({
   types,
   handleSelectorChange,
   filters,
-  carType,
 }: TypeSelectProps) => {
-  const type = carType;
-
+  const vehicleType = filters.vehicleType;
   function findTypeById(id: string) {
     const foundType = types.find((type) => type.id === id);
     if (!foundType) return undefined;
-    return foundType[typePropertyName[type]];
+    return foundType[typePropertyName[vehicleType]];
   }
   return (
     types && (
       <>
         <Label htmlFor="filter1" className="font-bold">
-          {typeLabel[type]} Type
+          {typeLabel[vehicleType]} Type
         </Label>
         <Select
           onValueChange={(selectorValue) => {
@@ -59,12 +57,12 @@ const TypeSelect = ({
             {[
               {
                 id: "",
-                [typePropertyName[type]]: "All",
+                [typePropertyName[vehicleType]]: "All",
               },
               ...types,
             ].map((item, index: number) => (
               <SelectItem key={index} value={item.id}>
-                {item[typePropertyName[type]]}
+                {item[typePropertyName[vehicleType]]}
               </SelectItem>
             ))}
           </SelectContent>

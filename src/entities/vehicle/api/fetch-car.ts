@@ -1,3 +1,7 @@
+import {
+  CarFetchPayload,
+  CarFetchPayloadKeys,
+} from "../../../features/create-vehicle";
 import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { getCarModelsById } from "../../../shared/api/cars";
 import {
@@ -6,20 +10,48 @@ import {
   MakeModelById,
   parseModels,
 } from "../../../shared/model";
+import { AllParams } from "../../../shared/utils/params";
 
-export async function getCarResults(searchParams: FilterParams) {
-  const { carModelsById } = await fetchCarModels();
-  const normalizedParams = getNormalizedParams(searchParams);
+function getCarPayload(params: AllParams): CarFetchPayload {
+  let carPayload;
+  if (params.make) {
+    const makeModels = {
+      [params.make]: params.model ? [params.model] : [],
+    };
+    const makeModelsStr = JSON.stringify(makeModels);
+    carPayload = {
+      ...params,
+      makeModels: makeModelsStr,
+    };
+  } else {
+    carPayload = params;
+  }
 
-  const parsedModels = Object.entries(
-    parseModels(searchParams.models, carModelsById)
-  ).reduce((acc, [makeName, models]) => {
-    acc[makeName] = models.map((model) => model.name);
-    return acc;
-  }, {});
-  normalizedParams.makeModels = JSON.stringify(parsedModels);
-  delete normalizedParams.models;
+  let filteredPayload = {} as CarFetchPayload;
+  for (const key in carPayload) {
+    if (CarFetchPayloadKeys.includes(key)) {
+      filteredPayload[key] = carPayload[key];
+    }
+  }
+  const normalized = getNormalizedParams(filteredPayload);
+  console.log("🚀 ~ getCarPayload ~ normalized:", normalized);
 
+  return normalized;
+}
+
+export async function getCarResults(params: AllParams) {
+  console.log("🚀 ~ getCarResults ~ params:", params);
+  // const { carModelsById } = await fetchCarModels();
+  // const normalizedParams = getNormalizedParams(searchParams);
+
+  // const parsedModels = Object.entries(
+  //   parseModels(searchParams.models, carModelsById)
+  // ).reduce((acc, [makeName, models]) => {
+  //   acc[makeName] = models.map((model) => model.name);
+  //   return acc;
+  // }, {});
+  // normalizedParams.makeModels = JSON.stringify(parsedModels);
+  // delete normalizedParams.models;
   const topVehicles = {
       title: "Top offers",
       data: [] as Car[],
@@ -28,23 +60,29 @@ export async function getCarResults(searchParams: FilterParams) {
       title: "Main offers",
       data: [] as Car[],
     };
+  const carPayload = getCarPayload(params);
+  const carPayloadStr = new URLSearchParams(
+    carPayload as Record<string, string>
+  ).toString();
 
-  const type = normalizedParams.type;
-  // Right Now no idea what the types are
-  // Cars, cars, car all give zero results, wtf
-  delete normalizedParams.type;
+  // const type = normalizedParams.type;
+  // // Right Now no idea what the types are
+  // // Cars, cars, car all give zero results, wtf
+  // delete normalizedParams.type;
   try {
     // TODO optimize such that next page does not fetch the same data
-    const carResults: Record<number, Car[]> = (
-      await clientCars.get("api/cars/fetch", {
-        params: normalizedParams,
-      })
-    )?.data;
+    // const carResults: Record<number, Car[]> = (
+    //   await getCars("api/cars/fetch", {
+    //     params: carPayload,
+    //   })
+    // )?.data;
+    const carResults = await getCars(`/api/cars/fetch?${carPayloadStr}`);
     const pageCount = Object.keys(carResults).length;
     // if page is greater or equal (starts with 0) than pageCount, return first page
-    const currentPage =
-      normalizedParams.page >= pageCount ? 0 : normalizedParams.page;
+    const currentPage = params.page >= pageCount ? 0 : params.page;
+    console.log("🚀 ~ getCarResults ~ currentPage:", currentPage);
     const carResultsForPage = carResults[currentPage];
+    console.log("🚀 ~ getCarResults ~ carResultsForPage:", carResultsForPage);
     const offerCount = Object.values(carResults).reduce(
       (acc, curr) => acc + curr.length,
       0

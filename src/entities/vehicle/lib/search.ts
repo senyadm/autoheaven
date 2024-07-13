@@ -1,6 +1,6 @@
 import { VehicleType } from "../../../shared/model/params";
 import { CarType } from "../model/car";
-import { typePropertyName } from "../model/vehicle";
+import { Make, typePropertyName } from "../model/vehicle";
 
 export function searchModels(
   search: string,
@@ -33,4 +33,15 @@ export function searchTypes(
   return types.filter((type) =>
     type[currentTypePropertyName].toLowerCase().includes(search.toLowerCase())
   );
+}
+
+export function findMakeById(makes: Make[], id: string) {
+  return makes.find((make) => make.id === id)?.make_name;
+}
+export function findIdByMakeName(
+  makes: Make[] | null,
+  name: string | undefined
+) {
+  if (!makes) return null;
+  return makes.find((make) => make.make_name === name)?.id;
 }

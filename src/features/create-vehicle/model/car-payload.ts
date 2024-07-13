@@ -55,3 +55,45 @@ export interface CarPayload {
   seats: number;
   type_id: string;
 }
+
+export interface CarFetchPayload {
+  max_results: number;
+  max_cars_per_page?: number;
+  type_id?: string;
+  body_type?: string;
+  gearbox?: string;
+  makeModels?: string;
+  color?: string;
+  year_min?: number;
+  year_max?: number;
+  mileage_min?: number;
+  mileage_max?: number;
+  price_min?: number;
+  price_max?: number;
+  fueltype?: string;
+  accidentfree?: boolean;
+  drivetrain?: string;
+  istop?: boolean;
+  sortBy?: string;
+}
+
+export const CarFetchPayloadKeys = [
+  "max_results",
+  "max_cars_per_page",
+  "type_id",
+  "body_type",
+  "gearbox",
+  "makeModels",
+  "color",
+  "year_min",
+  "year_max",
+  "mileage_min",
+  "mileage_max",
+  "price_min",
+  "price_max",
+  "fueltype",
+  "accidentfree",
+  "drivetrain",
+  "istop",
+  "sortBy",
+] as const;

@@ -1,6 +1,6 @@
 import { getFilterData } from "@/src/features/search-vehicles";
-import { VehicleType } from "@/src/shared/model/params";
 import ListHeavenClient from "./ListHeavenClient";
+import { VehicleType } from "../../../shared/model/params";
 
 const ListHeaven = async ({ params, searchParams }) => {
   const { vehicleType } = params;

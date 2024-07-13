@@ -1,5 +1,6 @@
 import { Filter, FilterParams, VehicleType } from "../model/params";
 import { Make, MakeModelById } from "../model/models";
+import page from "../../../app/[lang]/[[...slug]]/page";
 
 export const defaultFilters: Filter = {
   price_min: 0,
@@ -8,8 +9,6 @@ export const defaultFilters: Filter = {
   mileage_max: 500000,
   year_min: 1975,
   year_max: 2023,
-  type: VehicleType.car,
-  body_type: "sedan",
 };
 
 export const defaultParams: FilterParams = {
@@ -20,7 +19,6 @@ export const defaultParams: FilterParams = {
   mileage_max: 500000,
   year_min: 1975,
   year_max: 2023,
-  type: VehicleType.car,
   body_type: "sedan",
   page: 0,
 };
@@ -36,7 +34,6 @@ export function getNormalizedParams(
   const necessaryParams = {
     max_results: defaultParams.max_results,
     page: defaultParams.page,
-    type: defaultParams.type,
   };
   if (!params) return necessaryParams;
   const normalized = Object.entries(params).reduce((acc, [key, value]) => {

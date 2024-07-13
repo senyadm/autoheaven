@@ -1,4 +1,7 @@
 import { VehicleType } from "../../../shared/model/params";
+import { BusMake } from "./bus";
+import { Moto, MotoMake } from "./moto";
+import { TruckMake } from "./truck";
 
 export const vehicleTypes: {
   value: VehicleType;
@@ -39,9 +42,16 @@ export const vehicleTypeByPage: Record<VehicleTypePage, VehicleType> = {
   [VehicleTypePage.Moto]: VehicleType.Moto,
   [VehicleTypePage.Truck]: VehicleType.Truck,
 };
+export const pageByVehicleType: Record<VehicleType, VehicleTypePage> = {
+  [VehicleType.Car]: VehicleTypePage.Car,
+  [VehicleType.Bus]: VehicleTypePage.Bus,
+  [VehicleType.Moto]: VehicleTypePage.Moto,
+  [VehicleType.Truck]: VehicleTypePage.Truck,
+};
 export const vehicleTypePages = [
   VehicleTypePage.Car,
   VehicleTypePage.Bus,
   VehicleTypePage.Moto,
   VehicleTypePage.Truck,
 ];
+export type Make = MotoMake | BusMake | TruckMake;

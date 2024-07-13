@@ -1,31 +1,33 @@
-import { getCars } from "../../../shared/api";
-import { getCarModelsById } from "../../../shared/api/cars";
 import { FilterParams } from "../../../shared/model";
 import { VehicleType } from "../../../shared/model/params";
+import { AllParams, FullPageParams } from "../../../shared/utils/params";
 import { fetchBusTypes, fetchBuses } from "./fetch-bus";
 import { fetchCarModels, getCarResults } from "./fetch-car";
 import { fetchMoto, fetchMotoTypes } from "./fetch-moto";
 import { fetchTruckTypes, fetchTrucks } from "./fetch-truck";
 
-export function fetchVehiclesByParams(params: FilterParams) {
-  const { type } = params;
-  return fetchCarTypeByParams(type, params);
+export function fetchVehiclesByParams(allParams: AllParams) {
+  const vehicleType = allParams.vehicleType;
+  return fetchCarTypeByParams(vehicleType, allParams);
 }
 
-export function fetchCarTypeByParams(type: VehicleType, params: FilterParams) {
-  switch (type) {
+export function fetchCarTypeByParams(
+  vehicleType: VehicleType,
+  allParams: AllParams
+) {
+  switch (vehicleType) {
     case VehicleType.Car:
-      return getCarResults(params);
+      return getCarResults(allParams);
     // case VehicleType.truck:
     //   return fetchTrucks();
     case VehicleType.Moto:
-      return fetchMoto(params);
+      return fetchMoto(allParams);
     case VehicleType.Bus:
-      return fetchBuses(params);
+      return fetchBuses(allParams);
     case VehicleType.Truck:
-      return fetchTrucks(params);
+      return fetchTrucks(allParams);
     default:
-      return getCarResults(params);
+      return getCarResults(allParams);
   }
 }
 

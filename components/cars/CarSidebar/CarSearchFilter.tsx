@@ -23,7 +23,7 @@ const CarSearchFilter = ({
   handleSliderChange,
   filters,
   dict,
-  sliderRefs
+  sliderRefs,
 }: CarSearchFilterProps) => {
   const { premiumThreshold, isPremium } = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;

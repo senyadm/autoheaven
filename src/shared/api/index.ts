@@ -1,2 +1,2 @@
-export { getNormalizedParams } from "./cars";
+export * from "./cars";
 export * from "./client";
