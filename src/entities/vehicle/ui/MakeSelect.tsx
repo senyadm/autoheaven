@@ -1,16 +1,12 @@
 import React from "react";
-import { MotoMake, MotoType } from "../model/moto";
 import { Label } from "../../../../components/ui/label";
-import { Filter, VehicleType } from "../../../shared/model/params";
+import { Filter } from "../../../shared/model/params";
 import {
   SelectTrigger,
   Select,
   SelectContent,
   SelectItem,
 } from "../../../../components/ui/select";
-import { TruckMake } from "../model/truck";
-import { BusMake } from "../model/bus";
-import { useSearchParams } from "next/navigation";
 import { Make } from "../model/vehicle";
 import { findMakeById } from "../lib/search";
 
