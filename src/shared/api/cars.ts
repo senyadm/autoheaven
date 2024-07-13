@@ -19,8 +19,16 @@ export const defaultParams: FilterParams = {
   mileage_max: 500000,
   year_min: 1975,
   year_max: 2023,
-  body_type: "sedan",
   page: 0,
+  make: "",
+  model: "",
+  make_id: null,
+  makeModels: "",
+  type: "",
+  type_id: "",
+  vehicleType: VehicleType.Car,
+  fromDealer: false,
+  accidentfree: false,
 };
 
 /**

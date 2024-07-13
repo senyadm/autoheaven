@@ -1,12 +1,14 @@
 import { Locale } from "../../app/i18n.config";
+import { getLocationText } from "../../entities/location";
 import {
   VehicleTypePage,
   vehicleTypePages,
   pageByVehicleType,
 } from "../../entities/vehicle";
 import { vehicleTypeByPage } from "../../entities/vehicle/model/vehicle";
-import { defaultFilters } from "../api";
+import { defaultFilters, defaultParams } from "../api";
 import { FilterParams, FilterWithLocation, VehicleType } from "../model/params";
+import { capitalizeFirstLetter } from "./text";
 
 export interface PageWithLocationParams {
   country?: string;
@@ -45,15 +47,15 @@ export function parsePageParams(params: string[]) {
   let paramsOrderIndex = 0;
   for (let i = 0; i < params.length; i++) {
     const p = decodeURIComponent(params[i]);
+    if (p === "listheaven") {
+      res.isListHeaven = true;
+      continue;
+    }
     console.log("🚀 ~ parsePageParams ~ p:", p);
     if (!p) break;
     const isSlugVehicleType = vehicleTypePages.includes(p as VehicleTypePage);
 
     if (vehicleTypeFound || isSlugVehicleType) {
-      if (p === "listheaven") {
-        res.isListHeaven = true;
-        continue;
-      }
       const paramKey = paramOrder[paramsOrderIndex++];
       if (!paramKey) return res;
       if (paramKey === "vehicleType") {
@@ -73,15 +75,16 @@ export function parsePageParams(params: string[]) {
       }
     }
   }
+  console.log("🚀 ~ parsePageParams ~ res:", res);
 
   return res;
 }
 
 export function getPathnameFromParams(params: PageWithLocationParams) {
-  console.log("🚀 ~ getPathnameFromParams ~ params:", params);
   let pathname = "";
   if (params.country) pathname += `/${params.country}`;
   if (params.city) pathname += `/${params.city}`;
+  if (params.isListHeaven) pathname += `/listheaven`;
   if (params.vehicleType)
     pathname += `/${pageByVehicleType[params.vehicleType as string]}`;
   if (params.make) pathname += `/${params.make}`;
@@ -111,12 +114,53 @@ function excludeDefaults(filters: FilterWithLocation) {
   return res;
 }
 
+const defaultFiltersKeys = Object.keys(defaultParams);
+
+function excludeNonFilterKeys(filters: FilterWithLocation) {
+  // TODO: remove all non-filter keys
+  const res = { ...filters };
+  Object.keys(res).forEach((key) => {
+    if (!defaultFiltersKeys.includes(key)) {
+      delete res[key];
+    }
+  });
+  return res;
+}
+
 export function getUriFromFilters(filters: FilterWithLocation) {
   const pathname = getPathnameFromParams(filters as PageWithLocationParams);
-  let filtersWithoutDefaults = excludeDefaults(filters);
+  const filtersWithoutNonFilterKeys = excludeNonFilterKeys(filters);
+  const filtersWithoutDefaults = excludeDefaults(filtersWithoutNonFilterKeys);
   const searchParams = getUrlSearchParamsFromFilters(filtersWithoutDefaults);
   if (searchParams) {
     return `${pathname}?${searchParams.toString()}`;
   }
   return pathname;
+}
+
+// Toyota Corolla cars in Italy, Rome
+
+export function getMetadataFromParsedParams(params: PageWithLocationParams) {
+  const { vehicleType, make, model, country, city, isListHeaven } = params;
+  let title = "";
+  if (isListHeaven) {
+    title = "List Heaven";
+  } else if (vehicleType) {
+    if (make) title += ` ${make}`;
+    if (model) title += ` ${model}`;
+    if (vehicleType) title += ` ${pageByVehicleType[vehicleType]}`;
+    title += ` in ${getLocationText(country, city)}`;
+  }
+  title = capitalizeFirstLetter(title);
+  return {
+    title,
+  };
+}
+
+export function getMetadataFromRawParams(params: {
+  lang: Locale;
+  slug: string[];
+}) {
+  const parsed = parsePageParams(params.slug);
+  return getMetadataFromParsedParams(parsed);
 }

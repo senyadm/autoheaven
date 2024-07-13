@@ -1,19 +1,26 @@
 import { getFilterData } from "@/src/features/search-vehicles";
 import ListHeavenClient from "./ListHeavenClient";
 import { VehicleType } from "../../../shared/model/params";
+import { AllParams } from "../../../shared/utils/params";
+import { ReadonlyURLSearchParams } from "next/navigation";
+import { fetchVehiclesByParams } from "../../../entities/vehicle";
+import { getNormalizedParams } from "../../../shared/api";
 
-const ListHeaven = async ({ params, searchParams }) => {
-  const { vehicleType } = params;
-  const results = await getFilterData(
-    VehicleType.Bus,
-    searchParams,
-    params.lang
-  );
+interface ListHeavenProps {
+  params: AllParams;
+  searchParams: ReadonlyURLSearchParams;
+}
+
+const ListHeaven = async ({ params, searchParams }: ListHeavenProps) => {
+  const filterData = await getFilterData(params.vehicleType, params.lang);
+  const normalizedParams = getNormalizedParams(params);
+  const carResults = await fetchVehiclesByParams(normalizedParams);
+
   return (
     <ListHeavenClient
-      lang={params.lang}
-      filterData={results}
-      vehicleType={vehicleType}
+      filterData={filterData}
+      carResults={carResults}
+      params={params}
     />
   );
 };

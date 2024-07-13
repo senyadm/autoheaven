@@ -10,9 +10,15 @@ import { WishlistProvider } from "@/src/entities/user";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { VehicleType } from "../../../shared/model/params";
 import { getFilterData } from "../../../features/search-vehicles";
-import { getLocationText } from "../../../entities/location";
+import {
+  getLocationRedirectURL,
+  getLocationText,
+} from "../../../entities/location";
 import Link from "next/link";
-import { FullPageParams } from "@/src/shared/utils/params";
+import {
+  FullPageParams,
+  getPathnameFromParams,
+} from "@/src/shared/utils/params";
 import { AllParams } from "../../../shared/utils/params";
 import { getNormalizedParams } from "../../../shared/api";
 const premiumThreshold = 250_000;
@@ -44,7 +50,13 @@ const BrowseVehicles = async ({
   return (
     <main className=" bg-primary-foreground py-6">
       <div className="flex flex-col flex-1 items-center">
-        <Link href={`listheaven`} className=" text-primary">
+        <Link
+          href={`/${lang}${getPathnameFromParams({
+            ...allParams,
+            isListHeaven: true,
+          })}`}
+          className=" text-primary"
+        >
           Try out the ListHeaven Feature!
         </Link>
         <div className="flex flex-col lg:flex-row mt-10 max-w-screen-2xl w-full mx-auto">

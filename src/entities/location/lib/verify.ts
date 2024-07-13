@@ -102,7 +102,10 @@ export function getNewLocationURL(
   // }
 }
 
-export function getLocationText(country: string, city: string) {
+export function getLocationText(
+  country: string | undefined,
+  city: string | undefined
+) {
   if (!country) return "Europe";
   const cCountry = capitalizeFirstLetter(country);
   if (!city) return cCountry;

@@ -68,8 +68,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
   pageText,
   vehicleUIData,
   params,
-  vehicleTypeState = { type: VehicleType.Car, isParam: true },
-  onOfferClick = null,
 }) => {
   const sliderRefs = useRef([
     createRef<RangeSliderRef>(),
@@ -90,17 +88,19 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const paramFilters = prepParams();
   const [filters, setFilters] = useState<Filter>({
     vehicleType: vehicleType,
-    price_min: 1000,
-    price_max: 1000000,
-    mileage_min: 0,
-    mileage_max: 500000,
-    year_min: 1975,
-    year_max: 2023,
-    fromDealer: false,
-    accidentfree: false,
+    price_min: Number(searchParams.get("price_min")) || 1000,
+    price_max: Number(searchParams.get("price_max")) || 1000000,
+    mileage_min: Number(searchParams.get("mileage_min")) || 0,
+    mileage_max: Number(searchParams.get("mileage_max")) || 2000000,
+    year_min: Number(searchParams.get("year_min")) || 1975,
+    year_max: Number(searchParams.get("year_max")) || 2024,
+    fromDealer: Boolean(searchParams.get("fromDealer")) || false,
+    accidentfree: Boolean(searchParams.get("accidentfree")) || false,
     make: make,
     model: model,
     make_id: findIdByMakeName(makes, make) || null,
+    type: searchParams.get("type") || "",
+    type_id: searchParams.get("type_id") || "",
   });
   console.log("🚀 ~ filters:", filters);
 
@@ -115,7 +115,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const setFiltersAndRedirect = useCallback(
     (newFilters: Filter) => {
       setFilters(newFilters);
-      const newUri = getUriFromFilters({ ...newFilters, country, city });
+      const newUri = getUriFromFilters({ ...params, ...newFilters });
       replace(newUri);
       // const normalizedFilters = getNormalizedParams(newFilters);
       // // normalizedFilters.makeModels = ["M5", "M6"];
