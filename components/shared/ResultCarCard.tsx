@@ -1,6 +1,6 @@
 "use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Calendar,
   Car,
@@ -86,10 +86,18 @@ const DrivetrainIcon = (drivetrain: any) => {
       );
   }
 };
+
+interface ResultCarCardProps {
+  carDetails: any;
+  pageDisplayed?: string;
+  imageFileNames: string[];
+}
 const ResultCarCard = ({
   carDetails,
   pageDisplayed,
-}: ResultCarCardInterface) => {
+  imageFileNames,
+}: ResultCarCardProps) => {
+  console.log("🚀 ~ imageFileNames:", imageFileNames);
   const {
     title,
     price,
@@ -103,6 +111,8 @@ const ResultCarCard = ({
     phone_number,
     accidentfree,
     imageurl,
+    make,
+    model,
     id,
     seller_id,
   } = carDetails;
@@ -201,20 +211,25 @@ const ResultCarCard = ({
         </div>
       )}
       <CardHeader className="px-3 pt-3">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{title || `${make || ""} ${model || ""}`}</CardTitle>
         <CardDescription className="text-bold">€ {price}</CardDescription>
       </CardHeader>
 
       <CardContent className="md:py-0 flex space-x-2 md:space-x-4">
         <div className="min-w-[152px] min-h-[108px]">
-          <AspectRatio ratio={16 / 9} className=" bg-muted w-[152px] h-[108px]">
-            <Image
-              alt=""
-              src={`${carsDomain}/api/cars/download/${id}`}
-              fill
-              className="rounded-md object-cover"
-            />
-          </AspectRatio>
+          {imageFileNames && imageFileNames[0] && (
+            <AspectRatio
+              ratio={16 / 9}
+              className=" bg-muted w-[152px] h-[108px]"
+            >
+              <Image
+                alt=""
+                src={`${carsDomain}/api/cars/download/${imageFileNames[0]}`}
+                fill
+                className="rounded-md object-cover"
+              />
+            </AspectRatio>
+          )}
         </div>
 
         <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1 ">

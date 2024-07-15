@@ -41,6 +41,7 @@ const BrowseVehicles = async ({
   const allParams: AllParams = { ...pathParams, ...searchParams };
   const normalizedParams = getNormalizedParams(allParams);
   const carResults = await fetchVehiclesByParams(normalizedParams);
+  console.log("🚀 ~ carResults:", carResults);
 
   const { offerCount, pageCount } = carResults;
   const { country, city, lang } = pathParams;

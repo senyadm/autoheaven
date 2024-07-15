@@ -31,11 +31,7 @@ const CarSearchFilter = ({
   const { premiumThreshold, isPremium } = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;
 
-  const [carBrands, dispatch] = useAppStore(
-    (state) => state.carFiltersAndResults.carMakes
-  );
   //   [brands, setBrands] = useState<string[]>([]);
-  const [carData, setCardata] = useState<Car[]>(allData);
   // const [offers, setOffers] = useState<number>(0);
 
   // const brands = tempData;

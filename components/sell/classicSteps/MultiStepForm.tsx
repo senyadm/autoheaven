@@ -32,6 +32,7 @@ enum Step {
   ModificationSelection,
   SpecsSelection,
   DetailsSelection,
+  Success,
 }
 function getSteps(carType: VehicleType) {
   return carType === VehicleType.Car
@@ -43,6 +44,7 @@ function getSteps(carType: VehicleType) {
         Step.ModificationSelection,
         Step.SpecsSelection,
         Step.DetailsSelection,
+        Step.Success,
       ]
     : [
         Step.VehicleTypeSelection,
@@ -51,6 +53,7 @@ function getSteps(carType: VehicleType) {
         Step.ModificationSelection,
         Step.SpecsSelection,
         Step.DetailsSelection,
+        Step.Success,
       ];
 }
 
@@ -166,6 +169,15 @@ const MultiStepForm = ({
             />
           ),
         };
+      case Step.Success:
+        return {
+          title: "Your ad has been successfully created",
+          content: (
+            <div>
+              <h1>Success! </h1>
+            </div>
+          ),
+        };
       default:
         return {
           title: "Get Started",
@@ -188,46 +200,7 @@ const MultiStepForm = ({
             {currentComponent.title}
           </Label>
           <Progress value={progress} className="h-4 w-full md:mb-0 mb-4" />
-          {/* {currentStep === 0 && (
-            <VehicleTypeSelection onNext={nextStep} dict={dict} />
-          )}
-          {currentStep === 1 && (
-            <BrandSelection
-              onNext={nextStep}
-              onPrevious={previousStep}
-              dict={dict}
-              staticVehicleData={staticVehicleData}
-            />
-          )}
-          {currentStep === 2 && (
-            <ModelSelection
-              onNext={nextStep}
-              onPrevious={previousStep}
-              dict={dict}
-              staticVehicleData={staticVehicleData}
-            />
-          )}
-          {currentStep === 3 && (
-            <VehicleModification
-              onNext={nextStep}
-              onPrevious={previousStep}
-              dict={dict}
-            />
-          )}
-          {currentStep === 4 && (
-            <VehicleSpecs
-              onNext={nextStep}
-              onPrevious={previousStep}
-              dict={dict}
-            />
-          )}
-          {currentStep === 5 && (
-            <VehicleDetails
-              onNext={nextStep}
-              onPrevious={previousStep}
-              dict={dict}
-            />
-          )} */}
+
           {currentComponent.content}
         </CardContent>
       </Card>

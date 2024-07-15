@@ -139,19 +139,25 @@ export async function createCar(
   return postVehicle(payload, params.carType);
 }
 
-export async function uploadImage(id: string, file: File) {
-  const formData = new FormData();
-  formData.append("file", file);
-
+export async function uploadImages(id: string, files: FileList) {
+  const uploadPromises: Promise<AxiosResponse<any, any>>[] = [];
+  for (const file of files) {
+    const formData = new FormData();
+    formData.append("file", file);
+    uploadPromises.push(
+      clientCars.post(`api/cars/upload/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+    );
+  }
   try {
-    const response = await clientCars.post(`api/cars/upload/${id}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
+    // Wait for all upload promises to resolve
+    const responses = await Promise.all(uploadPromises);
+    return responses.map((response) => response.data);
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("Error uploading images:", error);
     throw error;
   }
 }

@@ -29,7 +29,7 @@
 //   "make_id": "032013df-f7ef-4d3c-af72-878c467e607d"
 // }
 export interface Moto {
-  id: string;
+  id: number;
   seller_id: string;
   driving_mode: string;
   vendor: string;

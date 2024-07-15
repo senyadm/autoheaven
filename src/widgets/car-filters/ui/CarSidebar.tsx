@@ -18,7 +18,11 @@ import { Checkbox } from "../../../../components/ui/checkbox";
 import { Filter, VehicleType } from "../../../shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getNormalizedParams } from "../../../shared/api/cars";
-import { vehicleTypes } from "../../../entities/vehicle/model/vehicle";
+import {
+  VehicleTypePage,
+  vehicleTypePages,
+  vehicleTypes,
+} from "../../../entities/vehicle/model/vehicle";
 import { Make, MakeModelById } from "../../../shared/model";
 import { MotoMake, MotoType } from "../../../entities/vehicle/model/moto";
 import { TypeSelect, MakeSelect, ModelSelect } from "../../../entities/vehicle";
@@ -65,7 +69,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   }
   const paramFilters = prepParams();
   const [filters, setFilters] = useState<Filter>({
-    vehicleType: vehicleType,
+    vehicleType: vehicleType || VehicleType.Car,
     price_min: Number(searchParams.get("price_min")) || 1000,
     price_max: Number(searchParams.get("price_max")) || 1000000,
     mileage_min: Number(searchParams.get("mileage_min")) || 0,
@@ -100,7 +104,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
       console.log("unmount");
     };
   }, []);
-  const redirectURI = useRef("");
+  const redirectURI = useRef("cars");
 
   const setFiltersAndRedirect = useCallback(
     (newFilters: Filter) => {

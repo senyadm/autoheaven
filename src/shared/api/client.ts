@@ -75,7 +75,8 @@ export { clientEmail, clientCars, clientUsers, clientChats };
 // fetchEmail is unnecessary probably
 export const [fetchEmail, fetchCars, fetchUsers, fetchChats] = APIDomains.map(
   (domain) => {
-    return (url: string) => fetch(`${domain}${url}`);
+    return (url: string, options?: RequestInit) =>
+      fetch(`${domain}${url}`, options);
   }
 );
 
@@ -83,8 +84,8 @@ export const [getCars, getUsers, getChats] = [
   fetchCars,
   fetchUsers,
   fetchChats,
-].map((fetchFn) => async (url: string) => {
-  const res = await fetchFn(url);
+].map((fetchFn) => async (url: string, options?: RequestInit) => {
+  const res = await fetchFn(url, options);
   const data = await res.json();
   return data;
 });

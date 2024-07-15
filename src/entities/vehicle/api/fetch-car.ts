@@ -11,6 +11,7 @@ import {
   parseModels,
 } from "../../../shared/model";
 import { AllParams } from "../../../shared/utils/params";
+import { fetchImageFileNames, getIdToFileNameObject } from "./image";
 
 function getCarPayload(params: AllParams): CarFetchPayload {
   let carPayload;
@@ -41,17 +42,7 @@ function getCarPayload(params: AllParams): CarFetchPayload {
 
 export async function getCarResults(params: AllParams) {
   console.log("🚀 ~ getCarResults ~ params:", params);
-  // const { carModelsById } = await fetchCarModels();
-  // const normalizedParams = getNormalizedParams(searchParams);
 
-  // const parsedModels = Object.entries(
-  //   parseModels(searchParams.models, carModelsById)
-  // ).reduce((acc, [makeName, models]) => {
-  //   acc[makeName] = models.map((model) => model.name);
-  //   return acc;
-  // }, {});
-  // normalizedParams.makeModels = JSON.stringify(parsedModels);
-  // delete normalizedParams.models;
   const topVehicles = {
       title: "Top offers",
       data: [] as Car[],
@@ -76,7 +67,9 @@ export async function getCarResults(params: AllParams) {
     //     params: carPayload,
     //   })
     // )?.data;
-    const carResults = await getCars(`/api/cars/fetch?${carPayloadStr}`);
+    const carResults = await getCars(`/api/cars/fetch?${carPayloadStr}`, {
+      cache: "no-store",
+    });
     const pageCount = Object.keys(carResults).length;
     // if page is greater or equal (starts with 0) than pageCount, return first page
     const currentPage = params.page >= pageCount ? 0 : params.page;
@@ -94,10 +87,23 @@ export async function getCarResults(params: AllParams) {
         nonTopVehicles.data.push(carResult);
       }
     }
-    return { topVehicles, nonTopVehicles, offerCount, pageCount };
+    const imageFileNames = await getIdToFileNameObject(carResultsForPage);
+    return {
+      topVehicles,
+      nonTopVehicles,
+      offerCount,
+      pageCount,
+      imageFileNames,
+    };
   } catch (e) {
     console.error("🚀 ~ getCarResults ~ e", e);
-    return { topVehicles, nonTopVehicles, offerCount: 0, pageCount: 0 };
+    return {
+      topVehicles,
+      nonTopVehicles,
+      offerCount: 0,
+      pageCount: 0,
+      imageFileNames: [],
+    };
   }
 }
 

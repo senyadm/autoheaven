@@ -27,7 +27,7 @@ const CarSearchResults = ({
   carResultsData,
   pageCount,
 }: CarSearchResultsProps) => {
-  const { topVehicles, nonTopVehicles } = carResultsData;
+  const { topVehicles, nonTopVehicles, imageFileNames } = carResultsData;
 
   try {
     return (
@@ -43,6 +43,7 @@ const CarSearchResults = ({
               >
                 {cars.data.map((carInfo, index) => (
                   <ResultCarCard
+                    imageFileNames={imageFileNames[carInfo.id]}
                     carDetails={carInfo}
                     key={`${index}${carInfo.imageurl}`}
                   />

@@ -13,7 +13,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   CarDetails,
   createCar,
-  uploadImage,
+  uploadImages,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-number-input";
@@ -61,6 +61,7 @@ const VehicleDetails = ({
   const [value, setValue] = useState<string | undefined>("");
   const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  console.log("🚀 ~ selectedFiles:", selectedFiles);
 
   const [hidden, setHidden] = React.useState(false),
     toggle = () => setHidden(!hidden);
@@ -121,7 +122,7 @@ const VehicleDetails = ({
 
     createCar(newStore, selectedFiles)
       .then((res) => {
-        uploadImage(res.data.id, selectedFiles[0]);
+        uploadImages(res.data.id, selectedFiles);
         // window.location.href = '/success';
       })
       .catch((err) => {

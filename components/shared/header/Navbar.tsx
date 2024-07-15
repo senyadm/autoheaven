@@ -394,7 +394,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
                     onClick={() => setOpenPopover(!openPopover)}
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                   >
-                    <Label className="text-foreground text-l">
+                    <Label className="text-foreground text-l cursor-pointer">
                       {menu?.profile || "Profile"}
                     </Label>
                     <SvgIcon
@@ -408,7 +408,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
                     href={`/${lang}/sell`}
                     onClick={() => setOpenPopover(!openPopover)}
                   >
-                    <Label className="text-foreground text-l">
+                    <Label className="text-foreground text-l cursor-pointer">
                       {menu?.make_ad || "Make Ad"}
                     </Label>
                     <MegaphoneIcon className="ml-2 w-4 h-4" />
@@ -418,7 +418,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
                     className="flex flex-row justify-between items-center p-2 space-x-2 hover:bg-gray-100 cursor-pointer"
                     href={`/${lang}/login`}
                   >
-                    <Label className="text-foreground text-l">
+                    <Label className="text-foreground text-l cursor-pointer">
                       {menu?.logout || "Log Out"}
                     </Label>
                     <LogOutIcon width={16} height={16} />

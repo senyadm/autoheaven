@@ -1,3 +1,4 @@
+import { getCars } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
 import { VehicleType } from "../../../shared/model/params";
 import { AllParams, FullPageParams } from "../../../shared/utils/params";
