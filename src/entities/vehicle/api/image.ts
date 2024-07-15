@@ -17,10 +17,10 @@ export async function getIdToFileNameObject(
   const imageFileNamePromises = carResults.map((carResult) =>
     fetchImageFileNames(carResult.id)
   );
-  const imageFileNames = await Promise.all(imageFileNamePromises);
+  const imageFileNames = await Promise.allSettled(imageFileNamePromises);
   let idToFileName = {};
   for (let i = 0; i < carResults.length; i++) {
-    idToFileName[carResults[i].id] = imageFileNames[i];
+    idToFileName[carResults[i].id] = imageFileNames[i].value;
   }
 
   return idToFileName;

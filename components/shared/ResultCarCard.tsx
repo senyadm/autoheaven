@@ -12,6 +12,7 @@ import {
   Sliders,
   Wind,
 } from "lucide-react";
+
 import SvgIcon from "../SvgIcon";
 import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
@@ -49,6 +50,13 @@ import { EyeClosedIcon } from "@radix-ui/react-icons";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "../ui/button";
 import { carsDomain } from "../../src/shared/api";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -217,19 +225,48 @@ const ResultCarCard = ({
 
       <CardContent className="md:py-0 flex space-x-2 md:space-x-4">
         <div className="min-w-[152px] min-h-[108px]">
-          {imageFileNames && imageFileNames[0] && (
-            <AspectRatio
-              ratio={16 / 9}
-              className=" bg-muted w-[152px] h-[108px]"
-            >
-              <Image
-                alt=""
-                src={`${carsDomain}/api/cars/download/${imageFileNames[0]}`}
-                fill
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
-          )}
+          {imageFileNames &&
+            imageFileNames[0] &&
+            (imageFileNames.length > 1 ? (
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+              >
+                <CarouselContent>
+                  {imageFileNames.map((image, index) => (
+                    <CarouselItem key={carDetails.id + " image" + index}>
+                      <AspectRatio
+                        ratio={16 / 9}
+                        className=" bg-muted w-[152px] h-[108px]"
+                      >
+                        <Image
+                          alt=""
+                          src={`${carsDomain}/api/cars/download/${image}`}
+                          fill
+                          className="rounded-md object-cover"
+                        />
+                      </AspectRatio>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute top-1/2 left-0 z-10 bg-gray-100 opacity-50" />
+                <CarouselNext className="absolute top-1/2 right-0 z-10 bg-gray-100 opacity-50" />
+              </Carousel>
+            ) : (
+              <AspectRatio
+                ratio={16 / 9}
+                className=" bg-muted w-[152px] h-[108px]"
+              >
+                <Image
+                  alt=""
+                  src={`${carsDomain}/api/cars/download/${imageFileNames[0]}`}
+                  fill
+                  className="rounded-md object-cover"
+                />
+              </AspectRatio>
+            ))}
         </div>
 
         <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1 ">
