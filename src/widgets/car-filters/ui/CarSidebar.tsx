@@ -157,7 +157,9 @@ const CarSidebar: FC<CarSidebarProps> = ({
     <div
       className={cn(
         "flex flex-col  w-full p-4 px-6 bg-primary-foreground border border-gray-300 shadow-lg rounded-lg overflow-visible mx-auto ",
-        mode === "compact" ? "z-10 mt-[19.5rem]" : "max-w-[500px] "
+        mode === "compact"
+          ? "z-10 mt-[19.5rem] max-w-[1152px]"
+          : "max-w-[500px] "
       )}
     >
       <div className={cn("space-y-4", mode === "default" ? "" : "flex-col")}>

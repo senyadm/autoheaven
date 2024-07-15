@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { Badge } from "../ui/badge";
@@ -77,6 +77,7 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
       acceptedTAC: false,
     },
   });
+
   console.log("clientUsers", clientUsers);
   function onSubmit(values: zod.infer<typeof formSchema>) {
     const { firstname, lastname, email, password, phone } = values;
@@ -97,7 +98,7 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
     clientUsers
       .post("/api/users/register", requestBody)
       .then((response) => {
-        router.push("/login");
+        router.push("/");
         console.log("POST request successful:", response.data);
       })
       .catch((error) => {
