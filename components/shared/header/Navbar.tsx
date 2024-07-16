@@ -241,7 +241,6 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
       city,
       country
     );
-    console.log("🚀 ~ setLocationAndRedirect ~ url:", url);
 
     setLocation({ country, city });
     setCountryLS(country);

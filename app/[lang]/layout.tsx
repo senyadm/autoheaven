@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Navbar } from "@/components/shared/header/Navbar";
 import Footer from "@/components/Footer";
 import { Locale, defaultLocale } from "@/src/app/i18n.config";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,11 +32,11 @@ export default function RootLayout({
 
               {children}
 
-              <Toaster />
               <Footer lang={params.lang ?? defaultLocale} />
             </div>
           </ThemeProvider>
         </Providers>
+        <Toaster />
       </body>
     </html>
   );

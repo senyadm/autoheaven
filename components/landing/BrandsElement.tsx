@@ -17,7 +17,7 @@ const BrandsElement = ({ brandInfo }: BrandsElementProps) => {
     <div>
       <div className="flex">
         <Link
-          href={`/cars?brand=${brandName}`}
+          href={`/cars/${brandName}`}
           className="font-bold mr-4 cursor-pointer hover:underline"
         >
           {brandName}

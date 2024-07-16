@@ -73,7 +73,6 @@ const page = async ({ params, searchParams }) => {
   const staticVehicleData = searchParams.type
     ? await fetchVehicleUIData(searchParams.type)
     : null;
-  console.log("🚀 ~ filteredResponse ~ filteredResponse:", staticVehicleData);
 
   return (
     <MultiStepForm dict={classicText} staticVehicleData={staticVehicleData} />

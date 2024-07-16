@@ -75,7 +75,6 @@ export function MotorcycleComponent({
 
   const handleNavigate = (e: any) => {
     e.preventDefault();
-    console.log(payloadFilters);
     router.push(`${lang}/cars?${payloadFilters}`);
   };
 
@@ -83,8 +82,6 @@ export function MotorcycleComponent({
     let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
     const sendRequest = () => {
-      console.log(filter.model, filter.brand, filter.type_id);
-
       const payloadFilter = {
         max_results: 100000,
         body_type: filter.vehicleBody || "",

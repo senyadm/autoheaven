@@ -6,6 +6,8 @@ import { Filter, VehicleType } from "../../../entities/filters";
 import { vehicleTypes } from "../../../entities/vehicle";
 import { Button } from "../../../../components/ui/button";
 import { cn } from "../../../shared/utils/cn";
+import { setActiveTransportCategory } from "../../../../app/GlobalRedux/Features/transportCategorySlice";
+import { useAppDispatch } from "../../../../app/GlobalRedux/store";
 
 const typeToIcon = {
   [VehicleType.Car]: Car,
@@ -28,11 +30,15 @@ const VehicleTypeTabButtons = ({
   onTabClick,
   currentTab = VehicleType.Car,
 }: VehicleTypeTabButtonsProps) => {
+  const dispatch = useAppDispatch();
   return (
     <div className="flex bg-muted">
       {typeButtons.map((typeButton) => (
         <Button
-          onClick={() => onTabClick("vehicleType", typeButton.value)}
+          onClick={() => {
+            onTabClick("vehicleType", typeButton.value);
+            dispatch(setActiveTransportCategory(typeButton.value));
+          }}
           className={cn(
             "flex items-center w-full items-center space-x-1  m-1 hover:bg-white",
             currentTab === typeButton.value && "bg-white"
@@ -40,7 +46,7 @@ const VehicleTypeTabButtons = ({
           key={typeButton.value}
           variant="ghost"
         >
-          <h3>{typeButton.label}</h3>
+          <h3 className="hidden sm:block">{typeButton.label}</h3>
 
           <typeButton.icon />
         </Button>

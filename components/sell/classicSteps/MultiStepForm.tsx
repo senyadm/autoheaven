@@ -16,6 +16,8 @@ import BodyTypeSelection from "./BodyTypeSelection";
 import MakeSelection from "@/components/sell/classicSteps/MakeSelection";
 import { useRouter } from "next/navigation";
 import { get } from "http";
+import { Button } from "../../ui/button";
+import { toast } from "sonner";
 
 interface VehicleCreateParams {
   vehicleType: string;

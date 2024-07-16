@@ -10,8 +10,6 @@ import carCreationSlice from "./CreateCar/CreateCarSlice";
 
 import { chatSlice } from "./profile/chatSlice";
 import { combineReducers, createStore } from "redux";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const rootReducer = combineReducers({
   carMakes: carMakesReducer,
@@ -24,9 +22,11 @@ const rootReducer = combineReducers({
   chats: chatSlice.reducer,
 });
 
-export const store = configureStore({
-  reducer: rootReducer,
-});
+export const makeStore = () => {
+  return configureStore({
+    reducer: rootReducer,
+  });
+};
 
 // const persistConfig = {
 //   key: "root",
@@ -38,7 +38,10 @@ export const store = configureStore({
 // const persistor = persistStore(store);
 // export { store, persistor };
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+// Infer the type of makeStore
+export type AppStore = ReturnType<typeof makeStore>;
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
 export const useAppDispatch: () => AppDispatch = useDispatch; // Export a hook that can be reused to resolve types
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

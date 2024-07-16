@@ -42,27 +42,11 @@ export async function middleware(request: NextRequest) {
   );
 
   const url = new URL(request.url);
-  // const isURLBrowseVehicles =
-  //   pathname.includes("cars") ||
-  //   pathname.includes("trucks") ||
-  //   pathname.includes("buses") ||
-  //   pathname.includes("motorcycles");
+
   const locale = getLocale(request);
-  // const locationURL = getLocationRedirectURL(arg3, arg2);
-  // // Preserving the original query parameters
+
   const searchParams = url.searchParams.toString();
-  // if (pathnameIsMissingLocale) {
-  //   if (isURLBrowseVehicles) {
-  //     return NextResponse.redirect(
-  //       new URL(
-  //         `/${locale}${
-  //           pathname.startsWith("/") ? "" : "/"
-  //         }${locationURL}/${pathname}${searchParams ? "?" + searchParams : ""}`,
-  //         request.url
-  //       )
-  //     );
-  //   } else {
-  //     console.log("🚀 ~ middleware ~ else:");
+
   if (pathnameIsMissingLocale) {
     return NextResponse.redirect(
       new URL(
@@ -73,25 +57,6 @@ export async function middleware(request: NextRequest) {
       )
     );
   }
-  //   }
-  // }
-
-  // if (
-  //   (isURLBrowseVehicles &&
-  //     (!isValidCountry(arg2) || !isValidCity(arg3, arg2))) ||
-  //   pathname === `/${locale}`
-  // ) {
-  //   const restPath = rest.join("/");
-  //   return NextResponse.redirect(
-  //     new URL(
-  //       `/${locale}${
-  //         pathname.startsWith("/") ? "" : "/"
-  //       }${locationURL}/${restPath}${searchParams ? "?" + searchParams : ""}`,
-  //       request.url
-  //     )
-  //   );
-  // }
-
   if (request.nextUrl.pathname.startsWith("/api")) {
     response.headers.append("Access-Control-Allow-Origin", "*");
     response.headers.append(

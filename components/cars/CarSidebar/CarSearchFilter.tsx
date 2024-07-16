@@ -78,7 +78,7 @@ const CarSearchFilter = ({
       className={cn(
         "w-full mb-6",
         orientation === "horizontal"
-          ? "flex space-x-4 items-center justify-between"
+          ? "lg:flex lg:space-x-4 items-center justify-between"
           : "mt-4"
       )}
     >

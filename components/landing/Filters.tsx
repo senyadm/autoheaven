@@ -102,10 +102,6 @@ function FilterComponent({ className, dict, lang, location }: any) {
     }));
   };
 
-  // useEffect(() => {
-  //   console.log(filters.motos)
-  // }, [filters])
-
   useEffect(() => {
     const fetchTruckList = async () => {
       try {

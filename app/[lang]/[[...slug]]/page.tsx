@@ -18,7 +18,6 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   // read route params
   const m = getMetadataFromRawParams(params);
-  console.log("🚀 ~ m:", m);
   return m;
 }
 
@@ -31,11 +30,9 @@ interface PageProps {
 }
 
 const page = ({ params, searchParams }: PageProps) => {
-  console.log("🚀 ~ page ~ params:", params);
   const { lang, slug } = params;
   if (!lang) return;
   const parsedParams = parsePageParams(slug);
-  console.log("🚀 ~ page ~ parsedParams:", parsedParams);
   const pathParams: FullPageParams = {
     lang: params.lang,
     ...parsedParams,

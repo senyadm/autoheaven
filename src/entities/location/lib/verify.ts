@@ -49,7 +49,13 @@ export function getLocationRedirectURL(
   country: string | undefined
 ) {
   const [vCity, vCountry] = getValidLocation(city, country);
-  return `/${vCity}/${vCountry}`;
+  if (vCountry === "all") {
+    return "";
+  } else if (vCity === "all") {
+    return `/${vCountry}`;
+  } else {
+    return `/${vCountry}/${vCity}`;
+  }
 }
 
 // assume locale is there and is correct

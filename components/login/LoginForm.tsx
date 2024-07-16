@@ -23,7 +23,6 @@ import {
   saveToken,
 } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/app/GlobalRedux/profile/userSlice";
 import { useEffect, useState } from "react";
 import { AuthTranslations } from "@/types";
 import { getlocales } from "@/app/actions";

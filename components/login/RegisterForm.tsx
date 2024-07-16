@@ -78,7 +78,6 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
     },
   });
 
-  console.log("clientUsers", clientUsers);
   function onSubmit(values: zod.infer<typeof formSchema>) {
     const { firstname, lastname, email, password, phone } = values;
     const requestBody = {
@@ -99,7 +98,6 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
       .post("/api/users/register", requestBody)
       .then((response) => {
         router.push("/");
-        console.log("POST request successful:", response.data);
       })
       .catch((error) => {
         // Handle error
@@ -131,7 +129,6 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
-    console.log("new pass", newPassword);
     setPassword(newPassword);
     const [isLong, hasLetters, hasSymbols] = [
       newPassword.length >= 8,
@@ -140,7 +137,6 @@ const RegisterForm: React.FC<LoginFormProps> = ({ lang }) => {
     ];
     setPasswordStrength([isLong, hasLetters, hasSymbols]);
     setCanRegister(isLong && hasLetters && hasSymbols);
-    console.log(passwordStrength, " ", canRegister);
   };
 
   return (

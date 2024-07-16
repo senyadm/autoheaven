@@ -22,7 +22,8 @@ import "react-phone-number-input/style.css";
 import { Textarea } from "@/components/ui/textarea";
 import SvgIcon from "@/components/SvgIcon";
 import { SellClassicTranslations } from "@/types";
-
+import { getFiles } from "../../../src/features/upload-files";
+import { toast } from "sonner";
 const defaultCarDetails = {
   type: "",
   body_type: "",
@@ -61,7 +62,6 @@ const VehicleDetails = ({
   const [value, setValue] = useState<string | undefined>("");
   const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  console.log("🚀 ~ selectedFiles:", selectedFiles);
 
   const [hidden, setHidden] = React.useState(false),
     toggle = () => setHidden(!hidden);
@@ -71,26 +71,9 @@ const VehicleDetails = ({
   };
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    let errorMessage = "";
-
-    if (files && files.length > 5) {
-      errorMessage = "You can only upload up to 5 images.";
-    } else if (files) {
-      for (const file of files) {
-        if (!["image/png", "image/jpeg", "image/gif"].includes(file.type)) {
-          errorMessage = `The file type of ${file.name} is not allowed.`;
-          break;
-        }
-        if (file.size > 5 * 1024 * 1024) {
-          // 5MB limit
-          errorMessage = `The file ${file.name} is too large.`;
-          break;
-        }
-      }
-    }
-    if (!errorMessage && event.target.files) {
-      setSelectedFiles(event.target.files);
+    const { files, errorMessage } = getFiles(event);
+    if (!errorMessage && files) {
+      setSelectedFiles(files);
     }
 
     if (errorMessage) {
@@ -119,16 +102,26 @@ const VehicleDetails = ({
       ...store,
       details: newDetails,
     };
-
+    toast("Loading data. Please wait.");
     createCar(newStore, selectedFiles)
       .then((res) => {
-        uploadImages(res.data.id, selectedFiles);
-        // window.location.href = '/success';
+        toast("Your car listing has been processed.");
+
+        uploadImages(res.data.id, selectedFiles)
+          .then((res) => {
+            toast("Images uploaded successfully.");
+            onNext("final");
+          })
+          .catch((err) => {
+            toast("An error has happened while uploading images.");
+            console.error(err);
+          });
       })
       .catch((err) => {
+        toast("An error has happened.");
+
         console.error(err);
       });
-    onNext("final");
   };
 
   const checkIfEmpty = () => {
@@ -300,4 +293,5 @@ const VehicleDetails = ({
     </Card>
   );
 };
+
 export default VehicleDetails;

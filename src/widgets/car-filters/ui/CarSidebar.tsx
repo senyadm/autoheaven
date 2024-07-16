@@ -213,11 +213,17 @@ const CarSidebar: FC<CarSidebarProps> = ({
         orientation={mode === "default" ? "vertical" : "horizontal"}
       />
 
-      <div className={mode === "compact" ? "flex" : "flex-col space-y-3"}>
+      <div
+        className={
+          mode === "compact"
+            ? "lg:flex lg:flex-row flex-col space-y-1"
+            : "flex-col space-y-3"
+        }
+      >
         <div
           className={cn(
             "flex items-center justify-between space-x-2",
-            mode === "compact" ? "mr-4" : ""
+            mode === "compact" ? " lg:mr-4" : ""
           )}
         >
           <div className="relative">
@@ -268,7 +274,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
         {isFetchInstant || (
           <Button
             onClick={() => replace(redirectURI.current)}
-            className="!ml-auto mr-0"
+            className="!ml-auto mr-0 w-full lg:w-auto"
           >
             See offers
           </Button>
