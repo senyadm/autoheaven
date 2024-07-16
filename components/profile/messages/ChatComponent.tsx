@@ -15,6 +15,7 @@ import { TrashIcon } from "lucide-react";
 import { deleteChat } from "../../../app/GlobalRedux/profile/chatSlice";
 import { carsDomain, clientChats } from "../../../src/shared/api/client";
 import Image from "next/image";
+import { VehicleImage } from "../../../src/entities/vehicle";
 interface ChatComponentProps {
   chat: Chat;
   onChatClick?: (id: number) => void;
@@ -23,7 +24,7 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.chats.currentChat);
   const { chat_id, last_message, chatter_id, carInfo, product_id } = chat;
-  // if (!carInfo) return null;
+  if (!carInfo) return null;
   // const { imageurl, title } = carInfo;
   function handleDelete() {
     console.log("Deleting chat");
@@ -52,7 +53,7 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
             layout="fill" // This will fill the parent container
             objectFit="cover" // Crop the image to cover the container
           /> */}
-            <Image
+            {/* <Image
               alt=""
               src={`api/${carsDomain}/cars/download/${product_id}`}
               fill={true}
@@ -60,7 +61,8 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
               style={{
                 objectFit: "cover",
               }}
-            />
+            /> */}
+            <VehicleImage id={carInfo.id} />
           </div>
         </div>
         <div className="flex flex-col">
