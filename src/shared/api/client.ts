@@ -53,11 +53,11 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
             })
             .catch((error) => {
               // should probably replace it with nextjs redirect
-              if (typeof window !== "undefined") {
-                saveOriginalUrl(window.location.pathname);
-                window.location.replace("/login");
-                localStorage.removeItem("token");
-              }
+              // if (typeof window !== "undefined") {
+              //   saveOriginalUrl(window.location.pathname);
+              //   window.location.replace("/login");
+              //   localStorage.removeItem("token");
+              // }
             });
         }
         return Promise.reject(error);
