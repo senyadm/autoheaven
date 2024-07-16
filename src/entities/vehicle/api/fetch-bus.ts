@@ -4,7 +4,7 @@ import { VehicleType } from "../../filters";
 import { Bus, BusMake, BusType } from "../model/bus";
 import { fetchVehiclesV2 } from "./fetch-v2";
 
-export async function fetchMoto(searchParams: FilterParams) {
+export async function fetchBuses(searchParams: FilterParams) {
   return fetchVehiclesV2(VehicleType.Bus, searchParams);
 }
 

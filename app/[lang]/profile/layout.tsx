@@ -1,14 +1,11 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
 import { Separator } from "@/components/ui/separator";
-import SvgIcon from "@/components/SvgIcon";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../GlobalRedux/store";
+import { useAppDispatch } from "../../GlobalRedux/store";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
-import { fetchUserData } from "../../../src/entities/user/api/userSlice";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import { menuItemType } from "@/interfaces/profile/ProfileMenuItem";

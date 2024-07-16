@@ -46,19 +46,20 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
       (error) => {
         // Any status code outside the range of 2xx causes this function to trigger
         if (error.response && error.response.status === 401) {
-          client
-            .post("/api/users/token/refresh")
-            .then((response) => {
-              saveToken(response.data.access_type);
-            })
-            .catch((error) => {
-              // should probably replace it with nextjs redirect
-              // if (typeof window !== "undefined") {
-              //   saveOriginalUrl(window.location.pathname);
-              //   window.location.replace("/login");
-              //   localStorage.removeItem("token");
-              // }
-            });
+          if (typeof window !== "undefined") {
+            client
+              .post(`/api/users/token/refresh?refresh_token=${getToken()}`)
+              .then((response) => {
+                saveToken(response.data.access_type);
+              })
+              .catch((error) => {
+                console.log("🚀 ~ error:", error);
+                if (window.location.pathname.includes("/login")) return;
+                saveOriginalUrl(window.location.pathname);
+                window.location.replace("/login");
+                localStorage.removeItem("token");
+              });
+          }
         }
         return Promise.reject(error);
       }
