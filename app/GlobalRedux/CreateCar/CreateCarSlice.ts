@@ -118,6 +118,10 @@ function preparePayload(params: CarCreationState): VehiclePayload {
     // other - TO BE IMPLEMENTED (like mobile.de)
     other: "",
     vendor: "",
+    air_conditioning: "",
+    interior_features: "",
+    driving_mode: "",
+    phone_number: "",
   };
 }
 
