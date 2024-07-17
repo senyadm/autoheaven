@@ -46,3 +46,7 @@ export async function fetchVehicleUIData(type: VehicleType) {
       return fetchCarModels();
   }
 }
+
+export async function fetchCarById(id: number) {
+  return await getCars(`/api/cars/${id}`);
+}

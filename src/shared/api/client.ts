@@ -6,7 +6,8 @@ const APIDomains = [
   "https://autoheven-email.vercel.app",
   "https://cars.auto-heaven.com",
   "https://users.auto-heaven.com",
-  "https://chat.auto-heaven.com",
+  "https://seashell-app-p3opp.ondigitalocean.app",
+  // "https://chat.auto-heaven.com",
 ];
 
 export const [emailDomain, carsDomain, usersDomain, chatsDomain] = APIDomains;

@@ -331,6 +331,7 @@ const ResultCarCard = ({
           isMine={seller_id === userId}
           onButtonClick={onButtonClick}
           pageDisplayed={pageDisplayed || "cars"}
+          productId={id}
         />
       </CardFooter>
     </Card>

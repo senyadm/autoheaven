@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import SvgIcon from "../SvgIcon";
 import { Heart } from "lucide-react";
 import { Label } from "../ui/label";
+import Link from "next/link";
 
 type PageDisplayed = "cars" | "profileCars" | "profileAds";
 
@@ -11,6 +12,7 @@ interface ResultCarCardButtonsProps {
   onButtonClick: (buttonType: string) => void;
   isWish?: boolean;
   isMine?: boolean;
+  productId: number;
 }
 
 const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
@@ -18,6 +20,7 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
   onButtonClick,
   isWish = false,
   isMine = false,
+  productId,
 }) => {
   const buttonBaseClasses = "flex items-center justify-center w-full md:w-auto"; // w-full on mobile, auto width on larger screens
   const heartButtonClasses = `${buttonBaseClasses} text-primary hover:text-primary-foreground p-2 md:p-[0.625rem] mb-2 md:mb-0 md:mr-2
@@ -29,9 +32,9 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
       <Button onClick={() => onButtonClick("advertise")}>
         <Label className="text-xs">Advertise</Label>
       </Button>
-      <Button onClick={() => onButtonClick("edit")}>
+      <Link href={`/profile/cars/edit/${productId}`} className="bg-primary">
         <Label className="text-xs">Edit</Label>
-      </Button>
+      </Link>
     </>
   );
   if (isMine) return myCarComponent;

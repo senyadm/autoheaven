@@ -1,7 +1,8 @@
 import { VehicleType } from "../../../shared/model/params";
-import { BusMake } from "./bus";
+import { Bus, BusMake } from "./bus";
+import { Car } from "./car";
 import { Moto, MotoMake } from "./moto";
-import { TruckMake } from "./truck";
+import { Truck, TruckMake } from "./truck";
 
 export const vehicleTypes: {
   value: VehicleType;
@@ -36,6 +37,7 @@ export const enum VehicleTypePage {
   Moto = "motorcycles",
   Truck = "trucks",
 }
+export type Vehicle = Moto | Bus | Truck | Car;
 export const vehicleTypeByPage: Record<VehicleTypePage, VehicleType> = {
   [VehicleTypePage.Car]: VehicleType.Car,
   [VehicleTypePage.Bus]: VehicleType.Bus,

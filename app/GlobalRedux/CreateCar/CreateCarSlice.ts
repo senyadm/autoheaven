@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { clientCars } from "../../../src/shared/api/client";
-import {
-  VehiclePayload,
-  postVehicle,
-} from "../../../src/features/create-vehicle/api/create-vehicle";
+import { postVehicle } from "../../../src/features/create-vehicle/api/create-vehicle";
 import { VehicleType } from "../../../src/shared/model/params";
 import { AxiosResponse } from "axios";
+import { VehiclePayload } from "../../../src/entities/vehicle";
+import { putVehicle } from "../../../src/features/edit-vehicle";
 
 export type ModelName = { id: number; name: string };
 
@@ -85,11 +84,8 @@ const initialState: CarCreationState = {
   wishlist: [],
 };
 
-export async function createCar(
-  params: CarCreationState,
-  selectedFiles: FileList | null
-): Promise<AxiosResponse<any, any>> {
-  const payload: VehiclePayload = {
+function preparePayload(params: CarCreationState): VehiclePayload {
+  return {
     type: params.carType || "",
     type_id: params.type_id || "",
     body_type: params.details?.body_type || "",
@@ -123,20 +119,48 @@ export async function createCar(
     other: "",
     vendor: "",
   };
+}
 
-  const formData = new FormData();
+export async function createCar(
+  params: CarCreationState,
+  selectedFiles: FileList | null
+): Promise<AxiosResponse<any, any>> {
+  const payload: VehiclePayload = preparePayload(params);
 
-  Object.keys(payload).forEach((key: any) => {
-    formData.append(key, payload[key]);
-  });
+  // const formData = new FormData();
 
-  if (selectedFiles) {
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append("images", selectedFiles[i], selectedFiles[i].name);
-    }
-  }
+  // Object.keys(payload).forEach((key: any) => {
+  //   formData.append(key, payload[key]);
+  // });
 
-  return postVehicle(payload, params.carType);
+  // if (selectedFiles) {
+  //   for (let i = 0; i < selectedFiles.length; i++) {
+  //     formData.append("images", selectedFiles[i], selectedFiles[i].name);
+  //   }
+  // }
+  if (!params.carType) throw new Error("Car type is required to create car");
+  return postVehicle(payload, params.carType as VehicleType);
+}
+
+export async function editCar(
+  params: CarCreationState,
+  selectedFiles: FileList | null
+): Promise<AxiosResponse<any, any>> {
+  const payload: VehiclePayload = preparePayload(params);
+
+  // const formData = new FormData();
+
+  // Object.keys(payload).forEach((key: any) => {
+  //   formData.append(key, payload[key]);
+  // });
+
+  // if (selectedFiles) {
+  //   for (let i = 0; i < selectedFiles.length; i++) {
+  //     formData.append("images", selectedFiles[i], selectedFiles[i].name);
+  //   }
+  // }
+  if (!params.carType) throw new Error("Car type is required to edit car");
+  return putVehicle(payload, params.carType as VehicleType);
 }
 
 export async function uploadImages(id: string, files: FileList) {
@@ -222,6 +246,9 @@ export const carCreationSlice = createSlice({
       state.model = null;
       state.details = defaultCarDetails;
     },
+    setCar: (state, action: PayloadAction<CarCreationState>) => {
+      state = action.payload;
+    },
     // addToWishlist: (state, action: PayloadAction<number>) => {
     //   if (!state.wishlist.includes(action.payload)) {
     //     state.wishlist = [...state.wishlist, action.payload];
@@ -249,6 +276,7 @@ export const {
   setModels,
   setDetails,
   resetSelections,
+  setCar,
 } = carCreationSlice.actions;
 // Export reducer
 export default carCreationSlice.reducer;

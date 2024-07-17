@@ -13,17 +13,18 @@ import {
 } from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
 import { deleteChat } from "../../../app/GlobalRedux/profile/chatSlice";
-import { carsDomain, clientChats } from "../../../src/shared/api/client";
-import Image from "next/image";
+import { clientChats } from "../../../src/shared/api/client";
 import { VehicleImage } from "../../../src/entities/vehicle";
 interface ChatComponentProps {
   chat: Chat;
   onChatClick?: (id: number) => void;
 }
+
 const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
   const dispatch = useAppDispatch();
   const currentChat = useAppSelector((state) => state.chats.currentChat);
-  const { chat_id, last_message, chatter_id, carInfo, product_id } = chat;
+  const { chat_id, last_message, chatter_id, product_id, carInfo } = chat;
+
   if (!carInfo) return null;
   // const { imageurl, title } = carInfo;
   function handleDelete() {

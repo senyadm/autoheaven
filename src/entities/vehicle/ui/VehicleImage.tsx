@@ -37,7 +37,7 @@ const VehicleImage = ({ id }: { id: number }) => {
           >
             <CarouselContent>
               {imageFileNames.map((image, index) => (
-                <CarouselItem key={carDetails.id + " image" + index}>
+                <CarouselItem key={image}>
                   <AspectRatio
                     ratio={16 / 9}
                     className=" bg-muted w-[152px] h-[108px]"

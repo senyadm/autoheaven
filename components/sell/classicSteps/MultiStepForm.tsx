@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import VehicleModification from "@/components/sell/classicSteps/Modifications";
 import { SellClassicTranslations } from "@/types";
 import VehicleSpecs from "@/components/sell/classicSteps/VehicleSpecs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { VehicleType } from "../../../src/shared/model/params";
 import BodyTypeSelection from "./BodyTypeSelection";
@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { get } from "http";
 import { Button } from "../../ui/button";
 import { toast } from "sonner";
+import { fetchVehicleUIData } from "../../../src/entities/vehicle";
 
 interface VehicleCreateParams {
   vehicleType: string;
@@ -59,15 +60,25 @@ function getSteps(carType: VehicleType) {
       ];
 }
 
-const MultiStepForm = ({
-  dict,
-  staticVehicleData,
-}: {
+interface MultiStepFormProps {
   dict: SellClassicTranslations;
-}) => {
-  const [currentStep, setCurrentStep] = useState(0);
+  staticVehicleData: any;
+  action?: "create" | "edit";
+}
 
+const MultiStepForm = ({ dict, action = "create" }: MultiStepFormProps) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [staticVehicleData, setStaticVehicleData] = useState<any>(null);
   const carType = useAppSelector((state) => state.createCarProgress.carType);
+  useEffect(() => {
+    async function fn() {
+      "use server";
+      const d = await fetchVehicleUIData(carType as VehicleType);
+      setStaticVehicleData(d);
+    }
+    fn();
+  }, [carType]);
+  if (!staticVehicleData) return null;
   const steps = getSteps(carType);
   const maxSteps = steps.length;
   const nextStep = () => {
@@ -168,6 +179,7 @@ const MultiStepForm = ({
               onNext={nextStep}
               onPrevious={previousStep}
               dict={dict}
+              action={action}
             />
           ),
         };

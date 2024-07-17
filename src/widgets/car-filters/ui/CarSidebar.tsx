@@ -1,30 +1,14 @@
 "use client";
-import {
-  FC,
-  createRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FC, createRef, useCallback, useEffect, useRef, useState } from "react";
 import { Label } from "../../../../components/ui/label";
 import CarSearchFilter from "../../../../components/cars/CarSidebar/CarSearchFilter";
-import { Separator } from "@/components/ui/separator";
-import { HelpCircle, RotateCcw } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 
 import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { Filter, VehicleType } from "../../../shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getNormalizedParams } from "../../../shared/api/cars";
-import {
-  VehicleTypePage,
-  vehicleTypePages,
-  vehicleTypes,
-} from "../../../entities/vehicle/model/vehicle";
-import { Make, MakeModelById } from "../../../shared/model";
-import { MotoMake, MotoType } from "../../../entities/vehicle/model/moto";
 import { TypeSelect, MakeSelect, ModelSelect } from "../../../entities/vehicle";
 import { Button } from "@/components/ui/button";
 import { RangeSliderRef } from "@/components/landing/RangeSlider";
@@ -32,8 +16,6 @@ import {
   FullPageParams,
   getUriFromFilters,
 } from "../../../shared/utils/params";
-import { findIdByMakeName } from "../../../entities/vehicle";
-import ResetButton from "./ResetButton";
 import VehicleTypeSelect from "../../../entities/vehicle/ui/VehicleTypeSelect";
 import { cn } from "../../../shared/utils/cn";
 import VehicleTypeTabButtons from "./VehicleTypeTabButtons";

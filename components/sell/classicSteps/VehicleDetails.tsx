@@ -13,6 +13,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   CarDetails,
   createCar,
+  editCar,
   uploadImages,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { Input } from "@/components/ui/input";
@@ -48,10 +49,18 @@ const defaultCarDetails = {
   istop: false,
 };
 
+interface VehicleDetailsProps {
+  onNext: (mode?: string) => void;
+  onPrevious: () => void;
+  dict: SellClassicTranslations | null;
+  action?: "create" | "edit";
+}
+
 const VehicleDetails = ({
   onNext,
   onPrevious,
   dict,
+  action = "create",
 }: {
   onPrevious: () => void;
   onNext: (mode?: string) => void;
@@ -103,7 +112,8 @@ const VehicleDetails = ({
       details: newDetails,
     };
     toast("Loading data. Please wait.");
-    createCar(newStore, selectedFiles)
+    const submitFunction = action === "create" ? createCar : editCar;
+    submitFunction(newStore, selectedFiles)
       .then((res) => {
         toast("Your car listing has been processed.");
 
