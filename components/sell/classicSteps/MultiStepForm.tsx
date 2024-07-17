@@ -62,7 +62,6 @@ function getSteps(carType: VehicleType) {
 
 interface MultiStepFormProps {
   dict: SellClassicTranslations;
-  staticVehicleData: any;
   action?: "create" | "edit";
 }
 
@@ -72,7 +71,6 @@ const MultiStepForm = ({ dict, action = "create" }: MultiStepFormProps) => {
   const carType = useAppSelector((state) => state.createCarProgress.carType);
   useEffect(() => {
     async function fn() {
-      "use server";
       const d = await fetchVehicleUIData(carType as VehicleType);
       setStaticVehicleData(d);
     }

@@ -70,13 +70,8 @@ async function getStaticVehicleData() {
 const page = async ({ params, searchParams }) => {
   const sellText = (await getlocales(params.lang)).sell;
   const classicText = sellText.classic;
-  const staticVehicleData = searchParams.type
-    ? await fetchVehicleUIData(searchParams.type)
-    : null;
 
-  return (
-    <MultiStepForm dict={classicText} staticVehicleData={staticVehicleData} />
-  );
+  return <MultiStepForm dict={classicText} />;
 };
 
 export default page;
