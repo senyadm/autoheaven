@@ -63,7 +63,7 @@ const MakeSelection = ({
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);
   const isCar = carType === VehicleType.Car;
   const sortedModelsWithHeadings = useMemo(() => {
-      if (!makes) return null;
+      if (!makes && !models) return null;
 
     // const makeNames = getMakesByCarType(carType, makes || models);
     const grouped = isCar
