@@ -46,23 +46,24 @@ import {
   MapPin,
 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   euCountries,
   euCountriesCities,
 } from "@/src/entities/location/model/countries-cities";
 import { useAppSelector } from "@/app/GlobalRedux/store";
 import {
-  getCityLS,
+    getCityLS,
   getCountryLS,
   getLocationShortText,
   getNewLocationURL,
-  setCityLS,
-  setCountryLS,
+  setLocationLS,
+  setLocation,
+  setCountry
 } from "@/src/entities/location";
 import { RootState } from "@/app/GlobalRedux/store";
-import LoadingSpinner from "@/components/shared/LoadingSpinner";
-
+import { pageNamesWithoutLocation } from "@/src/entities/location";
+import { useAppStore } from "@/app/GlobalRedux/useStore";
 const flagComponents: Record<string, any> = {
   AT: AT,
   BE: BE,
@@ -118,52 +119,54 @@ export default function LocationSelect({}: LocationSelectProps) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-      const [selectedCountry, setSelectedCountry] = useState("");
+            const [regionModalOpen, setRegionModalOpen] = useState(false);
+            const toggleRegionModal = () =>
+              setRegionModalOpen(!regionModalOpen);
+            const [location, dispatch] = useAppStore((state) => state.location);
 
-      const countryNameParam = useMemo(
-        () =>
-          euCountries.find((c) => c.code === selectedCountry)?.name || "all",
-        [selectedCountry]
-      );
       const [modalState, setModalState] = useState("country");
       const [cityList, setCityList] = useState<string[]>([]);
       const handleCountrySelect = (countryCode: string) => {
         const isAll = locationAllButtons[0].code === countryCode;
         if (isAll) {
-          setSelectedCountry("all");
           setLocationAndRedirect("all", "all");
           setRegionModalOpen(false);
           return;
         }
-        setSelectedCountry(countryCode);
+        const countryNameFromCode = euCountries.find(
+            (country) => country.code === countryCode
+            )?.name || "all";
+        dispatch(setCountry(countryNameFromCode));
         setCityList(euCountriesCities[countryCode]);
         setModalState("city");
       };
       const handleCitySelect = (cityName: string) => {
-        if (!countryNameParam) return;
+        if (!location.country) return;
         if (locationAllButtons[1].name === cityName) {
-          setLocationAndRedirect(countryNameParam, locationAllButtons[1].code);
+          setLocationAndRedirect(location.country, locationAllButtons[1].code);
         } else {
-          setLocationAndRedirect(countryNameParam, cityName);
+          setLocationAndRedirect(location.country, cityName);
         }
         setModalState("none");
         toggleRegionModal();
       };
 
-      const [regionModalOpen, setRegionModalOpen] = useState(false),
-        toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
-      const [location, setLocation] = useState({ country: "", city: "" });
+  
+     
   function setLocationAndRedirect(country: string, city: string) {
+    
+    dispatch(setLocation({country, city}));
+    setLocationLS({ country, city });
+    if (
+      pageNamesWithoutLocation.some((pageName) => pathname.includes(pageName))
+    )
+      return;
     const url = getNewLocationURL(
       pathname,
       searchParams?.toString(),
       city,
       country
     );
-
-    setLocation({ country, city });
-    setCountryLS(country);
-    setCityLS(city);
     router.replace(url);
 
   }
@@ -181,7 +184,7 @@ export default function LocationSelect({}: LocationSelectProps) {
           setLocationAndRedirect(locationData.country, locationData.city);
         } catch (error) {
           console.error(`Attempt ${attempt}: Failed to fetch location`, error);
-          if (attempt < 10) {
+          if (attempt < 5) {
             setTimeout(() => fetchLocation(attempt + 1), 2000);
           } else {
             throw new Error("Failed to obtain location after 10 attempts");
@@ -204,8 +207,12 @@ export default function LocationSelect({}: LocationSelectProps) {
           className="w-full p-2 items-center space-x-3 border-none shadow-none"
         >
           <MapPin width={16} height={16} />
-          <Label className="hidden md:block text-foreground text-l">
-            {getLocationShortText(countryNameParam, location.city)}
+          <Label
+            className="hidden md:block text-foreground text-l"
+            suppressHydrationWarning
+            // hydration is suppressed because we take it from local storage
+          >
+            {getLocationShortText(location.country, location.city)}
           </Label>
         </Button>
       </DialogTrigger>

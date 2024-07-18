@@ -1,5 +1,6 @@
 import { capitalizeFirstLetter } from "../../../shared/utils/text";
 import { euCountries, euCountriesCities } from "../model/countries-cities";
+import { Location } from "../model/interfaces";
 
 const countryNames = euCountries.map((country) => country.name.toLowerCase());
 
@@ -122,8 +123,8 @@ export function getLocationShortText(
   country: string | undefined,
   city: string
 ) {
-  if (!country) return "Europe";
-  if (!city) return capitalizeFirstLetter(country);
+  if (!country || country === "all") return "Europe";
+  if (!city || city === "all") return capitalizeFirstLetter(country);
   return capitalizeFirstLetter(city);
 }
 
@@ -133,9 +134,16 @@ export function setCountryLS(country: string) {
 export function setCityLS(city: string) {
   localStorage.setItem("city", city);
 }
+export function setLocationLS({city, country}: Location) {
+  setCityLS(city);
+  setCountryLS(country);
+}
 export function getCountryLS() {
   return localStorage.getItem("country");
 }
 export function getCityLS() {
-  return localStorage.getItem("city");
+   return localStorage.getItem("city");
+}
+export function getLocationLS(): Location {
+  return {country: getCountryLS() || "", city: getCityLS() || ""};
 }

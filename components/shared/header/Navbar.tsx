@@ -139,7 +139,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
 
   const [openPopover, setOpenPopover] = useState(false);
 
-
+  const location = useAppSelector((state) => state.location);
   const handleLogout = () => {
     setOpenPopover(false);
     localStorage.removeItem("token");
@@ -153,10 +153,10 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
   const homeLink = useRef(`/${lang}`);
   useEffect(() => {
     homeLink.current = `/${lang}${getLocationRedirectURL(
-      getCityLS(),
-      getCountryLS()
+      location.city,
+     location.country
     )}`;
-  }, [lang]);
+  }, [lang, location.city, location.country]);
 
   return (
     <NavigationMenu className="flex items-center py-3 bg-background border-b sticky top-0 z-20 h-[64px]">
@@ -164,7 +164,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
         className="container mx-auto px-4 flex items-center justify-between"
         style={{ maxWidth: "1140px" }}
       >
-        {backHomeShown ? (
+        
           <Link
             href={homeLink.current}
             className="px-4 flex items-center bg-background text-secondary-foreground space-x-2 h-10 border rounded-lg"
@@ -175,21 +175,7 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
               {menu?.home}
             </Label>
           </Link>
-        ) : (
-          <div className="flex items-center space-x-4">
-            <Link href={homeLink.current}>
-              <Logo height="30px" width="64px" viewBox="0 0 131 50" />
-            </Link>
-
-            <div className="flex items-center border rounded-md pl-2 h-10">
-              <SearchIcon className="w-5 h-5 text-gray-500" />
-              <InputField
-                className="bg-transparent border-none outline-none text-black ml-2 flex-grow rounded-r-md text-muted-foreground w-[150px] w-full"
-                placeholder={menu?.search}
-              />
-            </div>
-          </div>
-        )}
+        
 
         <div className="flex items-center space-x-4">
              <Suspense fallback={<LoadingSpinner/>}>

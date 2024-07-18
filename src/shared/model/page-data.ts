@@ -1,7 +1,6 @@
 import { Locale } from "@/src/app/i18n.config";
 import { PageData } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { set } from "zod";
 
 interface PageParams {
   lang: Locale;

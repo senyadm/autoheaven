@@ -37,7 +37,7 @@ const PlansCard = ({ card }: Props) => {
   return (
     <Card
       key={card.title}
-      className="max-w-[504px] w-full h-min  bg-primary/10 px-12 py-10 border border-primary text-primary-foreground transform transition-transform hover:scale-105"
+      className="max-w-[504px] w-full h-[416px] bg-primary/10 px-12 py-10 border border-primary text-primary-foreground transform transition-transform hover:scale-105"
     >
       <CardHeader className="p-0 pb-4">
         <CardTitle className="text-primary text-lg flex flex-row items-center space-x-2">

@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Locale } from "@/src/app/i18n.config";
 import { PageData } from "@/types";
 import { setDict, setParams } from "@/src/shared/model/page-data";
+import { getLocationLS, setLocation } from "@/src/entities/location";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -30,6 +31,7 @@ export const Providers = ({ children, dict, params }: ProvidersProps) => {
     const dispatch = storeRef.current.dispatch;
     fetchAndSetUser(dispatch);
     dispatch(setParams(params));
+    dispatch(setLocation(getLocationLS()));
   }, []);
   return (
     <Provider store={storeRef.current}>

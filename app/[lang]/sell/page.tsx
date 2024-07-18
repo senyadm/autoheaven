@@ -145,7 +145,7 @@ const Sell = async ({ params: { lang } }: { params: { lang: Locale } }) => {
           }
         />
 
-        <div className="flex flex-col sm:flex-row  space-y-4 w-full justify-center items-center sm:space-x-6 mt-8">
+        <div className="flex flex-col sm:flex-row  space-y-4 sm:space-y-0  w-full justify-center items-center sm:space-x-6 mt-8">
           {cardInfo.map((card) => (
             <PlansCard card={card} key={card.title} />
           ))}
@@ -158,7 +158,7 @@ const Sell = async ({ params: { lang } }: { params: { lang: Locale } }) => {
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row space-y-4 w-full justify-center items-center sm:space-x-6 mt-8">
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 w-full justify-center items-center sm:space-x-6 mt-8">
           {howItWorksInfo.map((card) => (
             <ProcessCard card={card} key={card.title} />
           ))}
