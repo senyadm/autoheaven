@@ -55,7 +55,7 @@ export async function fetchVehiclesV2(
         nonTopVehicles.data.push(carResult);
       }
     }
-    const imageFileNames = await getIdToFileNameObject(carResultsForPage);
+    const imageFileNames = await getIdToFileNameObject(carResultsForPage, vehicleType);
 
     return {
       topVehicles,

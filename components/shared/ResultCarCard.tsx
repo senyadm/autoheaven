@@ -1,6 +1,6 @@
 "use client";
 import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Calendar,
   Car,
@@ -58,6 +58,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import {OptionalCarousel, VehicleImage} from "@/src/entities/vehicle/ui/VehicleImage";
+import { fetchVehicleUIData, findMakeById, findTypeById } from '@/src/entities/vehicle';
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -100,11 +101,14 @@ interface ResultCarCardProps {
   carDetails: any;
   pageDisplayed?: string;
   imageFileNames: string[];
+  vehicleUiData: ReturnType<typeof fetchVehicleUIData>; 
 }
 const ResultCarCard = ({
   carDetails,
   pageDisplayed,
   imageFileNames,
+  vehicleUiData,
+   vehicleType,
 }: ResultCarCardProps) => {
   const {
     title,
@@ -121,9 +125,13 @@ const ResultCarCard = ({
     imageurl,
     make,
     model,
+    make_id,
+    type_id,
     id,
     seller_id,
   } = carDetails;
+  const makeFromId = useMemo(()=>findMakeById(vehicleUiData.makes, make_id), [vehicleUiData.makes, make_id]);
+  const typeFromId =  useMemo(()=>findTypeById(vehicleUiData.types, type_id, vehicleType), [vehicleUiData.types, type_id, vehicleType]);
   const { isPremium } = usePremiumStatus();
   const router = useRouter();
   const iconProps = {
@@ -218,7 +226,7 @@ const ResultCarCard = ({
         </div>
       )}
       <CardHeader className="px-3 pt-3">
-        <CardTitle>{title || `${make || ""} ${model || ""}`}</CardTitle>
+        <CardTitle>{`${make || ""} ${model || ""} ${makeFromId || ""}`}</CardTitle>
         <CardDescription className="text-bold">€ {price}</CardDescription>
       </CardHeader>
 

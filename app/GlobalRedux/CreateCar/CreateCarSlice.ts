@@ -5,6 +5,7 @@ import { VehicleType } from "../../../src/shared/model/params";
 import { AxiosResponse } from "axios";
 import { Vehicle, VehiclePayload } from "../../../src/entities/vehicle";
 import { putVehicle } from "../../../src/features/edit-vehicle";
+import { vehicleTypeToApiKeyword } from '@/src/shared/api/cars';
 
 export type ModelName = { id: number; name: string };
 
@@ -169,13 +170,6 @@ export async function editCar(
   if (!params.carType) throw new Error("Car type is required to edit car");
   return putVehicle(id, params.carType as VehicleType, payload);
 }
-
-const vehicleTypeToApiKeyword = {
-  [VehicleType.Car]: "",
-  [VehicleType.Moto]: "/moto",
-  [VehicleType.Truck]: "/truck",
-  [VehicleType.Bus]: "/bus",
-};
 
 export async function uploadImages(id: string, vehicleType: VehicleType, files: FileList) {
   if(!files) return;

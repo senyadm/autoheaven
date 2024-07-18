@@ -5,6 +5,7 @@ import CarSidebar from "@/src/widgets/car-filters/ui/CarSidebar";
 import {
   fetchCarTypeByParams,
   fetchVehiclesByParams,
+  fetchVehicleUIData,
 } from "@/src/entities/vehicle";
 import { WishlistProvider } from "@/src/entities/user";
 import { ReadonlyURLSearchParams } from "next/navigation";
@@ -40,6 +41,7 @@ const BrowseVehicles = async ({
 
   const allParams: AllParams = { ...pathParams, ...searchParams };
   const normalizedParams = getNormalizedParams(allParams);
+  const vehicleUiData = await fetchVehicleUIData(allParams.vehicleType);
   const carResults = await fetchVehiclesByParams(normalizedParams);
   console.log("🚀 ~ carResults:", carResults);
 
@@ -78,6 +80,8 @@ const BrowseVehicles = async ({
                   searchParams={searchParams}
                   carResultsData={carResults}
                   pageCount={pageCount}
+                  vehicleUiData={vehicleUiData}
+                  allParams={allParams}
                 />
               </WishlistProvider>
             </section>

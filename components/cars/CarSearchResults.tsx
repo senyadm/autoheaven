@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { TypographyLarge } from "../ui/typography";
 import ResultCarCard from "../shared/ResultCarCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,9 +8,7 @@ import { ChevronRight } from "lucide-react";
 
 import { FilterParams } from "../../src/shared/model/params";
 import CarPagination from "./CarPagination";
-import { fetchWishlistCars } from "../../src/entities/user";
-import { RootState, useAppDispatch } from "../../app/GlobalRedux/store";
-import { useAppStore } from "../../app/GlobalRedux/useStore";
+import { fetchVehicleUIData } from "@/src/entities/vehicle";
 interface CarSearchResultsProps {
   lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro";
   searchParams: FilterParams;
@@ -19,6 +17,7 @@ interface CarSearchResultsProps {
     nonTopVehicles: { title: string; data: any[] };
   };
   pageCount: number;
+  vehicleUiData: ReturnType<typeof fetchVehicleUIData>;
 }
 
 const CarSearchResults = ({
@@ -26,9 +25,11 @@ const CarSearchResults = ({
   searchParams,
   carResultsData,
   pageCount,
+  vehicleUiData,
+  allParams
 }: CarSearchResultsProps) => {
   const { topVehicles, nonTopVehicles, imageFileNames } = carResultsData;
-
+  const { vehicleType } = allParams;
   try {
     return (
       <div className="space-y-8">
@@ -46,6 +47,8 @@ const CarSearchResults = ({
                     imageFileNames={imageFileNames[carInfo.id]}
                     carDetails={carInfo}
                     key={`${index}${carInfo.imageurl}`}
+                    vehicleUiData={vehicleUiData}
+                    vehicleType={vehicleType}
                   />
                 ))}
               </Suspense>

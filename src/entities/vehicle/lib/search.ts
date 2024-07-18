@@ -36,12 +36,23 @@ export function searchTypes(
 }
 
 export function findMakeById(makes: Make[], id: string) {
+  if (!makes) return null;
   return makes.find((make) => make.id === id)?.make_name;
 }
 export function findIdByMakeName(
   makes: Make[] | null,
-  name: string | undefined
+  name: string | undefined,
 ) {
   if (!makes) return null;
   return makes.find((make) => make.make_name === name)?.id;
+}
+export function findTypeById(types: CarType[], id: string,  vehicleType: VehicleType) {
+  if(!types) return null;
+  const type = types.find((type) => type.id === id);
+  if (!type) return null;
+  return type[typePropertyName[vehicleType]];
+}
+export function findIdByType(types: CarType[], type: string, vehicleType: VehicleType) {
+  if (!types) return null;
+  return types.find((t) => t[typePropertyName[vehicleType]] === type)?.id;
 }

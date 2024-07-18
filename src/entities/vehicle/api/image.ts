@@ -1,10 +1,13 @@
-import { getCars } from "../../../shared/api";
+import { VehicleType } from '@/src/entities/filters';
+import { getCars, vehicleTypeToApiKeyword } from "../../../shared/api";
 
 export async function fetchImageFileNames(
-  car_listing_id: number
+  car_listing_id: number, vehicleType: VehicleType
 ): Promise<string[]> {
   try {
-    const res = await getCars(`/api/cars/images/${car_listing_id}`);
+    const res = await getCars(
+      `/api/cars/images${vehicleTypeToApiKeyword[vehicleType]}/${car_listing_id}`
+    );
     return res;
   } catch (e) {
     console.error("Error fetching image file names:", e);
@@ -12,10 +15,10 @@ export async function fetchImageFileNames(
   }
 }
 export async function getIdToFileNameObject(
-  carResults
+  carResults, vehicleType: VehicleType
 ): Promise<Record<number, string[]>> {
   const imageFileNamePromises = carResults.map((carResult) =>
-    fetchImageFileNames(carResult.id)
+    fetchImageFileNames(carResult.id, vehicleType)
   );
   const imageFileNames = await Promise.allSettled(imageFileNamePromises);
   let idToFileName = {};

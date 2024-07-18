@@ -78,3 +78,10 @@ export const getCarModelsById = (carModels: Record<string, Make>) => {
     return makesAcc;
   }, {} as MakeModelById);
 };
+
+export const vehicleTypeToApiKeyword = {
+  [VehicleType.Car]: "",
+  [VehicleType.Moto]: "/moto",
+  [VehicleType.Truck]: "/truck",
+  [VehicleType.Bus]: "/bus",
+};

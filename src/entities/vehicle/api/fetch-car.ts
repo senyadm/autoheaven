@@ -1,4 +1,5 @@
 
+import { VehicleType } from '@/src/entities/filters';
 import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { getCarModelsById } from "../../../shared/api/cars";
 import {
@@ -85,7 +86,7 @@ export async function getCarResults(params: AllParams) {
         nonTopVehicles.data.push(carResult);
       }
     }
-    const imageFileNames = await getIdToFileNameObject(carResultsForPage);
+    const imageFileNames = await getIdToFileNameObject(carResultsForPage, VehicleType.Car);
     return {
       topVehicles,
       nonTopVehicles,
