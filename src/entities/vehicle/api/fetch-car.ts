@@ -1,7 +1,4 @@
-import {
-  CarFetchPayload,
-  CarFetchPayloadKeys,
-} from "../../../features/create-vehicle";
+
 import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { getCarModelsById } from "../../../shared/api/cars";
 import {
@@ -11,6 +8,7 @@ import {
   parseModels,
 } from "../../../shared/model";
 import { AllParams } from "../../../shared/utils/params";
+import { CarFetchPayload, CarFetchPayloadKeys } from "../model/payloads";
 import { fetchImageFileNames, getIdToFileNameObject } from "./image";
 
 function getCarPayload(params: AllParams): CarFetchPayload {

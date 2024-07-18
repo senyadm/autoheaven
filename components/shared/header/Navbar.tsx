@@ -59,7 +59,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
 import SvgIcon from "../../SvgIcon";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
@@ -67,7 +67,7 @@ import {
   euCountries,
   euCountriesCities,
 } from "@/src/entities/location/model/countries-cities";
-import { useAppSelector } from "../../../app/GlobalRedux/store";
+import { RootState, useAppSelector } from "../../../app/GlobalRedux/store";
 import { validateToken } from "@/src/shared/utils/auth";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/src/entities/user/api/userSlice";
@@ -82,6 +82,8 @@ import {
   setCityLS,
   setCountryLS,
 } from "../../../src/entities/location";
+import LocationSelect from "@/src/entities/location/ui/LocationSelect";
+import LoadingSpinner from "../LoadingSpinner";
 
 const flagComponents: Record<string, any> = {
   AT: AT,
@@ -131,100 +133,12 @@ const locationAllButtons = [
 
 export function Navbar({ params }: { params: { lang: Locale } }) {
   const { lang } = params;
-  const { replace } = useRouter();
-  const [menu, setMenu] = useState<NavbarData | null>(null);
-  const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const validate = async () => {
-      const doesExist = await validateToken();
-
-      if (!doesExist) {
-        dispatch(logOut());
-      }
-    };
-
-    validate();
-  }, [dispatch]);
-
-  useEffect(() => {
-    localStorage.removeItem;
-
-    async function fetchData() {
-      try {
-        const { navbar } = await getlocales(lang);
-        setMenu(navbar);
-      } catch (error) {
-        console.error("Error fetching tools data:", error);
-      }
-    }
-
-    if (!menu) {
-      fetchData();
-    }
-  }, [lang, menu]);
-  const [selectedCountry, setSelectedCountry] = useState("");
-
-  const countryNameParam = useMemo(
-    () => euCountries.find((c) => c.code === selectedCountry)?.name || "all",
-    [selectedCountry]
-  );
-  const [modalState, setModalState] = useState("country");
-  const [cityList, setCityList] = useState<string[]>([]);
-  const handleCountrySelect = (countryCode: string) => {
-    const isAll = locationAllButtons[0].code === countryCode;
-    if (isAll) {
-      setSelectedCountry("all");
-      setLocationAndRedirect("all", "all");
-      setRegionModalOpen(false);
-      return;
-    }
-    setSelectedCountry(countryCode);
-    setCityList(euCountriesCities[countryCode]);
-    setModalState("city");
-  };
-  const handleCitySelect = (cityName: string) => {
-    if (!countryNameParam) return;
-    if (locationAllButtons[1].name === cityName) {
-      setLocationAndRedirect(countryNameParam, locationAllButtons[1].code);
-    } else {
-      setLocationAndRedirect(countryNameParam, cityName);
-    }
-    setModalState("none");
-    toggleRegionModal();
-  };
+ const dict = useAppSelector((state: RootState) => state.dictionary.dict);
+ const menu = dict?.navbar; 
+   const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   const [openPopover, setOpenPopover] = useState(false);
-  const [regionModalOpen, setRegionModalOpen] = useState(false),
-    toggleRegionModal = () => setRegionModalOpen(!regionModalOpen);
-  const [location, setLocation] = useState({ country: "", city: "" });
 
-  const fetchLocation = async (attempt = 1) => {
-    try {
-      const ipResponse = await fetch("https://api.ipify.org?format=json");
-      const ipData = await ipResponse.json();
-      const ip = ipData.ip;
-
-      const locationResponse = await fetch(`http://ip-api.com/json/${ip}`);
-      const locationData = await locationResponse.json();
-      setLocationAndRedirect(locationData.country, locationData.city);
-    } catch (error) {
-      console.error(`Attempt ${attempt}: Failed to fetch location`, error);
-      if (attempt < 10) {
-        setTimeout(() => fetchLocation(attempt + 1), 2000);
-      } else {
-        throw new Error("Failed to obtain location after 10 attempts");
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!getCountryLS() || !getCityLS()) {
-      setRegionModalOpen(true);
-      fetchLocation();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleLogout = () => {
     setOpenPopover(false);
@@ -233,27 +147,9 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
   };
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  function setLocationAndRedirect(country: string, city: string) {
-    const url = getNewLocationURL(
-      pathname,
-      searchParams?.toString(),
-      city,
-      country
-    );
 
-    setLocation({ country, city });
-    setCountryLS(country);
-    setCityLS(city);
-    replace(url);
-    // setLocation({ country, city });
-    // const url = [lang, country, city].join("/");
-    // router.push(`/${lang}/countr`);
-  }
   const backHomeShown = pathname === "/login" || pathname === "/profile";
-  const handleClose = () => {
-    setRegionModalOpen(!regionModalOpen);
-  };
+
   const homeLink = useRef(`/${lang}`);
   useEffect(() => {
     homeLink.current = `/${lang}${getLocationRedirectURL(
@@ -296,72 +192,10 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
         )}
 
         <div className="flex items-center space-x-4">
-          <Dialog open={regionModalOpen} onOpenChange={handleClose}>
-            <DialogTrigger asChild>
-              <Button
-                onClick={toggleRegionModal}
-                variant="outline"
-                size="icon"
-                className="w-full p-2 items-center space-x-3 border-none shadow-none"
-              >
-                <MapPin width={16} height={16} />
-                <Label className="hidden md:block text-foreground text-l">
-                  {getLocationShortText(countryNameParam, location.city)}
-                </Label>
-              </Button>
-            </DialogTrigger>
-            {modalState === "country" ? (
-              <DialogContent className="overflow-y-auto">
-                <DialogTitle className="flex justify-between items-center p-4">
-                  <Label className="text-lg font-bold">{menu?.country}</Label>
-                  <Label className="md:hidden me-4 md:me-0 text-foreground text-l">
-                    Current location - {location.city}
-                  </Label>
-                </DialogTitle>
-                <div className="grid grid-cols-2 h-[500px] pb-5 md:h-full md:grid-cols-3 gap-4">
-                  {[...euCountries, locationAllButtons[0]].map((country) => {
-                    const isAll = locationAllButtons[0].name === country.name;
-                    const FlagIcon = isAll || flagComponents[country.code];
+             <Suspense fallback={<LoadingSpinner/>}>
 
-                    return (
-                      <button
-                        key={country.code}
-                        onClick={() => handleCountrySelect(country.code)}
-                        className="flex items-center space-x-2 pl-4 p-1 border rounded hover:bg-gray-100"
-                      >
-                        {isAll || <FlagIcon className="w-5 h-auto" />}
-                        <span>{country.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </DialogContent>
-            ) : (
-              <DialogContent className="overflow-y-auto max-h-[80vh]">
-                <DialogTitle className="flex justify-between items-center p-4">
-                  <Label className="text-lg font-bold">{menu?.city}</Label>
-                  <Button
-                    variant="default"
-                    onClick={() => setModalState("country")}
-                    className="p-2 border rounded me-4 md:me-0"
-                  >
-                    {menu?.country_select}
-                  </Button>
-                </DialogTitle>
-                <div className="grid grid-cols-3 gap-4">
-                  {[...cityList, locationAllButtons[1].name]?.map((city) => (
-                    <button
-                      key={city + "button"}
-                      onClick={() => handleCitySelect(city)}
-                      className="p-2 border rounded hover:bg-gray-100"
-                    >
-                      {city}
-                    </button>
-                  ))}
-                </div>
-              </DialogContent>
-            )}
-          </Dialog>
+<LocationSelect />
+</Suspense>
           {userLoggedIn ? (
             <>
               <Button

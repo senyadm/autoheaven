@@ -2,13 +2,15 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginForm from "@/components/login/LoginForm";
 import RegisterForm from "@/components/login/RegisterForm";
-import { Locale } from "@/i18n.config";
+import { Locale } from "@/src/app/i18n.config";
 
-const Login = ({
-  children,
+export async function generateStaticParams() {
+  return [{ lang: "en" }, { lang: "ru" }];
+}
+
+const LoginPage = ({
   params,
 }: {
-  children: React.ReactNode;
   params: { lang: Locale };
 }) => {
   return (
@@ -29,4 +31,4 @@ const Login = ({
   );
 };
 
-export default Login;
+export default LoginPage;

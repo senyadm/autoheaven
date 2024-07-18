@@ -5,12 +5,17 @@ import { createWrapper } from "next-redux-wrapper";
 import React, { ReactNode, useEffect, useRef } from "react";
 import { AppStore, makeStore } from "./store";
 import { fetchAndSetUser } from "../../src/shared/utils/user";
+import { ThemeProvider } from "@/components/global/ThemeProvider";
+import { Locale } from "@/src/app/i18n.config";
+import { PageData } from "@/types";
+import { setDict } from "@/src/shared/model/internationalization";
 
 interface ProvidersProps {
   children: ReactNode;
+ dict: PageData
 }
 
-export const Providers = ({ children }: ProvidersProps) => {
+export const Providers = ({ children, dict }: ProvidersProps) => {
   const storeRef = useRef<AppStore>();
   if (!storeRef.current) {
     // Create the store instance the first time this renders
@@ -18,7 +23,20 @@ export const Providers = ({ children }: ProvidersProps) => {
   }
   useEffect(() => {
     if (!storeRef.current) return;
-    fetchAndSetUser(storeRef.current.dispatch);
+    const dispatch = storeRef.current.dispatch;
+    fetchAndSetUser(dispatch);
+    dispatch(setDict(dict));
   }, []);
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="light"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </Provider>
+  );
 };
