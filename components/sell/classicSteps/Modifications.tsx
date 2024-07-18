@@ -104,7 +104,7 @@ const VehicleModification = ({
     );
   }, [store]);
 
-  const handleHorsePower = (horsepower: string) => {
+  const handleHorsePower = (horse_power: string) => {
     dispatch(setDetails({ ...store, horse_power }));
   };
 
@@ -239,7 +239,6 @@ const VehicleModification = ({
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
             type="number"
             id="year"
-            defaultValue={new Date().getFullYear()}
             min={1970}
             max={new Date().getFullYear()}
             name="year"
@@ -260,7 +259,6 @@ const VehicleModification = ({
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
             type="number"
             id="power"
-            defaultValue={1}
             min={1}
             max={5000}
             name="power"

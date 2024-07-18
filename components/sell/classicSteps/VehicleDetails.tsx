@@ -37,7 +37,7 @@ const defaultCarDetails = {
   price: 0,
   description: "",
   fuel_consumption: "",
-  horsepower: "",
+  horse_power: "",
   cubic_capacity: "",
   country_origin: "",
   interior_color: "",
