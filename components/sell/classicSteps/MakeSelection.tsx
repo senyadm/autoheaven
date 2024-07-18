@@ -58,19 +58,21 @@ const MakeSelection = ({
   dict: SellClassicTranslations | null;
 }) => {
   const { makes, models } = staticVehicleData;
-  if(!makes ) return null;
   const [search, setSearch] = useState<string>("");
   const { isMakeChosen } = useMake();
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);
   const isCar = carType === VehicleType.Car;
   const sortedModelsWithHeadings = useMemo(() => {
-    const makeNames = getMakesByCarType(carType, makes || models);
+      if (!makes) return null;
+
+    // const makeNames = getMakesByCarType(carType, makes || models);
     const grouped = isCar
       ? Object.groupBy(Object.keys(models), (make) => make[0].toUpperCase())
       : Object.groupBy(makes, (make) => make.make_name[0].toUpperCase());
     return grouped;
-  }, [carType, isCar, makes, models]);
+  }, [isCar, makes, models]);
   const filteredModels = useMemo(() => {
+    if (!sortedModelsWithHeadings) return null;
     const lettersAndModels = Object.entries(
       // searchModels(search, sortedModelsWithHeadings)
       sortedModelsWithHeadings
@@ -101,7 +103,7 @@ const MakeSelection = ({
         </div>
       </CardHeader>
       <CardContent className="border shadow-md border-rounded w-full p-4 column-container">
-        {filteredModels.map(([letter, modelsArr]) => (
+        {filteredModels?.map(([letter, modelsArr]) => (
           <div key={letter} className="break-inside-avoid mb-4">
             <Label className="text-xl font-bold text-primary">{letter}</Label>
             {modelsArr?.map((make, index) => (
