@@ -57,6 +57,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import {OptionalCarousel, VehicleImage} from "@/src/entities/vehicle/ui/VehicleImage";
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -105,7 +106,6 @@ const ResultCarCard = ({
   pageDisplayed,
   imageFileNames,
 }: ResultCarCardProps) => {
-  console.log("🚀 ~ imageFileNames:", imageFileNames);
   const {
     title,
     price,
@@ -223,49 +223,11 @@ const ResultCarCard = ({
       </CardHeader>
 
       <CardContent className="md:py-0 flex space-x-2 md:space-x-4">
-        <div className="min-w-[152px] min-h-[108px]">
-          {imageFileNames &&
-            imageFileNames[0] &&
-            (imageFileNames.length > 1 ? (
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-              >
-                <CarouselContent>
-                  {imageFileNames.map((image, index) => (
-                    <CarouselItem key={carDetails.id + " image" + index}>
-                      <AspectRatio
-                        ratio={16 / 9}
-                        className=" bg-muted w-[152px] h-[108px]"
-                      >
-                        <Image
-                          alt=""
-                          src={`${carsDomain}/api/cars/download/${image}`}
-                          fill
-                          className="rounded-md object-cover"
-                        />
-                      </AspectRatio>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute top-1/2 left-0 z-10 bg-gray-100 opacity-50" />
-                <CarouselNext className="absolute top-1/2 right-0 z-10 bg-gray-100 opacity-50" />
-              </Carousel>
-            ) : (
-              <AspectRatio
-                ratio={16 / 9}
-                className=" bg-muted w-[152px] h-[108px]"
-              >
-                <Image
-                  alt=""
-                  src={`${carsDomain}/api/cars/download/${imageFileNames[0]}`}
-                  fill
-                  className="rounded-md object-cover"
-                />
-              </AspectRatio>
-            ))}
+        <div className="w-52 h-full">
+          {
+            imageFileNames ? <OptionalCarousel imageFileNames={imageFileNames} imageOptions={{fill:true}}/>:
+            <VehicleImage id={id} imageOptions={{fill:true}} />
+            }
         </div>
 
         <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1 ">

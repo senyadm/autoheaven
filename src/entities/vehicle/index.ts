@@ -8,5 +8,5 @@ export * from "./model/vehicle";
 export { default as MakeSelect } from "./ui/MakeSelect";
 export { default as ModelSelect } from "./ui/ModelSelect";
 export { default as TypeSelect } from "./ui/TypeSelect";
-export { default as VehicleImage } from "./ui/VehicleImage";
+export { VehicleImage } from "./ui/VehicleImage";
 export * from "./model/payloads";

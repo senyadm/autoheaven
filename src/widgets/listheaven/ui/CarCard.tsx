@@ -10,6 +10,7 @@ import SteeringWheel from "@/public/icons/listheaven/steering-wheel.svg";
 import Badges from "./Badges";
 import DetailsTable from "./DetailsTable";
 import { Button } from "../../../../components/ui/button";
+import { VehicleImage } from "@/src/entities/vehicle";
 
 interface SliderCarCardProps {
   carDetails: Car;
@@ -54,22 +55,21 @@ function SliderCarCard({
         }}
         className="flex items-center justify-center w-full"
       >
-        <Image
+        {/* <Image
           src={`${carsDomain}/api/cars/download/${id}`}
           alt={make + " " + model}
           width={1920}
           height={1080}
           className="min-[1920px]:w-[100vw] absolute top-0 left-0 h-full object-cover blur-sm"
           draggable={false}
-        />
-        <Image
-          src={`${carsDomain}/api/cars/download/${id}`}
-          alt={make + " " + model}
-          width={1920}
-          height={1080}
-          className="min-[1920px]:w-[100vw] absolute"
-          draggable={false}
-        />
+        /> */}
+        <VehicleImage id={id} imageClassName="absolute" imageOptions={{
+          // width: 1920,
+          // height: 1080,
+          fill: true,
+          draggable: false,
+        }}/>
+        
       </div>
       <div className="absolute text-primary bottom-0 left-0 text-white w-full p-8">
         <h1 className="text-2xl font-bold">{`${id} ${make} ${model}, ${year}`}</h1>

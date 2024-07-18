@@ -44,7 +44,6 @@ const ListHeavenClient = ({
               vehicleType: null,
               make: null,
               model: null,
-              model: null,
             })}
             lang={"en"}
           >
