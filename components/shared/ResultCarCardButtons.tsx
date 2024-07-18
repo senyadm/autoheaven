@@ -28,14 +28,17 @@ const ResultCarCardButtons: React.FC<ResultCarCardButtonsProps> = ({
   const contactButtonClasses = `${buttonBaseClasses} bg-primary text-secondary px-2 py-2 md:px-2 md:py-3 mb-2 md:mb-0`;
 
   const myCarComponent = (
-    <>
+    <div className="flex space-x-2">
       <Button onClick={() => onButtonClick("advertise")}>
         <Label className="text-xs">Advertise</Label>
       </Button>
-      <Link href={`/profile/cars/edit/${productId}`} className="bg-primary">
-        <Label className="text-xs">Edit</Label>
+      <Link
+        href={`/profile/cars/edit/${productId}`}
+        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+      >
+        <Label className="text-xs text-secondary cursor-pointer">Edit</Label>
       </Link>
-    </>
+    </div>
   );
   if (isMine) return myCarComponent;
   const pageDisplayedToButtons = {
