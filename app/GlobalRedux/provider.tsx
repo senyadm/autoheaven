@@ -21,12 +21,14 @@ export const Providers = ({ children, dict, params }: ProvidersProps) => {
   if (!storeRef.current) {
     // Create the store instance the first time this renders
     storeRef.current = makeStore();
+        const dispatch = storeRef.current.dispatch;
+        dispatch(setDict(dict));
+
   }
   useEffect(() => {
     if (!storeRef.current) return;
     const dispatch = storeRef.current.dispatch;
     fetchAndSetUser(dispatch);
-    dispatch(setDict(dict));
     dispatch(setParams(params));
   }, []);
   return (
