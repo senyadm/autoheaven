@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { clientCars, clientUsers } from "../../../shared/api/client";
+import { clientCars, clientCarsForceAuth, clientUsers } from "../../../shared/api/client";
 import { Car } from "../../../../interfaces/shared/Car";
 import { UserAPI } from "../../../../interfaces/shared/users";
 
@@ -80,7 +80,7 @@ export const addToWishlistThunk = createAsyncThunk(
   "user/addToWishlist",
   async (id: number, { dispatch }) => {
     try {
-      const response = await clientCars.post(
+      const response = await clientCarsForceAuth.post(
         `/api/cars/wishlist?car_id=${id}`,
         {
           car_id: id,
@@ -101,7 +101,7 @@ export const deleteFromWishlistThunk = createAsyncThunk(
   "user/deleteFromWishlist",
   async (id: number, { dispatch }) => {
     try {
-      const response = await clientCars.delete(`/api/cars/wishlist/${id}`);
+      const response = await clientCarsForceAuth.delete(`/api/cars/wishlist/${id}`);
 
       dispatch(deleteFromWishlist(id));
 
@@ -117,7 +117,7 @@ export const fetchWishlistCars = createAsyncThunk(
   "user/fetchWishlistCars",
   async (_, { dispatch }) => {
     try {
-      const response = await clientCars.get("/api/cars/wishlist/");
+      const response = await clientCarsForceAuth.get("/api/cars/wishlist/");
       dispatch(
         setWishlist(response.data.map((car: any) => car.id) as number[])
       );
@@ -133,7 +133,7 @@ export const fetchUserCars = createAsyncThunk(
   "user/fetchUserCars",
   async (_, { dispatch }) => {
     try {
-      const response = await clientCars.get("/api/cars/user/");
+      const response = await clientCarsForceAuth.get("/api/cars/user/");
       dispatch(setCars(response.data));
       return response.data;
     } catch (error) {

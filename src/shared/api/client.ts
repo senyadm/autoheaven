@@ -12,10 +12,9 @@ const APIDomains = [
 
 export const [emailDomain, carsDomain, usersDomain, chatsDomain] = APIDomains;
 
-const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
-  (url) => {
+function getAxiosClient(domain: string, forceAuth: boolean){
     const client = axios.create({
-      baseURL: url,
+      baseURL: domain,
       timeout: 20000, // Increased timeout
       headers: {
         "ngrok-skip-browser-warning": true,
@@ -39,7 +38,8 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
     );
 
     // Response interceptor
-    client.interceptors.response.use(
+    if(forceAuth){ 
+      client.interceptors.response.use(
       (response) => {
         // Any status code that lies within the range of 2xx causes this function to trigger
         return response;
@@ -64,13 +64,24 @@ const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
         }
         return Promise.reject(error);
       }
-    );
+    );}
 
     return client;
+}
+
+const [clientEmail, clientCars, clientUsers, clientChats] = APIDomains.map(
+  (domain) => {
+    return getAxiosClient(domain, false);
   }
 );
 
-export { clientEmail, clientCars, clientUsers, clientChats };
+const [_, clientCarsForceAuth, clientUsersForceAuth, clientChatsForceAuth] = APIDomains.map(
+  (domain) => {
+    return getAxiosClient(domain, true);
+  }
+);
+
+export { clientEmail, clientCars, clientUsers, clientChats, clientCarsForceAuth, clientUsersForceAuth, clientChatsForceAuth };
 
 // sometimes fetch functionality is needed instead of axios due to how next works
 // for example fetch requests are cached and can be revalidated every hour

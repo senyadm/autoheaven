@@ -1,5 +1,5 @@
 "use client";
-import { clientUsers } from "@/src/shared/api/client";
+import { clientUsers, clientUsersForceAuth } from "@/src/shared/api/client";
 import { setUser } from "../../entities/user/api/userSlice";
 import { AppDispatch } from "../../../app/GlobalRedux/store";
 
@@ -16,8 +16,9 @@ import { AppDispatch } from "../../../app/GlobalRedux/store";
 //   }
 // };
 
-export function fetchAndSetUser(dispatch: AppDispatch) {
-  clientUsers
+export function fetchAndSetUser(dispatch: AppDispatch, forceAuth = false) {
+  const client = forceAuth ? clientUsersForceAuth : clientUsers;
+  client
     .get("/api/users/me/")
     .then((userResponse) => {
       dispatch(setUser(userResponse.data));

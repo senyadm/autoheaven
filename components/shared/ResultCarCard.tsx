@@ -171,9 +171,8 @@ const ResultCarCard = ({
   const [showNumber, setShowNumber] = useState(false);
   const onButtonClick = (type: string) => {
     // const item = getToken();
-    if (!wishlist) return;
     if (!userId) {
-      fetchAndSetUser(dispatch);
+      fetchAndSetUser(dispatch, true);
       return;
     }
 

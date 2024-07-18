@@ -17,7 +17,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: Locale; country: string; city: string };
 }) {
-  const dict = getlocales(params.lang);
+  const dict = await getlocales(params.lang);
   return (
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>

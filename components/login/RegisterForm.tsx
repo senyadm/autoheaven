@@ -20,10 +20,6 @@ import { Badge } from "../ui/badge";
 import { clientUsers } from "../../src/shared/api/client";
 import { useRouter } from "next/navigation";
 
-clientUsers.get("/api/users").then((response) => {
-  console.log("GET request successful:", response.data);
-});
-
 const formSchema = zod.object({
   firstname: zod.string().min(2, {
     message: "Name must be at least 2 characters",
