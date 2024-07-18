@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ProfileNavigationMenu from "@/components/profile/ProfileNavigationMenu";
 import { Separator } from "@/components/ui/separator";
-import { useAppDispatch } from "../../GlobalRedux/store";
+import { useAppDispatch, useAppSelector } from "../../GlobalRedux/store";
 import { Locale } from "@/i18n.config";
 import { SideBarItemsDictionary } from "@/types";
 import { getlocales } from "@/app/actions";
@@ -62,31 +62,14 @@ const navigationMenuVehiclesItemsInfo: itemInfoModel[] = [
   },
 ];
 
-const Layout = ({
+const ProfileLayout = ({
   params: { lang },
   children,
 }: {
   params: { lang: Locale };
 }) => {
-  const dispatch = useAppDispatch();
-
-  const [dict, setDict] = useState<SideBarItemsDictionary | null>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { sidebarItems } = await getlocales(lang);
-        setDict(sidebarItems);
-      } catch (error) {
-        console.error("Error fetching tools data:", error);
-      }
-    }
-
-    if (!dict) {
-      fetchData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang]);
+  const dictionary = useAppSelector((state) => state.pageData.dict);
+  const dict = dictionary?.sidebarItems;
 
   const pathname = usePathname();
   const router = useRouter();
@@ -149,4 +132,4 @@ const Layout = ({
   );
 };
 
-export default Layout;
+export default ProfileLayout;

@@ -105,7 +105,7 @@ const VehicleModification = ({
   }, [store]);
 
   const handleHorsePower = (horsepower: string) => {
-    dispatch(setDetails({ ...store, horsepower }));
+    dispatch(setDetails({ ...store, horse_power }));
   };
 
   const handleConsumption = (consumption: string, type: string) => {
@@ -199,7 +199,7 @@ const VehicleModification = ({
               id="cons"
               name="cons"
               placeholder="Summer"
-              value={store?.summerConsumption}
+              value={store?.consumption_summer}
               onChange={(e) => handleConsumption(e.target.value, "summer")}
             />
             <Snowflake width={12} height={12} />
@@ -209,7 +209,7 @@ const VehicleModification = ({
               id="cons"
               name="cons"
               placeholder="Winter"
-              value={store?.winterConsumption}
+              value={store?.consumption_winter}
               onChange={(e) => handleConsumption(e.target.value, "winter")}
             />
             <Sun width={12} height={12} />
@@ -221,7 +221,7 @@ const VehicleModification = ({
               max={5000}
               name="cons"
               placeholder="Highway"
-              value={store?.highwayConsumption}
+              value={store?.consumption_highway}
               onChange={(e) => handleConsumption(e.target.value, "highway")}
             />
             <Kanban width={12} height={12} />
@@ -265,7 +265,7 @@ const VehicleModification = ({
             max={5000}
             name="power"
             placeholder="Horse Power"
-            value={store?.horsepower}
+            value={store?.horse_power}
             onChange={(e) => handleHorsePower(e.target.value)}
           />
         </div>

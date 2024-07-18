@@ -113,7 +113,7 @@ interface LocationSelectProps {
     }
 
 export default function LocationSelect({}: LocationSelectProps) {
-    const dict = useAppSelector((state: RootState) => state.dictionary.dict);
+    const dict = useAppSelector((state: RootState) => state.pageData.dict);
     const menu = dict?.navbar;     
     const router = useRouter();
     const pathname = usePathname();

@@ -3,7 +3,7 @@ import { clientCars } from "../../../src/shared/api/client";
 import { postVehicle } from "../../../src/features/create-vehicle/api/create-vehicle";
 import { VehicleType } from "../../../src/shared/model/params";
 import { AxiosResponse } from "axios";
-import { VehiclePayload } from "../../../src/entities/vehicle";
+import { Vehicle, VehiclePayload } from "../../../src/entities/vehicle";
 import { putVehicle } from "../../../src/features/edit-vehicle";
 
 export type ModelName = { id: number; name: string };
@@ -31,7 +31,7 @@ export interface CarDetails {
   vehicle_id: number;
   country_origin: string;
   cubic_capacity: string;
-  horsepower: string;
+  horse_power: string;
   fuel_consumption: string;
   interior_color: string;
 }
@@ -48,7 +48,7 @@ const defaultCarDetails = {
   consumption_highway: "",
   consumption_summer: "",
   consumption_winter: "",
-  horsepower: "",
+  horse_power: "",
   cubic_capacity: "",
   country_origin: "",
   interior_color: "",
@@ -62,6 +62,8 @@ const defaultCarDetails = {
   drivetrain: "",
   istop: false,
 };
+
+const carDetailsKeys = Object.keys(defaultCarDetails);
 
 interface CarCreationState {
   carType: string | null;
@@ -110,7 +112,7 @@ function preparePayload(params: CarCreationState): VehiclePayload {
     vehicle_number: params.details?.vehicle_id.toString(),
     origin: params.details?.country_origin || "",
     cubic_capacity: Number(params.details?.cubic_capacity) || 0,
-    horse_power: params.details?.horsepower || "",
+    horse_power: params.details?.horse_power || "",
     consumption_winter: Number(params.details?.consumption_winter) || "",
     consumption_summer: Number(params.details?.consumption_summer) || "",
     consumption_highway: Number(params.details?.consumption_highway) || "",
@@ -147,6 +149,7 @@ export async function createCar(
 }
 
 export async function editCar(
+  id,
   params: CarCreationState,
   selectedFiles: FileList | null
 ): Promise<AxiosResponse<any, any>> {
@@ -164,10 +167,11 @@ export async function editCar(
   //   }
   // }
   if (!params.carType) throw new Error("Car type is required to edit car");
-  return putVehicle(payload, params.carType as VehicleType);
+  return putVehicle(id, params.carType as VehicleType, payload);
 }
 
 export async function uploadImages(id: string, files: FileList) {
+  if(!files) return;
   const uploadPromises: Promise<AxiosResponse<any, any>>[] = [];
   for (const file of files) {
     const formData = new FormData();
@@ -250,8 +254,14 @@ export const carCreationSlice = createSlice({
       state.model = null;
       state.details = defaultCarDetails;
     },
-    setCar: (state, action: PayloadAction<CarCreationState>) => {
-      state = action.payload;
+    setCar: (state, action: PayloadAction<Vehicle>) => {
+      for(const key in action.payload) {
+        if (carDetailsKeys.includes(key)) {
+          state.details[key] = action.payload[key];
+        } else {
+          state[key] = action.payload[key];
+        }
+      }
     },
     // addToWishlist: (state, action: PayloadAction<number>) => {
     //   if (!state.wishlist.includes(action.payload)) {

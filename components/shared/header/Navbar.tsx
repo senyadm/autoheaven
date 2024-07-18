@@ -133,7 +133,7 @@ const locationAllButtons = [
 
 export function Navbar({ params }: { params: { lang: Locale } }) {
   const { lang } = params;
- const dict = useAppSelector((state: RootState) => state.dictionary.dict);
+ const dict = useAppSelector((state: RootState) => state.pageData.dict);
  const menu = dict?.navbar; 
    const userLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 

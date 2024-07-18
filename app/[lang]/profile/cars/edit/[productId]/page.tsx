@@ -25,7 +25,7 @@ const page = async ({ params }: PageParans) => {
   const staticVehicleData = fetchVehicleUIData(VehicleType.Car);
 
   return (
-    <VehicleSetter car={car}>
+    <VehicleSetter car={car} params={params}>
       <MultiStepForm
         dict={classicText}
         staticVehicleData={staticVehicleData}

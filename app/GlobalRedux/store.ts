@@ -10,7 +10,7 @@ import carCreationSlice from "./CreateCar/CreateCarSlice";
 
 import { chatSlice } from "./profile/chatSlice";
 import { combineReducers, createStore } from "redux";
-import { dictSlice } from "@/src/shared/model/internationalization";
+import { pageDataSlice } from "@/src/shared/model/page-data";
 
 const rootReducer = combineReducers({
   carMakes: carMakesReducer,
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   createCarProgress: carCreationSlice,
   chats: chatSlice.reducer,
-  dictionary: dictSlice.reducer,
+  pageData: pageDataSlice.reducer,
 });
 
 export const makeStore = () => {

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import ResultCarCard from "../../shared/ResultCarCard";
 import AppCarDropdown from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
-import { clientCars } from "@/src/shared/api/client";
+import { clientCars, clientCarsForceAuth } from "@/src/shared/api/client";
 import { getToken } from "@/src/shared/utils/auth";
 
 const volkswagenCar4: ResultCarCardInterface = {
@@ -62,7 +62,7 @@ const ProfileAds = ({ lang }: any) => {
   const [results, setResults] = useState<ResultCarCardInterface[]>([]);
   useEffect(() => {
     // fetch results
-    clientCars.get("api/cars/wishlist/").then((response) => {
+    clientCarsForceAuth.get("api/cars/wishlist/").then((response) => {
       setResults(response.data);
     });
   }, []);

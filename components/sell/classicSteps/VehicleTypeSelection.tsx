@@ -43,8 +43,6 @@ const VehicleTypeSelection = ({
   function handleTypeSelect(vehicle) {
     if (vehicle) {
       dispatch(setCarType(vehicle.name ?? ""));
-      const params = new URLSearchParams({ type: vehicle.name });
-      replace(`/sell/classic?${params.toString()}`);
     }
   }
 

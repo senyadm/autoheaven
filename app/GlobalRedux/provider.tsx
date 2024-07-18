@@ -8,14 +8,15 @@ import { fetchAndSetUser } from "../../src/shared/utils/user";
 import { ThemeProvider } from "@/components/global/ThemeProvider";
 import { Locale } from "@/src/app/i18n.config";
 import { PageData } from "@/types";
-import { setDict } from "@/src/shared/model/internationalization";
+import { setDict, setParams } from "@/src/shared/model/page-data";
 
 interface ProvidersProps {
   children: ReactNode;
- dict: PageData
+ dict: PageData;
+ params: any;
 }
 
-export const Providers = ({ children, dict }: ProvidersProps) => {
+export const Providers = ({ children, dict, params }: ProvidersProps) => {
   const storeRef = useRef<AppStore>();
   if (!storeRef.current) {
     // Create the store instance the first time this renders
@@ -26,6 +27,7 @@ export const Providers = ({ children, dict }: ProvidersProps) => {
     const dispatch = storeRef.current.dispatch;
     fetchAndSetUser(dispatch);
     dispatch(setDict(dict));
+    dispatch(setParams(params));
   }, []);
   return (
     <Provider store={storeRef.current}>

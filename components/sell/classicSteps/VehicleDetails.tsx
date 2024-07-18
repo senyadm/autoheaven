@@ -14,6 +14,7 @@ import {
   CarDetails,
   createCar,
   editCar,
+  setDetails,
   uploadImages,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,7 @@ import SvgIcon from "@/components/SvgIcon";
 import { SellClassicTranslations } from "@/types";
 import { getFiles } from "../../../src/features/upload-files";
 import { toast } from "sonner";
+import { useAppSelector } from "@/app/GlobalRedux/store";
 const defaultCarDetails = {
   type: "",
   body_type: "",
@@ -52,31 +54,28 @@ const defaultCarDetails = {
 interface VehicleDetailsProps {
   onNext: (mode?: string) => void;
   onPrevious: () => void;
-  dict: SellClassicTranslations | null;
   action?: "create" | "edit";
 }
 
 const VehicleDetails = ({
   onNext,
   onPrevious,
-  dict,
   action = "create",
 }: {
   onPrevious: () => void;
   onNext: (mode?: string) => void;
   dict: SellClassicTranslations | null;
 }) => {
-  const [store] = useAppStore((state) => state?.createCarProgress);
+  const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
   const [fileError, setFileError] = React.useState("");
   const [value, setValue] = useState<string | undefined>("");
-  const [detailsData, setDetailsData] = useState<CarDetails>(defaultCarDetails);
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-
+  const {dict, params} = useAppSelector(state => state.pageData)
   const [hidden, setHidden] = React.useState(false),
     toggle = () => setHidden(!hidden);
 
   const areDetailsValid = () => {
-    return detailsData.year && detailsData.description;
+    return store.details.year && store.details.description;
   };
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,31 +92,31 @@ const VehicleDetails = ({
     }
   };
 
-  const handleCreateCar = () => {
+  const handleSubmit = () => {
     if (!areDetailsValid()) return;
-    if (!store || !selectedFiles) return;
-    const prev = { ...store };
+    if (!store) return;
+    if (action === "create" && !selectedFiles) return;
+      // const prev = { ...store };
 
-    const newDetails = {
-      ...prev.details,
-      phone: value || "",
-      price: detailsData.price,
-      mileage: detailsData.mileage,
-      description: detailsData.description,
-      accidentfree: detailsData.accidentfree,
-    };
-
-    const newStore: any = {
-      ...store,
-      details: newDetails,
-    };
-    toast("Loading data. Please wait.");
-    const submitFunction = action === "create" ? createCar : editCar;
-    submitFunction(newStore, selectedFiles)
+      // const newStore: any = {
+      //   ...store,
+      //   details: newDetails,
+      // };
+      toast("Loading data. Please wait.");
+      async function createFn(){
+        if (!selectedFiles) throw new Error("No files selected for upload");
+        return await createCar(store, selectedFiles);
+      }
+      async function editFn(){
+        if(!params?.productId) throw new Error("No listing id provided for editing");
+        return await editCar(params.productId, store, selectedFiles)
+      }
+    const submitFunction = action === "create" ? createFn : editFn;
+    submitFunction()
       .then((res) => {
         toast("Your car listing has been processed.");
 
-        uploadImages(res.data.id, selectedFiles)
+        uploadImages(res?.data?.id, selectedFiles)
           .then((res) => {
             toast("Images uploaded successfully.");
             onNext("final");
@@ -135,16 +134,24 @@ const VehicleDetails = ({
   };
 
   const checkIfEmpty = () => {
-    if (!detailsData.description || !detailsData.mileage || !detailsData.price)
+    if (
+      !store.details.description ||
+      !store.details.mileage ||
+      !store.details.price
+    )
       return true;
 
     return false;
   };
+  function changeDetails(keyValuePair: Partial<CarDetails>) {
+     dispatch(setDetails({...store.details, ...keyValuePair}))
+  }
+  const {price, accidentfree,description, mileage} = store.details
 
   return (
     <Card className="w-full mx-auto bg-white border-none shadow-none">
       <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-md text-foreground" htmlFor="title">
               {"Title"}
@@ -164,11 +171,11 @@ const VehicleDetails = ({
               })
             }
           />
-        </div>
+        </div> */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-md text-foreground" htmlFor="filter2">
-              {dict?.price || "Price"}
+              {`${dict?.price || "Price"} €`}
             </Label>
             <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
           </div>
@@ -178,13 +185,10 @@ const VehicleDetails = ({
             min={0}
             id="price"
             name="price"
-            value={detailsData.price}
+            value={price}
             onChange={(e) =>
-              setDetailsData({
-                ...detailsData,
-                price: parseInt(e.target.value),
-              })
-            }
+              changeDetails({price: parseInt(e.target.value)})
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
           />
         </div>
         <div className="space-y-2">
@@ -200,16 +204,15 @@ const VehicleDetails = ({
             min={0}
             id="mileage"
             name="mileage"
-            value={detailsData.mileage}
+            value={mileage}
             onChange={(e) =>
-              setDetailsData({
-                ...detailsData,
+              changeDetails({
                 mileage: parseInt(e.target.value),
               })
             }
           />
         </div>
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-md text-foreground" htmlFor="filter2">
               {dict?.phone || "Phone"}
@@ -226,7 +229,7 @@ const VehicleDetails = ({
               style={{ paddingLeft: "10px" }}
             />
           </div>
-        </div>
+        </div> */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-md text-foreground" htmlFor="filter2">
@@ -240,13 +243,12 @@ const VehicleDetails = ({
             id="desc"
             name="desc"
             placeholder="Tell something nice about your car"
-            value={detailsData.description}
-            onChange={(e) =>
-              setDetailsData({ ...detailsData, description: e.target.value })
+            value={description}
+            onChange={(e)=>changeDetails({description: e.target.value })
             }
           />
           <div className="flex justify-end bottom-2 right-3 text-xs text-muted-foreground">
-            {`${detailsData.description.length}/500`}
+            {`${description.length}/500`}
           </div>
         </div>
         <Separator />
@@ -257,11 +259,10 @@ const VehicleDetails = ({
           <Checkbox
             id="accidentfree"
             name="accidentfree"
-            checked={detailsData.accidentfree || false}
+            checked={accidentfree || false}
             onClick={() =>
-              setDetailsData({
-                ...detailsData,
-                accidentfree: !detailsData.accidentfree,
+              changeDetails({
+                accidentfree: !accidentfree,
               })
             }
             className="col-span-2"
@@ -294,10 +295,10 @@ const VehicleDetails = ({
         </Button>
         <Button
           disabled={checkIfEmpty()}
-          onClick={handleCreateCar}
+          onClick={handleSubmit}
           className="mt-4"
         >
-          {dict?.create || "Create ad"}
+          {action === "create" ? (dict?.create || "Create ad") : ("Confirm changes")}
         </Button>
       </CardFooter>
     </Card>

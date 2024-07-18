@@ -115,7 +115,7 @@ const VehicleSpecs = ({
   return (
     <Card className="w-full mx-auto bg-white border-none shadow-none">
       <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter2">
               Vehicle ID
@@ -133,8 +133,8 @@ const VehicleSpecs = ({
               dispatch(setDetails({ ...store, vehicle_id: e.target.value }))
             }
           />
-        </div>
-        <div className="space-y-2">
+        </div> */}
+        {/* <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter3">
               Origin
@@ -143,7 +143,7 @@ const VehicleSpecs = ({
           </div>
 
           <CountrySelector onCountrySelect={handleCountrySelect} />
-        </div>
+        </div> */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter2">
