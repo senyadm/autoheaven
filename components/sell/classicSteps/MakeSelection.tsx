@@ -37,9 +37,11 @@ function getMakesByCarType(
     case VehicleType.Car:
       return Object.keys(makes || {});
     case VehicleType.Moto:
-      return makes.map((item) => item.make_name);
+      return makes?.map((item) => item.make_name);
     case VehicleType.Bus:
-      return makes.map((item) => item.make_name);
+      return makes?.map((item) => item.make_name);
+    case VehicleType.Truck:
+      return makes?.map((item) => item.make_name);
     default:
       return Object.keys(makes || {});
   }
@@ -56,6 +58,7 @@ const MakeSelection = ({
   dict: SellClassicTranslations | null;
 }) => {
   const { makes, models } = staticVehicleData;
+  if(!makes ) return null;
   const [search, setSearch] = useState<string>("");
   const { isMakeChosen } = useMake();
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);

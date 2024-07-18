@@ -39,7 +39,7 @@ const iconDimensions = {
 };
 const BenefitsBlock = () => {
   return (
-    <Card className="w-full max-w-[1008px] mt-8 h-min bg-primary-foreground border border-primary text-primary-foreground p-3">
+    <Card className="w-full max-w-[1008px] mt-8 h-min bg-primary-foreground border border-primary text-primary-foreground p-3 overflow-x-auto">
       <CardContent className="p-0">
         <table className="text-2xl font-semibold border-separate border-spacing-x-6 border-spacing-y-9">
           <thead className="text-primary">

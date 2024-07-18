@@ -116,7 +116,7 @@ const VehicleDetails = ({
       .then((res) => {
         toast("Your car listing has been processed.");
 
-        uploadImages(res?.data?.id, selectedFiles)
+        uploadImages(res?.data?.id, store.carType, selectedFiles)
           .then((res) => {
             toast("Images uploaded successfully.");
             onNext("final");

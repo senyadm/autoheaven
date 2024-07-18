@@ -170,18 +170,29 @@ export async function editCar(
   return putVehicle(id, params.carType as VehicleType, payload);
 }
 
-export async function uploadImages(id: string, files: FileList) {
+const vehicleTypeToApiKeyword = {
+  [VehicleType.Car]: "",
+  [VehicleType.Moto]: "/moto",
+  [VehicleType.Truck]: "/truck",
+  [VehicleType.Bus]: "/bus",
+};
+
+export async function uploadImages(id: string, vehicleType: VehicleType, files: FileList) {
   if(!files) return;
   const uploadPromises: Promise<AxiosResponse<any, any>>[] = [];
   for (const file of files) {
     const formData = new FormData();
     formData.append("file", file);
     uploadPromises.push(
-      clientCars.post(`api/cars/upload/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      clientCars.post(
+        `api/cars/upload${vehicleTypeToApiKeyword[vehicleType]}/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
     );
   }
   try {
