@@ -19,23 +19,7 @@ import { SellClassicTranslations } from "@/types";
 import { Kanban, Settings, ShipWheel, Snowflake, Sun, Zap } from "lucide-react";
 import { VehicleType } from "../../../interfaces/shared/vehicle";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
-
-// const defaultCarDetails: CarDetails = {
-//   type: '',
-//   body_type: '',
-//   color: '',
-//   year: new Date().getFullYear(),
-//   mileage: 0,
-//   gearbox: '',
-//   price: 0,
-//   description: '',
-//   title: '',
-//   fueltype: '',
-//   accidentfree: false,
-//   imageurl: '',
-//   drivetrain: '',
-//   istop: false
-// };
+import CarSvg from "@/public/icons/Car.svg";
 
 const bodyTypes: string[] = ["Sedan", "SUV", "Hatchback", "Pickup", "Example"];
 
@@ -131,8 +115,7 @@ const VehicleModification = ({
               <Label className="text-lg text-foreground" htmlFor="filter2">
                 Vehicle body
               </Label>
-              <SvgIcon
-                filepath="/icons/car.svg"
+              <CarSvg
                 alt=""
                 width={16}
                 height={16}
@@ -233,7 +216,7 @@ const VehicleModification = ({
             <Label className="text-lg text-foreground" htmlFor="filter2">
               Year
             </Label>
-            <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            <CarSvg alt="" width={16} height={16} />
           </div>
           <Input
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"

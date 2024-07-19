@@ -221,6 +221,9 @@ export function Navbar({ params }: { params: { lang: Locale } }) {
             <>
               <Link
                 href={`/${lang}/login`}
+                onClick={()=> {
+                  localStorage.setItem("originalUrl", pathname || "/");
+                }}
                 className={buttonVariants({ size: "icon", variant: "outline" })}
               >
                 <LogInIcon className="w-4 h-4" />

@@ -27,6 +27,7 @@ import { SellClassicTranslations } from "@/types";
 import { getFiles } from "../../../src/features/upload-files";
 import { toast } from "sonner";
 import { useAppSelector } from "@/app/GlobalRedux/store";
+import CarSvg from "@/public/icons/Car.svg";
 const defaultCarDetails = {
   type: "",
   body_type: "",
@@ -177,7 +178,7 @@ const VehicleDetails = ({
             <Label className="text-md text-foreground" htmlFor="filter2">
               {`${dict?.price || "Price"} €`}
             </Label>
-            <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            <CarSvg alt="" width={16} height={16} />
           </div>
           <Input
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
@@ -186,9 +187,7 @@ const VehicleDetails = ({
             id="price"
             name="price"
             value={price}
-            onChange={(e) =>
-              changeDetails({price: parseInt(e.target.value)})
-            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+            onChange={(e) => changeDetails({ price: parseInt(e.target.value) })}
           />
         </div>
         <div className="space-y-2">
@@ -196,7 +195,7 @@ const VehicleDetails = ({
             <Label className="text-md text-foreground" htmlFor="filter2">
               {dict?.mileage || "Mileage"}
             </Label>
-            <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            <CarSvg alt="" width={16} height={16} />
           </div>
           <Input
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
@@ -235,7 +234,7 @@ const VehicleDetails = ({
             <Label className="text-md text-foreground" htmlFor="filter2">
               {dict?.description || "Description"}
             </Label>
-            <SvgIcon filepath="/icons/car.svg" alt="" width={16} height={16} />
+            <CarSvg alt="" width={16} height={16} />
           </div>
           <Textarea
             className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
@@ -244,8 +243,7 @@ const VehicleDetails = ({
             name="desc"
             placeholder="Tell something nice about your car"
             value={description}
-            onChange={(e)=>changeDetails({description: e.target.value })
-            }
+            onChange={(e) => changeDetails({ description: e.target.value })}
           />
           <div className="flex justify-end bottom-2 right-3 text-xs text-muted-foreground">
             {`${description.length}/500`}
@@ -298,7 +296,9 @@ const VehicleDetails = ({
           onClick={handleSubmit}
           className="mt-4"
         >
-          {action === "create" ? (dict?.create || "Create ad") : ("Confirm changes")}
+          {action === "create"
+            ? dict?.create || "Create ad"
+            : "Confirm changes"}
         </Button>
       </CardFooter>
     </Card>

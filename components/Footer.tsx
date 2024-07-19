@@ -1,13 +1,12 @@
 "use client";
 import { getlocales } from "@/app/actions";
 
-import { Locale } from "@/i18n.config";
+import { Locale } from "@/src/app/i18n.config";
 import Link from "next/link";
 import SocialMediaIcons from "./SocialMediaIcons";
-import SvgIcon from "./SvgIcon";
 import LanguageSelect from "./shared/LanguageSelect";
 import { useEffect, useState } from "react";
-
+import Logo from "@/public/img/logo/AutoHeaven.svg";
 const Footer = ({ lang }: { lang: Locale }) => {
 const [footerDict, setFooterDict] = useState<any>(null);
 const [profileDict, setProfileDict] = useState<any>(null);
@@ -27,13 +26,11 @@ const [profileDict, setProfileDict] = useState<any>(null);
     <footer className=" py-10 bg-secondary">
       <div className="flex flex-col md:flex-row gap-4 justify-between max-w-6xl mx-auto px-4 lg:px-0">
         <div className="flex items-start flex-col">
-          <SvgIcon
-            filepath="/img/logo/AutoHeaven.svg"
+          <Logo
             width={132}
             height={61}
             alt=""
-            className="mb-9"
-          ></SvgIcon>
+            className="mb-9" />
 
           <SocialMediaIcons />
         </div>
