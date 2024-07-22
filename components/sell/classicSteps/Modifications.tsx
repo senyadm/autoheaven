@@ -20,6 +20,7 @@ import { Kanban, Settings, ShipWheel, Snowflake, Sun, Zap } from "lucide-react";
 import { VehicleType } from "../../../interfaces/shared/vehicle";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import CarSvg from "@/public/icons/Car.svg";
+import { cn } from '@/src/shared/utils/cn';
 
 const bodyTypes: string[] = ["Sedan", "SUV", "Hatchback", "Pickup", "Example"];
 
@@ -54,6 +55,24 @@ const driveTrain: {
   {
     driveTrain: "All Wheel Drive",
     key: "AWD",
+  },
+];
+
+const consumptionUiData = [
+  {
+    label: "Summer",
+    value: "summer",
+    icon: <Sun width={12} height={12} />,
+  },
+  {
+    label: "Winter",
+    value: "winter",
+    icon: <Snowflake width={12} height={12} />,
+  },
+  {
+    label: "Highway",
+    value: "highway",
+    icon: <Kanban width={12} height={12} />,
   },
 ];
 
@@ -94,15 +113,15 @@ const VehicleModification = ({
 
   const handleConsumption = (consumption: string, type: string) => {
     const numberCons = Number(consumption);
-
-    if (isNaN(numberCons) || numberCons < 1) return;
+    if (isNaN(numberCons)) return;
+    const EmptyIfZero = numberCons === 0 ? "" : numberCons;
 
     if (type === "summer") {
-      dispatch(setDetails({ ...store, consumption_summer: numberCons }));
+      dispatch(setDetails({ ...store, consumption_summer: EmptyIfZero }));
     } else if (type === "winter") {
-      dispatch(setDetails({ ...store, consumption_winter: numberCons }));
+      dispatch(setDetails({ ...store, consumption_winter: EmptyIfZero }));
     } else {
-      dispatch(setDetails({ ...store, consumption_highway: numberCons }));
+      dispatch(setDetails({ ...store, consumption_highway: EmptyIfZero }));
     }
   };
 
@@ -115,11 +134,7 @@ const VehicleModification = ({
               <Label className="text-lg text-foreground" htmlFor="filter2">
                 Vehicle body
               </Label>
-              <CarSvg
-                alt=""
-                width={16}
-                height={16}
-              />
+              <CarSvg alt="" width={16} height={16} />
             </div>
             <Select
               name="body_type"
@@ -171,43 +186,35 @@ const VehicleModification = ({
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Label className="text-lg text-foreground" htmlFor="filter3">
-              Consumption
+              Consumption (L/100km)
             </Label>
             <SvgIcon filepath="/icons/fuel.svg" alt="" width={16} height={16} />
           </div>
-          <div className="flex flex-row justify-between items-center space-x-4">
-            <Input
-              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-              type="text"
-              id="cons"
-              name="cons"
-              placeholder="Summer"
-              value={store?.consumption_summer}
-              onChange={(e) => handleConsumption(e.target.value, "summer")}
-            />
-            <Snowflake width={12} height={12} />
-            <Input
-              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-              type="text"
-              id="cons"
-              name="cons"
-              placeholder="Winter"
-              value={store?.consumption_winter}
-              onChange={(e) => handleConsumption(e.target.value, "winter")}
-            />
-            <Sun width={12} height={12} />
-            <Input
-              className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
-              type="text"
-              id="cons"
-              min={0}
-              max={5000}
-              name="cons"
-              placeholder="Highway"
-              value={store?.consumption_highway}
-              onChange={(e) => handleConsumption(e.target.value, "highway")}
-            />
-            <Kanban width={12} height={12} />
+          <div
+            className={cn(
+              "flex flex-col justify-between items-center space-y-2",
+              "sm:flex-row sm:space-x-4 sm:space-y-0"
+            )}
+          >
+            {consumptionUiData.map((item) => (
+              <div
+                className="flex w-full items-center space-x-4 "
+                key={item.value}
+              >
+                <Input
+                  className="border border-muted-foreground bg-background rounded-md focus:border-none focus:ring-0 flex-1"
+                  type="text"
+                  id="cons"
+                  name="cons"
+                  placeholder={item.label}
+                  value={store[`consumption_${item.value}`]}
+                  onChange={(e) =>
+                    handleConsumption(e.target.value, item.value)
+                  }
+                />
+                {item.icon}
+              </div>
+            ))}
           </div>
         </div>
 
