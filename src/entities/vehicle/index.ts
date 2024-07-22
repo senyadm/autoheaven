@@ -10,3 +10,7 @@ export { default as ModelSelect } from "./ui/ModelSelect";
 export { default as TypeSelect } from "./ui/TypeSelect";
 export { VehicleImage } from "./ui/VehicleImage";
 export * from "./model/payloads";
+export * from "./lib/typesAndMakes";
+export * from "./lib/details";
+export * from "./model/details";
+export * from "./ui/details";

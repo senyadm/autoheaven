@@ -29,33 +29,33 @@
 //   "make_id": "032013df-f7ef-4d3c-af72-878c467e607d"
 // }
 export interface Moto {
-  id: number;
-  seller_id: string;
-  driving_mode: string;
-  vendor: string;
+  accidentfree: boolean;
   color: string;
   created_at: string;
-  istop: boolean;
   cubic_capacity: number;
-  updated_at: null;
-  phone_number: string;
-  other: string;
-  year: number;
-  title: string;
-  vehicle_number: string;
-  mileage: number;
-  fueltype: string;
-  origin: string;
-  model: string;
-  gearbox: string;
-  accidentfree: boolean;
-  horse_power: number;
-  type_id: string;
-  price: number;
-  imageurl: string;
-  istop_expiry: null;
   description: string;
+  driving_mode: string;
+  fueltype: string;
+  gearbox: string;
+  horse_power: number;
+  id: string;
+  imageurl: string;
+  istop: boolean;
+  istop_expiry: string | null;
   make_id: string;
+  mileage: number;
+  model: string;
+  origin: string;
+  other: string;
+  phone_number: string;
+  price: number;
+  seller_id: number;
+  title: string;
+  type_id: string;
+  updated_at: string;
+  vehicle_number: string;
+  vendor: string;
+  year: number;
 }
 export interface MotoType {
   moto_type: string;

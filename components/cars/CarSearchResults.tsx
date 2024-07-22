@@ -8,17 +8,19 @@ import { ChevronRight } from "lucide-react";
 
 import { FilterParams } from "../../src/shared/model/params";
 import CarPagination from "./CarPagination";
-import { fetchVehicleUIData } from "@/src/entities/vehicle";
+import { addTypesAndMakes, fetchVehicleUIData, findTypeById, Vehicle, VehicleOnCard } from "@/src/entities/vehicle";
+import VehicleResult from '@/src/entities/vehicle/ui/VehicleResult';
 interface CarSearchResultsProps {
   lang: "en" | "fr" | "it" | "de" | "pl" | "es" | "cz" | "nl" | "pt" | "ro";
   searchParams: FilterParams;
   carResultsData: {
-    topVehicles: { title: string; data: any[] };
-    nonTopVehicles: { title: string; data: any[] };
+    topVehicles: { title: string; data: VehicleOnCard[] };
+    nonTopVehicles: { title: string; data: VehicleOnCard[] };
   };
   pageCount: number;
-  vehicleUiData: ReturnType<typeof fetchVehicleUIData>;
+  vehicleUiData: Awaited<ReturnType<typeof fetchVehicleUIData>>;
 }
+
 
 const CarSearchResults = ({
   lang,
@@ -29,12 +31,14 @@ const CarSearchResults = ({
   allParams
 }: CarSearchResultsProps) => {
   const { topVehicles, nonTopVehicles, imageFileNames } = carResultsData;
+  console.log("🚀 ~ carResultsData:", carResultsData)
   const { vehicleType } = allParams;
+  const results = [topVehicles, nonTopVehicles];
   try {
     return (
       <div className="space-y-8">
         <div className="space-y-8">
-          {[topVehicles, nonTopVehicles].map((cars, index) => (
+          {results.map((cars, index) => (
             <div className="space-y-8" key={"isTop" + index}>
               <TypographyLarge className="mt-8">{cars.title}</TypographyLarge>
               <Suspense
@@ -43,12 +47,10 @@ const CarSearchResults = ({
                 }
               >
                 {cars.data.map((carInfo, index) => (
-                  <ResultCarCard
+                  <VehicleResult
                     imageFileNames={imageFileNames[carInfo.id]}
                     carDetails={carInfo}
                     key={`${index}${carInfo.imageurl}`}
-                    vehicleUiData={vehicleUiData}
-                    vehicleType={vehicleType}
                   />
                 ))}
               </Suspense>

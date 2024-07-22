@@ -1,12 +1,10 @@
 "use client";
-import { ResultCarCardInterface } from "@/interfaces/ResultCarCard";
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import {
   Calendar,
   Car,
   CheckCheck,
   ClipboardList,
-  Eye,
   Flame,
   Fuel,
   Sliders,
@@ -14,22 +12,8 @@ import {
 } from "lucide-react";
 
 import SvgIcon from "../SvgIcon";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
 import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
-import {
-  addToWishlistThunk,
-  deleteFromWishlistThunk,
-  useWishlist,
-} from "@/src/entities/user";
-import Image from "next/image";
-import {
-  addChat,
-  setCurrentChat,
-} from "../../app/GlobalRedux/profile/chatSlice";
 import { useRouter } from "next/navigation";
-import { Chat } from "../../interfaces/profile/messages";
-import { useAppSelector } from "../../app/GlobalRedux/store";
-import { fetchAndSetUser } from "../../src/shared/utils/user";
 import {
   Card,
   CardTitle,
@@ -38,27 +22,10 @@ import {
   CardHeader,
   CardFooter,
 } from "../ui/card";
-import ResultCarCardButtons from "./ResultCarCardButtons";
-import { AspectRatio } from "../ui/aspect-ratio";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
-import { EyeClosedIcon } from "@radix-ui/react-icons";
-import { Label } from "@radix-ui/react-label";
-import { Button } from "../ui/button";
-import { carsDomain } from "../../src/shared/api";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import VehicleActionButtons from "./VehicleActionButtons";
 import {OptionalCarousel, VehicleImage} from "@/src/entities/vehicle/ui/VehicleImage";
-import { fetchVehicleUIData, findMakeById, findTypeById } from '@/src/entities/vehicle';
+import { VehicleOnCard } from '@/src/entities/vehicle';
+import PhoneNumber from '@/src/entities/user/ui/PhoneNumber';
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -98,17 +65,12 @@ const DrivetrainIcon = (drivetrain: any) => {
 };
 
 interface ResultCarCardProps {
-  carDetails: any;
-  pageDisplayed?: string;
+  carDetails: VehicleOnCard;
   imageFileNames: string[];
-  vehicleUiData: ReturnType<typeof fetchVehicleUIData>; 
 }
 const ResultCarCard = ({
   carDetails,
-  pageDisplayed,
   imageFileNames,
-  vehicleUiData,
-   vehicleType,
 }: ResultCarCardProps) => {
   const {
     title,
@@ -117,21 +79,20 @@ const ResultCarCard = ({
     mileage,
     fueltype,
     drivetrain,
-    body_type,
     gearbox,
     istop,
     phone_number,
     accidentfree,
     imageurl,
     make,
+    type,
     model,
     make_id,
     type_id,
     id,
     seller_id,
   } = carDetails;
-  const makeFromId = useMemo(()=>findMakeById(vehicleUiData.makes, make_id), [vehicleUiData.makes, make_id]);
-  const typeFromId =  useMemo(()=>findTypeById(vehicleUiData.types, type_id, vehicleType), [vehicleUiData.types, type_id, vehicleType]);
+ 
   const { isPremium } = usePremiumStatus();
   const router = useRouter();
   const iconProps = {
@@ -153,8 +114,8 @@ const ResultCarCard = ({
       label: fueltype,
     },
     {
-      icon: <BodyStyleIcon bodyStyle={body_type} />, // Replace with the actual BodyStyleIcon component
-      label: body_type,
+      icon: <BodyStyleIcon bodyStyle={type} />, // Replace with the actual BodyStyleIcon component
+      label: type,
     },
     {
       icon: <GearIcon gear={gearbox} />, // Replace with the actual GearIcon component
@@ -172,47 +133,7 @@ const ResultCarCard = ({
       ),
       label: accidentfree ? "Accident free" : "Incident history",
     },
-  ];
-  const userId = useAppSelector((state) => state.user.id);
-  const [eyeOpen, setEyeOpen] = useState(false);
-  const [wishlist, dispatch] = useAppStore((state) => state.user.wishlist);
-  const [showNumber, setShowNumber] = useState(false);
-  const onButtonClick = (type: string) => {
-    // const item = getToken();
-    if (!userId) {
-      fetchAndSetUser(dispatch, true);
-      return;
-    }
-
-    if (type === "advertise") {
-      router.push(`/payment?id=${id}`);
-
-      return;
-    }
-
-    if (type === "like") {
-      if (wishlist?.includes(id)) {
-        dispatch(deleteFromWishlistThunk(id));
-      } else {
-        dispatch(addToWishlistThunk(id));
-      }
-    }
-    if (type === "contact") {
-      const newChat: Chat = {
-        product_id: id,
-        chat_id: 0,
-        last_message: null,
-        buyer_id: userId,
-        seller_id: seller_id,
-        chatter_id: seller_id,
-        carInfo: carDetails,
-      };
-
-      dispatch(addChat(newChat));
-      dispatch(setCurrentChat(newChat));
-      router.push("/profile/messages");
-    }
-  };
+  ]; 
 
   return (
     <Card
@@ -226,7 +147,7 @@ const ResultCarCard = ({
         </div>
       )}
       <CardHeader className="px-3 pt-3">
-        <CardTitle>{`${make || ""} ${model || ""} ${makeFromId || ""}`}</CardTitle>
+        <CardTitle>{`${make || ""} ${model || ""}`}</CardTitle>
         <CardDescription className="text-bold">€ {price}</CardDescription>
       </CardHeader>
 
@@ -250,57 +171,12 @@ const ResultCarCard = ({
           )}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <div className="md:w-auto">
-          <div className="flex justify-start items-center mt-1 mb-2 md:mb-1">
-            <div className="md:hidden md:mb-2">
-              <Button
-                variant="ghost"
-                className="hover:text-blue-700 transition duration-300"
-                onClick={() => setShowNumber(!showNumber)}
-              >
-                {showNumber ? (
-                  <Eye width={16} height={16} className="mr-1" />
-                ) : (
-                  <EyeClosedIcon width={16} height={16} />
-                )}
-                <Label className="cursor-pointer ml-2">
-                  {showNumber ? phone_number : "Show contact"}
-                </Label>
-              </Button>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div
-                    onMouseLeave={() => setEyeOpen(false)}
-                    onMouseEnter={() => setEyeOpen(true)}
-                    className="flex space-x-2 hover:underline hover:transition duration-300 cursor-pointer"
-                  >
-                    {eyeOpen ? (
-                      <Eye width={16} height={16} className="mr-1" />
-                    ) : (
-                      <EyeClosedIcon width={16} height={16} />
-                    )}
-                    <Label className="cursor-pointer whitespace-nowrap	">
-                      Show contact{" "}
-                    </Label>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>{phone_number}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        </div>
+      <CardFooter className="flex justify-between p-1">
+       <PhoneNumber phone_number={phone_number} className="z-10"/>
 
-        <ResultCarCardButtons
-          isWish={wishlist?.includes(id)}
-          isMine={seller_id === userId}
-          onButtonClick={onButtonClick}
-          pageDisplayed={pageDisplayed || "cars"}
-          productId={id}
+        <VehicleActionButtons
+          carDetails={carDetails}
+          className="z-10"
         />
       </CardFooter>
     </Card>

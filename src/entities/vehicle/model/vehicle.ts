@@ -1,3 +1,4 @@
+import { ValueOf } from 'next/dist/shared/lib/constants';
 import { VehicleType } from "../../../shared/model/params";
 import { Bus, BusMake } from "./bus";
 import { Car } from "./car";
@@ -38,6 +39,11 @@ export const enum VehicleTypePage {
   Truck = "trucks",
 }
 export type Vehicle = Moto | Bus | Truck | Car;
+export type VehicleAny =Bus & Moto & Car & Truck;
+export type VehicleKey = keyof VehicleAny;
+export type VehicleV2 = Exclude<Vehicle, Car>;
+export type VehicleOnCard = Vehicle & { type: string, make: string };
+export type VehicleAnyOnCard = VehicleAny & { type: string, make: string };
 export const vehicleTypeByPage: Record<VehicleTypePage, VehicleType> = {
   [VehicleTypePage.Car]: VehicleType.Car,
   [VehicleTypePage.Bus]: VehicleType.Bus,

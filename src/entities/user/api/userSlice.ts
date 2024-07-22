@@ -7,7 +7,7 @@ type LoadState = "idle" | "loading" | "succeeded" | "failed";
 
 export interface UserState extends UserAPI {
   loadState: LoadState; // for async
-  wishlist: number[] | null;
+  wishlist: (number | string)[] | null;
   cars: Car[] | null;
 
   isLoggedIn: boolean;
@@ -41,13 +41,13 @@ export const userSlice = createSlice({
     logOut: (state) => {
       state = initialState;
     },
-    addToWishlist: (state, action: PayloadAction<number>) => {
+    addToWishlist: (state, action: PayloadAction<(number | string)>) => {
       state.wishlist.push(action.payload);
     },
-    deleteFromWishlist: (state, action: PayloadAction<number>) => {
-      state.wishlist = state.wishlist.filter((id) => id !== action.payload);
+    deleteFromWishlist: (state, action: PayloadAction<(number | string)>) => {
+      state.wishlist = state.wishlist?.filter((id) => id !== action.payload);
     },
-    setWishlist: (state, action: PayloadAction<number[]>) => {
+    setWishlist: (state, action: PayloadAction<(number | string)[]>) => {
       state.wishlist = action.payload;
     },
     setCars: (state, action: PayloadAction<Car[]>) => {
@@ -78,7 +78,7 @@ export const fetchUserData = createAsyncThunk(
 
 export const addToWishlistThunk = createAsyncThunk(
   "user/addToWishlist",
-  async (id: number, { dispatch }) => {
+  async (id: (number | string), { dispatch }) => {
     try {
       const response = await clientCarsForceAuth.post(
         `/api/cars/wishlist?car_id=${id}`,
@@ -99,7 +99,7 @@ export const addToWishlistThunk = createAsyncThunk(
 
 export const deleteFromWishlistThunk = createAsyncThunk(
   "user/deleteFromWishlist",
-  async (id: number, { dispatch }) => {
+  async (id: (number | string), { dispatch }) => {
     try {
       const response = await clientCarsForceAuth.delete(`/api/cars/wishlist/${id}`);
 
@@ -119,7 +119,7 @@ export const fetchWishlistCars = createAsyncThunk(
     try {
       const response = await clientCarsForceAuth.get("/api/cars/wishlist/");
       dispatch(
-        setWishlist(response.data.map((car: any) => car.id) as number[])
+        setWishlist(response.data.map((car: any) => car.id) as (number | string)[])
       );
       return response.data;
     } catch (error) {

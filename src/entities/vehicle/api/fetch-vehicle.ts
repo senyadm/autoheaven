@@ -1,3 +1,4 @@
+import { addTypesAndMakes } from '@/src/entities/vehicle/lib/typesAndMakes';
 import { getCars } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
 import { VehicleType } from "../../../shared/model/params";
@@ -11,6 +12,24 @@ export function fetchVehiclesByParams(allParams: AllParams) {
   const vehicleType = allParams.vehicleType;
   return fetchCarTypeByParams(vehicleType, allParams);
 }
+export async function fetchVehiclesWithTypes(allParams: AllParams, vehicleUIData: any) {
+  if (!allParams.vehicleType) throw new Error("Vehicle type is required");
+  let vehiclesResponse;
+  try {
+    vehiclesResponse = await fetchVehiclesByParams(allParams);
+  } catch (e) {
+    console.error("Error fetching vehicles:", e);
+    throw e;
+  }
+
+  const newDataTop = addTypesAndMakes(vehiclesResponse.topVehicles.data, vehicleUIData, allParams.vehicleType)
+  const newDataNonTop = addTypesAndMakes(vehiclesResponse.nonTopVehicles.data, vehicleUIData, allParams.vehicleType)
+  return {
+    ...vehiclesResponse,
+    topVehicles: { title: vehiclesResponse.topVehicles.title, data: newDataTop },
+    nonTopVehicles: { title: vehiclesResponse.nonTopVehicles.title, data: newDataNonTop },
+  }
+  }
 
 export function fetchCarTypeByParams(
   vehicleType: VehicleType,

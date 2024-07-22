@@ -32,36 +32,36 @@
 //       "type_id": null
 // },
 export interface Car {
-  body_type: string;
-  price: number;
-  drivetrain: string;
-  origin: null;
-  make: string;
-  description: string;
-  istop: boolean;
-  horse_power: null;
-  model: string;
-  seller_id: number;
-  phone_number: string;
-  color: string;
-  created_at: string;
-  vehicle_number: null;
-  ext_color: null;
-  year: number;
-  title: string;
-  consumption_winter: null;
-  int_color: null;
-  id: number;
-  mileage: number;
-  fueltype: string;
-  consumption_summer: null;
-  seats: null;
-  gearbox: null;
   accidentfree: boolean;
-  consumption_highway: null;
-  istop_expiry: null;
+  body_type: string;
+  color: string;
+  consumption_highway: number;
+  consumption_summer: number;
+  consumption_winter: number;
+  created_at: string;
+  description: string;
+  drivetrain: string;
+  ext_color: string;
+  fueltype: string;
+  gearbox: string;
+  horse_power: number;
+  id: number;
   imageurl: string;
+  int_color: string;
+  istop: boolean;
+  istop_expiry: string | null;
+  make: string;
+  mileage: number;
+  model: string;
+  origin: string;
+  phone_number: string;
+  price: number;
+  seats: number;
+  seller_id: number;
+  title: string;
   type_id: string;
+  vehicle_number: string;
+  year: number;
 }
 
 export interface CarType {

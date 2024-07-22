@@ -3,7 +3,7 @@ import ListHeavenClient from "./ListHeavenClient";
 import { VehicleType } from "../../../shared/model/params";
 import { AllParams } from "../../../shared/utils/params";
 import { ReadonlyURLSearchParams } from "next/navigation";
-import { fetchVehiclesByParams } from "../../../entities/vehicle";
+import { fetchVehiclesByParams, fetchVehiclesWithTypes } from "../../../entities/vehicle";
 import { getNormalizedParams } from "../../../shared/api";
 
 interface ListHeavenProps {
@@ -14,7 +14,7 @@ interface ListHeavenProps {
 const ListHeaven = async ({ params, searchParams }: ListHeavenProps) => {
   const filterData = await getFilterData(params.vehicleType, params.lang);
   const normalizedParams = getNormalizedParams(params);
-  const carResults = await fetchVehiclesByParams(normalizedParams);
+  const carResults = await fetchVehiclesWithTypes(normalizedParams, filterData.vehicleUIData);
 
   return (
     <ListHeavenClient

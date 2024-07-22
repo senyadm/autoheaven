@@ -30,34 +30,34 @@
 //     "horse_power": 0
 //   }
 export interface Bus {
-  gearbox: string;
-  fueltype: string;
-  istop_expiry: null;
-  air_conditioning: string;
-  id: string;
-  price: number;
   accidentfree: boolean;
-  make_id: string;
-  interior_features: string;
-  description: string;
-  imageurl: string;
-  model: string;
-  seller_id: string;
-  istop: null;
-  vendor: string;
-  type_id: string;
-  created_at: string;
-  phone_number: string;
-  cubic_capacity: number;
+  air_conditioning: string;
   color: string;
-  updated_at: null;
-  vehicle_number: string;
-  year: number;
-  title: string;
+  created_at: string;
+  cubic_capacity: number;
+  description: string;
+  fueltype: string;
+  gearbox: string;
+  horse_power: number;
+  id: string;
+  imageurl: string;
+  interior_features: string;
+  istop: boolean;
+  istop_expiry: string | null;
+  make_id: string;
+  mileage: number;
+  model: string;
   origin: string;
   other: string;
-  mileage: number;
-  horse_power: number;
+  phone_number: string;
+  price: number;
+  seller_id: number;
+  title: string;
+  type_id: string;
+  updated_at: string;
+  vehicle_number: string;
+  vendor: string;
+  year: number;
 }
 export interface BusType {
   moto_type: string;
