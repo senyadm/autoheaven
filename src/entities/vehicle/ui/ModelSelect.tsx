@@ -58,7 +58,6 @@ const ModelSelect = ({
         <Select
           open={brandsOpen}
           onValueChange={(selectorValue) => {
-            console.log("🚀 ~ selectorValue:", selectorValue);
             // handleSelectorChange("cars", "brandAndModel", selectorValue);
             toggleBrandsOpen();
           }}

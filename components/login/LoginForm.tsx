@@ -102,7 +102,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ lang }) => {
           message: "Password or email not found",
         });
 
-        console.log(error);
+        console.error(error);
       });
   }
 

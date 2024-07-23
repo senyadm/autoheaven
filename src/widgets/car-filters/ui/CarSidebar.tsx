@@ -15,6 +15,7 @@ import { RangeSliderRef } from "@/components/landing/RangeSlider";
 import {
   FullPageParams,
   getUriFromFilters,
+  SetFiltersOpts,
 } from "../../../shared/utils/params";
 import VehicleTypeSelect from "../../../entities/vehicle/ui/VehicleTypeSelect";
 import { cn } from "../../../shared/utils/cn";
@@ -26,6 +27,8 @@ type CarSidebarProps = {
   mode: "default" | "compact";
   isFetchInstant?: boolean;
 };
+
+
 
 const CarSidebar: FC<CarSidebarProps> = ({
   params,
@@ -79,13 +82,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
     fetchFilterData();
   }, [params.vehicleType, params.lang, filters.vehicleType]);
 
-  useEffect(() => {
-    // setFilters(paramFilters);
-    console.log("mount");
-    return () => {
-      console.log("unmount");
-    };
-  }, []);
   const redirectURI = useRef("cars");
 
   const setFiltersAndRedirect = useCallback(
@@ -100,7 +96,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
     [replace]
   );
   const setFiltersFn = useCallback(
-    (newFilters: Filter) => {
+    (newFilters: Filter, opts?: SetFiltersOpts) => {
       let fullFilters = { ...params, ...newFilters };
       if (params.vehicleType !== newFilters.vehicleType) {
         // delete fullFilters.make;
@@ -108,7 +104,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
         fullFilters.make = "";
         fullFilters.model = "";
       }
-      const newUri = getUriFromFilters(fullFilters);
+      const newUri = getUriFromFilters(fullFilters, opts);
       redirectURI.current = newUri;
       isFetchInstant
         ? setFiltersAndRedirect(newFilters)

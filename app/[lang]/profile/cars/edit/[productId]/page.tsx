@@ -18,7 +18,6 @@ interface PageParans {
 
 const page = async ({ params }: PageParans) => {
   const car = await fetchCarById(params.productId);
-  console.log("🚀 ~ page ~ car:", car);
 
   const sellText = (await getlocales(params.lang)).sell;
   const classicText = sellText.classic;

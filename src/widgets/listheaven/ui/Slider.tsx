@@ -37,15 +37,9 @@ export function Slider({ carResults, vehicleUIData }) {
       if (springIndex !== i) return;
       setCurrentIndex(currentIndex + 1);
       if (swipeDirection === 1) {
-        // right => like
-        // likeOffer();
-        console.log("like");
+    
         dispatch(addToWishlistThunk(items[currentIndex].id));
       }
-      // else {
-      //   // swipeDirection = -1 && swipe left => dislike
-      //   dislikeOffer();
-      // }
       return {
         opacity: 0.05,
         x: 200 * swipeDirection,
@@ -106,7 +100,7 @@ export function Slider({ carResults, vehicleUIData }) {
   });
 
   return (
-    <div className="relative w-full grow flex justify-center align-center text-primary">
+    <div className="relative w-full h-full grow flex justify-center align-center text-primary">
       <Dialog defaultOpen>
         <DialogContent className="p-2">
           <DialogHeader>
@@ -154,7 +148,7 @@ export function Slider({ carResults, vehicleUIData }) {
 
       <SliderCard
         className={
-          "text-primary bg-primary-foreground flex items-center justify-center"
+          "text-primary h-full bg-primary-foreground flex items-center justify-center"
         }
       >
         <p className="text-lg font-bold">No more offers found</p>

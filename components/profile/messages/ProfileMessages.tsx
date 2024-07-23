@@ -64,7 +64,6 @@ const ProfileMessages = () => {
   );
   useEffect(() => {
     if (lastMessage !== null) {
-      console.log("🚀 ~ useEffect ~ lastMessage:", lastMessage);
       const { data } = lastMessage;
       const { message, receiver } = JSON.parse(data);
       createMessage(message, userId != receiver);

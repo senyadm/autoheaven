@@ -98,7 +98,7 @@ const VehicleActionButtons: React.FC<VehicleActionButtonsProps> = ({
           <Heart width={16} height={16} />
         </Button>
         <Button
-          className="bg-primary text-secondary md:px-2 md:py-3"
+          className="bg-primary text-secondary py-0 md:px-2 md:py-3"
           onClick={() => onButtonClick("contact")}
         >
           <SvgIcon

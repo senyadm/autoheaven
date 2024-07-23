@@ -54,7 +54,6 @@ function getAxiosClient(domain: string, forceAuth: boolean){
                 saveToken(response.data.access_type);
               })
               .catch((error) => {
-                console.log("🚀 ~ error:", error);
                 if (window.location.pathname.includes("/login")) return;
                 saveOriginalUrl(window.location.pathname);
                 window.location.replace("/login");

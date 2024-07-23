@@ -50,7 +50,6 @@ const CheckoutForm = ({clientSecret, amount}: any) => {
             });
           } else {
             // The payment has been processed!
-            console.log('Payment successful!');
             toast({
               description: `Payment went successfully!`,
             });
@@ -62,7 +61,6 @@ const CheckoutForm = ({clientSecret, amount}: any) => {
 
   useEffect(() => {
     if (stripe) {
-      console.log('stripe', amount)
 
       
       const pr = stripe.paymentRequest({

@@ -34,13 +34,11 @@ function getCarPayload(params: AllParams): CarFetchPayload {
     }
   }
   const normalized = getNormalizedParams(filteredPayload);
-  console.log("🚀 ~ getCarPayload ~ normalized:", normalized);
 
   return normalized;
 }
 
 export async function getCarResults(params: AllParams) {
-  console.log("🚀 ~ getCarResults ~ params:", params);
 
   const topVehicles = {
       title: "Top offers",
@@ -72,9 +70,7 @@ export async function getCarResults(params: AllParams) {
     const pageCount = Object.keys(carResults).length;
     // if page is greater or equal (starts with 0) than pageCount, return first page
     const currentPage = params.page >= pageCount ? 0 : params.page;
-    console.log("🚀 ~ getCarResults ~ currentPage:", currentPage);
     const carResultsForPage = carResults[currentPage];
-    console.log("🚀 ~ getCarResults ~ carResultsForPage:", carResultsForPage);
     const offerCount = Object.values(carResults).reduce(
       (acc, curr) => acc + curr.length,
       0

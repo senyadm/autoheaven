@@ -17,7 +17,6 @@ const Chats = () => {
   // const [chats, setChats] = useState<ChatComponentProps[]>([]);
   const dispatch = useAppDispatch();
   const userChats = useSelector((state: RootState) => state.chats.chats);
-  console.log("🚀 ~ Chats ~ userChats:", userChats);
   const { replace } = useRouter();
   // useEffect(() => {
   //   if (!userChats?.length) return;

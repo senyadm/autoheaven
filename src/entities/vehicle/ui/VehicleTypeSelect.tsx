@@ -20,7 +20,7 @@ const typeLabel = {
 
 const VehicleTypeSelect = ({ onChange, vehicleType }) => {
   const handleReset = () => {
-    onChange({});
+    onChange({}, {isReset: true});
   };
   return (
     <div>

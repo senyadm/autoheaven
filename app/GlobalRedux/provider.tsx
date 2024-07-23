@@ -32,7 +32,7 @@ export const Providers = ({ children, dict, params }: ProvidersProps) => {
     fetchAndSetUser(dispatch);
     dispatch(setParams(params));
     dispatch(setLocation(getLocationLS()));
-  }, []);
+  }, [params]);
   return (
     <Provider store={storeRef.current}>
       <ThemeProvider

@@ -35,7 +35,7 @@ const ListHeavenClient = ({
   const offerCount = allResults.length;
   const [filtersOpen, setFiltersOpen] = useState(false);
   return (
-    <section className="min-h-[calc(100vh-64px)] w-full p-2 bg-black text-white ">
+    <section className="h-[calc(100vh-64px)] w-full p-2 bg-black text-white ">
       <div className="flex flex-col max-w-[400px] h-full mx-auto">
         <div className="flex justify-between p-6">
           <LocaleLink

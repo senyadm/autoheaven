@@ -32,7 +32,6 @@ const ProfileOverview = ({ overview }: OverviewProps) => {
 
     const fetchAllCarsCount = clientCars.get("api/cars/count/").then((response) => {
       amounts.cars = response.data;
-      console.log(amounts)
 
     })
     .catch((err) => {

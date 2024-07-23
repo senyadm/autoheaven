@@ -31,7 +31,6 @@ const CarSearchResults = ({
   allParams
 }: CarSearchResultsProps) => {
   const { topVehicles, nonTopVehicles, imageFileNames } = carResultsData;
-  console.log("🚀 ~ carResultsData:", carResultsData)
   const { vehicleType } = allParams;
   const results = [topVehicles, nonTopVehicles];
   try {

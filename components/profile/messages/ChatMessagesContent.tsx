@@ -20,7 +20,6 @@ const ChatMessagesContent = () => {
       new Date(message.created_at).toDateString()
     );
   }, [currentMessages]);
-  console.log("🚀 ~ messagesByDate ~ messagesByDate:", messagesByDate);
   const userId = useAppSelector((state) => state.user.id);
   let firstMessageYou = true,
     firstMessageResponder = true;

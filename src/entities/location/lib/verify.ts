@@ -26,7 +26,6 @@ export function isValidCity(
   const cCity = capitalizeFirstLetter(city);
   const countryIndex = countryNames.findIndex((c) => c === lCountry);
   const countryCode = euCountries[countryIndex]?.code;
-  console.log("🚀 ~ isValidCity ~ countryCode:", countryCode);
   if (!countryCode) return false;
   const cities = euCountriesCities[countryCode];
   if (!cities) return false;
@@ -88,25 +87,6 @@ export function getNewLocationURL(
       .toLowerCase();
   }
   return url + (searchParams ? "?" + searchParams : "");
-  // const isURLBrowseVehicles =
-  //   pathname.includes("cars") ||
-  //   pathname.includes("trucks") ||
-  //   pathname.includes("buses") ||
-  //   pathname.includes("motorcycles");
-  // const isLanding = !arg2 || isValidCountry(arg2);
-  // if (isURLBrowseVehicles || isLanding) {
-  //   if (country === "all") {
-  //     country = "";
-  //     city = "";
-  //   } else if (city === "all") {
-  //     city = "";
-  //   }
-  //   const url = ["", arg1, country, city, ...rest].join("/").toLowerCase();
-  //   console.log("🚀 ~ url:", url);
-  //   return url + (searchParams ? "?" + searchParams : "");
-  // } else {
-  //   return pathname + (searchParams ? "?" + searchParams : "");
-  // }
 }
 
 export function getLocationText(
@@ -123,6 +103,7 @@ export function getLocationShortText(
   country: string | undefined,
   city: string
 ) {
+  console.log("🚀 ~ country:", country)
   if (!country || country === "all") return "Europe";
   if (!city || city === "all") return capitalizeFirstLetter(country);
   return capitalizeFirstLetter(city);

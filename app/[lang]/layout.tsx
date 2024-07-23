@@ -22,10 +22,12 @@ export default async function RootLayout({
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers dict={dict} params={params}>
-          <div className="h-screen flex flex-col ">
+          <div className="h-screen flex flex-col justify-between">
+            <div>
             <Navbar params={params} />
 
-            {children}
+{children}
+            </div>
 
             <Footer lang={params.lang ?? defaultLocale} />
           </div>

@@ -51,7 +51,6 @@ export function parsePageParams(params: string[]) {
       res.isListHeaven = true;
       continue;
     }
-    console.log("🚀 ~ parsePageParams ~ p:", p);
     if (!p) break;
     const isSlugVehicleType = vehicleTypePages.includes(p as VehicleTypePage);
 
@@ -75,7 +74,6 @@ export function parsePageParams(params: string[]) {
       }
     }
   }
-  console.log("🚀 ~ parsePageParams ~ res:", res);
 
   return res;
 }
@@ -127,7 +125,17 @@ function excludeNonFilterKeys(filters: FilterWithLocation) {
   return res;
 }
 
-export function getUriFromFilters(filters: FilterWithLocation) {
+export interface SetFiltersOpts{
+  isReset?: boolean;
+  useSearchParams?: boolean;
+}
+
+export function getUriFromFilters(filters: FilterWithLocation, opts?: SetFiltersOpts) {
+  if (opts?.isReset) {
+    delete filters.make;
+    delete filters.model;
+    return getPathnameFromParams({ ...filters } as PageWithLocationParams);
+  }
   const pathname = getPathnameFromParams(filters as PageWithLocationParams);
   const filtersWithoutNonFilterKeys = excludeNonFilterKeys(filters);
   const filtersWithoutDefaults = excludeDefaults(filtersWithoutNonFilterKeys);
@@ -150,6 +158,8 @@ export function getMetadataFromParsedParams(params: PageWithLocationParams) {
     if (model) title += ` ${model}`;
     if (vehicleType) title += ` ${pageByVehicleType[vehicleType]}`;
     title += ` in ${getLocationText(country, city)}`;
+  } else {
+    title = `Browse vehicles in ${getLocationText(country, city)}`;
   }
   title = capitalizeFirstLetter(title);
   return {

@@ -42,14 +42,6 @@ const Carousel = React.forwardRef<
       {
         ...opts,
         loop: false,
-        // watchDrag: (apiFromDrag, another) => {
-        //   // const direction = readDirection(apiFromDrag);
-        //   // console.log("🚀 ~ direction:", direction);
-        //   // const engine = apiFromDrag.internalEngine();
-        //   // console.log("watchDrag", engine);
-        //   apiFromDrag.scrollNext();
-        //   return false;
-        // },
         startIndex: 1,
         axis: orientation === "horizontal" ? "x" : "y",
       },

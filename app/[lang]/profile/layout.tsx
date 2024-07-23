@@ -70,7 +70,6 @@ const ProfileLayout = ({
 }) => {
   const dictionary = useAppSelector((state) => state.pageData.dict);
   const dict = dictionary?.sidebarItems;
-  console.log("🚀 ~ dict:", dict)
 
   const pathname = usePathname();
   const router = useRouter();
