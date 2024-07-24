@@ -19,7 +19,7 @@ import { SellClassicTranslations } from "@/types";
 import { Palette } from "lucide-react";
 import countryList from "react-select-country-list";
 import CountryFlag from "react-country-flag";
-import { VehicleType } from "../../../interfaces/shared/vehicle";
+import { VehicleType } from "@/src/entities/filters";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 
 const carColors: string[] = [
@@ -213,7 +213,7 @@ const VehicleSpecs = ({
             </SelectContent>
           </Select>
         </div>
-        {carType != VehicleType.moto && (
+        {carType != VehicleType.Moto && (
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <Label className="text-lg text-foreground" htmlFor="filter3">

@@ -17,7 +17,7 @@ import {
 import SvgIcon from "@/components/SvgIcon";
 import { SellClassicTranslations } from "@/types";
 import { Kanban, Settings, ShipWheel, Snowflake, Sun, Zap } from "lucide-react";
-import { VehicleType } from "../../../interfaces/shared/vehicle";
+import { VehicleType } from "@/src/entities/filters";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import CarSvg from "@/public/icons/Car.svg";
 import { cn } from '@/src/shared/utils/cn';
@@ -128,7 +128,7 @@ const VehicleModification = ({
   return (
     <Card className="w-full mx-auto bg-white border-none shadow-none">
       <CardContent className="border shadow-md rounded w-full p-8 space-y-6">
-        {carType == VehicleType.car && (
+        {carType == VehicleType.Car && (
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <Label className="text-lg text-foreground" htmlFor="filter2">
@@ -258,7 +258,7 @@ const VehicleModification = ({
           />
         </div>
 
-        {carType != VehicleType.moto && (
+        {carType != VehicleType.Moto && (
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Label className="text-lg text-foreground" htmlFor="filter2">
