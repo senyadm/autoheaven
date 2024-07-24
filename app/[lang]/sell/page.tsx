@@ -21,8 +21,13 @@ import {
 } from "@/components/ui/accordion";
 import { PlansInfo } from "@/interfaces/sell/CardInfo";
 import { getlocales } from "@/app/actions";
-import { Locale } from "@/i18n.config";
 import { Metadata } from "next";
+import { Locale } from '@/src/app/i18n.config';
+import { staticParams } from '@/src/app/static-params';
+
+export function generateStaticParams(){
+  return staticParams.default;
+}
 
 export const metadata: Metadata = {
   title: "Sell your car on AutoHeaven",

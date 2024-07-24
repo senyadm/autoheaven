@@ -61,7 +61,7 @@ export function MultiSelect({
         }
       }
     },
-    []
+    [make, setSelected]
   );
 
   const selectables = data.filter((item) => !selected[make]?.includes(item));

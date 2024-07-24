@@ -16,7 +16,7 @@ const VehicleSetter = ({ car, children, params }: VehicleSetterProps) => {
   useEffect(() => {
     dispatch(setCar(car));
     dispatch(setParams(params))
-  }, [car, dispatch]);
+  }, [car, dispatch, params]);
 
   return children;
 };

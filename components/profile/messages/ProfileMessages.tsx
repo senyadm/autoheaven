@@ -60,7 +60,7 @@ const ProfileMessages = () => {
       };
       dispatch(addMessage(messagePayload));
     },
-    [currentChat, dispatch]
+    [currentChat, dispatch, userId]
   );
   useEffect(() => {
     if (lastMessage !== null) {
@@ -68,7 +68,7 @@ const ProfileMessages = () => {
       const { message, receiver } = JSON.parse(data);
       createMessage(message, userId != receiver);
     }
-  }, [createMessage, lastMessage]);
+  }, [createMessage, lastMessage, userId]);
 
   useEffect(() => {
     if (!currentChat) return;

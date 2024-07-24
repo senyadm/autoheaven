@@ -119,7 +119,7 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
         document.removeEventListener("keydown", handleKeyDown);
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [hidden, typedChars]);
+    }, [brandRefs, hidden, toggleBrands, typedChars]);
 
     useEffect(() => {
       const clearCharsTimeout = setTimeout(() => {
@@ -163,7 +163,7 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    }, [hidden]);
+    }, [hidden, toggleBrands]);
 
     return (
       <div

@@ -11,6 +11,13 @@ import { Locale } from "../../../src/app/i18n.config";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { Metadata, ResolvingMetadata } from "next/types";
 import ListHeavenHome from "../../../src/app-pages/listheaven/ui/ListHeavenHome";
+import { staticParams } from '@/src/app/static-params';
+
+export async function generateStaticParams() {
+  const {default: defaultParams, browseVehicles, listHeaven} = staticParams;
+  return [ ...defaultParams, ...browseVehicles, ...listHeaven ];
+}
+
 
 export async function generateMetadata(
   { params, searchParams }: PageProps,

@@ -95,7 +95,7 @@ const VehicleSpecs = ({
 
       dispatch(setDetails({ ...store, fuel_consumption: fuel }));
     }
-  }, [store?.fuel_consumption]);
+  }, [dispatch, store, store?.fuel_consumption]);
 
   const handleNext = () => {
     dispatch(setDetails(store));

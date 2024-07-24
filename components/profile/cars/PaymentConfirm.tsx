@@ -27,7 +27,7 @@ export default function PaymentConfirm({option, toggleLoading, loading, id}: {id
       };
       
       fetchClientSecret();
-    }, [option, id]);
+    }, [option, id, toggleLoading]);
   
     const options = { clientSecret };
     return clientSecret && !loading ? (
