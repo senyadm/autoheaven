@@ -50,7 +50,7 @@ export default function VehicleResult(props: VehicleResultProps) {
   } = props.carDetails;
   const isDesktop = useMediaQuery('(min-width: 768px)');
   if (isDesktop) {
-    return <div className="relative">
+    return <div className="relative cursor-pointer">
     <Dialog>
       <DialogTrigger asChild>
         <div className="absolute w-full h-full"></div>

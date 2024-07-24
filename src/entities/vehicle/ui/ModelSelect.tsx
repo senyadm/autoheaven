@@ -23,6 +23,7 @@ const ModelSelect = ({
 
   const handleModelClick = useCallback(
     (make: string, model: string) => {
+      console.log("🚀 ~ model:", model)
       const newFilters = { ...filters, make, model };
       onChange(newFilters as Filter);
     },

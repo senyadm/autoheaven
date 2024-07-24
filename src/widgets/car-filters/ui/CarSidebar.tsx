@@ -21,6 +21,8 @@ import VehicleTypeSelect from "../../../entities/vehicle/ui/VehicleTypeSelect";
 import { cn } from "../../../shared/utils/cn";
 import VehicleTypeTabButtons from "./VehicleTypeTabButtons";
 import { getFilterData } from "../../../features/search-vehicles";
+import Link from 'next/link';
+import LinkLikeButton from '@/src/shared/ui/LinkLikeButton';
 
 type CarSidebarProps = {
   params: FullPageParams;
@@ -43,6 +45,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
   const { country, city, vehicleType, make, model } = params;
   const [vehicleUIData, setVehicleUIData] = useState<any>({});
   const [pageText, setPageText] = useState<FiltersDictionary | null>(null);
+  const redirectURI = useRef( getUriFromFilters({...params, vehicleType: VehicleType.Car}) );
 
   const { types, makes, models } = vehicleUIData;
   const { push, replace } = useRouter();
@@ -82,23 +85,18 @@ const CarSidebar: FC<CarSidebarProps> = ({
     fetchFilterData();
   }, [params.vehicleType, params.lang, filters.vehicleType]);
 
-  const redirectURI = useRef("cars");
 
   const setFiltersAndRedirect = useCallback(
     (newFilters: Filter) => {
       setFilters(newFilters);
       replace(redirectURI.current);
-      // const normalizedFilters = getNormalizedParams(newFilters);
-      // // normalizedFilters.makeModels = ["M5", "M6"];
-      // const newURLParams = new URLSearchParams(normalizedFilters);
-      // replace(`cars?${newURLParams.toString()}`);
     },
     [replace]
   );
   const setFiltersFn = useCallback(
     (newFilters: Filter, opts?: SetFiltersOpts) => {
       let fullFilters = { ...params, ...newFilters };
-      if (params.vehicleType !== newFilters.vehicleType) {
+      if (params.vehicleType && (params.vehicleType !== newFilters.vehicleType)) {
         // delete fullFilters.make;
         // delete fullFilters.model;
         fullFilters.make = "";
@@ -250,13 +248,14 @@ const CarSidebar: FC<CarSidebarProps> = ({
           />
         </div>
         {isFetchInstant || (
-          <Button
-            onClick={() => replace(redirectURI.current)}
+          <LinkLikeButton
+            href={redirectURI.current}
             className="!ml-auto mr-0 w-full lg:w-auto"
           >
             See offers
-          </Button>
+          </LinkLikeButton>
         )}{" "}
+        <LinkLikeButton href="listheaven" className='w-full lg:w-auto text-primary border bg-secondary hover:text-secondary'>ListHeaven</LinkLikeButton>
       </div>
     </div>
   );
