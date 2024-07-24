@@ -23,7 +23,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers dict={dict} params={params}>
           <div className="h-screen flex flex-col justify-between">
-            <div>
+            <div className='h-full'>
             <Navbar params={params} />
 
 {children}

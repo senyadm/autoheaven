@@ -93,9 +93,9 @@ export function getLocationText(
   country: string | undefined,
   city: string | undefined
 ) {
-  if (!country) return "Europe";
+  if (!country || country === "all" || country === "undefined") return "Europe";
   const cCountry = capitalizeFirstLetter(country);
-  if (!city) return cCountry;
+  if (!city || city === "all" || city === "undefined") return cCountry;
   const cCity = capitalizeFirstLetter(city);
   return `${cCity}, ${cCountry}`;
 }
@@ -103,9 +103,9 @@ export function getLocationShortText(
   country: string | undefined,
   city: string
 ) {
-  console.log("🚀 ~ country:", country)
-  if (!country || country === "all") return "Europe";
-  if (!city || city === "all") return capitalizeFirstLetter(country);
+  // due to local storage it can be undefined as string
+  if (!country || country === "all" || country === "undefined") return "Europe";
+  if (!city || city === "all" || city === "undefined") return capitalizeFirstLetter(country);
   return capitalizeFirstLetter(city);
 }
 
