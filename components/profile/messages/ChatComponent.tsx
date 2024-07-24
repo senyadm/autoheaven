@@ -28,7 +28,6 @@ const ChatComponent = ({ chat, onChatClick }: ChatComponentProps) => {
   if (!carInfo) return null;
   // const { imageurl, title } = carInfo;
   function handleDelete() {
-    console.log("Deleting chat");
 
     dispatch(deleteChat(chat));
     clientChats.delete(`/chat_list/${chat_id}`).catch((err) => {

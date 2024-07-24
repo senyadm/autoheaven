@@ -26,6 +26,7 @@ import VehicleActionButtons from "./VehicleActionButtons";
 import {OptionalCarousel, VehicleImage} from "@/src/entities/vehicle/ui/VehicleImage";
 import { VehicleOnCard } from '@/src/entities/vehicle';
 import PhoneNumber from '@/src/entities/user/ui/PhoneNumber';
+import { cn } from '@/src/shared/utils/cn';
 
 const FuelTypeIcon = (fuelType: any) => {
   switch (fuelType) {
@@ -110,19 +111,19 @@ const ResultCarCard = ({
       label: `${mileage} km`,
     },
     {
-      icon: <FuelTypeIcon fuelType={fueltype} />, // Replace with the actual FuelTypeIcon component
+      icon: <FuelTypeIcon fuelType={fueltype} width={16} height={16}/>, // Replace with the actual FuelTypeIcon component
       label: fueltype,
     },
     {
-      icon: <BodyStyleIcon bodyStyle={type} />, // Replace with the actual BodyStyleIcon component
+      icon: <BodyStyleIcon bodyStyle={type} width={16} height={16}/>, // Replace with the actual BodyStyleIcon component
       label: type,
     },
     {
-      icon: <GearIcon gear={gearbox} />, // Replace with the actual GearIcon component
+      icon: <GearIcon gear={gearbox} width={16} height={16}/>, // Replace with the actual GearIcon component
       label: gearbox,
     },
     {
-      icon: <DrivetrainIcon drivetrain={drivetrain} />, // Replace with the actual DrivetrainIcon component
+      icon: <DrivetrainIcon drivetrain={drivetrain} width={16} height={16}/>, // Replace with the actual DrivetrainIcon component
       label: drivetrain,
     },
     {
@@ -137,7 +138,7 @@ const ResultCarCard = ({
 
   return (
     <Card
-      className={`text-sm md:text-base overflow-hidden ${
+      className={`text-sm md:text-base overflow-hidden p-2 ${
         isPremium ? "bg-premium text-white" : "bg-background"
       } w-full border rounded-lg`}
     >
@@ -146,32 +147,32 @@ const ResultCarCard = ({
           <Flame width={16} height={16} className="mr-2 ml-6" /> Top
         </div>
       )}
-      <CardHeader className="px-3 pt-3">
+      <CardHeader className="">
         <CardTitle>{`${make || ""} ${model || ""}`}</CardTitle>
         <CardDescription className="text-bold">€ {price}</CardDescription>
       </CardHeader>
 
-      <CardContent className="md:py-0 flex space-x-2 md:space-x-4">
-        <div className="w-52 h-full">
+      <CardContent className={cn("flex flex-col space-y-2", "", "sm:flex-row sm:space-y-0")}>
+        <div className="w-full sm:w-52 h-full">
           {
             imageFileNames ? <OptionalCarousel imageFileNames={imageFileNames} imageOptions={{fill:true}}/>:
             <VehicleImage id={id} imageOptions={{fill:true}} />
             }
         </div>
 
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-2 mb-1 ">
+        <div className="flex flex-wrap space-x-4 sm:gap-2 mb-1 -ml-4 sm:ml-0">
           {carInfo.map(
             (info, index) =>
               info.label && (
-                <div key={index} className="flex items-center space-x-2">
-                  {info.icon}
-                  <span>{info.label}</span>
+                <div key={index} className={cn("flex items-center space-x-2 w-fit", index || "ml-4")}>
+                  <div className=''>{info.icon}</div>
+                  <span className='whitespace-nowrap'>{info.label}</span>
                 </div>
               )
           )}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between p-1">
+      <CardFooter className="flex justify-between">
        <PhoneNumber phone_number={phone_number} className="z-10"/>
 
         <VehicleActionButtons

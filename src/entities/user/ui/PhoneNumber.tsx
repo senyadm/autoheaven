@@ -25,11 +25,11 @@ export default function PhoneNumber({ phone_number, className }: PhoneNumberProp
     const [showNumber, setShowNumber] = useState(false);
   return (
     <div className={cn("md:w-auto", className)}>
-    <div className="flex justify-start items-center mt-1 mb-2 md:mb-1">
+    <div className="flex justify-start items-center">
       <div className="md:hidden md:mb-2">
         <Button
           variant="ghost"
-          className="transition duration-300 hover:bg-white"
+          className="transition duration-300 hover:bg-white py-0"
           onClick={() => setShowNumber(!showNumber)}
         >
           {showNumber ? (

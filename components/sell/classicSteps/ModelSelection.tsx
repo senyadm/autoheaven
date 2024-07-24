@@ -33,7 +33,6 @@ const ModelSelection = ({
 }) => {
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
   const { models } = staticVehicleData;
-  console.log("🚀 ~ models:", models);
   const [search, setSearch] = useState<string>("");
 
   const [store, dispatch] = useAppStore((state) => state?.createCarProgress);
@@ -47,10 +46,6 @@ const ModelSelection = ({
     );
     return grouped;
   }, [make, models]);
-  console.log(
-    "🚀 ~ sortedModelsWithHeadings ~ sortedModelsWithHeadings:",
-    sortedModelsWithHeadings
-  );
 
   const filteredModels = useMemo(() => {
     const lettersAndModels = Object.entries(
@@ -59,7 +54,6 @@ const ModelSelection = ({
     lettersAndModels.sort(([a], [b]) => a.localeCompare(b));
     return lettersAndModels;
   }, [search, sortedModelsWithHeadings]);
-  console.log("🚀 ~ filteredModels ~ filteredModels:", filteredModels);
 
   return (
     <Card className="w-full h-full mx-auto bg-white border-none shadow-none">

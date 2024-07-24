@@ -64,7 +64,7 @@ const tipCards = [
 
 const ListHeavenHome = ({ params }) => {
   return (
-    <main className="flex flex-col m-8 space-y-4 w-full max-w-[700px] mx-auto">
+    <main className="flex flex-col space-y-4 w-full max-w-[700px] mx-auto p-4">
       <section>
         <h1 className="font-bold mb-2">Category</h1>
         <div className="flex justify-between w-full ">

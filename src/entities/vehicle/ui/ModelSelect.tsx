@@ -23,6 +23,7 @@ const ModelSelect = ({
 
   const handleModelClick = useCallback(
     (make: string, model: string) => {
+      console.log("🚀 ~ model:", model)
       const newFilters = { ...filters, make, model };
       onChange(newFilters as Filter);
     },
@@ -58,7 +59,6 @@ const ModelSelect = ({
         <Select
           open={brandsOpen}
           onValueChange={(selectorValue) => {
-            console.log("🚀 ~ selectorValue:", selectorValue);
             // handleSelectorChange("cars", "brandAndModel", selectorValue);
             toggleBrandsOpen();
           }}

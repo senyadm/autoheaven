@@ -13,7 +13,6 @@ export const validateToken = async () => {
     const resp = await clientUsers.get("/api/users/me/", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("user info ", resp);
     return true;
   } catch {
     return false;

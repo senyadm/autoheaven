@@ -243,7 +243,6 @@ const VirtualizedList: React.FC<VirtualizedListProps> = React.memo(
           >
             {entries.map(([make, models]) => {
               if (make === hoveredBrand) {
-                console.log("models", models.models[0]);
                 return models.models.map((model, modelIndex) => (
                   <div
                     key={modelIndex}

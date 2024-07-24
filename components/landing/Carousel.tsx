@@ -15,17 +15,17 @@ const carouselData = {
   [VehicleType.Car]: {
     imageName: "waqas-sultan.png",
     title: "Cruise in Comfort",
-    subtitle: "Discover Cars Tailored to Your Lifestyle",
+    subtitle: "Find your dream car with AutoHeaven",
   },
   [VehicleType.Moto]: {
     imageName: "scooter.png",
     title: "Effortless Urban Travel",
-    subtitle: "Discover Cars Tailored to Your Lifestyle",
+    subtitle: "Explore the City Life with AutoHeaven",
   },
   [VehicleType.Truck]: {
     imageName: "truck 1.png",
     title: "Group Travel Made Easy",
-    subtitle: "Discover Cars Tailored to Your Lifestyle",
+    subtitle: "Go on an Adventure with AutoHeaven",
   },
   [VehicleType.Bus]: {
     imageName: "markus-winkler.png",
