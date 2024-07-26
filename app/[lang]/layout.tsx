@@ -22,10 +22,11 @@ export default async function RootLayout({
   const dict = await getlocales(params.lang);
   // we add supress hydration warning because of themes as it is recommended
   return (
-    <Head>
+  
+    <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
+        <Head>
       <meta name="google-adsense-account" content="ca-pub-4749046969984937"></meta>
     </Head>
-    <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers dict={dict} params={params}>
           <div className="h-screen flex flex-col justify-between">
