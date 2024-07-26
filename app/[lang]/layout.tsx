@@ -12,6 +12,14 @@ import Script from 'next/script';
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const metadata = {
+  other: {
+    "google-adsense-account": "ca-pub-4749046969984937",
+    
+  
+  },
+}
+
 export default async function RootLayout({
   children,
   params,
