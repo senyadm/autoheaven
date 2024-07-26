@@ -22,6 +22,9 @@ export default async function RootLayout({
   const dict = await getlocales(params.lang);
   // we add supress hydration warning because of themes as it is recommended
   return (
+    <Head>
+      <meta name="google-adsense-account" content="ca-pub-4749046969984937"></meta>
+    </Head>
     <html lang={params.lang ?? defaultLocale} suppressHydrationWarning>
       <body className={inter.className}>
         <Providers dict={dict} params={params}>
@@ -35,7 +38,7 @@ export default async function RootLayout({
         </Providers>
         <Toaster />
       </body>
-      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4749046969984937"></Script>
+      {/* <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4749046969984937"></Script> */}
     </html>
   );
 }
