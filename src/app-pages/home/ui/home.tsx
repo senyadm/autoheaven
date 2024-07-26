@@ -14,7 +14,7 @@ export const Home = async ({ params }: { params: AllParams }) => {
   const lang = params.lang ?? defaultLocale;
   const { dict, tipsBlock, brands, carousel } = await getlocales(lang);
   return (
-    <main className="body-container flex flex-col items-center bg-topography-light relative">
+    <main className="body-container flex flex-col items-center bg-topography-light">
       <Carousel lang={lang} menu={carousel} />
       {/* <FilterComponent
         lang={lang}

@@ -6,6 +6,9 @@ import AppCarDropdown from "../../shared/AppDropdownMenu";
 import ProfileAdsWillAppear from "./ProfileAdsWillAppear";
 import { clientCars, clientCarsForceAuth } from "@/src/shared/api/client";
 import { getToken } from "@/src/shared/utils/auth";
+import { parseArrayFromString } from '@/src/shared/utils/parse-string';
+import { Vehicle } from '@/src/entities/vehicle';
+import VehicleResult from '@/src/entities/vehicle/ui/VehicleResult';
 
 const sortingAdsOptions = [
   "Latest added",
@@ -17,7 +20,7 @@ const sortingAdsOptions = [
 ];
 
 const ProfileAds = ({ lang }: any) => {
-  const [results, setResults] = useState<ResultCarCardInterface[]>([]);
+  const [results, setResults] = useState<Vehicle[]>([]);
   useEffect(() => {
     // fetch results
     clientCarsForceAuth.get("api/cars/wishlist/").then((response) => {
@@ -35,10 +38,10 @@ const ProfileAds = ({ lang }: any) => {
       </div>
       <div className="flex flex-col space-y-3">
         {results?.map((car) => (
-          <ResultCarCard
+            <VehicleResult
+            key={car.id}
             carDetails={car}
-            pageDisplayed="profileAds"
-            key={car.title + car.id}
+            imageFileNames={parseArrayFromString(car.imageurl)}
           />
         ))}
       </div>

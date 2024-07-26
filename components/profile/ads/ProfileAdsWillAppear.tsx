@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../../ui/button";
 import { useRouter } from "next/navigation";
 import { Car, ChevronRight } from "lucide-react";
+import LinkLikeButton from '@/src/shared/ui/LinkLikeButton';
 
 const ProfileAdsWillAppear = ({lang}: any) => {
   const router = useRouter();
@@ -12,12 +13,10 @@ const ProfileAdsWillAppear = ({lang}: any) => {
       <div className="text-muted-foreground text-3xl m-0">
         Liked ads will appear here
       </div>
-      <Button onClick={() => {
-        router.push(`/${lang}`);
-      }}>
+      <LinkLikeButton href={`/${lang}/cars`}>
         <div>Search for cars </div>
         <ChevronRight width={16} height={16} className="ml-2" />
-      </Button>
+      </LinkLikeButton>
     </div>
   );
 };

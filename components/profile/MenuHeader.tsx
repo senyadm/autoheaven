@@ -18,7 +18,7 @@ const MenuHeader = () => {
             height={48}
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-hidden">
           <span className="font-bold ">{fullName}</span>
           <span className="text-foreground text-sm text-muted-foreground">
             {userEmail}
