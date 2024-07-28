@@ -1,25 +1,19 @@
 import {
-  ModelName,
-  setModel,
   setTypeId,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { InputField } from "@/components/ui/input-field";
-import { Label } from "@/components/ui/label";
-import { SellClassicTranslations } from "@/types";
 import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
-import { VehicleType } from "../../../src/shared/model/params";
 import {
   CarType,
   searchTypes,
@@ -29,16 +23,15 @@ import {
 interface BodyTypeSelectionProps {
   onNext: () => void;
   onPrevious: () => void;
-  dict: SellClassicTranslations | null;
   types: CarType[];
 }
 
 const BodyTypeSelection = ({
   onNext,
   onPrevious,
-  dict,
   types,
 }: BodyTypeSelectionProps) => {
+  const dict = useAppSelector((state) => state?.pageData.dict?.sell.classic);
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
   const [search, setSearch] = useState<string>("");
 

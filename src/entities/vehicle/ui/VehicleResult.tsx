@@ -98,7 +98,7 @@ export default function VehicleResult(props: VehicleResultProps) {
   }
     
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer">
       <Drawer>
         <DrawerTrigger asChild>
           <div className="absolute w-full h-full"></div>

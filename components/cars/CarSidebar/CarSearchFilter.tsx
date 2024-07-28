@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, FC } from "react";
-import RangeSlider from "@/components/landing/RangeSlider";
-import { allData } from "@/components/landing/allData";
-import { Car } from "@/components/landing/types";
+import { createRef, useRef } from "react";
+import RangeSlider, { RangeSliderRef } from "@/components/landing/RangeSlider";
 
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppSelector } from '@/app/GlobalRedux/store';
 import usePremiumStatus from "@/src/shared/hooks/usePremiumStatus";
-import { FiltersDictionary } from "../../../types";
 import { Filter } from "../../../src/shared/model/params";
 import { cn } from "../../../src/shared/utils/cn";
 
@@ -16,63 +13,22 @@ interface CarSearchFilterProps {
     ids: [keyof Filter, keyof Filter],
     values: [number, number]
   ) => void;
-  sliderRefs: any;
   filters: Filter;
-  dict: FiltersDictionary;
   orientation?: "vertical" | "horizontal";
 }
 const CarSearchFilter = ({
   handleSliderChange,
   filters,
-  dict,
-  sliderRefs,
   orientation = "vertical",
 }: CarSearchFilterProps) => {
+  const sliderRefs = useRef([
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>(),
+    createRef<RangeSliderRef>(),
+  ]);
   const { premiumThreshold, isPremium } = usePremiumStatus();
   const variablePriceMin = isPremium ? premiumThreshold : 1000;
-
-  //   [brands, setBrands] = useState<string[]>([]);
-  // const [offers, setOffers] = useState<number>(0);
-
-  // const brands = tempData;
-  // // brands.push("All")
-  // useEffect(() => {
-  //   if (!carBrands) {
-  //     dispatch(fetchAllCars());
-  //   }
-  // }, [dispatch, carBrands]);
-
-  // const mileageInRange = (car: Car, range: [number, number]) =>
-  //   car.mileage >= range[0] && car.mileage <= range[1];
-  // const priceInRange = (car: Car, range: [number, number]) =>
-  //   car.price >= range[0] && car.price <= range[1];
-  // const yearInRange = (car: Car, range: [number, number]) =>
-  //   car.year >= range[0] && car.year <= range[1];
-  // const isBrand = (car: Car, brand: string) =>
-  //   car.make === brand || brand === "All";
-  // const bodyMatch = (car: Car, body: string) =>
-  //   car.type === body || body === "All";
-  // const fuelMatch = (car: Car, fuel: string) => car. === fuel || fuel === "All";
-
-  // const carMatchesFilters = (car: Car, filters: Filter) => {
-  //   return (
-  //     mileageInRange(car, filters.milage) &&
-  //     priceInRange(car, filters.price) &&
-  //     yearInRange(car, filters.year) &&
-  //     isBrand(car, filters.brandAndModel) &&
-  //     bodyMatch(car, filter.vehicleBody)
-  //   );
-  // };
-
-  // useEffect(() => {
-
-  //   if (carData && carMatchesFilters && filter) {
-  //     const resData = carData.filter((car) => carMatchesFilters(car, filter));
-  //     handleOfferNumbers(resData.length);
-  //     setOffers(resData.length);
-  //   }
-  // }, [carData, carMatchesFilters, filter]);
-
+  const dict = useAppSelector((state) => state.pageData.dict?.filters);
   return (
     <div
       className={cn(

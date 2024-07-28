@@ -1,8 +1,8 @@
+import { VehicleType } from '@/src/shared/model/params';
 import { getCars } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
 import { MotoMake, MotoType } from "../model/moto";
 import { fetchVehiclesV2 } from "./fetch-v2";
-import { VehicleType } from "../../filters";
 
 export async function fetchMoto(searchParams: FilterParams) {
   return fetchVehiclesV2(VehicleType.Moto, searchParams);

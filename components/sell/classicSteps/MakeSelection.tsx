@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { ChevronRight, SearchIcon } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppSelector, useAppStore } from '@/app/GlobalRedux/store';
 interface VehicleCreateParams {
   vehicleType: string;
   make: string;
@@ -22,7 +22,6 @@ import {
 import { InputField } from "@/components/ui/input-field";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SellClassicTranslations } from "@/types";
 import { VehicleType } from "../../../src/shared/model/params";
 import VehicleMakeCheckbox, {
   searchModels,
@@ -50,14 +49,14 @@ function getMakesByCarType(
 const MakeSelection = ({
   onNext,
   onPrevious,
-  dict,
   staticVehicleData,
 }: {
   onNext: () => void;
   onPrevious: () => void;
-  dict: SellClassicTranslations | null;
 }) => {
   const { makes, models } = staticVehicleData;
+  const dict = useAppSelector((state) => state?.pageData.dict?.sell.classic);
+
   const [search, setSearch] = useState<string>("");
   const { isMakeChosen } = useMake();
   const [carType] = useAppStore((state) => state?.createCarProgress?.carType);

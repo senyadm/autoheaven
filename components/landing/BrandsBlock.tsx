@@ -1,36 +1,29 @@
-import { useAppStore } from "@/app/GlobalRedux/useStore";
-import { brandInfo } from "@/interfaces/brandInfo";
-import React, { useEffect } from "react";
+'use client';
 import BrandsElement from "./BrandsElement";
 import GradientHeading from "./GradientHeading";
 import { countBrands, fetchBrands } from "../../actions/cars";
+import { useAppSelector } from '@/app/GlobalRedux/store';
+import { useEffect, useState } from 'react';
+import { brandInfo } from '@/interfaces/brandInfo';
 
-const brandsData: string[] = [
-  "Volkswagen",
-  "Porsche",
-  "Audi",
-  "BMW",
-  "Ford",
-  "Mercedes-Benz",
-  "Toyota",
-];
 
-interface Props {
-  popularBrands: string;
-}
-
-const BrandsBlock = async ({ popularBrands }: Props) => {
-  const brands = await fetchBrands();
-  const brandsDataState = await countBrands(brands);
-
+const BrandsBlock = () => {
+  const [makes, setMakes] = useState<brandInfo[] | null>(null);
+  useEffect(() => {
+    countBrands().then((res) => {
+      setMakes(res);
+    })
+  }, []);
+ 
+  const text = useAppSelector((state) => state.pageData.dict?.popularBrands);
   return (
     <section className="flex flex-col items-center border rounded-md bg-background w-full md:max-w-6xl my-16 py-8">
       <GradientHeading
-        title={popularBrands || "Popular Brands"}
+        title={text || "Popular Brands"}
         className="mb-9"
       />
       <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {brandsDataState.map((brandsDataEl: any) => (
+        {makes?.map((brandsDataEl: any) => (
           <BrandsElement
             key={brandsDataEl.brandName}
             brandInfo={brandsDataEl}

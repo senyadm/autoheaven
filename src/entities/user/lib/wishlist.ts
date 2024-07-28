@@ -5,7 +5,7 @@ import {
   RootState,
   useAppSelector,
 } from "../../../../app/GlobalRedux/store";
-import { useAppStore } from "../../../../app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { fetchWishlistCars } from "../api/userSlice";
 import { useSelector } from "react-redux";
 import { useUser } from "./useUser";

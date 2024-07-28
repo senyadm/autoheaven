@@ -1,4 +1,4 @@
-import { VehicleType } from '@/src/entities/filters';
+import { VehicleType } from '@/src/shared/model/params';
 import { getCars, vehicleTypeToApiKeyword } from "../../../shared/api";
 
 export async function fetchImageFileNames(

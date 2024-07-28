@@ -1,4 +1,5 @@
 "use server";
+import { brandInfo } from '@/interfaces/brandInfo';
 import { FilterPayload } from "../app/GlobalRedux/Features/carFiltersAndResultsSlice";
 import { clientCars } from "../src/shared/api/client";
 import { cache } from "react";
@@ -25,7 +26,7 @@ export const fetchAllCars = cache(async (filters: FilterPayload) => {
   }
 });
 
-export const countBrands = async (brands: {}) => {
+export const countBrands = async () => {
   const cars = await fetchAllCars({
     max_results: 100000,
     price_max: 1000000,
@@ -37,23 +38,23 @@ export const countBrands = async (brands: {}) => {
   });
 
   const brandsData = {};
-  for (const brand of Object.keys(brands)) {
-    brandsData[brand as any] = {
-      resultsCount: 0,
-      models: new Set(),
-    };
-  }
+ 
   Object.values(cars).forEach((carsList) => {
     carsList.forEach((car) => {
-      if (brandsData[car.make]) {
+      if (!brandsData[car.make]) {
+        brandsData[car.make] = {
+          resultsCount: 0,
+          models: new Set(),
+        };
+      }
         brandsData[car.make].resultsCount += 1;
         if (!brandsData[car.make].models.has(car.model)) {
           brandsData[car.make].models.add(car.model);
         }
-      }
+   
     });
   });
-  const res = [];
+  const res: brandInfo[] = [];
   for (const brand in brandsData) {
     if (brandsData[brand].resultsCount) {
       res.push({

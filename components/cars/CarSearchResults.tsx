@@ -56,11 +56,7 @@ const CarSearchResults = ({
             </div>
           ))}
         </div>
-        <div className="flex justify-end">
-          <Button>
-            See more <ChevronRight width={16} height={16} />
-          </Button>
-        </div>
+      
         <CarPagination searchParams={searchParams} pageCount={pageCount} />
       </div>
     );

@@ -14,7 +14,7 @@ const optionsToCents = {
     month: 399
 };
 
-export default function PaymentConfirm({option, toggleLoading, loading, id}: {id: string, loading: boolean, option: string, toggleLoading: () => void}) {
+export default function PaymentConfirm({option,  id}: {id: string, loading: boolean, option: string, toggleLoading: () => void}) {
     const [clientSecret, setClientSecret] = useState("");
 
     useEffect(() => {
@@ -22,21 +22,17 @@ export default function PaymentConfirm({option, toggleLoading, loading, id}: {id
         getIntent(id, option)
         .then((data) => {
           setClientSecret(data);
-          toggleLoading();
+          // toggleLoading();
         });
       };
       
       fetchClientSecret();
-    }, [option, id, toggleLoading]);
+    }, [option, id]);
   
     const options = { clientSecret };
-    return clientSecret && !loading ? (
+    return clientSecret && (
         <Elements stripe={stripePromise} options={options}>
           <CheckoutForm clientSecret={clientSecret} amount={optionsToCents[option]}/>
         </Elements>
-      ) : (
-        <div>
-        <Loading />
-    </div>
-      );
+      ) 
 };

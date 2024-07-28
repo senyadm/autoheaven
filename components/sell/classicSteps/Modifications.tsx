@@ -1,5 +1,5 @@
 import { setDetails } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,12 +15,11 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import SvgIcon from "@/components/SvgIcon";
-import { SellClassicTranslations } from "@/types";
 import { Kanban, Settings, ShipWheel, Snowflake, Sun, Zap } from "lucide-react";
-import { VehicleType } from "@/src/entities/filters";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import CarSvg from "@/public/icons/Car.svg";
 import { cn } from '@/src/shared/utils/cn';
+import { VehicleType } from '@/src/shared/model/params';
 
 const bodyTypes: string[] = ["Sedan", "SUV", "Hatchback", "Pickup", "Example"];
 
@@ -79,13 +78,12 @@ const consumptionUiData = [
 const VehicleModification = ({
   onNext,
   onPrevious,
-  dict,
 }: {
   onPrevious: () => void;
   onNext: (mode?: string) => void;
-  dict: SellClassicTranslations | null;
 }) => {
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
+  const dict = useAppSelector((state) => state?.pageData.dict?.sell.classic);
 
   const [store, dispatch] = useAppStore(
     (state) => state?.createCarProgress.details

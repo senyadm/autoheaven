@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import {CardElement, PaymentRequestButtonElement, useElements, useStripe} from '@stripe/react-stripe-js';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from 'sonner';
 
-const CheckoutForm = ({clientSecret, amount}: any) => {
+const CheckoutForm = ({ clientSecret, amount }: any) => {
+  
   const stripe = useStripe();
   const elements = useElements();
   const [paymentRequest, setPaymentRequest] = useState<any>();
   const router = useRouter();
-  const { toast } = useToast();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // Prevent the form from being submitted:
     event.preventDefault();
@@ -30,11 +30,7 @@ const CheckoutForm = ({clientSecret, amount}: any) => {
 
     if (error) {
       console.error('[confirmError]', error);
-      toast({
-        variant: "destructive",
-        title: "Something went wrong.",
-        description: "There was a problem with your request",
-      });
+      toast(error.message || "Something went wrong.");
     } else {
         const { error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: paymentMethod.id,
@@ -43,22 +39,16 @@ const CheckoutForm = ({clientSecret, amount}: any) => {
           if (confirmError) {
             // Handle errors in confirming the payment
             console.error('[confirmError]', confirmError);
-            toast({
-              variant: "destructive",
-              title: "Something went wrong.",
-              description: "There was a problem with your request",
-            });
+            toast( "There was a problem with your request");
           } else {
             // The payment has been processed!
-            toast({
-              description: `Payment went successfully!`,
-            });
+            toast( `Payment went successfully!`);
             router.push('/profile/cars');
             // You might want to navigate the user to a success page or update the state of your application
           }
     }
   };
-
+//TODO: Add debounce
   useEffect(() => {
     if (stripe) {
 
@@ -67,8 +57,8 @@ const CheckoutForm = ({clientSecret, amount}: any) => {
         country: 'US',
         currency: 'usd',
         total: {
-          label: 'Test Total',
-          amount: 1000, // Make sure this is a non-zero value
+          label: 'Subscription fee',
+          amount // Make sure this is a non-zero value
         },
       });
 

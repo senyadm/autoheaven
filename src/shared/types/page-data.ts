@@ -1,3 +1,5 @@
+import { VehicleType } from '@/src/shared/model/params';
+
 export type NavbarData = {
   notifications: string;
   login: string;
@@ -66,15 +68,12 @@ export interface SideBarItemsDictionary {
   ads: string;
 }
 
-export interface CarouselDictionaryItem {
-  h1: string;
-  h2: string;
+interface CarouselTextItem{
+  title: string;
+  subtitle: string;
 }
 
-export interface CarouselDictionary {
-  cruise: string;
-  discover: string;
-}
+export type CarouselText = Record<VehicleType, CarouselTextItem>;
 
 export interface FiltersDictionary {
   brandAndModel: string;
@@ -197,14 +196,50 @@ export interface TipsBlockDictionary {
   >;
 }
 
+export interface SharedTranslations {
+    "vehicleType": {
+      "car": "Passenger Car",
+      "moto": "Motorcycle",
+      "truck": "Truck",
+      "bus": "Bus"
+    },
+    "vehicleTypes": {
+      "car": "Cars",
+      "moto": "Motorcycles",
+      "truck": "Trucks",
+      "bus": "Busses"
+  },
+  sort: {
+    newestFirst: string;
+    oldestFirst: string;
+    priceHighestFirst: string;
+    priceLowestFirst: string;
+    mileageHighestFirst: string;
+    mileageLowestFirst: string;
+  };
+  pagination: {
+    previous: string;
+    next: string;
+  };
+  user: {
+    showContact: string;
+  };
+  listing: {
+    edit: string;
+    delete: string;
+    contact: string;
+    advertise: string;
+  }
+  }
 export type PageData = {
+  shared: SharedTranslations;
   navbar: NavbarData;
   profile: ProfileSettingsDictionary;
   profileEdit: ProfileEdit;
   overview: OverviewDictionary;
   sidebarItems: SideBarItemsDictionary;
   footer: FooterDictionary;
-  carousel: CarouselDictionaryItem[];
+  carousel: CarouselText;
   filters: FiltersDictionary;
   tipsBlock: TipsBlockDictionary;
   popularBrands: string;

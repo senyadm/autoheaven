@@ -26,7 +26,7 @@ import SvgIcon from "../../SvgIcon";
 import { Card, CardContent, CardFooter } from "../../ui/card";
 import RangeSlider, { RangeSliderRef } from "../RangeSlider";
 
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { FiltersDictionary } from "@/types";
 import { CarComponentProps, Filter } from "../types";
 import { VirtualizedList } from "./VirtualizedList";

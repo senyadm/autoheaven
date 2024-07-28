@@ -12,7 +12,7 @@ import {
 } from "../../../app/GlobalRedux/profile/chatSlice";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
 import { getToken } from "../../../src/shared/utils/auth";
-import { useAppStore } from "../../../app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { ChatMessageAPI } from "../../../interfaces/profile/messages";
 import { fetchUserData } from "../../../src/entities/user/api/userSlice";
 import useWebSocket from "react-use-websocket";

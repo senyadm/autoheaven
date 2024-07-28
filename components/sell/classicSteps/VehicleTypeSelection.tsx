@@ -10,7 +10,7 @@ import {
 import SvgIcon from "@/components/SvgIcon";
 import { Label } from "@/components/ui/label";
 import { ChevronRight } from "lucide-react";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { setCarType } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
 import { useEffect, useState } from "react";
 import { SellClassicTranslations } from "@/types";

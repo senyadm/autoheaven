@@ -2,8 +2,6 @@
 import { Button } from "../ui/button";
 import SvgIcon from "../SvgIcon";
 import { Heart } from "lucide-react";
-import { Label } from "../ui/label";
-import Link from "next/link";
 import {
   addToWishlistThunk,
   deleteFromWishlistThunk,
@@ -15,15 +13,15 @@ import {
 import { Chat } from "../../interfaces/profile/messages";
 import { fetchAndSetUser } from "../../src/shared/utils/user";
 import { useRouter } from 'next/navigation';
-import { useAppStore } from '@/app/GlobalRedux/useStore';
-import { Vehicle } from '@/src/entities/vehicle';
+import { useAppSelector, useAppStore } from '@/app/GlobalRedux/store';
+import { Vehicle, VehicleOnCard } from '@/src/entities/vehicle';
 import { cn } from '@/src/shared/utils/cn';
 import LinkLikeButton from '@/src/shared/ui/LinkLikeButton';
 
 // type PageDisplayed = "cars" | "profileCars" | "profileAds";
 
 interface VehicleActionButtonsProps {
-  carDetails: Vehicle,
+  carDetails: VehicleOnCard,
   className?: string;
 }
 
@@ -31,6 +29,8 @@ const VehicleActionButtons: React.FC<VehicleActionButtonsProps> = ({
   carDetails, className
 }) => {
   const router = useRouter();
+  const buttonsText = useAppSelector((state) => state.pageData.dict?.shared?.listing);
+
   const [user, dispatch] = useAppStore((state) => state.user);
   const { wishlist, id: userId } = user;
   const productId = carDetails.id;
@@ -48,7 +48,11 @@ const VehicleActionButtons: React.FC<VehicleActionButtonsProps> = ({
     }
 
     if (type === "advertise") {
-      router.push(`/payment?id=${productId}`);
+      const newParams = new URLSearchParams({
+        id: String(productId),
+        type: carDetails.vehicleType,
+      }).toString();
+      router.push(`/payment?id=${newParams}`);
 
       return;
     }
@@ -80,13 +84,13 @@ const VehicleActionButtons: React.FC<VehicleActionButtonsProps> = ({
   return isMine ? (
     <div className={cn("flex space-x-2", className)}>
     <Button onClick={() => onButtonClick("advertise")}>
-      <Label className="text-xs">Advertise</Label>
+      <p className="text-xs">{buttonsText?.advertise || 'Advertise'}</p>
     </Button>
     <LinkLikeButton
       href={`/profile/cars/edit/${productId}`}
       className="h-9 px-4 py-2"
     >
-      <Label className="text-xs text-secondary cursor-pointer">Edit</Label>
+      <p className="text-xs text-secondary cursor-pointer">{buttonsText?.edit || 'Edit'}</p>
     </LinkLikeButton>
   </div>
   ) :
@@ -109,7 +113,7 @@ const VehicleActionButtons: React.FC<VehicleActionButtonsProps> = ({
             alt=""
             className="invert mr-2"
           />
-          <Label className="text-xs"> Contact</Label>
+          <p className="text-xs"> {buttonsText?.contact || 'Contact'}</p>
         </Button>
       </div>
   };

@@ -2,7 +2,7 @@ import {
   ModelName,
   setModel,
 } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,14 +24,12 @@ import { searchModels } from "../../../src/entities/vehicle";
 const ModelSelection = ({
   onNext,
   onPrevious,
-  dict,
   staticVehicleData,
 }: {
   onNext: () => void;
   onPrevious: () => void;
-  dict: SellClassicTranslations | null;
 }) => {
-  const carType = useAppSelector((state) => state?.createCarProgress?.carType);
+  const dict = useAppSelector((state) => state?.pageData.dict?.sell.classic);
   const { models } = staticVehicleData;
   const [search, setSearch] = useState<string>("");
 

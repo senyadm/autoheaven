@@ -3,20 +3,19 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "../GlobalRedux/provider";
 import { Navbar } from "@/components/shared/header/Navbar";
-import Footer from "@/components/Footer";
+
 import { Locale, defaultLocale } from "@/src/app/i18n.config";
 import { Toaster } from "@/components/ui/sonner";
 import { getlocales } from "../actions";
 import Head from 'next/head';
 import Script from 'next/script';
+import { Footer } from '@/src/widgets/footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   other: {
     "google-adsense-account": "ca-pub-4749046969984937",
-    
-  
   },
 }
 

@@ -1,8 +1,6 @@
 "use client";
 import { brandInfo } from "@/interfaces/brandInfo";
-import { ExternalLink } from "lucide-react";
 import { TypographyList } from "../ui/typography";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface BrandsElementProps {

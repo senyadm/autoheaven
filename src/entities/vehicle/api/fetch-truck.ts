@@ -1,8 +1,8 @@
+import { VehicleType } from '@/src/shared/model/params';
 import { getCars } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
 import { TruckMake, TruckType } from "../model/truck";
 import { fetchVehiclesV2 } from "./fetch-v2";
-import { VehicleType } from "../../filters";
 
 export async function fetchTrucks(searchParams: FilterParams) {
   return fetchVehiclesV2(VehicleType.Truck, searchParams);

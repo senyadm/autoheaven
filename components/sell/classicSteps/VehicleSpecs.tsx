@@ -1,5 +1,5 @@
 import { setDetails } from "@/app/GlobalRedux/CreateCar/CreateCarSlice";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,12 +15,11 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import SvgIcon from "@/components/SvgIcon";
-import { SellClassicTranslations } from "@/types";
 import { Palette } from "lucide-react";
 import countryList from "react-select-country-list";
 import CountryFlag from "react-country-flag";
-import { VehicleType } from "@/src/entities/filters";
 import { useAppSelector } from "../../../app/GlobalRedux/store";
+import { VehicleType } from '@/src/shared/model/params';
 
 const carColors: string[] = [
   "Black",
@@ -76,11 +75,9 @@ const CountrySelector = ({ onCountrySelect }: CountrySelectorProps) => {
 const VehicleSpecs = ({
   onNext,
   onPrevious,
-  dict,
 }: {
   onPrevious: () => void;
   onNext: (mode?: string) => void;
-  dict: SellClassicTranslations | null;
 }) => {
   const [store, dispatch] = useAppStore(
     (state) => state?.createCarProgress.details
@@ -88,7 +85,7 @@ const VehicleSpecs = ({
 
   const [fuelConsumption, setFuelConsumption] = useState(0);
   const carType = useAppSelector((state) => state?.createCarProgress?.carType);
-
+  const dict = useAppSelector((state) => state?.pageData.dict?.sell.classic);
   useEffect(() => {
     if (store?.fuel_consumption) {
       const fuel = parseFloat(store?.fuel_consumption.toString());

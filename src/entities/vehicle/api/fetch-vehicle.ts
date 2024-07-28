@@ -1,4 +1,4 @@
-import { addTypesAndMakes } from '@/src/entities/vehicle/lib/typesAndMakes';
+import { addAppSpecificData } from '@/src/entities/vehicle/lib/typesAndMakes';
 import { getCars } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
 import { VehicleType } from "../../../shared/model/params";
@@ -22,8 +22,8 @@ export async function fetchVehiclesWithTypes(allParams: AllParams, vehicleUIData
     throw e;
   }
 
-  const newDataTop = addTypesAndMakes(vehiclesResponse.topVehicles.data, vehicleUIData, allParams.vehicleType)
-  const newDataNonTop = addTypesAndMakes(vehiclesResponse.nonTopVehicles.data, vehicleUIData, allParams.vehicleType)
+  const newDataTop = addAppSpecificData(vehiclesResponse.topVehicles.data, vehicleUIData, allParams.vehicleType)
+  const newDataNonTop = addAppSpecificData(vehiclesResponse.nonTopVehicles.data, vehicleUIData, allParams.vehicleType)
   return {
     ...vehiclesResponse,
     topVehicles: { title: vehiclesResponse.topVehicles.title, data: newDataTop },

@@ -2,7 +2,7 @@ import Car from "@/public/icons/Car.svg";
 import Bus from "@/public/icons/CityBus.svg";
 import Truck from "@/public/icons/Truck.svg";
 import Motorcycle from "@/public/icons/Bike.svg";
-import { Filter, VehicleType } from "../../../entities/filters";
+import { Filter, VehicleType } from "@/src/shared/model/params";
 import { vehicleTypes } from "../../../entities/vehicle";
 import { Button } from "../../../../components/ui/button";
 import { cn } from "../../../shared/utils/cn";

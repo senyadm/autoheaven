@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SvgIcon from "../SvgIcon";
 import { itemInfoModel } from "./ProfileNavigationMenu";
 import { Label } from "../ui/label";
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 

@@ -29,12 +29,13 @@ const PAYMENT_OPTIONS = [
 const Payment = () => {
   const searchParams = useSearchParams()
  
-  const id = searchParams?.get('id') || '';
-
+  const id = searchParams?.get('id');
   const [option, setOption] = useState<'days' | 'week' | 'month'>('days');
   const [hoveredIcon, setHoveredIcon] = useState(-1);
-  const [loading, setLoading] = useState(true);
-  const toggleLoading = () => setLoading(!loading);
+// const [loading, setLoading] = useState(true);
+//   const toggleLoading = () => setLoading(!loading);  
+  if(!id) return <div className='mx-auto'>No data supplied for the vehicle</div>;
+
   return (
     <Card className="flex justify-center flex-col mx-auto bg-white border-none shadow-none h-full">
     <CardHeader>
@@ -53,7 +54,7 @@ const Payment = () => {
              <button
                 onClick={() => {
                     setOption(item.code as any);
-                    if (option !== item.code) toggleLoading();
+                    // if (option !== item.code) toggleLoading();
                 }}
                 onMouseEnter={() => setHoveredIcon(index)}
                 onMouseLeave={() => setHoveredIcon(-1)} className={`
@@ -74,7 +75,7 @@ const Payment = () => {
         }
         </div>
         <div className="block bottom 10 mt-10">
-          <PaymentConfirm loading={loading} toggleLoading={toggleLoading} option={option} id={id}/>    
+          <PaymentConfirm option={option} id={id}/>    
         </div>
     </div>
     </CardContent>

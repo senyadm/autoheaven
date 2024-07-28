@@ -12,6 +12,7 @@ import { BusMake } from "../model/bus";
 import { TruckMake } from "../model/truck";
 import { useSearchParams } from "next/navigation";
 import { typePropertyName } from "../model/vehicle";
+import { useAppSelector } from '@/app/GlobalRedux/store';
 type Type = MotoType | BusMake | TruckMake;
 interface TypeSelectProps {
   types: Type[];
@@ -20,7 +21,7 @@ interface TypeSelectProps {
   carType: VehicleType;
 }
 
-const typeLabel = {
+const textEn = {
   [VehicleType.Car]: "Passenger Car",
   [VehicleType.Bus]: "Bus",
   [VehicleType.Moto]: "Motorcycle",
@@ -33,6 +34,7 @@ const TypeSelect = ({
   filters,
 }: TypeSelectProps) => {
   const vehicleType = filters.vehicleType;
+  const text = useAppSelector((state) => state.pageData.dict?.shared?.vehicleType);
   function findTypeById(id: string) {
     const foundType = types.find((type) => type.id === id);
     if (!foundType) return undefined;
@@ -42,7 +44,7 @@ const TypeSelect = ({
     types && (
       <div className="w-full">
         <Label htmlFor="filter1" className="font-bold">
-          {typeLabel[vehicleType]} Type
+        {text ? text[vehicleType] : textEn[vehicleType]} Type
         </Label>
         <Select
           onValueChange={(selectorValue) => {

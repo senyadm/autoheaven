@@ -12,6 +12,7 @@ import { chatSlice } from "./profile/chatSlice";
 import { combineReducers, createStore } from "redux";
 import { pageDataSlice } from "@/src/shared/model/page-data";
 import { locationSlice } from "@/src/entities/location";
+import { RootState, AppDispatch } from '@/app/GlobalRedux/store';
 
 const rootReducer = combineReducers({
   carMakes: carMakesReducer,
@@ -49,3 +50,8 @@ export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
 export const useAppDispatch: () => AppDispatch = useDispatch; // Export a hook that can be reused to resolve types
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export function useAppStore<TSelected = unknown>(
+  selector: (state: RootState) => TSelected
+): [TSelected, AppDispatch] {
+  return [useAppSelector(selector), useAppDispatch()];
+}

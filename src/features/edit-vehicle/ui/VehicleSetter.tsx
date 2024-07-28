@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, ReactNode } from "react";
-import { useAppDispatch } from "../../../../app/GlobalRedux/useStore";
 import { setCar } from "../../../../app/GlobalRedux/CreateCar/CreateCarSlice";
 import { Vehicle } from "../../../entities/vehicle";
 import { setParams } from "@/src/shared/model/page-data";
+import { useAppDispatch } from '@/app/GlobalRedux/store';
 
 interface VehicleSetterProps {
   car: Vehicle;

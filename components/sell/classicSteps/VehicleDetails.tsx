@@ -1,4 +1,4 @@
-import { useAppStore } from "@/app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { SketchPicker } from "react-color";
 import { Button } from "@/components/ui/button";
 import {

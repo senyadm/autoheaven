@@ -1,26 +1,13 @@
-"use client";
-import { getlocales } from "@/app/actions";
-
+'use client'
 import { Locale } from "@/src/app/i18n.config";
 import Link from "next/link";
-import SocialMediaIcons from "./SocialMediaIcons";
-import LanguageSelect from "./shared/LanguageSelect";
-import { useEffect, useState } from "react";
+import SocialMediaIcons from "../../../../components/SocialMediaIcons";
+import LanguageSelect from "../../../../components/shared/LanguageSelect";
 import Logo from "@/public/img/logo/AutoHeaven.svg";
+import { useAppSelector } from '@/app/GlobalRedux/store';
 const Footer = ({ lang }: { lang: Locale }) => {
-const [footerDict, setFooterDict] = useState<any>(null);
-const [profileDict, setProfileDict] = useState<any>(null);
-
-  useEffect(() => {
-    const getLocalesFunc = async () => {
-      const { footer, profile } = await getlocales(lang);
-
-      setProfileDict(profile);
-      setFooterDict(footer);
-    }
-    
-    getLocalesFunc();
-  }, [lang])
+  const dict = useAppSelector((state) => state.pageData.dict);
+  const footerDict = dict?.footer, profileDict = dict?.profile;
 
   return (
     <footer className=" py-10 bg-secondary">
@@ -69,7 +56,8 @@ const [profileDict, setProfileDict] = useState<any>(null);
           </div>
           <Link
             className="text-muted-foreground hover:text-foreground"
-            href={`/${lang}`}
+            href={'documents/tos.pdf'}
+            target='_blank'
           >
             {footerDict?.termsConditions}
           </Link>
@@ -81,7 +69,8 @@ const [profileDict, setProfileDict] = useState<any>(null);
           </Link>
           <Link
             className="text-muted-foreground hover:text-foreground"
-            href={`/${lang}`}
+               href={'documents/privacy_policy.pdf'}
+            target='_blank'
           >
             {footerDict?.privacyPolicy}
           </Link>

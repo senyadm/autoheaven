@@ -3,17 +3,13 @@ import CarSortDropdown from "@/components/cars/CarSortDropdown";
 import GradientHeading from "@/components/landing/GradientHeading";
 import CarSidebar from "@/src/widgets/car-filters/ui/CarSidebar";
 import {
-  fetchCarTypeByParams,
-  fetchVehiclesByParams,
   fetchVehiclesWithTypes,
   fetchVehicleUIData,
 } from "@/src/entities/vehicle";
 import { WishlistProvider } from "@/src/entities/user";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { VehicleType } from "../../../shared/model/params";
-import { getFilterData } from "../../../features/search-vehicles";
 import {
-  getLocationRedirectURL,
   getLocationText,
 } from "../../../entities/location";
 import Link from "next/link";

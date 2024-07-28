@@ -1,4 +1,39 @@
 {
+  "shared": {
+    "vehicleType": {
+      "car": "Passenger Car",
+      "moto": "Motorcycle",
+      "truck": "Truck",
+      "bus": "Bus"
+    },
+    "vehicleTypes": {
+      "car": "Cars",
+      "moto": "Motorcycles",
+      "truck": "Trucks",
+      "bus": "Busses"
+    },
+    "sort": {
+      "newestFirst": "Listing Date (newest first)",
+      "oldestFirst": "Listing Date (oldest first)",
+      "priceHighestFirst": "Price (highest first)",
+      "priceLowestFirst": "Price (lowest first)",
+      "mileageHighestFirst": "Mileage (highest first)",
+      "mileageLowestFirst": "Mileage (lowest first)"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "user": {
+      "showContact": "Show contact"
+    },
+    "listing": {
+      "edit": "Edit",
+      "contact": "Contact",
+      "delete": "Delete",
+      "advertise": "Advertise"
+    }
+  },
   "navbar": {
     "profile": "Profile",
     "home": "Home",
@@ -71,24 +106,25 @@
     "priceList": "Price List",
     "privacyPolicy": "Privacy Policy"
   },
-  "carousel": [
+  "carousel": 
     {
-      "h1": "Cruise in Comfort",
-      "h2": "Discover Cars Tailored to Your Lifestyle"
+      "car": {
+      "title": "Cruise in Comfort",
+      "subtitle": "Find your dream car with AutoHeaven"
     },
-    {
-      "h1": "Effortless Urban Travel",
-      "h2": "Discover Cars Tailored to Your Lifestyle"
+    "moto":{
+      "title": "Effortless Urban Travel",
+      "subtitle": "Explore the City Life with AutoHeaven"
     },
-    {
-      "h1": "Empowering Your Business",
-      "h2": "Discover Cars Tailored to Your Lifestyle"
+    "truck": {
+      "title": "Empowering Your Business",
+      "subtitle": "Meet Trucks Made For Long Distances"
     },
-    {
-      "h1": "Group Travel Made Easy",
-      "h2": "Discover Cars Tailored to Your Lifestyle"
-    }
-  ],
+    "bus": {
+      "title": "Group Travel Made Easy",
+      "subtitle": "Discover Cars Tailored to Your Lifestyle"
+    }}
+  ,
   "filters": {
     "brandAndModel": "Model",
     "body": "Vehicle body",
@@ -96,15 +132,18 @@
     "price": "Price",
     "mileage": "Mileage",
     "year": "Year",
-    "selectBrand": "Select a brand...",
+    "selectMake": "Select a make...",
     "selectBody": "Select body...",
+    "selectModel": "Select model...",
+    "selectVehicleType": "Select vehicle type...",
+    "selectBodyType": "Select body type...",
     "selectFuel": "Select fuel...",
     "passengerCars": "Passenger Car",
     "motorcycles": "Motorcycles",
     "trucks": "Trucks",
     "busses": "Busses",
     "reset": "Reset",
-    "offers": "offers",
+    "offers": "See offers",
     "accidentFree": "Accident free",
     "fromDealer": "From dealer"
   },
@@ -227,5 +266,10 @@
       "pictures": "Pictures",
       "create": "Create Ad"
     }
+  },
+  "browse": {
+    "topOffers": "Top Offers",
+    "mainOffers": "Main Offers",
+    "resultsText": "offers found in"
   }
 }

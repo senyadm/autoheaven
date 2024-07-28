@@ -5,7 +5,7 @@ import { MAX_RESULTS_PER_PAGE } from "../constants/constants";
 import { Moto, MotoMake, MotoType } from "../model/moto";
 import { fetchImageFileNames, getIdToFileNameObject } from "./image";
 import { AxiosResponse } from "axios";
-import { VehicleType } from "../../filters";
+import { VehicleType } from '@/src/shared/model/params';
 
 const vehicleTypeToApiPath = {
   [VehicleType.Moto]: "/api/motos/fetch/",

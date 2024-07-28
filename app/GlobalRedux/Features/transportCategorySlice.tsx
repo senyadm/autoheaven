@@ -1,7 +1,7 @@
 "use client";
 
+import { VehicleType } from '@/src/shared/model/params';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { VehicleType } from "../../../src/entities/filters";
 
 type transportCategoryState = {
   activeCategory: VehicleType;

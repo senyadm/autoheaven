@@ -1,5 +1,5 @@
 import { SetStateAction, useMemo, useState } from "react";
-import { FiltersDictionary } from "../../../types";
+import { FiltersDictionary } from "../../../src/shared/types/page-data";
 import {
   DropdownMenu,
   DropdownMenuContent,

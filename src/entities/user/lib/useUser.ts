@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useAppStore } from "../../../../app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { UserState, fetchUserData } from "../api/userSlice";
 import { AppDispatch } from "../../../../app/GlobalRedux/store";
 

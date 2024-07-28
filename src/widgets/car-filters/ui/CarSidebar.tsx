@@ -1,17 +1,13 @@
 "use client";
-import { FC, createRef, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { Label } from "../../../../components/ui/label";
 import CarSearchFilter from "../../../../components/cars/CarSidebar/CarSearchFilter";
 import { HelpCircle } from "lucide-react";
 
-import { FiltersDictionary } from "@/types";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { Filter, VehicleType } from "../../../shared/model/params";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getNormalizedParams } from "../../../shared/api/cars";
 import { TypeSelect, MakeSelect, ModelSelect } from "../../../entities/vehicle";
-import { Button } from "@/components/ui/button";
-import { RangeSliderRef } from "@/components/landing/RangeSlider";
 import {
   FullPageParams,
   getUriFromFilters,
@@ -21,8 +17,8 @@ import VehicleTypeSelect from "../../../entities/vehicle/ui/VehicleTypeSelect";
 import { cn } from "../../../shared/utils/cn";
 import VehicleTypeTabButtons from "./VehicleTypeTabButtons";
 import { getFilterData } from "../../../features/search-vehicles";
-import Link from 'next/link';
 import LinkLikeButton from '@/src/shared/ui/LinkLikeButton';
+import { useAppSelector } from '@/app/GlobalRedux/store';
 
 type CarSidebarProps = {
   params: FullPageParams;
@@ -37,25 +33,16 @@ const CarSidebar: FC<CarSidebarProps> = ({
   mode = "default",
   isFetchInstant = true,
 }) => {
-  const sliderRefs = useRef([
-    createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>(),
-    createRef<RangeSliderRef>(),
-  ]);
+ 
   const { country, city, vehicleType, make, model } = params;
   const [vehicleUIData, setVehicleUIData] = useState<any>({});
-  const [pageText, setPageText] = useState<FiltersDictionary | null>(null);
+ const pageText = useAppSelector((state) => state.pageData.dict?.filters);
   const redirectURI = useRef( getUriFromFilters({...params, vehicleType: VehicleType.Car}) );
 
   const { types, makes, models } = vehicleUIData;
   const { push, replace } = useRouter();
   const searchParams = useSearchParams();
-  function prepParams() {
-    const normalized = getNormalizedParams(Object.fromEntries(searchParams));
 
-    return normalized;
-  }
-  const paramFilters = prepParams();
   const [filters, setFilters] = useState<Filter>({
     vehicleType: vehicleType || VehicleType.Car,
     price_min: Number(searchParams.get("price_min")) || 1000,
@@ -75,11 +62,10 @@ const CarSidebar: FC<CarSidebarProps> = ({
   });
   useEffect(() => {
     async function fetchFilterData() {
-      const { filtersText, vehicleUIData } = await getFilterData(
+      const { vehicleUIData } = await getFilterData(
         filters.vehicleType,
         params.lang
       );
-      setPageText(filtersText);
       setVehicleUIData(vehicleUIData);
     }
     fetchFilterData();
@@ -130,9 +116,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
     setFiltersFn(newFilters as Filter);
   };
 
-  // TODO: change so that URL can look like
-  // https://www.aaaauto.eu/used-cars#makes=15-75&models-15=1437-2128-2214&models-75=33
-
   return (
     <div
       className={cn(
@@ -182,8 +165,6 @@ const CarSidebar: FC<CarSidebarProps> = ({
       </div>
 
       <CarSearchFilter
-        sliderRefs={sliderRefs}
-        dict={pageText}
         filters={filters}
         handleSliderChange={handleSliderChange}
         orientation={mode === "default" ? "vertical" : "horizontal"}
@@ -252,7 +233,7 @@ const CarSidebar: FC<CarSidebarProps> = ({
             href={redirectURI.current}
             className="!ml-auto mr-0 w-full lg:w-auto"
           >
-            See offers
+           {pageText?.offers || "See offers"}
           </LinkLikeButton>
         )}{" "}
         <LinkLikeButton href="listheaven" className='w-full lg:w-auto text-primary border bg-secondary hover:text-secondary'>ListHeaven</LinkLikeButton>

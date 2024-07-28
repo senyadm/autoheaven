@@ -1,5 +1,5 @@
 
-import { VehicleType } from '@/src/entities/filters';
+import { VehicleType } from '@/src/shared/model/params';
 import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { getCarModelsById } from "../../../shared/api/cars";
 import {

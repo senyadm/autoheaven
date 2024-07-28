@@ -1,5 +1,5 @@
 import { Locale } from "@/src/app/i18n.config";
-import { PageData } from "@/types";
+import { PageData } from "@/src/shared/types/page-data";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface PageParams {

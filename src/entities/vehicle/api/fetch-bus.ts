@@ -1,6 +1,6 @@
+import { VehicleType } from '@/src/shared/model/params';
 import { clientCars, getCars, getNormalizedParams } from "../../../shared/api";
 import { FilterParams } from "../../../shared/model";
-import { VehicleType } from "../../filters";
 import { Bus, BusMake, BusType } from "../model/bus";
 import { fetchVehiclesV2 } from "./fetch-v2";
 

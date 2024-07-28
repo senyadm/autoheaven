@@ -62,7 +62,7 @@ import {
 } from '@/src/entities/location';
 import { RootState } from '@/app/GlobalRedux/store';
 import { pageNamesWithoutLocation } from '@/src/entities/location';
-import { useAppStore } from '@/app/GlobalRedux/useStore';
+import { useAppStore } from '@/app/GlobalRedux/store';
 import { useIsMounted, useLocalStorage } from 'usehooks-ts';
 const flagComponents: Record<string, any> = {
   AT: AT,

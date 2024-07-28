@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import ResultCarCard from "../../shared/ResultCarCard";
 import { fetchUserCars } from "../../../src/entities/user/api/userSlice";
-import { useAppStore } from "../../../app/GlobalRedux/useStore";
+import { useAppStore } from '@/app/GlobalRedux/store';
 import VehicleResult from '@/src/entities/vehicle/ui/VehicleResult';
 import { parseArrayFromString } from '@/src/shared/utils/parse-string';
 

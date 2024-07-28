@@ -22,7 +22,7 @@ interface ListHeavenProps {
 }
 
 const ListHeavenClient = ({
-  filterData: { filtersText, vehicleUIData },
+  filterData: { vehicleUIData },
   carResults,
   params,
 }: ListHeavenProps) => {
@@ -60,7 +60,6 @@ const ListHeavenClient = ({
             <PopoverContent className="p-0 mx-auto">
               <CarSidebar
                 offerNumber={offerCount}
-                pageText={filtersText}
                 vehicleUIData={vehicleUIData}
                 params={params}
               />

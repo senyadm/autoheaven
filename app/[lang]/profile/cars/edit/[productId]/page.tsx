@@ -5,9 +5,9 @@ import {
 } from "../../../../../../src/entities/vehicle";
 import { Locale } from "../../../../../../src/app/i18n.config";
 import { getlocales } from "../../../../../actions";
-import { VehicleType } from "../../../../../../src/entities/filters";
 import MultiStepForm from "../../../../../../components/sell/classicSteps/MultiStepForm";
 import VehicleSetter from "../../../../../../src/features/edit-vehicle/ui/VehicleSetter";
+import { VehicleType } from '@/src/shared/model/params';
 
 interface PageParans {
   params: {

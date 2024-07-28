@@ -15,7 +15,7 @@ export const Home = async ({ params }: { params: AllParams }) => {
   const { dict, tipsBlock, brands, carousel } = await getlocales(lang);
   return (
     <main className="body-container flex flex-col items-center bg-topography-light">
-      <Carousel lang={lang} menu={carousel} />
+      <Carousel/>
       {/* <FilterComponent
         lang={lang}
         location={{ country, city }}
@@ -24,7 +24,7 @@ export const Home = async ({ params }: { params: AllParams }) => {
       /> */}
       <CarSidebar params={params} mode="compact" isFetchInstant={false} />
       <TipsBlock tipsBlock={tipsBlock} />
-      <BrandsBlock popularBrands={brands} />
+      <BrandsBlock/>
     </main>
   );
 };
