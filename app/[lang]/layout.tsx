@@ -16,6 +16,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   other: {
     "google-adsense-account": "ca-pub-4749046969984937",
+    "google-site-verification": "oJSLnwaKcTDFAYUC77rNVZuYH-FBqDSwVjLwA7Viv-o",
   },
 }
 
